@@ -1,0 +1,89 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+}
+
+header {
+  background: #0b5ed7;
+  color: #fff;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+nav a {
+  color: #fff;
+  margin-left: 15px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.live {
+  background: #fff;
+  margin: 15px;
+  padding: 15px;
+  border-radius: 6px;
+}
+
+.score {
+  margin: 8px 0;
+}
+
+.news {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 15px;
+  padding: 15px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.card img {
+  width: 100%;
+  display: block;
+}
+
+.card h3 {
+  margin: 10px;
+}
+
+.card p {
+  margin: 10px;
+  color: #555;
+}
+
+footer {
+  background: #222;
+  color: #aaa;
+  text-align: center;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+/* Mobil uyğun */
+@media (max-width: 600px) {
+  nav {
+    width: 100%;
+    margin-top: 10px;
+  }
+  nav a {
+    margin-left: 0;
+    margin-right: 10px;
+  }
+}
