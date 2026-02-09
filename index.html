@@ -135,93 +135,6 @@ footer{
 .league-dropdown .menu-btn{background:#1c1c1c;color:#f4d03f;padding:5px 10px;border-radius:6px}
 .league-dropdown .dropdown a{color:white}
 
-/* Live button */
-.live-btn{
-  margin-left:10px;
-  padding:4px 8px;
-  background:#f4d03f;
-  color:#111;
-  border-radius:6px;
-  font-weight:bold;
-  transition: background 0.3s, color 0.3s;
-}
-.live-btn:hover{
-  background:#e0b800;
-  color:#000;
-}
-
-/* Dark Mode */
-body.dark-mode {
-  background:#111;
-  color:#f4f6f9;
-}
-
-body.dark-mode .section {
-  background:#1c1c1c;
-  box-shadow:0 5px 15px rgba(0,0,0,.5);
-}
-
-body.dark-mode .score,
-body.dark-mode .card {
-  background:#222;
-  color:#f4f4f4;
-}
-
-body.dark-mode input[type="text"] {
-  background:#222;
-  color:#f4f4f4;
-  border:1px solid #555;
-}
-
-body.dark-mode .table th,
-body.dark-mode .table td {
-  background:#222;
-  color:#f4f4f4;
-  border-bottom:1px solid #555;
-}
-
-body.dark-mode header {
-  background:#000;
-}
-
-body.dark-mode .dropdown {
-  background:#222;
-}
-
-body.dark-mode footer {
-  background:#000;
-  color:#f4f4f4;
-}
-</style>
-</head>
-
-<body>
-
-<header>
-  <div class="logo"><img src="logo.png"></div>
-  <div>
-    <button class="menu-btn" onclick="toggleMenu()">⋮</button>
-    <button class="menu-btn" onclick="toggleDarkMode()">🌙</button>
-  </div>
-
-  <div class="dropdown" id="dropdown">
-    <a href="#today">📅 Günün Oyunları</a>
-    <a href="#news">📰 Xəbər</a>
-    <a href="#live">🔴 Canlı</a>
-    <a href="#transfer">💰 Transfer</a>
-    <a href="#table">🏆 Turnir</a>
-    <a href="#contact">📞 Əlaqə</a>
-  </div>
-</header>
-
-<main>
-  /* Turnir cədvəli görünüşü */
-#table h2{color:#111;font-weight:bold;border-bottom:3px solid #f4d03f}
-#table .table th,#table .table td{color:#111;background:#fdfdfd}
-.league-dropdown{margin-bottom:10px;position:relative}
-.league-dropdown .menu-btn{background:#1c1c1c;color:#f4d03f;padding:5px 10px;border-radius:6px}
-.league-dropdown .dropdown a{color:white}
-
 /* Dark Mode */
 body.dark-mode {
   background:#111;
@@ -444,67 +357,11 @@ body.dark-mode footer {
       <tr><td>1</td><td>Sabah</td><td>19</td><td>14</td><td>4</td><td>46</td></tr>
       <tr><td>2</td><td>Qarabağ</td><td>18</td><td>13</td><td>5</td><td>39</td></tr>
       <tr><td>3</td><td>Turan</td><td>18</td><td>12</td><td>6</td><td>33</td></tr>
-
-<div class="section">
-  <input type="text" id="search" placeholder="🔍 Axtar...">
-</div>
-
-<section id="today" class="section">
-<h2>📅 Günün Oyunları (09.02.2026)</h2>
-
-<div class="score">
-  Atalanta - Cremonese <span>21:30</span>
-  <a href="https://www.scorebat.com/atalanta-vs-cremonese-live-stream/" target="_blank" class="live-btn">🎬 Canlı Bax</a>
-</div>
-
-<div class="score">
-  AS Roma - Cagliari <span>23:45</span>
-  <a href="https://www.scorebat.com/roma-vs-cagliari-live-stream/" target="_blank" class="live-btn">🎬 Canlı Bax</a>
-</div>
-
-<div class="score">
-  Villarreal - Espanyol <span>00:00</span>
-  <a href="https://www.scorebat.com/villarreal-vs-espanyol-live-stream/" target="_blank" class="live-btn">🎬 Canlı Bax</a>
-</div>
-
-<div class="score">
-  Sheffield United - Middlesbrough <span>00:01</span>
-  <a href="https://www.scorebat.com/sheffield-united-vs-middlesbrough-live-stream/" target="_blank" class="live-btn">🎬 Canlı Bax</a>
-</div>
-
-<div class="score">
-  Kayserispor - Kocaelispor <span>18:00</span>
-  <a href="https://tarafftariium24.com/" target="_blank" class="live-btn">🎬 Canlı Bax</a>
-</div>
-
-<div class="score">
-  Fenerbahçe - Gençlerbirliği <span>21:00</span>
-  <a href="https://tarafftariium24.com/" target="_blank" class="live-btn">🎬 Canlı Bax</a>
-</div>
-
-<div class="score">
-  Gaziantep FK - Kasımpaşa <span>21:00</span>
-  <a href="https://tarafftariium24.com/" target="_blank" class="live-btn">🎬 Canlı Bax</a>
-</div>
-
-<div class="score">
-  Al-Wahda - Al Ahli <span>17:45</span>
-  <a href="https://www.scorebat.com/al-wahda-vs-al-ahli-live-stream/" target="_blank" class="live-btn">🎬 Canlı Bax</a>
-</div>
-
-<div class="score">
-  Nasaf Qarshi - Al Shorta <span>17:45</span>
-  <a href="https://www.scorebat.com/nasaf-vs-al-shorta-live-stream/" target="_blank" class="live-btn">🎬 Canlı Bax</a>
-</div>
-
-<div class="score">
-  Al-Duhail - Sharjah <span>20:00</span>
-  <a href="https://www.scorebat.com/al-duhail-vs-sharjah-live-stream/" target="_blank" class="live-btn">🎬 Canlı Bax</a>
+    </table>
+  </div>
+</section>
 </div>
 </section>
-
-<!-- Qalan bütün bölmələr (Xəbərlər, Canlı Hesablar, Transferlər, Turnir cədvəli) əvvəlki kimi eyni -->
-<!-- ... -->
 
 <section id="contact" class="section">
 <h2>📞 Əlaqə</h2>
