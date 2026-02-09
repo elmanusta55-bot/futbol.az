@@ -45,9 +45,8 @@ header{
   background:#222;
   border-radius:12px;
   overflow:hidden;
-  min-width:200px;
+  min-width:190px;
   box-shadow:0 5px 25px rgba(0,0,0,.4);
-  z-index:1000;
 }
 
 .dropdown a{
@@ -117,18 +116,12 @@ footer{
   padding:15px;
 }
 
-/* Hamburger liqa menyu üçün */
-.league-dropdown{
-  display:none;
-  background:#222;
-  border-radius:10px;
-  padding:10px;
-  margin-top:10px;
-}
-
-.league-dropdown table{
-  margin-bottom:15px;
-}
+/* Turnir cədvəli görünüşü */
+#table h2{color:#111;font-weight:bold;border-bottom:3px solid #f4d03f}
+#table .table th,#table .table td{color:#111;background:#fdfdfd}
+.league-dropdown{margin-bottom:10px;position:relative}
+.league-dropdown .menu-btn{background:#1c1c1c;color:#f4d03f;padding:5px 10px;border-radius:6px}
+.league-dropdown .dropdown a{color:white}
 </style>
 </head>
 
@@ -202,14 +195,10 @@ footer{
 
 </section>
 
+<!-- Turnir cədvəli bölməsi əlavə olunur -->
 <section id="table" class="section">
-<h2>🏆 Turnir Cədvəli</h2>
-<button class="menu-btn" onclick="toggleLeagueMenu()">⋮ Liqalar</button>
-<div class="league-dropdown" id="league-dropdown">
-  section id="table" class="section">
   <h2>🏆 Turnir Cədvəli (2025-2026)</h2>
 
-  <!-- Liqa seçimi (hamburger kimi) -->
   <div class="league-dropdown">
     <button class="menu-btn" onclick="toggleLeagueMenu()">⋮ Liqalar</button>
     <div id="league-menu" class="dropdown">
@@ -224,7 +213,6 @@ footer{
   </div>
 
   <div id="league-tables">
-    <!-- Default: La Liga -->
     <table class="table" id="laliga">
       <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>
       <tr><td>1</td><td>Real Madrid</td><td>22</td><td>16</td><td>4</td><td>52</td></tr>
@@ -276,56 +264,6 @@ footer{
   </div>
 </section>
 
-<style>
-/* Turnir cədvəli görünüşü */
-#table h2{color:#111;font-weight:bold;border-bottom:3px solid #f4d03f}
-#table .table th,#table .table td{color:#111;background:#fdfdfd}
-.league-dropdown{margin-bottom:10px;position:relative}
-.league-dropdown .menu-btn{background:#1c1c1c;color:#f4d03f;padding:5px 10px;border-radius:6px}
-.league-dropdown .dropdown a{color:white}
-</style>
-
-<script>
-function toggleLeagueMenu(){
-  const menu=document.getElementById("league-menu");
-  menu.style.display=menu.style.display==="block"?"none":"block";
-}
-
-function showLeague(id){
-  document.querySelectorAll("#league-tables .table").forEach(t=>t.style.display="none");
-  document.getElementById(id).style.display="table";
-}
-</script>
-  
-  <!-- TOP 5 Liqa -->
-  <h3>🏆 TOP 5 Liqa</h3>
-  <table class="table">
-    <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>
-    <tr><td>1</td><td>Manchester City</td><td>26</td><td>20</td><td>4</td><td>60</td></tr>
-    <tr><td>2</td><td>Liverpool</td><td>26</td><td>18</td><td>5</td><td>59</td></tr>
-    <tr><td>3</td><td>Real Madrid</td><td>25</td><td>19</td><td>6</td><td>57</td></tr>
-  </table>
-
-  <!-- Azərbaycan Liqası -->
-  <h3>🇦🇿 Azərbaycan Premyer Liqası</h3>
-  <table class="table">
-    <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>
-    <tr><td>1</td><td>Qarabağ</td><td>18</td><td>12</td><td>3</td><td>39</td></tr>
-    <tr><td>2</td><td>Neftçi</td><td>18</td><td>10</td><td>5</td><td>35</td></tr>
-    <tr><td>3</td><td>Sabah</td><td>18</td><td>9</td><td>5</td><td>32</td></tr>
-  </table>
-
-  <!-- Türkiyə Liqası -->
-  <h3>🇹🇷 Türkiyə Super Liqası</h3>
-  <table class="table">
-    <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>
-    <tr><td>1</td><td>Fenerbahçe</td><td>24</td><td>17</td><td>5</td><td>56</td></tr>
-    <tr><td>2</td><td>Galatasaray</td><td>24</td><td>16</td><td>6</td><td>54</td></tr>
-    <tr><td>3</td><td>Beşiktaş</td><td>24</td><td>15</td><td>6</td><td>51</td></tr>
-  </table>
-</div>
-</section>
-
 <section id="contact" class="section">
 <h2>📞 Əlaqə</h2>
 <p>+994555266848</p>
@@ -342,11 +280,6 @@ const API_KEY="8849a8a365c749d0a081f676a5e76b7e";
 
 function toggleMenu(){
   const d=document.getElementById("dropdown");
-  d.style.display=d.style.display==="block"?"none":"block";
-}
-
-function toggleLeagueMenu(){
-  const d=document.getElementById("league-dropdown");
   d.style.display=d.style.display==="block"?"none":"block";
 }
 
@@ -386,6 +319,17 @@ let views=localStorage.getItem("views");
 views=views?Number(views)+1:1;
 localStorage.setItem("views",views);
 document.getElementById("counter").innerText="👁 Sayta baxış sayı: "+views;
+
+/* Turnir cədvəli JS */
+function toggleLeagueMenu(){
+  const menu=document.getElementById("league-menu");
+  menu.style.display=menu.style.display==="block"?"none":"block";
+}
+
+function showLeague(id){
+  document.querySelectorAll("#league-tables .table").forEach(t=>t.style.display="none");
+  document.getElementById(id).style.display="table";
+}
 </script>
 
 </body>
