@@ -1,4 +1,4 @@
-body {
+  body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #f2f2f2;
@@ -54,8 +54,17 @@ h2 {
   border-radius: 5px;
 }
 
-#live-scores {
+#live-scores, #today-matches .match {
   font-weight: bold;
+  margin: 10px 0;
+}
+
+#today-matches .match {
+  background: #eee;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 5px;
 }
 
 footer {
