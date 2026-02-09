@@ -5,6 +5,15 @@
   <title>Futbol.Az</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f0f0f0; }
+    .header { display:flex; align-items:center; padding:10px 20px; background:#222; color:#fff; }
+    .logo { height:40px; margin-right:20px; }
+    nav a { color:#fff; margin-right:15px; text-decoration:none; font-weight:bold; }
+    .section { padding:20px; background:#fff; margin:10px 20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+    .match, .score, .card { margin-bottom:10px; padding:10px; background:#f9f9f9; border-radius:6px; }
+    b { font-weight:bold; margin:0 10px; }
+  </style>
 </head>
 <body>
 
@@ -89,7 +98,7 @@
 // Sənin Football-Data.org API key
 const API_KEY = "8849a8a365c749d0a081f676a5e76b7e";
 
-// Canlı oyunlar və digər liqalar
+// Canlı oyunları yükləyən funksiya
 async function loadLive() {
   const box = document.getElementById("live-scores");
   box.innerHTML = "Yüklənir...";
@@ -100,18 +109,18 @@ async function loadLive() {
     });
     const data = await res.json();
 
+    box.innerHTML = "";
     if (!data.matches || data.matches.length === 0) {
       box.innerHTML = "Hazırda canlı oyun yoxdur";
       return;
     }
 
-    box.innerHTML = "";
     data.matches.forEach(m => {
       const home = m.homeTeam.name;
       const away = m.awayTeam.name;
       const scoreHome = m.score.fullTime.home ?? 0;
       const scoreAway = m.score.fullTime.away ?? 0;
-      const status = m.status; // LIVE / FINISHED
+      const status = m.status; // LIVE
 
       box.innerHTML += `
         <div class="score">
@@ -127,10 +136,10 @@ async function loadLive() {
   }
 }
 
+// İlk yük, sonra hər 30 saniyədə yenilə
 loadLive();
 setInterval(loadLive, 30000);
-
 </script>
 
 </body>
-</html>    <div class="card"
+</html>
