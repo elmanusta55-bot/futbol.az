@@ -299,3 +299,93 @@ document.getElementById("counter").innerText="👁 Sayta baxış sayı: "+views;
 
 </body>
 </html>
+<section id="table" class="section">
+  <h2>🏆 Turnir Cədvəli (2025-2026)</h2>
+
+  <!-- Liqa seçimi (hamburger kimi) -->
+  <div class="league-dropdown">
+    <button class="menu-btn" onclick="toggleLeagueMenu()">⋮ Liqalar</button>
+    <div id="league-menu" class="dropdown">
+      <a href="#" onclick="showLeague('premier')">İngiltərə Premier Liqası</a>
+      <a href="#" onclick="showLeague('laliga')">İspaniya La Liga</a>
+      <a href="#" onclick="showLeague('seriea')">İtaliya Serie A</a>
+      <a href="#" onclick="showLeague('bundesliga')">Almaniya Bundesliga</a>
+      <a href="#" onclick="showLeague('ligue1')">Fransa Ligue 1</a>
+      <a href="#" onclick="showLeague('turkiye')">Türkiyə Super Liqası</a>
+      <a href="#" onclick="showLeague('azerbaycan')">Azərbaycan Premyer Liqası</a>
+    </div>
+  </div>
+
+  <div id="league-tables">
+    <!-- Default: La Liga -->
+    <table class="table" id="laliga">
+      <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>
+      <tr><td>1</td><td>Real Madrid</td><td>22</td><td>16</td><td>4</td><td>52</td></tr>
+      <tr><td>2</td><td>Barcelona</td><td>22</td><td>15</td><td>5</td><td>50</td></tr>
+      <tr><td>3</td><td>Atletico Madrid</td><td>22</td><td>14</td><td>5</td><td>47</td></tr>
+    </table>
+
+    <table class="table" id="premier" style="display:none">
+      <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>
+      <tr><td>1</td><td>Manchester City</td><td>24</td><td>19</td><td>3</td><td>60</td></tr>
+      <tr><td>2</td><td>Liverpool</td><td>24</td><td>17</td><td>4</td><td>55</td></tr>
+      <tr><td>3</td><td>Arsenal</td><td>24</td><td>16</td><td>5</td><td>52</td></tr>
+    </table>
+
+    <table class="table" id="seriea" style="display:none">
+      <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>
+      <tr><td>1</td><td>Napoli</td><td>23</td><td>18</td><td>3</td><td>57</td></tr>
+      <tr><td>2</td><td>Inter</td><td>23</td><td>16</td><td>5</td><td>53</td></tr>
+      <tr><td>3</td><td>Milan</td><td>23</td><td>15</td><td>6</td><td>51</td></tr>
+    </table>
+
+    <table class="table" id="bundesliga" style="display:none">
+      <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>
+      <tr><td>1</td><td>Bayern Munchen</td><td>22</td><td>17</td><td>3</td><td>54</td></tr>
+      <tr><td>2</td><td>Dortmund</td><td>22</td><td>15</td><td>4</td><td>49</td></tr>
+      <tr><td>3</td><td>Leverkusen</td><td>22</td><td>14</td><td>5</td><td>47</td></tr>
+    </table>
+
+    <table class="table" id="ligue1" style="display:none">
+      <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>
+      <tr><td>1</td><td>PSG</td><td>23</td><td>18</td><td>3</td><td>57</td></tr>
+      <tr><td>2</td><td>Lyon</td><td>23</td><td>16</td><td>5</td><td>53</td></tr>
+      <tr><td>3</td><td>Marseille</td><td>23</td><td>15</td><td>6</td><td>51</td></tr>
+    </table>
+
+    <table class="table" id="turkiye" style="display:none">
+      <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>
+      <tr><td>1</td><td>Galatasaray</td><td>21</td><td>14</td><td>4</td><td>46</td></tr>
+      <tr><td>2</td><td>Fenerbahçe</td><td>21</td><td>13</td><td>5</td><td>44</td></tr>
+      <tr><td>3</td><td>Beşiktaş</td><td>21</td><td>12</td><td>6</td><td>42</td></tr>
+    </table>
+
+    <table class="table" id="azerbaycan" style="display:none">
+      <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>
+      <tr><td>1</td><td>Qarabağ</td><td>20</td><td>14</td><td>4</td><td>46</td></tr>
+      <tr><td>2</td><td>Neftçi</td><td>20</td><td>13</td><td>5</td><td>44</td></tr>
+      <tr><td>3</td><td>Sabah</td><td>20</td><td>12</td><td>6</td><td>42</td></tr>
+    </table>
+  </div>
+</section>
+
+<style>
+/* Turnir cədvəli görünüşü */
+#table h2{color:#111;font-weight:bold;border-bottom:3px solid #f4d03f}
+#table .table th,#table .table td{color:#111;background:#fdfdfd}
+.league-dropdown{margin-bottom:10px;position:relative}
+.league-dropdown .menu-btn{background:#1c1c1c;color:#f4d03f;padding:5px 10px;border-radius:6px}
+.league-dropdown .dropdown a{color:white}
+</style>
+
+<script>
+function toggleLeagueMenu(){
+  const menu=document.getElementById("league-menu");
+  menu.style.display=menu.style.display==="block"?"none":"block";
+}
+
+function showLeague(id){
+  document.querySelectorAll("#league-tables .table").forEach(t=>t.style.display="none");
+  document.getElementById(id).style.display="table";
+}
+</script>
