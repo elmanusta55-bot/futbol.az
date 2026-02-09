@@ -104,6 +104,25 @@ header .logo img {
   margin-top: 15px;
   font-size: 18px;
 }
+/* Turnir cədvəli içində yazı rəngini aydınlaşdır */
+#table .table th, #table .table td {
+  color: #111 !important;         /* Yazıları qara edir */
+  background: #fdfdfd !important; /* Arxa planı açıq ağ */
+}
+
+/* Başlıqlar üçün xüsusi dizayn */
+#table h2 {
+  color: #1c1c1c;
+  font-weight: bold;
+  border-bottom: 3px solid #f4d03f;
+}
+
+/* Hamburger içindəki liqa menyu cədvəlini də oxunaqlı et */
+.league-dropdown table th,
+.league-dropdown table td {
+  color: #fafafa !important;
+  background: #333 !important;
+}
 
 #table table {
   width: 100%;
