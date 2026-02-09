@@ -1,256 +1,209 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-  <meta charset="UTF-8">
-  <title>Futbol.Az</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    /* Baza */
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f5f5f5;
-      color: #222;
-    }
-    a { text-decoration: none; color: inherit; }
+<meta charset="UTF-8">
+<title>Futbol.Az</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    /* Header */
-    header {
-      display:flex; 
-      align-items:center; 
-      justify-content:space-between; 
-      background:#1c1c1c; 
-      padding:10px 20px; 
-      color:#fff; 
-      position:sticky; 
-      top:0; 
-      z-index:100; 
-    }
+<style>
+body{
+  margin:0;
+  font-family:Segoe UI,Arial;
+  background:#f4f6f9;
+}
 
-    .logo img {
-      height: 50px;
-      width: auto;
-      display: block;
-    }
+header{
+  background:#111;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 15px;
+  position:sticky;
+  top:0;
+  z-index:999;
+}
 
-    nav {
-      display:flex;
-      gap:15px;
-    }
+.logo img{height:42px}
 
-    nav a {
-      font-weight:bold;
-      transition: color 0.3s;
-    }
+.menu-btn{
+  font-size:26px;
+  background:none;
+  border:none;
+  color:white;
+  cursor:pointer;
+}
 
-    nav a:hover { color:#f4d03f; }
+.dropdown{
+  display:none;
+  position:absolute;
+  right:15px;
+  top:55px;
+  background:#222;
+  border-radius:12px;
+  overflow:hidden;
+  min-width:190px;
+  box-shadow:0 5px 25px rgba(0,0,0,.4);
+}
 
-    /* Hamburger */
-    .hamburger {
-      display:none;
-      flex-direction: column;
-      cursor:pointer;
-      gap:5px;
-    }
-    .hamburger div {
-      width:25px;
-      height:3px;
-      background:white;
-    }
+.dropdown a{
+  display:block;
+  padding:12px;
+  color:white;
+  border-bottom:1px solid #333;
+}
 
-    /* Section */
-    .section {
-      margin:20px auto;
-      padding:20px;
-      max-width:900px;
-      background:#fff;
-      border-radius:10px;
-      box-shadow:0 3px 10px rgba(0,0,0,0.1);
-    }
-    .section h2 {
-      margin-top:0;
-      border-bottom:2px solid #f4d03f;
-      padding-bottom:5px;
-    }
+.dropdown a:hover{background:#333}
 
-    /* Match və Score */
-    .score, .card {
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:12px;
-      padding:12px;
-      border-radius:8px;
-      background:#f9f9f9;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .score:hover, .card:hover {
-      transform:translateY(-2px);
-      box-shadow:0 4px 12px rgba(0,0,0,0.1);
-    }
-    .score b { font-size:1.1em; color:#1c1c1c; }
-    .card h3 { margin:0 0 5px 0; }
-    .card p { margin:0; font-size:0.95em; color:#555; }
+.section{
+  max-width:950px;
+  margin:20px auto;
+  background:white;
+  padding:18px;
+  border-radius:12px;
+  box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
 
-    /* Footer */
-    footer {
-      text-align:center;
-      padding:15px;
-      background:#1c1c1c;
-      color:#fff;
-      margin-top:20px;
-    }
+.section h2{
+  margin-top:0;
+  border-bottom:2px solid #f4c430;
+  padding-bottom:6px;
+}
 
-    /* Responsive */
-    @media (max-width:768px) {
-      header { flex-direction:row; align-items:center; }
-      nav { display:none; flex-direction:column; width:100%; margin-top:10px; background:#1c1c1c; }
-      nav a { padding:10px; border-bottom:1px solid #333; }
-      nav.show { display:flex; }
+.score,.card{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#f7f7f7;
+  padding:12px;
+  margin-bottom:10px;
+  border-radius:10px;
+}
 
-      .hamburger { display:flex; }
-      .score, .card { flex-direction:column; align-items:flex-start; }
-      .score b { margin:5px 0; }
-    }
-  </style>
+.card{flex-direction:column;align-items:flex-start}
+
+footer{
+  background:#111;
+  color:white;
+  text-align:center;
+  padding:15px;
+}
+
+input[type="text"]{
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  margin-bottom:15px;
+}
+
+.table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.table th,.table td{
+  padding:8px;
+  border-bottom:1px solid #ddd;
+  text-align:center;
+}
+
+.counter{
+  text-align:center;
+  font-weight:bold;
+  margin-top:10px;
+}
+</style>
 </head>
+
 <body>
 
 <header>
-  <div class="logo">
-    <img src="logo.png" alt="Futbol.az logo">
+  <div class="logo"><img src="logo.png"></div>
+  <button class="menu-btn" onclick="toggleMenu()">⋮</button>
+
+  <div class="dropdown" id="dropdown">
+    <a href="#today">📅 Günün Oyunları</a>
+    <a href="#news">📰 Xəbər</a>
+    <a href="#live">🔴 Canlı</a>
+    <a href="#transfer">💰 Transfer</a>
+    <a href="#table">🏆 Turnir</a>
+    <a href="#contact">📞 Əlaqə</a>
   </div>
-  <div class="hamburger" id="hamburger">
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
-  <nav id="nav">
-    <a href="#today">Günün Oyunları</a>
-    <a href="#news">Xeber</a>
-    <a href="#live">Canlı</a>
-    <a href="#transfer">Transfer</a>
-    <a href="#contact">Əlaqə</a>
-  </nav>
 </header>
 
 <main>
-  <!-- Günün Oyunları -->
-  <section id="today" class="section">
-    <h2>📅 Günün Oyunları (09.02.2026)</h2>
-    <div id="today-matches">
-      <div class="score">Atalanta <b>-</b> Cremonese <span>21:30</span></div>
-      <div class="score">AS Roma <b>-</b> Cagliari <span>23:45</span></div>
-      <div class="score">Villarreal <b>-</b> Espanyol <span>00:00</span></div>
-      <div class="score">Sheffield United <b>-</b> Middlesbrough <span>00:01</span></div>
-      <div class="score">Kayserispor <b>-</b> Kocaelispor <span>18:00</span></div>
-      <div class="score">Fenerbahçe <b>-</b> Gençlerbirliği <span>21:00</span></div>
-      <div class="score">Gaziantep FK <b>-</b> Kasımpaşa <span>21:00</span></div>
-      <div class="score">Al-Wahda <b>-</b> Al Ahli <span>17:45</span></div>
-      <div class="score">Nasaf Qarshi <b>-</b> Al Shorta <span>17:45</span></div>
-      <div class="score">Al-Duhail <b>-</b> Sharjah <span>20:00</span></div>
-    </div>
-  </section>
 
-  <!-- Xeber -->
-  <section id="news" class="section">
-    <h2>📰 Xəbər</h2>
-    <div class="card">
-      <h3>Real Madrid La Liganı sürətlə davam etdirir</h3>
-      <p>Real Madrid son Valencia matçında qələbə qazanaraq Barcelona ilə xal fərqini azaltdı.</p>
-    </div>
-    <div class="card">
-      <h3>Fenerbahçe – Gençlerbirliği oyunu gündəmdədir</h3>
-      <p>Bu gün Türkiyə Super Liqasında Fenerbahçe və Gençlerbirliği arasında keçiriləcək qarşılaşma diqqət çəkir.</p>
-    </div>
-    <div class="card">
-      <h3>James Rodríguez MLS-ə keçdi</h3>
-      <p>Minnesota United komandası James Rodríguez-i qısa müddətli müqavilə ilə heyətinə qatdı.</p>
-    </div>
-    <div class="card">
-      <h3>Barcelona-da baş verənlər</h3>
-      <p>Barcelona klubunda prezident seçkiləri başladı, daxili struktur dəyişiklikləri və yeni transfer xəbərləri gündəmdədir.</p>
-    </div>
-  </section>
+<div class="section">
+  <input type="text" id="search" placeholder="🔍 Axtar...">
+</div>
 
-  <!-- Canlı Hesablar -->
-  <section id="live" class="section">
-    <h2>🔴 Canlı Hesablar</h2>
-    <div id="live-scores">Yüklənir...</div>
-  </section>
+<section id="today" class="section">
+<h2>📅 Günün Oyunları</h2>
+<div class="score">Atalanta - Cremonese <span>21:30</span></div>
+<div class="score">AS Roma - Cagliari <span>23:45</span></div>
+<div class="score">Fenerbahçe - Gençlerbirliği <span>21:00</span></div>
+</section>
 
-  <!-- Transfer -->
-  <section id="transfer" class="section">
-    <h2>💰 Transferlər</h2>
-    <div class="card">
-      <h3>Antoine Semenyo → Manchester City</h3>
-      <p>Transfermarkt‑a görə, Antoine Semenyo Bournemouth‑dan Manchester City‑yə **təxminən 72 m€** qarşılığında transfer oldu.</p>
-    </div>
-    <div class="card">
-      <h3>Jørgen Strand Larsen → Crystal Palace</h3>
-      <p>Crystal Palace, qış transfer pəncərəsində Jørgen Strand Larsen transferini **49.7 m€** ilə tamamladı.</p>
-    </div>
-    <div class="card">
-      <h3>Lucas Paquetá → Flamengo</h3>
-      <p>West Ham‑dan Lucas Paquetá Flamengo ilə **42 m€** qarşılığında razılığa gəldi.</p>
-    </div>
-    <div class="card">
-      <h3>Conor Gallagher → Tottenham Hotspur</h3>
-      <p>Transfermarkt‑a görə, Conor Gallagher Atletico Madrid‑dən Tottenham Hotspur’a təxminən **40 m€** qarşılığında keçdi.</p>
-    </div>
-  </section>
+<section id="news" class="section">
+<h2>📰 Xəbərlər</h2>
+<div class="card"><h3>Real Madrid La Liga lideridir</h3></div>
+<div class="card"><h3>Barcelona yeni transfer axtarışında</h3></div>
+<div class="card"><h3>Fenerbahçe qələbə seriyasını davam etdirir</h3></div>
+</section>
 
-  <!-- Əlaqə -->
-  <section id="contact" class="section">
-    <h2>📞 Əlaqə</h2>
-    <p>Nömrəm: +994555266848</p>
-  </section>
+<section id="live" class="section">
+<h2>🔴 Canlı Hesablar</h2>
+<div id="live-scores">Yüklənir...</div>
+</section>
+
+<section id="transfer" class="section">
+<h2>💰 Transferlər</h2>
+<div class="card"><h3>Semenyo → Man City (72m€)</h3></div>
+<div class="card"><h3>Paquetá → Flamengo (42m€)</h3></div>
+<div class="card"><h3>Gallagher → Tottenham (40m€)</h3></div>
+</section>
+
+<section id="table" class="section">
+<h2>🏆 Turnir Cədvəli (Nümunə)</h2>
+<table class="table">
+<tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>
+<tr><td>1</td><td>Real Madrid</td><td>24</td><td>18</td><td>3</td><td>57</td></tr>
+<tr><td>2</td><td>Barcelona</td><td>24</td><td>17</td><td>4</td><td>55</td></tr>
+<tr><td>3</td><td>Girona</td><td>24</td><td>15</td><td>6</td><td>51</td></tr>
+</table>
+</section>
+
+<section id="contact" class="section">
+<h2>📞 Əlaqə</h2>
+<p>+994555266848</p>
+</section>
+
+<div class="counter" id="counter"></div>
+
 </main>
 
 <footer>© 2026 Futbol.Az</footer>
 
 <script>
-const API_KEY = "8849a8a365c749d0a081f676a5e76b7e";
-
-// Hamburger toggle
-const hamburger = document.getElementById("hamburger");
-const nav = document.getElementById("nav");
-hamburger.addEventListener("click", () => {
-  nav.classList.toggle("show");
-});
-
-async function loadLive() {
-  const box = document.getElementById("live-scores");
-  box.innerHTML = "Yüklənir...";
-
-  try {
-    const res = await fetch("https://v3.football.api-sports.io/fixtures?live=all", {
-      headers: { "x-apisports-key": API_KEY }
-    });
-    const data = await res.json();
-
-    if (!data.response || data.response.length === 0) {
-      box.innerHTML = "Hazırda canlı oyun yoxdur";
-      return;
-    }
-
-    box.innerHTML = "";
-    data.response.forEach(m => {
-      box.innerHTML += `<div class="score">
-        ${m.teams.home.name} <b>${m.goals.home} - ${m.goals.away}</b> ${m.teams.away.name}
-        <span>${m.fixture.status.elapsed || 0}'</span>
-      </div>`;
-    });
-
-  } catch(err) {
-    console.error(err);
-    box.innerHTML = "Hazırda canlı oyun yoxdur";
-  }
+function toggleMenu(){
+  const d=document.getElementById("dropdown");
+  d.style.display=d.style.display==="block"?"none":"block";
 }
 
-loadLive();
-setInterval(loadLive, 30000);
+/* Axtarış */
+document.getElementById("search").addEventListener("input",function(){
+  let val=this.value.toLowerCase();
+  document.querySelectorAll(".score,.card").forEach(e=>{
+    e.style.display=e.innerText.toLowerCase().includes(val)?"flex":"none";
+  });
+});
+
+/* Sayğac */
+let views=localStorage.getItem("views");
+views=views?Number(views)+1:1;
+localStorage.setItem("views",views);
+document.getElementById("counter").innerText="👁 Sayta baxış sayı: "+views;
 </script>
 
 </body>
