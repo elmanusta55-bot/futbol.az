@@ -8,8 +8,8 @@
 </head>
 <body>
 
-<header>
-  <div class="logo">⚽ Futbol.Az</div>
+<header class="header">
+  <img src="logo.png" alt="Futbol.az logo" class="logo">
   <nav>
     <a href="#">Xəbərlər</a>
     <a href="#">Canlı</a>
@@ -27,31 +27,34 @@
 const API_KEY = "ade1527c8c32766eb3b873aa2644c4a7";
 
 async function loadLive() {
-  const res = await fetch("https://v3.football.api-sports.io/fixtures?live=all", {
-    headers: {
-      "x-apisports-key":ade1527c8c32766eb3b873aa2644c4a7/+9
+  try {
+    const res = await fetch("https://v3.football.api-sports.io/fixtures?live=all", {
+      headers: {
+        "x-apisports-key": API_KEY
+      }
+    });
+    const data = await res.json();
+
+    const box = document.getElementById("live-scores");
+    box.innerHTML = "";
+
+    if (!data.response || data.response.length === 0) {
+      box.innerHTML = "Hazırda canlı oyun yoxdur";
+      return;
     }
-  });
-  const data = await res.json();
 
-  const box = document.getElementById("live-scores");
-  box.innerHTML = "";
-
-  if (data.response.length === 0) {
-    box.innerHTML = "Hazırda canlı oyun yoxdur";
-    return;
+    data.response.forEach(m => {
+      box.innerHTML += `
+        <div class="score">
+          ${m.teams.home.name} <b>${m.goals.home} - ${m.goals.away}</b> ${m.teams.away.name}
+          <span>${m.fixture.status.elapsed || 0}'</span>
+        </div>
+      `;
+    });
+  } catch (error) {
+    document.getElementById("live-scores").innerHTML = "Xəta baş verdi, yenidən yoxlayın";
+    console.error(error);
   }
-
-  data.response.forEach(m => {
-    box.innerHTML += `
-      <div class="score">
-        ${m.teams.home.name}
-        <b>${m.goals.home} - ${m.goals.away}</b>
-        ${m.teams.away.name}
-        <span>${m.fixture.status.elapsed || 0}'</span>
-      </div>
-    `;
-  });
 }
 
 loadLive();
@@ -62,7 +65,3 @@ setInterval(loadLive, 30000);
 
 </body>
 </html>
-<header class="header">
-  <img src="logo.png" alt="Futbol.az logo" class="logo">
-</header>
-
