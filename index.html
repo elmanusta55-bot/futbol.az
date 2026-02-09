@@ -5,141 +5,60 @@
   <title>Futbol.Az</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
-  <style>
-    body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f0f0f0; }
-    .header { display:flex; align-items:center; padding:10px 20px; background:#222; color:#fff; }
-    .logo { height:40px; margin-right:20px; }
-    nav a { color:#fff; margin-right:15px; text-decoration:none; font-weight:bold; }
-    .section { padding:20px; background:#fff; margin:10px 20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
-    .match, .score, .card { margin-bottom:10px; padding:10px; background:#f9f9f9; border-radius:6px; }
-    b { font-weight:bold; margin:0 10px; }
-  </style>
 </head>
 <body>
 
-<header class="header">
-  <img src="logo.png" alt="Futbol.az logo" class="logo">
+<header>
+  <div class="logo">⚽ Futbol.Az</div>
   <nav>
-    <a href="#today">Günün Oyunları</a>
-    <a href="#news">Xeber</a>
-    <a href="#live">Canlı</a>
-    <a href="#transfer">Transfer</a>
-    <a href="#contact">Əlaqə</a>
+    <a href="#">Xəbərlər</a>
+    <a href="#">Canlı</a>
+    <a href="#">Transferlər</a>
+    <a href="#">Əlaqə</a>
   </nav>
 </header>
 
-<main>
-
-  <!-- Günün Oyunları -->
-  <section id="today" class="section">
-    <h2>📅 Günün Oyunları</h2>
-    <div id="today-matches">
-      <!-- Demo Azərbaycan liqası matçları -->
-      <div class="match">
-        <span class="team-home">Qarabağ</span>
-        <b>2 - 1</b>
-        <span class="team-away">Neftçi</span>
-        <span class="time">15:00</span>
-      </div>
-      <div class="match">
-        <span class="team-home">Sabah</span>
-        <b>1 - 1</b>
-        <span class="team-away">Sumqayıt</span>
-        <span class="time">17:00</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Xeber bölməsi -->
-  <section id="news" class="section">
-    <h2>📰 Xeber</h2>
-    <div class="card">
-      <h3>Qarabağ Çempionlar Liqasında növbəti mərhələyə yüksəldi</h3>
-      <p>Azərbaycan çempionu möhtəşəm oyun göstərdi və...</p>
-    </div>
-    <div class="card">
-      <h3>Messi növbəti rekordunu qırdı</h3>
-      <p>Argentinalı ulduz tarixdə yenə öz adını yazdırdı...</p>
-    </div>
-  </section>
-
-  <!-- Canlı Hesablar -->
-  <section id="live" class="section">
-    <h2>🔴 Canlı Hesablar</h2>
-    <div id="live-scores">Yüklənir...</div>
-  </section>
-
-  <!-- Transferlər -->
-  <section id="transfer" class="section">
-    <h2>💰 Transfer</h2>
-    <div class="card">
-      <h3>Lionel Messi → PSG</h3>
-      <p>Avropa nəhəngi ulduz futbolçunu transfer etdi...</p>
-    </div>
-    <div class="card">
-      <h3>Kylian Mbappe → Real Madrid</h3>
-      <p>Fransalı hücumçu möhtəşəm transfer etdi...</p>
-    </div>
-  </section>
-
-  <!-- Əlaqə -->
-  <section id="contact" class="section">
-    <h2>📞 Əlaqə</h2>
-    <p>Nömrəm: +994555266848</p>
-  </section>
-
-</main>
-
-<footer>
-  © 2026 Futbol.Az
-</footer>
+<section class="live">
+  <h2>🔴 Canlı Hesablar</h2>
+  <div id="live-scores">Yüklənir...</div>
+</section>
 
 <script>
-// Sənin Football-Data.org API key
 const API_KEY = "8849a8a365c749d0a081f676a5e76b7e";
 
-// Canlı oyunları yükləyən funksiya
 async function loadLive() {
-  const box = document.getElementById("live-scores");
-  box.innerHTML = "Yüklənir...";
-
-  try {
-    const res = await fetch("https://api.football-data.org/v4/matches?status=LIVE", {
-      headers: { "X-Auth-Token": API_KEY }
-    });
-    const data = await res.json();
-
-    box.innerHTML = "";
-    if (!data.matches || data.matches.length === 0) {
-      box.innerHTML = "Hazırda canlı oyun yoxdur";
-      return;
+  const res = await fetch("https://v3.football.api-sports.io/fixtures?live=all", {
+    headers: {
+      "x-apisports-key": API_KEY
     }
+  });
+  const data = await res.json();
 
-    data.matches.forEach(m => {
-      const home = m.homeTeam.name;
-      const away = m.awayTeam.name;
-      const scoreHome = m.score.fullTime.home ?? 0;
-      const scoreAway = m.score.fullTime.away ?? 0;
-      const status = m.status; // LIVE
+  const box = document.getElementById("live-scores");
+  box.innerHTML = "";
 
-      box.innerHTML += `
-        <div class="score">
-          ${home} <b>${scoreHome} - ${scoreAway}</b> ${away} 
-          <span>${status}</span>
-        </div>
-      `;
-    });
-
-  } catch(err) {
-    box.innerHTML = "Xəta baş verdi, yenidən yoxlayın";
-    console.error(err);
+  if (data.response.length === 0) {
+    box.innerHTML = "Hazırda canlı oyun yoxdur";
+    return;
   }
+
+  data.response.forEach(m => {
+    box.innerHTML += `
+      <div class="score">
+        ${m.teams.home.name}
+        <b>${m.goals.home} - ${m.goals.away}</b>
+        ${m.teams.away.name}
+        <span>${m.fixture.status.elapsed || 0}'</span>
+      </div>
+    `;
+  });
 }
 
-// İlk yük, sonra hər 30 saniyədə yenilə
 loadLive();
 setInterval(loadLive, 30000);
 </script>
+
+<footer>© 2026 Futbol.Az</footer>
 
 </body>
 </html>
