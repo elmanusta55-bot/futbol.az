@@ -6,8 +6,8 @@ body {
 
 .header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   padding: 15px 30px;
   background: #000;
 }
@@ -22,21 +22,32 @@ nav a {
   margin-left: 20px;
   text-decoration: none;
   font-weight: 500;
+  transition: color 0.3s;
 }
 
 nav a:hover {
   color: gold;
 }
 
-.live {
+.section {
   background: #fff;
   margin: 15px;
-  padding: 15px;
+  padding: 20px;
   border-radius: 6px;
 }
 
-.score {
-  margin: 8px 0;
+h2 {
+  margin-top: 0;
+}
+
+.card {
+  background: #eee;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+#live-scores {
   font-weight: bold;
 }
 
@@ -46,6 +57,10 @@ footer {
   text-align: center;
   padding: 10px;
   margin-top: 20px;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 @media (max-width: 600px) {
@@ -58,22 +73,3 @@ footer {
     margin: 5px 10px 0 0;
   }
 }
-section {
-  background: #fff;
-  margin: 15px;
-  padding: 20px;
-  border-radius: 6px;
-}
-
-h2 {
-  margin-top: 0;
-}
-
-#live-scores {
-  font-weight: bold;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
