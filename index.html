@@ -12,7 +12,6 @@ body{
   background:#f4f6f9;
   color:#222;
 }
-
 a{text-decoration:none;color:inherit}
 
 header{
@@ -45,11 +44,9 @@ header{
   background:#222;
   border-radius:12px;
   overflow:hidden;
-  min-width:200px;
+  min-width:190px;
   box-shadow:0 5px 25px rgba(0,0,0,.4);
-  z-index:1000;
 }
-
 .dropdown a{
   display:block;
   padding:12px;
@@ -57,6 +54,31 @@ header{
   border-bottom:1px solid #333;
 }
 .dropdown a:hover{background:#333}
+
+.league-dropdown{
+  display:none;
+  position:absolute;
+  right:15px;
+  top:55px;
+  background:#222;
+  border-radius:12px;
+  padding:10px;
+  z-index:1000;
+}
+.league-dropdown table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top:10px;
+}
+.league-dropdown table th,
+.league-dropdown table td {
+  padding: 6px 8px;
+  border: 1px solid #555;
+  color: white;
+  background: #333;
+  text-align:center;
+}
+.league-dropdown table th { background:#444; }
 
 .section{
   max-width:950px;
@@ -66,7 +88,6 @@ header{
   border-radius:12px;
   box-shadow:0 5px 15px rgba(0,0,0,.1);
 }
-
 .section h2{
   margin-top:0;
   border-bottom:2px solid #f4c430;
@@ -82,7 +103,6 @@ header{
   margin-bottom:10px;
   border-radius:10px;
 }
-
 .card{flex-direction:column;align-items:flex-start}
 
 input[type="text"]{
@@ -97,7 +117,6 @@ input[type="text"]{
   width:100%;
   border-collapse:collapse;
 }
-
 .table th,.table td{
   padding:8px;
   border-bottom:1px solid #ddd;
@@ -116,19 +135,6 @@ footer{
   text-align:center;
   padding:15px;
 }
-
-/* Hamburger liqa menyu üçün */
-.league-dropdown{
-  display:none;
-  background:#222;
-  border-radius:10px;
-  padding:10px;
-  margin-top:10px;
-}
-
-.league-dropdown table{
-  margin-bottom:15px;
-}
 </style>
 </head>
 
@@ -146,6 +152,24 @@ footer{
     <a href="#table">🏆 Turnir</a>
     <a href="#contact">📞 Əlaqə</a>
   </div>
+
+  <div class="league-dropdown" id="league-dropdown">
+    <a href="#premier">🏆 Premier Liqa</a>
+    <a href="#la-liga">🏆 La Liga</a>
+    <a href="#serie-a">🏆 Serie A</a>
+    <a href="#bundesliga">🏆 Bundesliga</a>
+    <a href="#ligue-1">🏆 Ligue 1</a>
+    <a href="#turkey">🇹🇷 Türkiyə Liqası</a>
+    <a href="#azerbaijan">🇦🇿 Azərbaycan Liqası</a>
+
+    <!-- Məsələn Premier Liqa ilk 3 -->
+    <table>
+      <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>
+      <tr><td>1</td><td>Manchester City</td><td>24</td><td>19</td><td>3</td><td>58</td></tr>
+      <tr><td>2</td><td>Arsenal</td><td>24</td><td>18</td><td>4</td><td>55</td></tr>
+      <tr><td>3</td><td>Manchester United</td><td>24</td><td>16</td><td>5</td><td>52</td></tr>
+    </table>
+  </div>
 </header>
 
 <main>
@@ -156,7 +180,6 @@ footer{
 
 <section id="today" class="section">
 <h2>📅 Günün Oyunları (09.02.2026)</h2>
-
 <div class="score">Atalanta - Cremonese <span>21:30</span></div>
 <div class="score">AS Roma - Cagliari <span>23:45</span></div>
 <div class="score">Villarreal - Espanyol <span>00:00</span></div>
@@ -171,20 +194,11 @@ footer{
 
 <section id="news" class="section">
 <h2>📰 Xəbərlər</h2>
-
 <div class="card"><h3>Real Madrid La Liga lideridir</h3></div>
 <div class="card"><h3>Barcelona yeni transfer axtarışında</h3></div>
 <div class="card"><h3>Fenerbahçe qələbə seriyasını davam etdirir</h3></div>
-
-<div class="card">
-<h3>James Rodríguez MLS-ə keçdi</h3>
-<p>Minnesota United komandası James Rodríguez-i heyətinə qatdı.</p>
-</div>
-
-<div class="card">
-<h3>Barcelona-da struktur dəyişiklikləri</h3>
-<p>Prezident seçkiləri və yeni transfer planları açıqlanıb.</p>
-</div>
+<div class="card"><h3>James Rodríguez MLS-ə keçdi</h3><p>Minnesota United komandası James Rodríguez-i heyətinə qatdı.</p></div>
+<div class="card"><h3>Barcelona-da struktur dəyişiklikləri</h3><p>Prezident seçkiləri və yeni transfer planları açıqlanıb.</p></div>
 </section>
 
 <section id="live" class="section">
@@ -194,45 +208,20 @@ footer{
 
 <section id="transfer" class="section">
 <h2>💰 Transferlər</h2>
-
 <div class="card"><h3>Semenyo → Man City (72m€)</h3></div>
 <div class="card"><h3>Paquetá → Flamengo (42m€)</h3></div>
 <div class="card"><h3>Gallagher → Tottenham (40m€)</h3></div>
 <div class="card"><h3>Strand Larsen → Crystal Palace (49.7m€)</h3></div>
-
 </section>
 
 <section id="table" class="section">
 <h2>🏆 Turnir Cədvəli</h2>
-<button class="menu-btn" onclick="toggleLeagueMenu()">⋮ Liqalar</button>
-<div class="league-dropdown" id="league-dropdown">
-  <!-- TOP 5 Liqa -->
-  <h3>🏆 TOP 5 Liqa</h3>
-  <table class="table">
-    <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>
-    <tr><td>1</td><td>Manchester City</td><td>26</td><td>20</td><td>4</td><td>60</td></tr>
-    <tr><td>2</td><td>Liverpool</td><td>26</td><td>18</td><td>5</td><td>59</td></tr>
-    <tr><td>3</td><td>Real Madrid</td><td>25</td><td>19</td><td>6</td><td>57</td></tr>
-  </table>
-
-  <!-- Azərbaycan Liqası -->
-  <h3>🇦🇿 Azərbaycan Premyer Liqası</h3>
-  <table class="table">
-    <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>
-    <tr><td>1</td><td>Qarabağ</td><td>18</td><td>12</td><td>3</td><td>39</td></tr>
-    <tr><td>2</td><td>Neftçi</td><td>18</td><td>10</td><td>5</td><td>35</td></tr>
-    <tr><td>3</td><td>Sabah</td><td>18</td><td>9</td><td>5</td><td>32</td></tr>
-  </table>
-
-  <!-- Türkiyə Liqası -->
-  <h3>🇹🇷 Türkiyə Super Liqası</h3>
-  <table class="table">
-    <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>
-    <tr><td>1</td><td>Fenerbahçe</td><td>24</td><td>17</td><td>5</td><td>56</td></tr>
-    <tr><td>2</td><td>Galatasaray</td><td>24</td><td>16</td><td>6</td><td>54</td></tr>
-    <tr><td>3</td><td>Beşiktaş</td><td>24</td><td>15</td><td>6</td><td>51</td></tr>
-  </table>
-</div>
+<table class="table">
+<tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>
+<tr><td>1</td><td>Real Madrid</td><td>24</td><td>18</td><td>3</td><td>57</td></tr>
+<tr><td>2</td><td>Barcelona</td><td>24</td><td>17</td><td>4</td><td>55</td></tr>
+<tr><td>3</td><td>Girona</td><td>24</td><td>15</td><td>6</td><td>51</td></tr>
+</table>
 </section>
 
 <section id="contact" class="section">
@@ -253,8 +242,7 @@ function toggleMenu(){
   const d=document.getElementById("dropdown");
   d.style.display=d.style.display==="block"?"none":"block";
 }
-
-function toggleLeagueMenu(){
+function toggleLeague(){
   const d=document.getElementById("league-dropdown");
   d.style.display=d.style.display==="block"?"none":"block";
 }
