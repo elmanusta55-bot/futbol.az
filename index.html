@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Futbol.Az</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
   <style>
     /* Baza */
     body {
@@ -14,7 +13,6 @@
       background-color: #f5f5f5;
       color: #222;
     }
-
     a { text-decoration: none; color: inherit; }
 
     /* Header */
@@ -28,10 +26,9 @@
     .section h2 { margin-top:0; border-bottom:2px solid #f4d03f; padding-bottom:5px; }
 
     /* Match və Score */
-    .match, .score, .card { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding:12px; border-radius:8px; background:#f9f9f9; transition: transform 0.2s, box-shadow 0.2s; }
-    .match:hover, .score:hover, .card:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,0.1); }
-    .match b, .score b { font-size:1.1em; color:#1c1c1c; }
-
+    .score, .card { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding:12px; border-radius:8px; background:#f9f9f9; transition: transform 0.2s, box-shadow 0.2s; }
+    .score:hover, .card:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+    .score b { font-size:1.1em; color:#1c1c1c; }
     .card h3 { margin:0 0 5px 0; }
     .card p { margin:0; font-size:0.95em; color:#555; }
 
@@ -43,8 +40,8 @@
       header { flex-direction:column; align-items:flex-start; }
       nav { margin-top:10px; }
       nav a { margin-left:0; margin-right:15px; }
-      .match, .score, .card { flex-direction:column; align-items:flex-start; }
-      .match b, .score b { margin:5px 0; }
+      .score, .card { flex-direction:column; align-items:flex-start; }
+      .score b { margin:5px 0; }
     }
   </style>
 </head>
@@ -62,22 +59,15 @@
 </header>
 
 <main>
-
   <!-- Günün Oyunları -->
   <section id="today" class="section">
     <h2>📅 Günün Oyunları</h2>
     <div id="today-matches">
-      <div class="match">
-        <span class="team-home">Qarabağ</span>
-        <b>2 - 1</b>
-        <span class="team-away">Neftçi</span>
-        <span class="time">15:00</span>
+      <div class="score">
+        Qarabağ <b>2 - 1</b> Neftçi <span>15:00</span>
       </div>
-      <div class="match">
-        <span class="team-home">Sabah</span>
-        <b>1 - 1</b>
-        <span class="team-away">Sumqayıt</span>
-        <span class="time">17:00</span>
+      <div class="score">
+        Sabah <b>1 - 1</b> Sumqayıt <span>17:00</span>
       </div>
     </div>
   </section>
@@ -119,7 +109,6 @@
     <h2>📞 Əlaqə</h2>
     <p>Nömrəm: +994555266848</p>
   </section>
-
 </main>
 
 <footer>© 2026 Futbol.Az</footer>
@@ -127,14 +116,9 @@
 <script>
 const API_KEY = "8849a8a365c749d0a081f676a5e76b7e";
 
-// Demo Azərbaycan liqası + API-dən LIVE matçlar
 async function loadLive() {
   const box = document.getElementById("live-scores");
   box.innerHTML = "Yüklənir...";
-
-  // Demo matç
-  let demo = `<div class="score">Qarabağ <b>2 - 1</b> Neftçi <span>15:00</span></div>
-              <div class="score">Sabah <b>1 - 1</b> Sumqayıt <span>17:00</span></div>`;
 
   try {
     const res = await fetch("https://v3.football.api-sports.io/fixtures?live=all", {
@@ -142,14 +126,12 @@ async function loadLive() {
     });
     const data = await res.json();
 
-    // Əgər API boşdursa demo göstər
     if (!data.response || data.response.length === 0) {
-      box.innerHTML = demo;
+      box.innerHTML = "Hazırda canlı oyun yoxdur";
       return;
     }
 
-    // API matçlarını əlavə et
-    box.innerHTML = demo; // demo üstündə API matçları
+    box.innerHTML = "";
     data.response.forEach(m => {
       box.innerHTML += `<div class="score">
         ${m.teams.home.name} <b>${m.goals.home} - ${m.goals.away}</b> ${m.teams.away.name}
@@ -159,7 +141,7 @@ async function loadLive() {
 
   } catch(err) {
     console.error(err);
-    box.innerHTML = demo;
+    box.innerHTML = "Hazırda canlı oyun yoxdur";
   }
 }
 
