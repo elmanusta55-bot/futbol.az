@@ -15,26 +15,70 @@
     }
     a { text-decoration: none; color: inherit; }
 
-  
     /* Header */
-    header { display:flex; align-items:center; justify-content:space-between; background:#1c1c1c; padding:10px 20px; color:#fff; position:sticky; top:0; z-index:100; }
-    .logo { font-size:1.5em; font-weight:bold; }
+    header { 
+      display:flex; 
+      align-items:center; 
+      justify-content:space-between; 
+      background:#1c1c1c; 
+      padding:10px 20px; 
+      color:#fff; 
+      position:sticky; 
+      top:0; 
+      z-index:100; 
+    }
+
+    .logo img {
+      height: 50px;
+      width: auto;
+      display: block;
+    }
+
     nav a { margin-left:15px; font-weight:bold; transition:color 0.3s; }
     nav a:hover { color:#f4d03f; }
 
     /* Section */
-    .section { margin:20px auto; padding:20px; max-width:900px; background:#fff; border-radius:10px; box-shadow:0 3px 10px rgba(0,0,0,0.1); }
-    .section h2 { margin-top:0; border-bottom:2px solid #f4d03f; padding-bottom:5px; }
+    .section { 
+      margin:20px auto; 
+      padding:20px; 
+      max-width:900px; 
+      background:#fff; 
+      border-radius:10px; 
+      box-shadow:0 3px 10px rgba(0,0,0,0.1); 
+    }
+    .section h2 { 
+      margin-top:0; 
+      border-bottom:2px solid #f4d03f; 
+      padding-bottom:5px; 
+    }
 
     /* Match və Score */
-    .score, .card { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding:12px; border-radius:8px; background:#f9f9f9; transition: transform 0.2s, box-shadow 0.2s; }
-    .score:hover, .card:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+    .score, .card { 
+      display:flex; 
+      justify-content:space-between; 
+      align-items:center; 
+      margin-bottom:12px; 
+      padding:12px; 
+      border-radius:8px; 
+      background:#f9f9f9; 
+      transition: transform 0.2s, box-shadow 0.2s; 
+    }
+    .score:hover, .card:hover { 
+      transform:translateY(-2px); 
+      box-shadow:0 4px 12px rgba(0,0,0,0.1); 
+    }
     .score b { font-size:1.1em; color:#1c1c1c; }
     .card h3 { margin:0 0 5px 0; }
     .card p { margin:0; font-size:0.95em; color:#555; }
 
     /* Footer */
-    footer { text-align:center; padding:15px; background:#1c1c1c; color:#fff; margin-top:20px; }
+    footer { 
+      text-align:center; 
+      padding:15px; 
+      background:#1c1c1c; 
+      color:#fff; 
+      margin-top:20px; 
+    }
 
     /* Responsive */
     @media (max-width:768px) {
@@ -49,7 +93,9 @@
 <body>
 
 <header>
-  <div class="logo">⚽ Futbol.Az</div>
+  <div class="logo">
+    <img src="logo.png" alt="Futbol.az logo">
+  </div>
   <nav>
     <a href="#today">Günün Oyunları</a>
     <a href="#news">Xeber</a>
@@ -62,97 +108,68 @@
 <main>
   <!-- Günün Oyunları -->
   <section id="today" class="section">
-  <h2>📅 Günün Oyunları (09.02.2026)</h2>
-  <div id="today-matches">
-    <div class="score">
-      Atalanta <b>-</b> Cremonese <span>21:30</span>
+    <h2>📅 Günün Oyunları (09.02.2026)</h2>
+    <div id="today-matches">
+      <div class="score">Atalanta <b>-</b> Cremonese <span>21:30</span></div>
+      <div class="score">AS Roma <b>-</b> Cagliari <span>23:45</span></div>
+      <div class="score">Villarreal <b>-</b> Espanyol <span>00:00</span></div>
+      <div class="score">Sheffield United <b>-</b> Middlesbrough <span>00:01</span></div>
+      <div class="score">Kayserispor <b>-</b> Kocaelispor <span>18:00</span></div>
+      <div class="score">Fenerbahçe <b>-</b> Gençlerbirliği <span>21:00</span></div>
+      <div class="score">Gaziantep FK <b>-</b> Kasımpaşa <span>21:00</span></div>
+      <div class="score">Al-Wahda <b>-</b> Al Ahli <span>17:45</span></div>
+      <div class="score">Nasaf Qarshi <b>-</b> Al Shorta <span>17:45</span></div>
+      <div class="score">Al-Duhail <b>-</b> Sharjah <span>20:00</span></div>
     </div>
-    <div class="score">
-      AS Roma <b>-</b> Cagliari <span>23:45</span>
-    </div>
-    <div class="score">
-      Villarreal <b>-</b> Espanyol <span>00:00</span>
-    </div>
-    <div class="score">
-      Sheffield United <b>-</b> Middlesbrough <span>00:01</span>
-    </div>
-    <div class="score">
-      Kayserispor <b>-</b> Kocaelispor <span>18:00</span>
-    </div>
-    <div class="score">
-      Fenerbahçe <b>-</b> Gençlerbirliği <span>21:00</span>
-    </div>
-    <div class="score">
-      Gaziantep FK <b>-</b> Kasımpaşa <span>21:00</span>
-    </div>
-    <div class="score">
-      Al-Wahda <b>-</b> Al Ahli <span>17:45</span>
-    </div>
-    <div class="score">
-      Nasaf Qarshi <b>-</b> Al Shorta <span>17:45</span>
-    </div>
-    <div class="score">
-      Al-Duhail <b>-</b> Sharjah <span>20:00</span>
-    </div>
-  </div>
   </section>
 
-<!-- Xəbər Bölməsi -->
-<section id="news" class="section">
-  <h2>📰 Xəbər</h2>
-
-  <div class="card">
-    <h3>Real Madrid La Liganı sürətlə davam etdirir</h3>
-    <p>Real Madrid son Valencia matçında qələbə qazanaraq Barcelona ilə xal fərqini azaltdı.</p>
-  </div>
-
-  <div class="card">
-    <h3>Fenerbahçe – Gençlerbirliği oyunu gündəmdədir</h3>
-    <p>Bu gün Türkiyə Super Liqasında Fenerbahçe və Gençlerbirliği arasında keçiriləcək qarşılaşma diqqət çəkir.</p>
-  </div>
-
-  <div class="card">
-    <h3>James Rodríguez MLS-ə keçdi</h3>
-    <p>Minnesota United komandası James Rodríguez-i qısa müddətli müqavilə ilə heyətinə qatdı.</p>
-  </div>
-
-  <div class="card">
-    <h3>Barcelona-da baş verənlər</h3>
-    <p>Barcelona klubunda prezident seçkiləri başladı, klub daxili struktur dəyişiklikləri və yeni transfer xəbərləri gündəmdədir.</p>
-  </div>
-
-</section>
+  <!-- Xeber -->
+  <section id="news" class="section">
+    <h2>📰 Xəbər</h2>
+    <div class="card">
+      <h3>Real Madrid La Liganı sürətlə davam etdirir</h3>
+      <p>Real Madrid son Valencia matçında qələbə qazanaraq Barcelona ilə xal fərqini azaltdı.</p>
+    </div>
+    <div class="card">
+      <h3>Fenerbahçe – Gençlerbirliği oyunu gündəmdədir</h3>
+      <p>Bu gün Türkiyə Super Liqasında Fenerbahçe və Gençlerbirliği arasında keçiriləcək qarşılaşma diqqət çəkir.</p>
+    </div>
+    <div class="card">
+      <h3>James Rodríguez MLS-ə keçdi</h3>
+      <p>Minnesota United komandası James Rodríguez-i qısa müddətli müqavilə ilə heyətinə qatdı.</p>
+    </div>
+    <div class="card">
+      <h3>Barcelona-da baş verənlər</h3>
+      <p>Barcelona klubunda prezident seçkiləri başladı, daxili struktur dəyişiklikləri və yeni transfer xəbərləri gündəmdədir.</p>
+    </div>
+  </section>
 
   <!-- Canlı Hesablar -->
   <section id="live" class="section">
     <h2>🔴 Canlı Hesablar</h2>
     <div id="live-scores">Yüklənir...</div>
   </section>
-<!-- Transfer Bölməsi -->
-<section id="transfer" class="section">
-  <h2>💰 Transferlər</h2>
 
-  <div class="card">
-    <h3>Antoine Semenyo → Manchester City</h3>
-    <p>Transfermarkt‑a görə, Antoine Semenyo Bournemouth‑dan Manchester City‑yə **təxminən 72 m€** qarşılığında transfer oldu.</p>
-  </div>
-
-  <div class="card">
-    <h3>Jørgen Strand Larsen → Crystal Palace</h3>
-    <p>Cristal Palace, qış transfer pəncərəsində Jørgen Strand Larsen transferini **49.7 m€** ilə tamamladı.</p>
-  </div>
-
-  <div class="card">
-    <h3>Lucas Paquetá → Flamengo</h3>
-    <p>West Ham‑dan Lucas Paquetá Flamengo ilə **42 m€** qarşılığında razılığa gəldi.</p>
-  </div>
-
-  <div class="card">
-    <h3>Conor Gallagher → Tottenham Hotspur</h3>
-    <p>Transfermarkt‑a görə, Conor Gallagher Atletico Madrid‑dən Tottenham Hotspur’a təxminən **40 m€** qarşılığında keçdi.</p>
-  </div>
-
-</section>
+  <!-- Transfer -->
+  <section id="transfer" class="section">
+    <h2>💰 Transferlər</h2>
+    <div class="card">
+      <h3>Antoine Semenyo → Manchester City</h3>
+      <p>Transfermarkt‑a görə, Antoine Semenyo Bournemouth‑dan Manchester City‑yə **təxminən 72 m€** qarşılığında transfer oldu.</p>
+    </div>
+    <div class="card">
+      <h3>Jørgen Strand Larsen → Crystal Palace</h3>
+      <p>Crystal Palace, qış transfer pəncərəsində Jørgen Strand Larsen transferini **49.7 m€** ilə tamamladı.</p>
+    </div>
+    <div class="card">
+      <h3>Lucas Paquetá → Flamengo</h3>
+      <p>West Ham‑dan Lucas Paquetá Flamengo ilə **42 m€** qarşılığında razılığa gəldi.</p>
+    </div>
+    <div class="card">
+      <h3>Conor Gallagher → Tottenham Hotspur</h3>
+      <p>Transfermarkt‑a görə, Conor Gallagher Atletico Madrid‑dən Tottenham Hotspur’a təxminən **40 m€** qarşılığında keçdi.</p>
+    </div>
+  </section>
 
   <!-- Əlaqə -->
   <section id="contact" class="section">
