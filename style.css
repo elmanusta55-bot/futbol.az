@@ -1,9 +1,9 @@
-/* Baza */
+/* ===== Baza ===== */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f5f5f5;
+  background-color: #f4f6f8;
   color: #222;
 }
 
@@ -12,21 +12,24 @@ a {
   color: inherit;
 }
 
-/* Header */
+/* ===== Header ===== */
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: #1c1c1c;
   color: #fff;
-  padding: 10px 20px;
+  padding: 12px 20px;
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
 }
 
-.logo {
-  height: 50px;
+.header .logo {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #f4d03f;
 }
 
 nav a {
@@ -40,48 +43,76 @@ nav a:hover {
   color: #f4d03f;
 }
 
-/* Section */
+/* ===== Section ===== */
 .section {
-  margin: 20px auto;
+  margin: 25px auto;
   padding: 20px;
   max-width: 900px;
   background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
 }
 
 .section h2 {
   margin-top: 0;
   color: #1c1c1c;
-  border-bottom: 2px solid #f4d03f;
-  padding-bottom: 5px;
+  border-bottom: 3px solid #f4d03f;
+  padding-bottom: 6px;
+  font-size: 1.5em;
 }
 
-/* Match və Score */
-.match, .score, .card {
+/* ===== Günün Oyunları ===== */
+.match {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 10px;
+  background-color: #eaf0f6;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.match:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+.team-home, .team-away {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.match b {
+  font-size: 1.2em;
+  color: #1c1c1c;
+}
+
+.time {
+  font-size: 0.9em;
+  color: #555;
+}
+
+/* ===== Xeber və Transfer Kartları ===== */
+.card {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  padding: 14px;
+  border-radius: 10px;
   background-color: #f9f9f9;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.match:hover, .score:hover, .card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.match b, .score b {
-  font-size: 1.1em;
-  color: #1c1c1c;
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
 }
 
 .card h3 {
-  margin: 0 0 5px 0;
+  margin: 0 0 6px 0;
   color: #1c1c1c;
+  font-size: 1.1em;
 }
 
 .card p {
@@ -90,22 +121,41 @@ nav a:hover {
   color: #555;
 }
 
-/* Contact */
+/* ===== Canlı Hesablar ===== */
+.score {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  background-color: #fffbeb; /* sarı fonda canlı effekt */
+  font-weight: bold;
+}
+
+.score b {
+  color: #d35400;
+  font-size: 1.2em;
+}
+
+/* ===== Əlaqə ===== */
 #contact p {
   font-size: 1.1em;
   font-weight: bold;
 }
 
-/* Footer */
+/* ===== Footer ===== */
 footer {
   text-align: center;
-  padding: 15px;
+  padding: 18px;
   background-color: #1c1c1c;
   color: #fff;
   margin-top: 20px;
+  font-size: 0.95em;
+  border-top: 3px solid #f4d03f;
 }
 
-/* Responsive */
+/* ===== Responsive ===== */
 @media (max-width: 768px) {
   .header {
     flex-direction: column;
