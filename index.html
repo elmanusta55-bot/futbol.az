@@ -10,7 +10,10 @@ body{
   margin:0;
   font-family:Segoe UI,Arial;
   background:#f4f6f9;
+  color:#222;
 }
+
+a{text-decoration:none;color:inherit}
 
 header{
   background:#111;
@@ -24,7 +27,7 @@ header{
   z-index:999;
 }
 
-.logo img{height:42px}
+.logo img{height:45px}
 
 .menu-btn{
   font-size:26px;
@@ -52,7 +55,6 @@ header{
   color:white;
   border-bottom:1px solid #333;
 }
-
 .dropdown a:hover{background:#333}
 
 .section{
@@ -82,13 +84,6 @@ header{
 
 .card{flex-direction:column;align-items:flex-start}
 
-footer{
-  background:#111;
-  color:white;
-  text-align:center;
-  padding:15px;
-}
-
 input[type="text"]{
   width:100%;
   padding:10px;
@@ -112,6 +107,13 @@ input[type="text"]{
   text-align:center;
   font-weight:bold;
   margin-top:10px;
+}
+
+footer{
+  background:#111;
+  color:white;
+  text-align:center;
+  padding:15px;
 }
 </style>
 </head>
@@ -139,17 +141,36 @@ input[type="text"]{
 </div>
 
 <section id="today" class="section">
-<h2>📅 Günün Oyunları</h2>
+<h2>📅 Günün Oyunları (09.02.2026)</h2>
+
 <div class="score">Atalanta - Cremonese <span>21:30</span></div>
 <div class="score">AS Roma - Cagliari <span>23:45</span></div>
+<div class="score">Villarreal - Espanyol <span>00:00</span></div>
+<div class="score">Sheffield United - Middlesbrough <span>00:01</span></div>
+<div class="score">Kayserispor - Kocaelispor <span>18:00</span></div>
 <div class="score">Fenerbahçe - Gençlerbirliği <span>21:00</span></div>
+<div class="score">Gaziantep FK - Kasımpaşa <span>21:00</span></div>
+<div class="score">Al-Wahda - Al Ahli <span>17:45</span></div>
+<div class="score">Nasaf Qarshi - Al Shorta <span>17:45</span></div>
+<div class="score">Al-Duhail - Sharjah <span>20:00</span></div>
 </section>
 
 <section id="news" class="section">
 <h2>📰 Xəbərlər</h2>
+
 <div class="card"><h3>Real Madrid La Liga lideridir</h3></div>
 <div class="card"><h3>Barcelona yeni transfer axtarışında</h3></div>
 <div class="card"><h3>Fenerbahçe qələbə seriyasını davam etdirir</h3></div>
+
+<div class="card">
+<h3>James Rodríguez MLS-ə keçdi</h3>
+<p>Minnesota United komandası James Rodríguez-i heyətinə qatdı.</p>
+</div>
+
+<div class="card">
+<h3>Barcelona-da struktur dəyişiklikləri</h3>
+<p>Prezident seçkiləri və yeni transfer planları açıqlanıb.</p>
+</div>
 </section>
 
 <section id="live" class="section">
@@ -159,9 +180,12 @@ input[type="text"]{
 
 <section id="transfer" class="section">
 <h2>💰 Transferlər</h2>
+
 <div class="card"><h3>Semenyo → Man City (72m€)</h3></div>
 <div class="card"><h3>Paquetá → Flamengo (42m€)</h3></div>
 <div class="card"><h3>Gallagher → Tottenham (40m€)</h3></div>
+<div class="card"><h3>Strand Larsen → Crystal Palace (49.7m€)</h3></div>
+
 </section>
 
 <section id="table" class="section">
@@ -186,10 +210,35 @@ input[type="text"]{
 <footer>© 2026 Futbol.Az</footer>
 
 <script>
+const API_KEY="8849a8a365c749d0a081f676a5e76b7e";
+
 function toggleMenu(){
   const d=document.getElementById("dropdown");
   d.style.display=d.style.display==="block"?"none":"block";
 }
+
+async function loadLive(){
+  const box=document.getElementById("live-scores");
+  try{
+    const res=await fetch("https://v3.football.api-sports.io/fixtures?live=all",{
+      headers:{ "x-apisports-key":API_KEY }
+    });
+    const data=await res.json();
+    if(!data.response || data.response.length===0){
+      box.innerHTML="Hazırda canlı oyun yoxdur"; return;
+    }
+    box.innerHTML="";
+    data.response.forEach(m=>{
+      box.innerHTML+=`<div class="score">
+      ${m.teams.home.name} <b>${m.goals.home}-${m.goals.away}</b> ${m.teams.away.name}
+      <span>${m.fixture.status.elapsed||0}'</span></div>`;
+    });
+  }catch{
+    box.innerHTML="Hazırda canlı oyun yoxdur";
+  }
+}
+loadLive();
+setInterval(loadLive,30000);
 
 /* Axtarış */
 document.getElementById("search").addEventListener("input",function(){
