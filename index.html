@@ -20,33 +20,45 @@
 
 <section class="live">
   <h2>🔴 Canlı Hesablar</h2>
-  <div class="score">Qarabağ <b>2 - 1</b> Neftçi <span>75'</span></div>
-  <div class="score">Barcelona <b>1 - 1</b> Real Madrid <span>CANLI</span></div>
+  <div id="live-scores">Yüklənir...</div>
 </section>
 
-<main class="news">
-  <article class="card">
-    <img src="https://via.placeholder.com/400x200" alt="Qarabağ">
-    <h3>Qarabağ ÇL-də növbəti mərhələdə</h3>
-    <p>Azərbaycan çempionu möhtəşəm oyun göstərdi...</p>
-  </article>
+<script>
+const API_KEY = "ade1527c8c32766eb3b873aa2644c4a7";
 
-  <article class="card">
-    <img src="https://via.placeholder.com/400x200" alt="Messi">
-    <h3>Messi yenə tarix yazdı</h3>
-    <p>Argentinalı ulduz növbəti rekordunu qırdı...</p>
-  </article>
+async function loadLive() {
+  const res = await fetch("https://v3.football.api-sports.io/fixtures?live=all", {
+    headers: {
+      "x-apisports-key":ade1527c8c32766eb3b873aa2644c4a7/+9
+    }
+  });
+  const data = await res.json();
 
-  <article class="card">
-    <img src="https://via.placeholder.com/400x200" alt="Transfer">
-    <h3>Transfer bombası</h3>
-    <p>Avropa nəhəngi ulduz futbolçunu transfer etdi...</p>
-  </article>
-</main>
+  const box = document.getElementById("live-scores");
+  box.innerHTML = "";
 
-<footer>
-  © 2026 Futbol.Az
-</footer>
+  if (data.response.length === 0) {
+    box.innerHTML = "Hazırda canlı oyun yoxdur";
+    return;
+  }
+
+  data.response.forEach(m => {
+    box.innerHTML += `
+      <div class="score">
+        ${m.teams.home.name}
+        <b>${m.goals.home} - ${m.goals.away}</b>
+        ${m.teams.away.name}
+        <span>${m.fixture.status.elapsed || 0}'</span>
+      </div>
+    `;
+  });
+}
+
+loadLive();
+setInterval(loadLive, 30000);
+</script>
+
+<footer>© 2026 Futbol.Az</footer>
 
 </body>
 </html>
