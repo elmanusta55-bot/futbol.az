@@ -11,9 +11,10 @@ body{
   font-family:Segoe UI,Arial;
   background:#f4f6f9;
   color:#222;
+  transition: background 0.3s, color 0.3s;
 }
 
-a{text-decoration:none;color:inherit}
+a{text-decoration:none;color:inherit;transition: color 0.3s;}
 
 header{
   background:#111;
@@ -25,6 +26,7 @@ header{
   position:sticky;
   top:0;
   z-index:999;
+  transition: background 0.3s;
 }
 
 .logo img{height:45px}
@@ -36,6 +38,7 @@ header{
   color:white;
   cursor:pointer;
   margin-left:5px;
+  transition: color 0.3s;
 }
 
 .dropdown{
@@ -48,6 +51,7 @@ header{
   overflow:hidden;
   min-width:190px;
   box-shadow:0 5px 25px rgba(0,0,0,.4);
+  transition: background 0.3s;
 }
 
 .dropdown a{
@@ -55,6 +59,7 @@ header{
   padding:12px;
   color:white;
   border-bottom:1px solid #333;
+  transition: background 0.3s, color 0.3s;
 }
 .dropdown a:hover{background:#333}
 
@@ -65,12 +70,14 @@ header{
   padding:18px;
   border-radius:12px;
   box-shadow:0 5px 15px rgba(0,0,0,.1);
+  transition: background 0.3s, box-shadow 0.3s, color 0.3s;
 }
 
 .section h2{
   margin-top:0;
   border-bottom:2px solid #f4c430;
   padding-bottom:6px;
+  transition: border-color 0.3s, color 0.3s;
 }
 
 .score,.card{
@@ -81,6 +88,7 @@ header{
   padding:12px;
   margin-bottom:10px;
   border-radius:10px;
+  transition: background 0.3s, color 0.3s;
 }
 
 .card{flex-direction:column;align-items:flex-start}
@@ -91,6 +99,7 @@ input[type="text"]{
   border-radius:8px;
   border:1px solid #ccc;
   margin-bottom:15px;
+  transition: background 0.3s, color 0.3s, border 0.3s;
 }
 
 .table{
@@ -102,6 +111,7 @@ input[type="text"]{
   padding:8px;
   border-bottom:1px solid #ddd;
   text-align:center;
+  transition: background 0.3s, color 0.3s, border 0.3s;
 }
 
 .counter{
@@ -115,6 +125,7 @@ footer{
   color:white;
   text-align:center;
   padding:15px;
+  transition: background 0.3s, color 0.3s;
 }
 
 /* Turnir cədvəli görünüşü */
@@ -259,8 +270,7 @@ body.dark-mode footer {
 </div>
 
 <div id="league-tables">
-<!-- cədvəllər burada əvvəlki kimi eyni -->
-<!-- ... (sənin bütün cədvəllər eyni) ... -->
+<!-- Bütün cədvəllər eyni -->
 </div>
 </section>
 
@@ -278,11 +288,22 @@ body.dark-mode footer {
 <script>
 const API_KEY="8849a8a365c749d0a081f676a5e76b7e";
 
+/* Menu toggle */
 function toggleMenu(){
   const d=document.getElementById("dropdown");
   d.style.display=d.style.display==="block"?"none":"block";
 }
 
+/* Dark Mode toggle */
+function toggleDarkMode(){
+  document.body.classList.toggle("dark-mode");
+  localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
+}
+if(localStorage.getItem("darkMode")==="true"){
+  document.body.classList.add("dark-mode");
+}
+
+/* Live scores */
 async function loadLive(){
   const box=document.getElementById("live-scores");
   try{
@@ -306,7 +327,7 @@ async function loadLive(){
 loadLive();
 setInterval(loadLive,30000);
 
-/* Axtarış */
+/* Search filter */
 document.getElementById("search").addEventListener("input",function(){
   let val=this.value.toLowerCase();
   document.querySelectorAll(".score,.card").forEach(e=>{
@@ -314,36 +335,23 @@ document.getElementById("search").addEventListener("input",function(){
   });
 });
 
-/* Sayğac */
+/* View counter */
 let views=localStorage.getItem("views");
 views=views?Number(views)+1:1;
 localStorage.setItem("views",views);
 document.getElementById("counter").innerText="👁 Sayta baxış sayı: "+views;
 
-/* Turnir cədvəli JS */
+/* League table toggle */
 function toggleLeagueMenu(){
   const menu=document.getElementById("league-menu");
   menu.style.display=menu.style.display==="block"?"none":"block";
 }
-
 function showLeague(id, event){
   if(event) event.preventDefault();
   document.querySelectorAll("#league-tables .table").forEach(t=>t.style.display="none");
   const table = document.getElementById(id);
   table.style.display="table";
   table.scrollIntoView({behavior: "smooth"});
-}
-
-/* Dark Mode JS */
-function toggleDarkMode(){
-  document.body.classList.toggle("dark-mode");
-  const dark = document.body.classList.contains("dark-mode");
-  localStorage.setItem("darkMode", dark);
-}
-
-// Yüklənəndə əvvəlki vəziyyəti yoxla
-if(localStorage.getItem("darkMode")==="true"){
-  document.body.classList.add("dark-mode");
 }
 </script>
 
