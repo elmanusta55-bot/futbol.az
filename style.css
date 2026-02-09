@@ -1,25 +1,28 @@
 /* === Ümumi Bədən === */
 body {
-  background: #f4f6f9;
-  color: #222;
+  margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #e9ecef; /* Daha açıq, təmiz fon */
+  color: #212529;
+  transition: all 0.3s ease;
 }
 
 /* === Header & Logo === */
 header {
-  background: #1c1c1c;
+  background: #0d6efd; /* Canlı mavi başlıq */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 15px;
+  padding: 12px 20px;
   position: sticky;
   top: 0;
-  z-index: 999;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 header .logo img {
   height: 50px;
-  filter: brightness(0) saturate(100%) invert(35%) sepia(80%) saturate(700%) hue-rotate(30deg); /* Qara-Sarı görünüş */
+  filter: none; /* Orijinal rəngli logo */
 }
 
 .menu-btn {
@@ -28,49 +31,58 @@ header .logo img {
   border: none;
   color: white;
   cursor: pointer;
+  margin-left: 10px;
+  transition: transform 0.2s;
+}
+
+.menu-btn:hover {
+  transform: scale(1.1);
 }
 
 .dropdown {
   display: none;
   position: absolute;
-  right: 15px;
-  top: 55px;
-  background: #222;
+  right: 20px;
+  top: 60px;
+  background: #0d6efd;
   border-radius: 12px;
   overflow: hidden;
-  min-width: 200px;
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+  min-width: 220px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.25);
 }
 
 .dropdown a {
   display: block;
-  padding: 12px;
+  padding: 12px 16px;
   color: white;
-  border-bottom: 1px solid #333;
-  transition: background 0.3s;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  transition: background 0.3s, color 0.3s;
 }
 
 .dropdown a:hover {
-  background: #f4d03f;
-  color: #111;
+  background: white;
+  color: #0d6efd;
+  font-weight: bold;
 }
 
 /* === Sections === */
 .section {
   max-width: 950px;
-  margin: 20px auto;
-  background: #fff;
-  padding: 18px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin: 25px auto;
+  background: #ffffff;
+  padding: 20px 25px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: all 0.3s;
 }
 
-/* Section başlıqları */
 .section h2 {
   margin-top: 0;
-  border-bottom: 2px solid #f4d03f;
-  padding-bottom: 6px;
-  color: #111;
+  font-size: 24px;
+  border-bottom: 3px solid #0d6efd;
+  padding-bottom: 8px;
+  color: #0d6efd;
 }
 
 /* === Score & Card === */
@@ -78,16 +90,17 @@ header .logo img {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #f7f7f7;
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  transition: transform 0.2s, box-shadow 0.2s;
+  background: #f8f9fa;
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
 }
 
 .score:hover, .card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  background: #e2e6ea;
 }
 
 .card {
@@ -96,69 +109,116 @@ header .logo img {
 }
 
 /* === Turnir Cədvəli === */
-#table h3 {
-  background: #1c1c1c;
-  color: #f4d03f;
-  padding: 8px 12px;
-  border-radius: 8px;
-  margin-top: 15px;
-  font-size: 18px;
-}
-/* Turnir cədvəli içində yazı rəngini aydınlaşdır */
-#table .table th, #table .table td {
-  color: #111 !important;         /* Yazıları qara edir */
-  background: #fdfdfd !important; /* Arxa planı açıq ağ */
-}
-
-/* Başlıqlar üçün xüsusi dizayn */
 #table h2 {
-  color: #1c1c1c;
+  color: #0d6efd;
   font-weight: bold;
-  border-bottom: 3px solid #f4d03f;
+  border-bottom: 3px solid #0d6efd;
 }
 
-/* Hamburger içindəki liqa menyu cədvəlini də oxunaqlı et */
-.league-dropdown table th,
-.league-dropdown table td {
-  color: #fafafa !important;
-  background: #333 !important;
-}
-
-#table table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 8px;
+#table .table th, #table .table td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #dee2e6;
+  transition: background 0.3s, color 0.3s;
 }
 
 #table th {
-  background: #f4d03f;
-  color: #111;
-  padding: 8px;
-  text-align: center;
-  border-radius: 5px 5px 0 0;
+  background: #0d6efd;
+  color: white;
+  border-radius: 8px 8px 0 0;
 }
 
-#table td {
-  padding: 8px;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
+#table tr:nth-child(even) {
+  background: #f1f3f5;
 }
 
-#table tr:nth-child(even) {background: #f7f7f7;}
-#table tr:nth-child(odd) {background: #fff;}
-#table tr:hover {background: #fff3b0;}
+#table tr:nth-child(odd) {
+  background: #ffffff;
+}
+
+#table tr:hover {
+  background: #ffe066;
+  color: #212529;
+}
+
+/* Liqa menyusu */
+.league-dropdown .menu-btn {
+  background: #0d6efd;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.league-dropdown .dropdown a {
+  color: white;
+}
 
 /* === Footer === */
 footer {
-  background: #1c1c1c;
+  background: #0d6efd;
   color: white;
   text-align: center;
-  padding: 15px;
+  padding: 20px 15px;
+  font-weight: 500;
+}
+
+/* === Inputs === */
+input[type="text"] {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  margin-bottom: 18px;
+  transition: all 0.3s;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #0d6efd;
+  box-shadow: 0 0 5px rgba(13,110,253,0.5);
+}
+
+/* === Dark Mode === */
+body.dark-mode {
+  background: #121212;
+  color: #e9ecef;
+}
+
+body.dark-mode .section {
+  background: #1e1e1e;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+body.dark-mode .score,
+body.dark-mode .card {
+  background: #2c2c2c;
+  color: #e9ecef;
+}
+
+body.dark-mode input[type="text"] {
+  background: #2c2c2c;
+  color: #e9ecef;
+  border: 1px solid #555;
+}
+
+body.dark-mode #table th {
+  background: #2c2c2c;
+  color: #0d6efd;
+}
+
+body.dark-mode #table td {
+  background: #1e1e1e;
+  color: #e9ecef;
+  border-bottom: 1px solid #444;
+}
+
+body.dark-mode footer {
+  background: #0d6efd;
+  color: white;
 }
 
 /* === Responsive === */
 @media (max-width: 768px) {
-  nav { display: none; flex-direction: column; background: #1c1c1c; }
-  nav.show { display: flex; }
   .menu-btn { display: block; }
+  .dropdown { right: 10px; top: 55px; min-width: 180px; }
 }
