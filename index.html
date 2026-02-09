@@ -16,7 +16,7 @@
     a { text-decoration: none; color: inherit; }
 
     /* Header */
-    header { 
+    header {
       display:flex; 
       align-items:center; 
       justify-content:space-between; 
@@ -34,57 +34,82 @@
       display: block;
     }
 
-    nav a { margin-left:15px; font-weight:bold; transition:color 0.3s; }
+    nav {
+      display:flex;
+      gap:15px;
+    }
+
+    nav a {
+      font-weight:bold;
+      transition: color 0.3s;
+    }
+
     nav a:hover { color:#f4d03f; }
 
-    /* Section */
-    .section { 
-      margin:20px auto; 
-      padding:20px; 
-      max-width:900px; 
-      background:#fff; 
-      border-radius:10px; 
-      box-shadow:0 3px 10px rgba(0,0,0,0.1); 
+    /* Hamburger */
+    .hamburger {
+      display:none;
+      flex-direction: column;
+      cursor:pointer;
+      gap:5px;
     }
-    .section h2 { 
-      margin-top:0; 
-      border-bottom:2px solid #f4d03f; 
-      padding-bottom:5px; 
+    .hamburger div {
+      width:25px;
+      height:3px;
+      background:white;
+    }
+
+    /* Section */
+    .section {
+      margin:20px auto;
+      padding:20px;
+      max-width:900px;
+      background:#fff;
+      border-radius:10px;
+      box-shadow:0 3px 10px rgba(0,0,0,0.1);
+    }
+    .section h2 {
+      margin-top:0;
+      border-bottom:2px solid #f4d03f;
+      padding-bottom:5px;
     }
 
     /* Match və Score */
-    .score, .card { 
-      display:flex; 
-      justify-content:space-between; 
-      align-items:center; 
-      margin-bottom:12px; 
-      padding:12px; 
-      border-radius:8px; 
-      background:#f9f9f9; 
-      transition: transform 0.2s, box-shadow 0.2s; 
+    .score, .card {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:12px;
+      padding:12px;
+      border-radius:8px;
+      background:#f9f9f9;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .score:hover, .card:hover { 
-      transform:translateY(-2px); 
-      box-shadow:0 4px 12px rgba(0,0,0,0.1); 
+    .score:hover, .card:hover {
+      transform:translateY(-2px);
+      box-shadow:0 4px 12px rgba(0,0,0,0.1);
     }
     .score b { font-size:1.1em; color:#1c1c1c; }
     .card h3 { margin:0 0 5px 0; }
     .card p { margin:0; font-size:0.95em; color:#555; }
 
     /* Footer */
-    footer { 
-      text-align:center; 
-      padding:15px; 
-      background:#1c1c1c; 
-      color:#fff; 
-      margin-top:20px; 
+    footer {
+      text-align:center;
+      padding:15px;
+      background:#1c1c1c;
+      color:#fff;
+      margin-top:20px;
     }
 
     /* Responsive */
     @media (max-width:768px) {
-      header { flex-direction:column; align-items:flex-start; }
-      nav { margin-top:10px; }
-      nav a { margin-left:0; margin-right:15px; }
+      header { flex-direction:row; align-items:center; }
+      nav { display:none; flex-direction:column; width:100%; margin-top:10px; background:#1c1c1c; }
+      nav a { padding:10px; border-bottom:1px solid #333; }
+      nav.show { display:flex; }
+
+      .hamburger { display:flex; }
       .score, .card { flex-direction:column; align-items:flex-start; }
       .score b { margin:5px 0; }
     }
@@ -96,7 +121,12 @@
   <div class="logo">
     <img src="logo.png" alt="Futbol.az logo">
   </div>
-  <nav>
+  <div class="hamburger" id="hamburger">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <nav id="nav">
     <a href="#today">Günün Oyunları</a>
     <a href="#news">Xeber</a>
     <a href="#live">Canlı</a>
@@ -182,6 +212,13 @@
 
 <script>
 const API_KEY = "8849a8a365c749d0a081f676a5e76b7e";
+
+// Hamburger toggle
+const hamburger = document.getElementById("hamburger");
+const nav = document.getElementById("nav");
+hamburger.addEventListener("click", () => {
+  nav.classList.toggle("show");
+});
 
 async function loadLive() {
   const box = document.getElementById("live-scores");
