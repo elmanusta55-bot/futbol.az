@@ -1,67 +1,29 @@
-<!DOCTYPE html>
-<html lang="az">
-<head>
-  <meta charset="UTF-8">
-  <title>Futbol.Az</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
 <header class="header">
   <img src="logo.png" alt="Futbol.az logo" class="logo">
   <nav>
-    <a href="#">Xəbərlər</a>
-    <a href="#">Canlı</a>
-    <a href="#">Transferlər</a>
-    <a href="#">Əlaqə</a>
+    <a href="#news">Xeber</a>
+    <a href="#live">Canlı</a>
+    <a href="#transfer">Transfer</a>
+    <a href="#contact">Əlaqə</a>
   </nav>
 </header>
 
-<section class="live">
+<section id="news">
+  <h2>📰 Xeber</h2>
+  <p>Burada futbol xəbərləri görünəcək...</p>
+</section>
+
+<section id="live">
   <h2>🔴 Canlı Hesablar</h2>
   <div id="live-scores">Yüklənir...</div>
 </section>
 
-<script>
-const API_KEY = "ade1527c8c32766eb3b873aa2644c4a7";
+<section id="transfer">
+  <h2>💰 Transfer</h2>
+  <p>Burada transfer məlumatları görünəcək...</p>
+</section>
 
-async function loadLive() {
-  try {
-    const res = await fetch("https://v3.football.api-sports.io/fixtures?live=all", {
-      headers: {
-        "x-apisports-key": API_KEY
-      }
-    });
-    const data = await res.json();
-
-    const box = document.getElementById("live-scores");
-    box.innerHTML = "";
-
-    if (!data.response || data.response.length === 0) {
-      box.innerHTML = "Hazırda canlı oyun yoxdur";
-      return;
-    }
-
-    data.response.forEach(m => {
-      box.innerHTML += `
-        <div class="score">
-          ${m.teams.home.name} <b>${m.goals.home} - ${m.goals.away}</b> ${m.teams.away.name}
-          <span>${m.fixture.status.elapsed || 0}'</span>
-        </div>
-      `;
-    });
-  } catch (error) {
-    document.getElementById("live-scores").innerHTML = "Xəta baş verdi, yenidən yoxlayın";
-    console.error(error);
-  }
-}
-
-loadLive();
-setInterval(loadLive, 30000);
-</script>
-
-<footer>© 2026 Futbol.Az</footer>
-
-</body>
-</html>
+<section id="contact">
+  <h2>📞 Əlaqə</h2>
+  <p>Nömrəm: +994 XX XXX XX XX</p>
+</section>
