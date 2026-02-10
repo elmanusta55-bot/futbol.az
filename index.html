@@ -415,3 +415,34 @@ function showLeague(id, event){
 
 })();
 </script>
+/* Avtomatik transfer xəbərləri */
+async function loadTransfers() {
+  const transferBox = document.getElementById("transfer");
+  try {
+    // Transfer məlumatlarını çək
+    const res = await fetch("https://api.example.com/transfers/today"); // burada real API URL
+    const data = await res.json();
+
+    // Mövcud kartları təmizlə
+    transferBox.querySelectorAll(".card").forEach(card => card.remove());
+
+    if (!data || data.length === 0) {
+      transferBox.innerHTML += `<div class="card"><h3>Bu gün üçün transfer xəbəri yoxdur</h3></div>`;
+      return;
+    }
+
+    // Transferləri əlavə et
+    data.forEach(t => {
+      transferBox.innerHTML += `<div class="card">
+        <h3>${t.player} → ${t.toTeam} (${t.amount})</h3>
+        <p>${t.details}</p>
+      </div>`;
+    });
+  } catch (err) {
+    transferBox.innerHTML += `<div class="card"><h3>Transfer xəbərləri yüklənmədi</h3></div>`;
+    console.error(err);
+  }
+}
+
+loadTransfers();
+setInterval(loadTransfers, 60000); // hər 60 saniyədə yenilə
