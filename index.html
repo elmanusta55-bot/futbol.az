@@ -216,7 +216,8 @@ body.dark-mode footer {
 <div class="card"><h3>Strand Larsen → Crystal Palace (49.7m€)</h3></div>  </section>  <section id="table" class="section">  
 <h2>🏆 Turnir Cədvəli (2025-2026)</h2>  <div class="league-dropdown">  
 <button class="menu-btn" onclick="toggleLeagueMenu()">⋮ Liqalar</button>  
-<div id="league-menu" class="dropdown">  
+<div id="league-menu" class="dropdown"> 
+  loadTable(243, 2026);
   <a href="#" onclick="showLeague('premier', event)">İngiltərə Premier Liqası</a>  
   <a href="#" onclick="showLeague('laliga', event)">İspaniya La Liga</a>  
   <a href="#" onclick="showLeague('seriea', event)">İtaliya Serie A</a>  
@@ -227,7 +228,7 @@ body.dark-mode footer {
 </div>  
 </div>  <div id="league-tables">  
 <!-- Bütün cədvəllər eyni -->  
-  <div id="league-tables">  
+  <div id="league-tables">
     <table class="table" id="laliga">  
       <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>  
       <tr><td>1</td><td>Barcelona</td><td>23</td><td>16</td><td>4</td><td>58</td></tr>  
@@ -274,6 +275,60 @@ body.dark-mode footer {
   <tr><td>2</td><td>Qarabağ</td><td>18</td><td>13</td><td>5</td><td>39</td></tr>  
   <tr><td>3</td><td>Turan</td><td>18</td><td>12</td><td>6</td><td>33</td></tr>  
 </table>
+    <script>
+async function loadTable(league, season = 2026){
+  const box = document.getElementById("auto-table");
+  box.innerHTML = "Yüklənir...";
+
+  try{
+    const res = await fetch(`https://v3.football.api-sports.io/standings?league=${league}&season=${season}`,{
+      headers:{ "x-apisports-key": API_KEY }
+    });
+    const data = await res.json();
+
+    const table = data.response[0].league.standings[0];
+
+    let html = `<table class="table">
+    <tr>
+      <th>#</th><th>Komanda</th><th>O</th><th>Q</th><th>H</th><th>M</th><th>Xal</th>
+    </tr>`;
+
+    table.forEach(t=>{
+      html += `<tr>
+        <td>${t.rank}</td>
+        <td>${t.team.name}</td>
+        <td>${t.all.played}</td>
+        <td>${t.all.win}</td>
+        <td>${t.all.draw}</td>
+        <td>${t.all.lose}</td>
+        <td><b>${t.points}</b></td>
+      </tr>`;
+    });
+
+    html += "</table>";
+    box.innerHTML = html;
+
+  }catch{
+    box.innerHTML = "Turnir cədvəli yüklənmədi";
+  }
+}
+
+/* DEFAULT — Azərbaycan Premyer Liqası */
+loadTable(243, 2025);
+
+/* BUTTONLAR */
+function showLeague(id,event){
+  if(event) event.preventDefault();
+
+  if(id==="premier") loadTable(39,2026);       // İngiltərə
+  if(id==="laliga") loadTable(140,2026);       // LaLiga
+  if(id==="seriea") loadTable(135,2026);       // Serie A
+  if(id==="bundesliga") loadTable(78,2026);    // Bundesliga
+  if(id==="ligue1") loadTable(61,2026);        // Ligue 1
+  if(id==="turkiye") loadTable(203,2026);      // Türkiyə
+  if(id==="azerbaycan") loadTable(243,2026);   // Azərbaycan
+}
+    </script>
 
   </div>  
 </section>  
