@@ -187,38 +187,7 @@ body.dark-mode .dropdown {background:#222;}
 <footer>© 2026 Futbol.Az</footer>
 
 <script>
-// Sənin API KEY-in
-const API_KEY = "ade1527c8c32766eb3b873aa2644c4a7"; 
-// Mövsüm (Adətən payızda başlayan mövsüm üçün başlanğıc ili götürülür)
-const CURRENT_SEASON = 2025; 
-
-/* === 1. TURNİR CƏDVƏLİ FUNKSİYASI (YENİLƏNDİ) === */
-async function loadTable(leagueId) {
-  const box = document.getElementById("dynamic-table-container");
-  box.innerHTML = '<p style="text-align:center;">Məlumat yüklənir...</p>';
-
-  try {
-    const res = await fetch(`https://v3.football.api-sports.io/standings?league=${leagueId}&season=${CURRENT_SEASON}`, {
-      headers: { "x-apisports-key": API_KEY }
-    });
-    const data = await res.json();
-
-    if (!data.response || data.response.length === 0) {
-      box.innerHTML = '<p style="text-align:center;">Bu liqa üçün cədvəl tapılmadı.</p>';
-      return;
-    }
-
-    const standings = data.response[0].league.standings[0];
-    let html = `
-    <h3 style="text-align:center; margin-bottom:5px;">${data.response[0].league.name}</h3>
-    <table class="table">
-      <tr>
-        <th>#</th>
-        <th style="text-align:left;">Komanda</th>
-        <th>O</th>
-        <th>Xal</th>
-      </tr>`;
-
+// 
     standings.forEach(team => {
       // İlk 4 yer yaşıl, son 3 yer qırmızı rəngdə görünsün (vizual effekt üçün)
       let colorStyle = "";
@@ -233,7 +202,27 @@ async function loadTable(leagueId) {
             ${team.team.name}
         </td>
         <td>${team.all.played}</td>
-        <td><b>${team.points}</b></td>
+  async function loadTable(leagueId) {
+  const tables = {
+    323: 'azerbaycan',
+    39: 'premier',
+    140: 'laliga',
+    135: 'seriea',
+    78: 'bundesliga',
+    61: 'ligue1',
+    203: 'turkiye'
+  };
+
+  // Bütün cədvəlləri gizlət
+  Object.values(tables).forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.style.display = 'none';
+  });
+
+  // Seçilmiş cədvəli göstər
+  const selectedTable = document.getElementById(tables[leagueId]);
+  if(selectedTable) selectedTable.style.display = 'table';
+}      <td><b>${team.points}</b></td>
       </tr>`;
     });
 
