@@ -389,3 +389,29 @@ function showLeague(id, event){
 });
 </script>  </body>  
 </html>  
+<script>
+(function(){
+
+  let search = document.getElementById("search");
+  if(!search) return;
+
+  search.addEventListener("input", function(){
+    let val = this.value.toLowerCase().trim();
+
+    let elements = document.querySelectorAll(
+      ".score, .card, table tr, .match, .news-item, .team"
+    );
+
+    elements.forEach(el => {
+      if(el.innerText.toLowerCase().includes(val)){
+        el.style.display = "";
+      } else {
+        if(!el.querySelector("th")){
+          el.style.display = "none";
+        }
+      }
+    });
+  });
+
+})();
+</script>
