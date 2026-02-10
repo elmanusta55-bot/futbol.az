@@ -377,5 +377,15 @@ function showLeague(id, event){
   table.style.display="table";  
   table.scrollIntoView({behavior: "smooth"});  
 }  
+  document.getElementById("search").addEventListener("input",function(){
+  let val=this.value.toLowerCase();
+  document.querySelectorAll(".score,.card").forEach(e=>{
+    if(e.innerText.toLowerCase().includes(val)){
+      e.style.display="flex";
+    }else{
+      e.style.display="none";
+    }
+  });
+});
 </script>  </body>  
 </html>  
