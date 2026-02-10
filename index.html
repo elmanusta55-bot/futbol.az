@@ -36,9 +36,9 @@ footer{background:#111;color:white;text-align:center;padding:15px}
   <div class="dropdown" id="dropdown">
     <a href="#today">📅 Günün Oyunları</a>
     <a href="#live">🔴 Canlı</a>
+    <a href="#standings">📊 Turnir Cədvəli</a>
     <a href="#transfer">💰 Transfer</a>
     <a href="#tv">📺 Canlı TV</a>
-    <a href="#contact">📞 Əlaqə</a>
   </div>
 </header>
 
@@ -58,8 +58,18 @@ footer{background:#111;color:white;text-align:center;padding:15px}
 <div id="live-scores">Yüklənir...</div>
 </section>
 
+<section id="standings" class="section">
+<h2>📊 Turnir Cədvəli (Azərbaycan Premyer Liqası)</h2>
+<table class="table">
+<thead>
+<tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>P</th></tr>
+</thead>
+<tbody id="standingsBox">Yüklənir...</tbody>
+</table>
+</section>
+
 <section id="transfer" class="section">
-<h2>💰 Transferlər</h2>
+<h2>💰 Son Transferlər</h2>
 <div id="transferBox">Yüklənir...</div>
 </section>
 
@@ -67,11 +77,6 @@ footer{background:#111;color:white;text-align:center;padding:15px}
 <h2>📺 Canlı TV Linkləri</h2>
 <div class="score"><a target="_blank" href="https://selcuksportshd.tv">SelçukSports HD</a></div>
 <div class="score"><a target="_blank" href="https://scorebat.com/video-api/">Scorebat Live</a></div>
-</section>
-
-<section id="contact" class="section">
-<h2>📞 Əlaqə</h2>
-<p>+994555266848</p>
 </section>
 
 </main>
@@ -86,7 +91,7 @@ function toggleMenu(){
   d.style.display=d.style.display==="block"?"none":"block";
 }
 
-/* LIVE MATCHES */
+/* LIVE */
 async function loadLive(){
   const box=document.getElementById("live-scores");
   try{
@@ -104,19 +109,19 @@ async function loadLive(){
     box.innerHTML="Canlı oyun yoxdur";
   }
 }
-loadLive();
-setInterval(loadLive,30000);
+loadLive(); setInterval(loadLive,30000);
 
-/* TODAY MATCHES */
+/* TODAY */
 async function loadToday(){
+  const today=new Date().toISOString().slice(0,10);
   const box=document.getElementById("todayMatches");
   try{
-    const res=await fetch("https://v3.football.api-sports.io/fixtures?date=2026-02-10",{
+    const res=await fetch(`https://v3.football.api-sports.io/fixtures?date=${today}`,{
       headers:{ "x-apisports-key":API_KEY }
     });
     const data=await res.json();
     box.innerHTML="";
-    data.response.slice(0,10).forEach(m=>{
+    data.response.slice(0,12).forEach(m=>{
       box.innerHTML+=`<div class="score">
       ${m.teams.home.name} - ${m.teams.away.name}
       <span>${m.fixture.date.substr(11,5)}</span></div>`;
@@ -127,16 +132,41 @@ async function loadToday(){
 }
 loadToday();
 
-/* TRANSFERS */
-async function loadTransfers(){
-  const box=document.getElementById("transferBox");
+/* STANDINGS */
+async function loadStandings(){
+  const box=document.getElementById("standingsBox");
   try{
-    const res=await fetch("https://v3.football.api-sports.io/transfers?player=276",{
+    const res=await fetch("https://v3.football.api-sports.io/standings?league=419&season=2025",{
       headers:{ "x-apisports-key":API_KEY }
     });
     const data=await res.json();
     box.innerHTML="";
-    data.response.slice(0,6).forEach(t=>{
+    data.response[0].league.standings[0].forEach(t=>{
+      box.innerHTML+=`<tr>
+      <td>${t.rank}</td>
+      <td>${t.team.name}</td>
+      <td>${t.all.played}</td>
+      <td>${t.all.draw}</td>
+      <td>${t.all.lose}</td>
+      <td><b>${t.points}</b></td>
+      </tr>`;
+    });
+  }catch{
+    box.innerHTML="<tr><td colspan='6'>Cədvəl yüklənmədi</td></tr>";
+  }
+}
+loadStandings();
+
+/* TRANSFERS - REAL FEED */
+async function loadTransfers(){
+  const box=document.getElementById("transferBox");
+  try{
+    const res=await fetch("https://v3.football.api-sports.io/transfers?team=541",{
+      headers:{ "x-apisports-key":API_KEY }
+    });
+    const data=await res.json();
+    box.innerHTML="";
+    data.response.slice(0,8).forEach(t=>{
       box.innerHTML+=`<div class="card">
       <b>${t.player.name}</b>
       <span>${t.transfers[0].teams.out.name} → ${t.transfers[0].teams.in.name}</span>
@@ -148,11 +178,11 @@ async function loadTransfers(){
 }
 loadTransfers();
 
-/* SEARCH */
+/* SEARCH FIX */
 document.getElementById("search").addEventListener("input",function(){
   let v=this.value.toLowerCase();
-  document.querySelectorAll(".score,.card").forEach(e=>{
-    e.style.display=e.innerText.toLowerCase().includes(v)?"flex":"none";
+  document.querySelectorAll(".score,.card,tr").forEach(e=>{
+    e.style.display=e.innerText.toLowerCase().includes(v)?"":"none";
   });
 });
 </script>
