@@ -2,7 +2,7 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<title>Futbol.Az</title>
+<title>Futbol.Az - Canlı</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
@@ -12,110 +12,164 @@
   --gold:#f5c542;
   --text:#f2f2f2;
   --soft:#1f2a38;
+  --green:#28a745;
+  --red:#e74c3c;
 }
 
 *{box-sizing:border-box}
 
 body{
   margin:0;
-  font-family:Segoe UI,Arial;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background:linear-gradient(135deg,#070b11,#0c1118);
   color:var(--text);
+  padding-bottom: 50px;
 }
 
-a{text-decoration:none;color:inherit}
+a{text-decoration:none;color:inherit;transition:0.3s}
 
 header{
   background:#060a10;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:12px 15px;
+  padding:15px 20px;
   position:sticky;
   top:0;
   z-index:999;
   border-bottom:1px solid #1e2835;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
 .logo{
-  font-size:20px;
+  font-size:22px;
   font-weight:700;
   color:var(--gold);
 }
 
-.menu-btn{
-  font-size:26px;
-  background:none;
-  border:none;
-  color:white;
-  cursor:pointer;
-}
-
-.dropdown{
-  display:none;
-  position:absolute;
-  right:12px;
-  top:58px;
-  background:#0f1622;
-  border-radius:14px;
-  overflow:hidden;
-  min-width:230px;
-  box-shadow:0 10px 30px rgba(0,0,0,.8);
-}
-
-.dropdown a{
-  display:block;
-  padding:14px 16px;
-  border-bottom:1px solid #1f2a3a;
-}
-
-.dropdown a:hover{background:#172133}
-
 .section{
-  max-width:1050px;
-  margin:16px auto;
-  background:linear-gradient(135deg,#101826,#0e141f);
+  max-width:800px;
+  margin:20px auto;
+  background:#101826;
   border:1px solid #1f2a3a;
-  padding:16px;
+  padding:20px;
   border-radius:16px;
-  box-shadow:0 0 25px rgba(0,0,0,.7);
+  box-shadow:0 5px 25px rgba(0,0,0,.6);
+  min-height: 150px;
 }
 
 .section h2{
-  margin:0 0 10px;
-  border-left:5px solid var(--gold);
-  padding-left:10px;
-  font-weight:600;
+  margin:0 0 15px;
+  border-left:4px solid var(--gold);
+  padding-left:12px;
+  font-weight:700;
+  font-size: 1.4rem;
+  color: #fff;
 }
 
-.score{
-  background:linear-gradient(135deg,#131c2b,#0f1623);
-  border:1px solid #1f2a3a;
-  padding:12px 14px;
-  border-radius:14px;
-  margin-bottom:10px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+/* Oyun Kartı Dizaynı */
+.match-card {
+  background: linear-gradient(145deg, #161e2c, #131a25);
+  border: 1px solid #253346;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s;
 }
 
-.table{
-  width:100%;
-  border-collapse:collapse;
+.match-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold);
 }
 
-.table th,.table td{
-  padding:10px;
-  border-bottom:1px solid #1f2a3a;
-  text-align:center;
+.teams {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-weight: 500;
+  font-size: 0.95rem;
 }
+
+.team-row {
+  display: flex;
+  justify-content: space-between;
+  width: 200px; /* Sabit genişlik */
+}
+
+.score-badge {
+  font-weight: bold;
+  color: var(--gold);
+}
+
+.match-info {
+  text-align: right;
+  min-width: 80px;
+}
+
+.status {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #1f2a38;
+  color: #aaa;
+  display: inline-block;
+}
+
+.live-status {
+  background: rgba(231, 76, 60, 0.2);
+  color: var(--red);
+  font-weight: bold;
+  animation: pulse 1.5s infinite;
+}
+
+.time {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 5px;
+}
+
+@keyframes pulse {
+  0% {opacity: 1;}
+  50% {opacity: 0.6;}
+  100% {opacity: 1;}
+}
+
+/* Yüklənmə Animasiyası */
+.loader {
+  border: 4px solid #1f2a38;
+  border-top: 4px solid var(--gold);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+  display: none; /* JS ilə aktivləşəcək */
+}
+
+.error-msg {
+  color: var(--red);
+  text-align: center;
+  padding: 10px;
+  background: rgba(231, 76, 60, 0.1);
+  border-radius: 8px;
+  display: none;
+}
+
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
 footer{
   background:#05080d;
   text-align:center;
-  padding:15px;
+  padding:20px;
   font-size:14px;
-  color:#aaa;
+  color:#777;
+  border-top: 1px solid #1e2835;
+  margin-top: 40px;
 }
 </style>
 </head>
@@ -123,85 +177,150 @@ footer{
 <body>
 
 <header>
-  <div class="logo">⚽ Futbol.Az</div>
-  <button class="menu-btn" onclick="toggleMenu()">⋮</button>
-  <div class="dropdown" id="dropdown">
-    <a href="#today">📅 Günün Oyunları</a>
-    <a href="#live">🔴 Canlı Hesablar</a>
-    <a href="#table">🏆 Turnir Cədvəli</a>
-    <a href="#scorers">🥅 Bombardirlər</a>
-    <a href="#transfer">💰 Transferlər</a>
-  </div>
+  <div class="logo">⚽ Futbol.Az API</div>
 </header>
 
-<section id="today" class="section">
-<h2>📅 Günün Oyunları</h2>
-<div class="score">Real Madrid – Valencia <span>22:00</span></div>
-<div class="score">Inter – Roma <span>23:45</span></div>
-<div class="score">Arsenal – Chelsea <span>21:30</span></div>
-<div class="score">Galatasaray – Beşiktaş <span>20:00</span></div>
+<section id="live-section" class="section">
+  <h2>🔴 Canlı Oyunlar</h2>
+  <div id="live-loader" class="loader"></div>
+  <div id="live-error" class="error-msg"></div>
+  <div id="live-container">
+    <div style="text-align:center; color:#555; padding:10px;">Hazırda canlı oyun yoxdur və ya yüklənir...</div>
+  </div>
 </section>
 
-<section id="live" class="section">
-<h2>🔴 Canlı Hesablar</h2>
-<div class="score">Barcelona 2 - 1 Sevilla <span>67'</span></div>
-<div class="score">Bayern 1 - 1 Dortmund <span>53'</span></div>
-<div class="score">PSG 3 - 0 Lyon <span>72'</span></div>
+<section id="today-section" class="section">
+  <h2>📅 Günün Oyunları (Planlaşdırılan)</h2>
+  <div id="today-loader" class="loader"></div>
+  <div id="today-error" class="error-msg"></div>
+  <div id="today-container">
+    </div>
 </section>
 
-<section id="table" class="section">
-<h2>🏆 Turnir Cədvəli (2025–2026)</h2>
-
-<h3>🇪🇸 La Liga</h3>
-<table class="table">
-<tr><th>#</th><th>Komanda</th><th>O</th><th>Q</th><th>M</th><th>X</th><th>P</th></tr>
-<tr><td>1</td><td>Real Madrid</td><td>24</td><td>18</td><td>4</td><td>2</td><td>58</td></tr>
-<tr><td>2</td><td>Barcelona</td><td>24</td><td>17</td><td>5</td><td>2</td><td>56</td></tr>
-<tr><td>3</td><td>Atletico Madrid</td><td>24</td><td>15</td><td>6</td><td>3</td><td>51</td></tr>
-</table>
-
-<h3>🏴 Premier League</h3>
-<table class="table">
-<tr><th>#</th><th>Komanda</th><th>O</th><th>Q</th><th>M</th><th>X</th><th>P</th></tr>
-<tr><td>1</td><td>Man City</td><td>25</td><td>18</td><td>5</td><td>2</td><td>59</td></tr>
-<tr><td>2</td><td>Arsenal</td><td>25</td><td>17</td><td>6</td><td>2</td><td>57</td></tr>
-<tr><td>3</td><td>Liverpool</td><td>25</td><td>16</td><td>6</td><td>3</td><td>54</td></tr>
-</table>
-
-<h3>🇹🇷 Türkiyə Super Liqası</h3>
-<table class="table">
-<tr><th>#</th><th>Komanda</th><th>O</th><th>Q</th><th>M</th><th>X</th><th>P</th></tr>
-<tr><td>1</td><td>Galatasaray</td><td>24</td><td>18</td><td>4</td><td>2</td><td>58</td></tr>
-<tr><td>2</td><td>Fenerbahçe</td><td>24</td><td>17</td><td>5</td><td>2</td><td>56</td></tr>
-<tr><td>3</td><td>Beşiktaş</td><td>24</td><td>14</td><td>6</td><td>4</td><td>48</td></tr>
-</table>
-</section>
-
-<section id="scorers" class="section">
-<h2>🥅 Bombardirlər</h2>
-<div class="score">Kylian Mbappe – 28 qol</div>
-<div class="score">Erling Haaland – 26 qol</div>
-<div class="score">Jude Bellingham – 21 qol</div>
-<div class="score">Victor Osimhen – 20 qol</div>
-<div class="score">Mauro Icardi – 19 qol</div>
-</section>
-
-<section id="transfer" class="section">
-<h2>💰 Transferlər (2025–2026)</h2>
-<div class="score">Mbappe → Real Madrid (Free)</div>
-<div class="score">Osimhen → Chelsea (€120M)</div>
-<div class="score">Bernardo Silva → Barcelona (€70M)</div>
-<div class="score">Salah → Al-Ittihad (€100M)</div>
-<div class="score">De Jong → Man City (€85M)</div>
-</section>
-
-<footer>© 2026 Futbol.Az | Professional Football Platform</footer>
+<footer>
+  <p>© 2026 Futbol.Az | Real-Time API Data</p>
+</footer>
 
 <script>
-function toggleMenu(){
-  const d=document.getElementById("dropdown");
-  d.style.display=d.style.display==="block"?"none":"block";
+// ==========================================
+// ⚠️ API AÇARINI AŞAĞIYA DAXİL EDİN ⚠️
+// ==========================================
+const API_KEY = 'BURAYA_API_KEY_YAZIN'; 
+// Məsələn: 'a1b2c3d4e5f6...' 
+
+const BASE_URL = 'https://api.football-data.org/v4';
+
+// Elementləri seçirik
+const liveContainer = document.getElementById('live-container');
+const todayContainer = document.getElementById('today-container');
+const loaders = document.querySelectorAll('.loader');
+
+// Tarixi formatlamaq üçün funksiya (Saat:Dəqiqə)
+function formatTime(isoDate) {
+    const date = new Date(isoDate);
+    return date.toLocaleTimeString('az-AZ', { hour: '2-digit', minute: '2-digit' });
 }
+
+// API-dən məlumat çəkən əsas funksiya
+async function fetchMatches() {
+    // Yüklənmə ikonlarını göstər
+    loaders.forEach(l => l.style.display = 'block');
+    liveContainer.innerHTML = '';
+    todayContainer.innerHTML = '';
+
+    // API Key yoxdursa xəbərdarlıq et
+    if(API_KEY === 'BURAYA_API_KEY_YAZIN' || API_KEY === '') {
+        showError("Zəhmət olmasa kodun içindəki API_KEY hissəsinə öz açarınızı yazın.");
+        return;
+    }
+
+    try {
+        // Bu günün oyunlarını çəkirik
+        const response = await fetch(`${BASE_URL}/matches`, {
+            headers: { 'X-Auth-Token': API_KEY }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Xəta baş verdi: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const matches = data.matches;
+
+        // Canlı və Planlaşdırılan oyunları ayırırıq
+        const liveMatches = matches.filter(m => ['IN_PLAY', 'PAUSED'].includes(m.status));
+        const scheduledMatches = matches.filter(m => ['TIMED', 'SCHEDULED'].includes(m.status));
+        const finishedMatches = matches.filter(m => m.status === 'FINISHED');
+
+        renderMatches(liveMatches, liveContainer, true);
+        renderMatches([...scheduledMatches, ...finishedMatches], todayContainer, false);
+
+    } catch (error) {
+        console.error(error);
+        showError("Məlumatları yükləmək mümkün olmadı. API Key-in düzgünlüyünü yoxlayın və ya limit bitib.");
+    } finally {
+        loaders.forEach(l => l.style.display = 'none');
+    }
+}
+
+// Oyunları HTML-ə çevirən funksiya
+function renderMatches(matches, container, isLive) {
+    if (matches.length === 0) {
+        container.innerHTML = '<div style="text-align:center; color:#777;">Bu kateqoriyada oyun tapılmadı.</div>';
+        return;
+    }
+
+    matches.forEach(match => {
+        const homeTeam = match.homeTeam.shortName || match.homeTeam.name;
+        const awayTeam = match.awayTeam.shortName || match.awayTeam.name;
+        const homeScore = match.score.fullTime.home ?? '-';
+        const awayScore = match.score.fullTime.away ?? '-';
+        const matchTime = formatTime(match.utcDate);
+        
+        let statusText = matchTime;
+        let statusClass = "status";
+
+        if (isLive) {
+            statusText = "CANLI";
+            statusClass = "status live-status";
+        } else if (match.status === 'FINISHED') {
+            statusText = "BİTDİ";
+        }
+
+        const html = `
+            <div class="match-card">
+                <div class="teams">
+                    <div class="team-row">
+                        <span>${homeTeam}</span>
+                        <span class="score-badge">${homeScore}</span>
+                    </div>
+                    <div class="team-row">
+                        <span>${awayTeam}</span>
+                        <span class="score-badge">${awayScore}</span>
+                    </div>
+                </div>
+                <div class="match-info">
+                    <span class="${statusClass}">${statusText}</span>
+                    ${!isLive && match.status !== 'FINISHED' ? `<span class="time">${matchTime}</span>` : ''}
+                </div>
+            </div>
+        `;
+        container.innerHTML += html;
+    });
+}
+
+function showError(msg) {
+    document.getElementById('today-error').style.display = 'block';
+    document.getElementById('today-error').innerText = msg;
+    loaders.forEach(l => l.style.display = 'none');
+}
+
+// Səhifə açılanda işə sal
+fetchMatches();
+
+// Hər 60 saniyədən bir yenilə (Canlı nəticələr üçün)
+setInterval(fetchMatches, 60000);
+
 </script>
 
 </body>
