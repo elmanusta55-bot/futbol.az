@@ -2,16 +2,16 @@
 <html lang="az">
 <head>
 <meta charset="UTF-8">
-<title>Futbol.Az | Canlı Hesablar</title>
+<title>Futbol.Az</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 :root{
-  --bg:#0b0f14;
-  --card:#121923;
-  --gold:#f4c430;
-  --text:#e8e8e8;
-  --soft:#1c2533;
+  --bg:#0c1118;
+  --card:#141b26;
+  --gold:#f5c542;
+  --text:#f2f2f2;
+  --soft:#1f2a38;
 }
 
 *{box-sizing:border-box}
@@ -19,14 +19,14 @@
 body{
   margin:0;
   font-family:Segoe UI,Arial;
-  background:linear-gradient(135deg,#05070a,#0b0f14);
+  background:linear-gradient(135deg,#070b11,#0c1118);
   color:var(--text);
 }
 
 a{text-decoration:none;color:inherit}
 
 header{
-  background:rgba(10,14,20,.9);
+  background:#060a10;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -34,7 +34,7 @@ header{
   position:sticky;
   top:0;
   z-index:999;
-  border-bottom:1px solid #1f2a3a;
+  border-bottom:1px solid #1e2835;
 }
 
 .logo{
@@ -56,40 +56,40 @@ header{
   position:absolute;
   right:12px;
   top:58px;
-  background:#0e141d;
+  background:#0f1622;
   border-radius:14px;
   overflow:hidden;
-  min-width:210px;
-  box-shadow:0 10px 30px rgba(0,0,0,.7);
+  min-width:230px;
+  box-shadow:0 10px 30px rgba(0,0,0,.8);
 }
 
 .dropdown a{
   display:block;
-  padding:13px 15px;
-  border-bottom:1px solid #1b2433;
+  padding:14px 16px;
+  border-bottom:1px solid #1f2a3a;
 }
 
-.dropdown a:hover{background:#151f2d}
+.dropdown a:hover{background:#172133}
 
 .section{
-  max-width:1000px;
+  max-width:1050px;
   margin:16px auto;
-  background:linear-gradient(135deg,#0e141d,#101827);
-  border:1px solid #1c2737;
+  background:linear-gradient(135deg,#101826,#0e141f);
+  border:1px solid #1f2a3a;
   padding:16px;
   border-radius:16px;
-  box-shadow:0 0 20px rgba(0,0,0,.6);
+  box-shadow:0 0 25px rgba(0,0,0,.7);
 }
 
 .section h2{
   margin:0 0 10px;
-  border-left:4px solid var(--gold);
+  border-left:5px solid var(--gold);
   padding-left:10px;
   font-weight:600;
 }
 
 .score{
-  background:linear-gradient(135deg,#121b29,#0f1623);
+  background:linear-gradient(135deg,#131c2b,#0f1623);
   border:1px solid #1f2a3a;
   padding:12px 14px;
   border-radius:14px;
@@ -99,10 +99,19 @@ header{
   align-items:center;
 }
 
-.time{color:var(--gold);font-weight:600}
+.table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.table th,.table td{
+  padding:10px;
+  border-bottom:1px solid #1f2a3a;
+  text-align:center;
+}
 
 footer{
-  background:#070b10;
+  background:#05080d;
   text-align:center;
   padding:15px;
   font-size:14px;
@@ -119,77 +128,80 @@ footer{
   <div class="dropdown" id="dropdown">
     <a href="#today">📅 Günün Oyunları</a>
     <a href="#live">🔴 Canlı Hesablar</a>
+    <a href="#table">🏆 Turnir Cədvəli</a>
+    <a href="#scorers">🥅 Bombardirlər</a>
+    <a href="#transfer">💰 Transferlər</a>
   </div>
 </header>
 
 <section id="today" class="section">
-  <h2>📅 Günün Oyunları</h2>
-  <div id="todayBox">Yüklənir...</div>
+<h2>📅 Günün Oyunları</h2>
+<div class="score">Real Madrid – Valencia <span>22:00</span></div>
+<div class="score">Inter – Roma <span>23:45</span></div>
+<div class="score">Arsenal – Chelsea <span>21:30</span></div>
+<div class="score">Galatasaray – Beşiktaş <span>20:00</span></div>
 </section>
 
 <section id="live" class="section">
-  <h2>🔴 Canlı Hesablar</h2>
-  <div id="liveBox">Yüklənir...</div>
+<h2>🔴 Canlı Hesablar</h2>
+<div class="score">Barcelona 2 - 1 Sevilla <span>67'</span></div>
+<div class="score">Bayern 1 - 1 Dortmund <span>53'</span></div>
+<div class="score">PSG 3 - 0 Lyon <span>72'</span></div>
 </section>
 
-<footer>© 2026 Futbol.Az</footer>
+<section id="table" class="section">
+<h2>🏆 Turnir Cədvəli (2025–2026)</h2>
+
+<h3>🇪🇸 La Liga</h3>
+<table class="table">
+<tr><th>#</th><th>Komanda</th><th>O</th><th>Q</th><th>M</th><th>X</th><th>P</th></tr>
+<tr><td>1</td><td>Real Madrid</td><td>24</td><td>18</td><td>4</td><td>2</td><td>58</td></tr>
+<tr><td>2</td><td>Barcelona</td><td>24</td><td>17</td><td>5</td><td>2</td><td>56</td></tr>
+<tr><td>3</td><td>Atletico Madrid</td><td>24</td><td>15</td><td>6</td><td>3</td><td>51</td></tr>
+</table>
+
+<h3>🏴 Premier League</h3>
+<table class="table">
+<tr><th>#</th><th>Komanda</th><th>O</th><th>Q</th><th>M</th><th>X</th><th>P</th></tr>
+<tr><td>1</td><td>Man City</td><td>25</td><td>18</td><td>5</td><td>2</td><td>59</td></tr>
+<tr><td>2</td><td>Arsenal</td><td>25</td><td>17</td><td>6</td><td>2</td><td>57</td></tr>
+<tr><td>3</td><td>Liverpool</td><td>25</td><td>16</td><td>6</td><td>3</td><td>54</td></tr>
+</table>
+
+<h3>🇹🇷 Türkiyə Super Liqası</h3>
+<table class="table">
+<tr><th>#</th><th>Komanda</th><th>O</th><th>Q</th><th>M</th><th>X</th><th>P</th></tr>
+<tr><td>1</td><td>Galatasaray</td><td>24</td><td>18</td><td>4</td><td>2</td><td>58</td></tr>
+<tr><td>2</td><td>Fenerbahçe</td><td>24</td><td>17</td><td>5</td><td>2</td><td>56</td></tr>
+<tr><td>3</td><td>Beşiktaş</td><td>24</td><td>14</td><td>6</td><td>4</td><td>48</td></tr>
+</table>
+</section>
+
+<section id="scorers" class="section">
+<h2>🥅 Bombardirlər</h2>
+<div class="score">Kylian Mbappe – 28 qol</div>
+<div class="score">Erling Haaland – 26 qol</div>
+<div class="score">Jude Bellingham – 21 qol</div>
+<div class="score">Victor Osimhen – 20 qol</div>
+<div class="score">Mauro Icardi – 19 qol</div>
+</section>
+
+<section id="transfer" class="section">
+<h2>💰 Transferlər (2025–2026)</h2>
+<div class="score">Mbappe → Real Madrid (Free)</div>
+<div class="score">Osimhen → Chelsea (€120M)</div>
+<div class="score">Bernardo Silva → Barcelona (€70M)</div>
+<div class="score">Salah → Al-Ittihad (€100M)</div>
+<div class="score">De Jong → Man City (€85M)</div>
+</section>
+
+<footer>© 2026 Futbol.Az | Professional Football Platform</footer>
 
 <script>
-const API_KEY = "392ee5a6b64a38d2dee23b4f3b52f758";
-
 function toggleMenu(){
   const d=document.getElementById("dropdown");
-  d.style.display = d.style.display==="block"?"none":"block";
+  d.style.display=d.style.display==="block"?"none":"block";
 }
-
-/* BUGÜNÜN OYUNLARI */
-async function loadToday(){
-  const box=document.getElementById("todayBox");
-  const today=new Date().toISOString().slice(0,10);
-  try{
-    const res=await fetch(`https://v3.football.api-sports.io/fixtures?date=${today}`,{
-      headers:{ "x-apisports-key":API_KEY }
-    });
-    const data=await res.json();
-    box.innerHTML="";
-    data.response.slice(0,15).forEach(m=>{
-      box.innerHTML+=`
-      <div class="score">
-        ${m.teams.home.name} - ${m.teams.away.name}
-        <span class="time">${m.fixture.date.substr(11,5)}</span>
-      </div>`;
-    });
-    if(!data.response.length) box.innerHTML="Bugün oyun yoxdur";
-  }catch{
-    box.innerHTML="API bağlantı xətası";
-  }
-}
-
-/* CANLI OYUNLAR */
-async function loadLive(){
-  const box=document.getElementById("liveBox");
-  try{
-    const res=await fetch("https://v3.football.api-sports.io/fixtures?live=all",{
-      headers:{ "x-apisports-key":API_KEY }
-    });
-    const data=await res.json();
-    box.innerHTML="";
-    data.response.forEach(m=>{
-      box.innerHTML+=`
-      <div class="score">
-        ${m.teams.home.name} ${m.goals.home}-${m.goals.away} ${m.teams.away.name}
-        <span class="time">${m.fixture.status.elapsed||0}'</span>
-      </div>`;
-    });
-    if(!data.response.length) box.innerHTML="Hal-hazırda canlı oyun yoxdur";
-  }catch{
-    box.innerHTML="Canlı API bağlantı xətası";
-  }
-}
-
-loadToday();
-loadLive();
-setInterval(loadLive,30000);
 </script>
 
 </body>
