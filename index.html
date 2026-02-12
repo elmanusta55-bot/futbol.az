@@ -1,381 +1,173 @@
-!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<title>Futbol.Az</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<html lang="az">  
-<head>  
-<meta charset="UTF-8">  
-<title>Futbol.Az</title>  
-<meta name="viewport" content="width=device-width, initial-scale=1">  <style>  
-body{  
-  margin:0;  
-  font-family:Segoe UI,Arial;  
-  background:#f4f6f9;  
-  color:#222;  
-  transition: background 0.3s, color 0.3s;  
-}  
-  
-a{text-decoration:none;color:inherit;transition: color 0.3s;}  
-  
-header{  
-  background:#111;  
-  color:white;  
-  display:flex;  
-  align-items:center;  
-  justify-content:space-between;  
-  padding:10px 15px;  
-  position:sticky;  
-  top:0;  
-  z-index:999;  
-  transition: background 0.3s;  
-}  
-  
-.logo img{height:45px}  
-  
-.menu-btn{  
-  font-size:26px;  
-  background:none;  
-  border:none;  
-  color:white;  
-  cursor:pointer;  
-  margin-left:5px;  
-  transition: color 0.3s;  
-}  
-  
-.dropdown{  
-  display:none;  
-  position:absolute;  
-  right:15px;  
-  top:55px;  
-  background:#222;  
-  border-radius:12px;  
-  overflow:hidden;  
-  min-width:190px;  
-  box-shadow:0 5px 25px rgba(0,0,0,.4);  
-  transition: background 0.3s;  
-}  
-  
-.dropdown a{  
-  display:block;  
-  padding:12px;  
-  color:white;  
-  border-bottom:1px solid #333;  
-  transition: background 0.3s, color 0.3s;  
-}  
-.dropdown a:hover{background:#333}  
-  
-.section{  
-  max-width:950px;  
-  margin:20px auto;  
-  background:white;  
-  padding:18px;  
-  border-radius:12px;  
-  box-shadow:0 5px 15px rgba(0,0,0,.1);  
-  transition: background 0.3s, box-shadow 0.3s, color 0.3s;  
-}  
-  
-.section h2{  
-  margin-top:0;  
-  border-bottom:2px solid #f4c430;  
-  padding-bottom:6px;  
-  transition: border-color 0.3s, color 0.3s;  
-}  
-  
-.score,.card{  
-  display:flex;  
-  justify-content:space-between;  
-  align-items:center;  
-  background:#f7f7f7;  
-  padding:12px;  
-  margin-bottom:10px;  
-  border-radius:10px;  
-  transition: background 0.3s, color 0.3s;  
-}  
-  
-.card{flex-direction:column;align-items:flex-start}  
-  
-input[type="text"]{  
-  width:100%;  
-  padding:10px;  
-  border-radius:8px;  
-  border:1px solid #ccc;  
-  margin-bottom:15px;  
-  transition: background 0.3s, color 0.3s, border 0.3s;  
-}  
-  
-.table{  
-  width:100%;  
-  border-collapse:collapse;  
-}  
-  
-.table th,.table td{  
-  padding:8px;  
-  border-bottom:1px solid #ddd;  
-  text-align:center;  
-  transition: background 0.3s, color 0.3s, border 0.3s;  
-}  
-  
-.counter{  
-  text-align:center;  
-  font-weight:bold;  
-  margin-top:10px;  
-}  
-  
-footer{  
-  background:#111;  
-  color:white;  
-  text-align:center;  
-  padding:15px;  
-  transition: background 0.3s, color 0.3s;  
-}  
-  
-/* Turnir cədvəli görünüşü */  
-#table h2{color:#111;font-weight:bold;border-bottom:3px solid #f4d03f}  
-#table .table th,#table .table td{color:#111;background:#fdfdfd}  
-.league-dropdown{margin-bottom:10px;position:relative}  
-.league-dropdown .menu-btn{background:#1c1c1c;color:#f4d03f;padding:5px 10px;border-radius:6px}  
-.league-dropdown .dropdown a{color:white}  
-  
-/* Dark Mode */  
-body.dark-mode {  
-  background:#111;  
-  color:#f4f6f9;  
-}  
-  
-body.dark-mode .section {  
-  background:#1c1c1c;  
-  box-shadow:0 5px 15px rgba(0,0,0,.5);  
-}  
-  
-body.dark-mode .score,  
-body.dark-mode .card {  
-  background:#222;  
-  color:#f4f4f4;  
-}  
-  
-body.dark-mode input[type="text"] {  
-  background:#222;  
-  color:#f4f4f4;  
-  border:1px solid #555;  
-}  
-  
-body.dark-mode .table th,  
-body.dark-mode .table td {  
-  background:#222;  
-  color:#f4f4f4;  
-  border-bottom:1px solid #555;  
-}  
-  
-body.dark-mode header {  
-  background:#000;  
-}  
-  
-body.dark-mode .dropdown {  
-  background:#222;  
-}  
-  
-body.dark-mode footer {  
-  background:#000;  
-  color:#f4f4f4;  
-}  
-</style>  </head>  <body>  <header>  
-  <div class="logo"><img src="logo.png"></div>  
-  <div>  
-    <button class="menu-btn" onclick="toggleMenu()">⋮</button>  
-    <button class="menu-btn" onclick="toggleDarkMode()">🌙</button>  
-  </div>    <div class="dropdown" id="dropdown">  
-    <a href="#today">📅 Günün Oyunları</a>  
-    <a href="#news">📰 Xəbər</a>  
-    <a href="#live">🔴 Canlı</a>  
-    <a href="#transfer">💰 Transfer</a>  
-    <a href="#table">🏆 Turnir</a>  
-    <a href="#contact">📞 Əlaqə</a>  
-  </div>  
-</header>  <main>  <div class="section">  
-  <input type="text" id="search" placeholder="🔍 Axtar...">  
-</div>  
-<section id="today" class="section">  
-<h2>📅 Günün Oyunları (09.02.2026)</h2>  <div class="score">  
-  Atalanta - Cremonese <span>21:30</span>  
-  <a href="https://www.scorebat.com/atalanta-vs-cremonese-live-stream/" target="_blank" class="live-btn">🎬 Canlı Bax</a>  
-</div>  <div class="score">  
-  AS Roma - Cagliari <span>23:45</span>  
-  <a href="https://www.scorebat.com/roma-vs-cagliari-live-stream/" target="_blank" class="live-btn">🎬 Canlı Bax</a>  
-</div>  <div class="score">  
-  Villarreal - Espanyol <span>00:00</span>  
-  <a href="https://www.scorebat.com/villarreal-vs-espanyol-live-stream/" target="_blank" class="live-btn">🎬 Canlı Bax</a>  
-</div>  <div class="score">  
-  Sheffield United - Middlesbrough <span>00:01</span>  
-  <a href="https://www.scorebat.com/sheffield-united-vs-middlesbrough-live-stream/" target="_blank" class="live-btn">🎬 Canlı Bax</a>  
-</div>  <div class="score">  
-  Kayserispor - Kocaelispor <span>18:00</span>  
-  <a href="https://tarafftariium24.com/" target="_blank" class="live-btn">🎬 Canlı Bax</a>  
-</div>  <div class="score">  
-  Fenerbahçe - Gençlerbirliği <span>21:00</span>  
-  <a href="https://tarafftariium24.com/" target="_blank" class="live-btn">🎬 Canlı Bax</a>  
-</div>  <div class="score">  
-  Gaziantep FK - Kasımpaşa <span>21:00</span>  
-  <a href="https://tarafftariium24.com/" target="_blank" class="live-btn">🎬 Canlı Bax</a>  
-</div>  <div class="score">  
-  Al-Wahda - Al Ahli <span>17:45</span>  
-  <a href="https://www.scorebat.com/al-wahda-vs-al-ahli-live-stream/" target="_blank" class="live-btn">🎬 Canlı Bax</a>  
-</div>  <div class="score">  
-  Nasaf Qarshi - Al Shorta <span>17:45</span>  
-  <a href="https://www.scorebat.com/nasaf-vs-al-shorta-live-stream/" target="_blank" class="live-btn">🎬 Canlı Bax</a>  
-</div>  <div class="score">  
-  Al-Duhail - Sharjah <span>20:00</span>  
-  <a href="https://www.scorebat.com/al-duhail-vs-sharjah-live-stream/" target="_blank" class="live-btn">🎬 Canlı Bax</a>  
-</div>  
-</section>  <section id="news" class="section">  
-<h2>📰 Xəbərlər</h2>  <div class="card"><h3>Real Madrid La Liga lideridir</h3></div>  
-<div class="card"><h3>Barcelona yeni transfer axtarışında</h3></div>  
-<div class="card"><h3>Fenerbahçe qələbə seriyasını davam etdirir</h3></div>  <div class="card">  
-<h3>James Rodríguez MLS-ə keçdi</h3>  
-<p>Minnesota United komandası James Rodríguez-i heyətinə qatdı.</p>  
-</div>  <div class="card">  
-<h3>Barcelona-da struktur dəyişiklikləri</h3>  
-<p>Prezident seçkiləri və yeni transfer planları açıqlanıb.</p>  
-</div>  
-</section>  <section id="live" class="section">  
-<h2>🔴 Canlı Hesablar</h2>  
-<div id="live-scores">Yüklənir...</div>  
-</section>  <section id="transfer" class="section">  
-<h2>💰 Transferlər</h2>  <div class="card"><h3>Semenyo → Man City (72m€)</h3></div>  
-<div class="card"><h3>Paquetá → Flamengo (42m€)</h3></div>  
-<div class="card"><h3>Gallagher → Tottenham (40m€)</h3></div>  
-<div class="card"><h3>Strand Larsen → Crystal Palace (49.7m€)</h3></div>  </section>  <section id="table" class="section">  
-<h2>🏆 Turnir Cədvəli (2025-2026)</h2>  <div class="league-dropdown">  
-<button class="menu-btn" onclick="toggleLeagueMenu()">⋮ Liqalar</button>  
-<div id="league-menu" class="dropdown">  
-  <a href="#" onclick="showLeague('premier', event)">İngiltərə Premier Liqası</a>  
-  <a href="#" onclick="showLeague('laliga', event)">İspaniya La Liga</a>  
-  <a href="#" onclick="showLeague('seriea', event)">İtaliya Serie A</a>  
-  <a href="#" onclick="showLeague('bundesliga', event)">Almaniya Bundesliga</a>  
-  <a href="#" onclick="showLeague('ligue1', event)">Fransa Ligue 1</a>  
-  <a href="#" onclick="showLeague('turkiye', event)">Türkiyə Super Liqası</a>  
-  <a href="#" onclick="showLeague('azerbaycan', event)">Azərbaycan Premyer Liqası</a>  
-</div>  
-</div>  <div id="league-tables">  
-<!-- Bütün cədvəllər eyni -->  
-  <div id="league-tables">  
-    <table class="table" id="laliga">  
-      <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>  
-      <tr><td>1</td><td>Barcelona</td><td>23</td><td>16</td><td>4</td><td>58</td></tr>  
-      <tr><td>2</td><td>Real Madrid</td><td>23</td><td>15</td><td>5</td><td>57</td></tr>  
-      <tr><td>3</td><td>Atletico Madrid</td><td>23</td><td>14</td><td>5</td><td>45</td></tr>  
-    </table>  <table class="table" id="premier" style="display:none">  
-  <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>  
-  <tr><td>1</td><td>Arsenal</td><td>25</td><td>19</td><td>3</td><td>56</td></tr>  
-  <tr><td>2</td><td>Manchester City</td><td>25</td><td>17</td><td>4</td><td>50</td></tr>  
-  <tr><td>3</td><td>Aston Villa</td><td>25</td><td>16</td><td>5</td><td>47</td></tr>  
-</table>  
+<style>
+body{margin:0;font-family:Segoe UI,Arial;background:#0e1621;color:#fff}
+header{background:#111;padding:12px 15px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:999}
+.logo{font-size:22px;font-weight:bold;color:#f5c542}
+.menu-btn{font-size:26px;background:none;border:none;color:white;cursor:pointer}
+.dropdown{display:none;position:absolute;right:15px;top:60px;background:#1a2636;border-radius:12px;overflow:hidden;min-width:200px}
+.dropdown a{display:block;padding:12px;color:white;border-bottom:1px solid #333;text-decoration:none}
+.dropdown a:hover{background:#26374f}
+.section{max-width:1050px;margin:18px auto;background:#131f2f;padding:18px;border-radius:14px}
+.section h2{margin-top:0;border-bottom:2px solid #f5c542;padding-bottom:6px}
+.card,.score{display:flex;justify-content:space-between;align-items:center;background:#1a2636;padding:12px;border-radius:12px;margin-bottom:10px}
+.card{flex-direction:column;align-items:flex-start}
+input{width:100%;padding:12px;border-radius:10px;border:none;margin-bottom:15px;background:#1a2636;color:white}
+footer{text-align:center;padding:15px;background:#111;margin-top:20px}
+</style>
+</head>
 
-<table class="table" id="seriea" style="display:none">  
-  <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>  
-  <tr><td>1</td><td>İnter</td><td>24</td><td>18</td><td>3</td><td>58</td></tr>  
-  <tr><td>2</td><td>Milan</td><td>23</td><td>16</td><td>5</td><td>50</td></tr>  
-  <tr><td>3</td><td>Napoli</td><td>24</td><td>15</td><td>6</td><td>49</td></tr>  
-</table>  
+<body>
 
-<table class="table" id="bundesliga" style="display:none">  
-  <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>  
-  <tr><td>1</td><td>Bayern Munchen</td><td>21</td><td>17</td><td>3</td><td>54</td></tr>  
-  <tr><td>2</td><td>Dortmund</td><td>21</td><td>15</td><td>4</td><td>48</td></tr>  
-  <tr><td>3</td><td>Hoffenheim</td><td>21</td><td>14</td><td>5</td><td>42</td></tr>  
-</table>  
+<header>
+<div class="logo">⚽ Futbol.Az</div>
+<button class="menu-btn" onclick="toggleMenu()">☰</button>
 
-<table class="table" id="ligue1" style="display:none">  
-  <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>  
-  <tr><td>1</td><td>PSG</td><td>21</td><td>18</td><td>3</td><td>51</td></tr>  
-  <tr><td>2</td><td>Lens</td><td>21</td><td>16</td><td>5</td><td>49</td></tr>  
-  <tr><td>3</td><td>Lyon</td><td>21</td><td>15</td><td>6</td><td>42</td></tr>  
-</table>  
+<div class="dropdown" id="dropdown">
+<a href="#today">📅 Günün Oyunları</a>
+<a href="#live">🔴 Canlı Hesablar</a>
+<a href="#table">🏆 Turnir Cədvəli</a>
+<a href="#transfer">💰 Transferlər</a>
+<a href="#tv">📺 Canlı Yayım</a>
+</div>
+</header>
 
-<table class="table" id="turkiye" style="display:none">  
-  <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>  
-  <tr><td>1</td><td>Galatasaray</td><td>21</td><td>14</td><td>4</td><td>52</td></tr>  
-  <tr><td>2</td><td>Fenerbahçe</td><td>20</td><td>13</td><td>5</td><td>46</td></tr>  
-  <tr><td>3</td><td>Trabzonspor</td><td>21</td><td>12</td><td>6</td><td>45</td></tr>  
-</table>  
+<div class="section">
+<input id="search" placeholder="🔍 Axtar...">
+</div>
 
-<table class="table" id="azerbaycan" style="display:none">  
-  <tr><th>#</th><th>Komanda</th><th>O</th><th>X</th><th>M</th><th>Xal</th></tr>  
-  <tr><td>1</td><td>Sabah</td><td>19</td><td>14</td><td>4</td><td>46</td></tr>  
-  <tr><td>2</td><td>Qarabağ</td><td>18</td><td>13</td><td>5</td><td>39</td></tr>  
-  <tr><td>3</td><td>Turan</td><td>18</td><td>12</td><td>6</td><td>33</td></tr>  
-</table>
+<section id="today" class="section">
+<h2>📅 Günün Oyunları</h2>
+<div id="todayMatches">Yüklənir...</div>
+</section>
 
-  </div>  
-</section>  
-</div>  
-</section>  <section id="contact" class="section">  
-<h2>📞 Əlaqə</h2>  
-<p>+994555266848</p>  
-</section>  <div class="counter" id="counter"></div>  </main>  <footer>© 2026 Futbol.Az</footer>  <script>  
-const API_KEY="bgfKR3x9vChEnjJnwtGQegWZMHhZXDGHJ0BQE3tMi3DEgtWdcJPp65RFalIR";  
-  
-/* Menu toggle */  
-function toggleMenu(){  
-  const d=document.getElementById("dropdown");  
-  d.style.display=d.style.display==="block"?"none":"block";  
-}  
-  
-/* Dark Mode toggle */  
-function toggleDarkMode(){  
-  document.body.classList.toggle("dark-mode");  
-  localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));  
-}  
-if(localStorage.getItem("darkMode")==="true"){  
-  document.body.classList.add("dark-mode");  
-}  
-  
-/* Live scores */  
-async function loadLive(){  
-  const box=document.getElementById("live-scores");  
-  try{  
-    const res=await fetch("https://v3.football.api-sports.io/fixtures?live=all",{  
-      headers:{ "x-apisports-key":API_KEY }  
-    });  
-    const data=await res.json();  
-    if(!data.response || data.response.length===0){  
-      box.innerHTML="Hazırda canlı oyun yoxdur"; return;  
-    }  
-    box.innerHTML="";  
-    data.response.forEach(m=>{  
-      box.innerHTML+=`<div class="score">  
-      ${m.teams.home.name} <b>${m.goals.home}-${m.goals.away}</b> ${m.teams.away.name}  
-      <span>${m.fixture.status.elapsed||0}'</span></div>`;  
-    });  
-  }catch{  
-    box.innerHTML="Hazırda canlı oyun yoxdur";  
-  }  
-}  
-loadLive();  
-setInterval(loadLive,30000);  
-  
-/* Search filter */  
-document.getElementById("search").addEventListener("input",function(){  
-  let val=this.value.toLowerCase();  
-  document.querySelectorAll(".score,.card").forEach(e=>{  
-    e.style.display=e.innerText.toLowerCase().includes(val)?"flex":"none";  
-  });  
-});  
-  
-/* View counter */  
-let views=localStorage.getItem("views");  
-views=views?Number(views)+1:1;  
-localStorage.setItem("views",views);  
-document.getElementById("counter").innerText="👁 Sayta baxış sayı: "+views;  
-  
-/* League table toggle */  
-function toggleLeagueMenu(){  
-  const menu=document.getElementById("league-menu");  
-  menu.style.display=menu.style.display==="block"?"none":"block";  
-}  
-function showLeague(id, event){  
-  if(event) event.preventDefault();  
-  document.querySelectorAll("#league-tables .table").forEach(t=>t.style.display="none");  
-  const table = document.getElementById(id);  
-  table.style.display="table";  
-  table.scrollIntoView({behavior: "smooth"});  
-}  
-</script>  </body>  
+<section id="live" class="section">
+<h2>🔴 Canlı Hesablar</h2>
+<div id="liveScores">Yüklənir...</div>
+</section>
+
+<section id="table" class="section">
+<h2>🏆 Turnir Cədvəli</h2>
+<div id="leagueTable">Yüklənir...</div>
+</section>
+
+<section id="transfer" class="section">
+<h2>💰 Son Transferlər</h2>
+<div id="transferBox">Yüklənir...</div>
+</section>
+
+<section id="tv" class="section">
+<h2>📺 Canlı Yayım Linkləri</h2>
+<div class="score"><a href="https://selcuksportshd.tv" target="_blank">SelçukSports HD</a></div>
+<div class="score"><a href="https://scorebat.com/video-api/" target="_blank">ScoreBat Live</a></div>
+</section>
+
+<footer>© 2026 Futbol.Az</footer>
+
+<script>
+const API_KEY="bgfKR3x9vChEnjJnwtGQegWZMHhZXDGHJ0BQE3tMi3DEgtWdcJPp65RFalIR";
+const BASE="https://api.sportmonks.com/v3/football";
+
+function toggleMenu(){
+ const d=document.getElementById("dropdown");
+ d.style.display=d.style.display==="block"?"none":"block";
+}
+
+/* GÜNÜN OYUNLARI */
+async function loadToday(){
+ const box=document.getElementById("todayMatches");
+ try{
+  const r=await fetch(`${BASE}/fixtures/date/2026-02-10?api_token=${API_KEY}`);
+  const d=await r.json();
+  box.innerHTML="";
+  d.data.slice(0,10).forEach(m=>{
+   box.innerHTML+=`<div class="score">
+   ${m.name}
+   <span>${m.starting_at.substring(11,16)}</span>
+   </div>`;
+  });
+ }catch{
+  box.innerHTML="Oyun tapılmadı";
+ }
+}
+
+/* CANLI HESABLAR */
+async function loadLive(){
+ const box=document.getElementById("liveScores");
+ try{
+  const r=await fetch(`${BASE}/livescores?api_token=${API_KEY}`);
+  const d=await r.json();
+  box.innerHTML="";
+  if(d.data.length===0){box.innerHTML="Hazırda canlı oyun yoxdur";return;}
+  d.data.forEach(m=>{
+   box.innerHTML+=`<div class="score">
+   ${m.name}
+   <span>${m.scores[0]?.score || "0-0"}</span>
+   </div>`;
+  });
+ }catch{
+  box.innerHTML="Canlı məlumat yoxdur";
+ }
+}
+
+/* TURNİR CƏDVƏLİ */
+async function loadTable(){
+ const box=document.getElementById("leagueTable");
+ try{
+  const r=await fetch(`${BASE}/standings/seasons/21648?api_token=${API_KEY}`);
+  const d=await r.json();
+  let html="<table width='100%'>";
+  d.data[0].standings.slice(0,10).forEach(t=>{
+   html+=`<tr>
+   <td>${t.position}</td>
+   <td>${t.participant.name}</td>
+   <td>${t.points}</td>
+   </tr>`;
+  });
+  html+="</table>";
+  box.innerHTML=html;
+ }catch{
+  box.innerHTML="Cədvəl tapılmadı";
+ }
+}
+
+/* TRANSFER */
+async function loadTransfers(){
+ const box=document.getElementById("transferBox");
+ try{
+  const r=await fetch(`${BASE}/transfers?api_token=${API_KEY}`);
+  const d=await r.json();
+  box.innerHTML="";
+  d.data.slice(0,8).forEach(t=>{
+   box.innerHTML+=`<div class="card">
+   <b>${t.player.name}</b>
+   <span>${t.from_team.name} → ${t.to_team.name}</span>
+   </div>`;
+  });
+ }catch{
+  box.innerHTML="Transfer məlumatı yoxdur";
+ }
+}
+
+loadToday();
+loadLive();
+loadTable();
+loadTransfers();
+setInterval(loadLive,30000);
+
+/* SEARCH */
+document.getElementById("search").addEventListener("input",function(){
+ let v=this.value.toLowerCase();
+ document.querySelectorAll(".score,.card,tr").forEach(e=>{
+  e.style.display=e.innerText.toLowerCase().includes(v)?"":"none";
+ });
+});
+</script>
+
+</body>
 </html>
