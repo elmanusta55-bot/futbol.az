@@ -6,39 +6,43 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body{margin:0;font-family:Segoe UI,Arial;background:#0e1621;color:#fff}
-header{background:#111;padding:12px 15px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:999}
-.logo{font-size:22px;font-weight:bold;color:#f5c542}
-.menu-btn{font-size:26px;background:none;border:none;color:white;cursor:pointer}
-.dropdown{display:none;position:absolute;right:15px;top:60px;background:#1a2636;border-radius:12px;overflow:hidden;min-width:200px}
-.dropdown a{display:block;padding:12px;color:white;border-bottom:1px solid #333;text-decoration:none}
-.dropdown a:hover{background:#26374f}
-.section{max-width:1050px;margin:18px auto;background:#131f2f;padding:18px;border-radius:14px}
-.section h2{margin-top:0;border-bottom:2px solid #f5c542;padding-bottom:6px}
-.card,.score{display:flex;justify-content:space-between;align-items:center;background:#1a2636;padding:12px;border-radius:12px;margin-bottom:10px}
+body{margin:0;font-family:Segoe UI,Arial;background:#0f172a;color:#fff}
+a{text-decoration:none;color:inherit}
+header{background:#020617;color:white;display:flex;align-items:center;justify-content:space-between;padding:10px 15px;position:sticky;top:0;z-index:999}
+.logo img{height:45px}
+.menu-btn{font-size:26px;background:none;border:none;color:white;cursor:pointer;margin-left:5px}
+.dropdown{display:none;position:absolute;right:15px;top:55px;background:#020617;border-radius:12px;overflow:hidden;min-width:190px;box-shadow:0 5px 25px rgba(0,0,0,.4)}
+.dropdown a{display:block;padding:12px;color:white;border-bottom:1px solid #1e293b}
+.dropdown a:hover{background:#1e293b}
+.section{max-width:950px;margin:20px auto;background:#020617;padding:18px;border-radius:14px;box-shadow:0 5px 15px rgba(0,0,0,.4)}
+.section h2{margin-top:0;border-bottom:2px solid #facc15;padding-bottom:6px}
+.score,.card{display:flex;justify-content:space-between;align-items:center;background:#020617;padding:12px;margin-bottom:10px;border-radius:12px;border:1px solid #1e293b}
 .card{flex-direction:column;align-items:flex-start}
-input{width:100%;padding:12px;border-radius:10px;border:none;margin-bottom:15px;background:#1a2636;color:white}
-footer{text-align:center;padding:15px;background:#111;margin-top:20px}
+input[type="text"]{width:100%;padding:10px;border-radius:8px;border:1px solid #334155;margin-bottom:15px;background:#020617;color:#fff}
+.table{width:100%;border-collapse:collapse}
+.table th,.table td{padding:8px;border-bottom:1px solid #1e293b;text-align:center}
+footer{background:#020617;color:white;text-align:center;padding:15px}
 </style>
 </head>
 
 <body>
 
 <header>
-<div class="logo">⚽ Futbol.Az</div>
-<button class="menu-btn" onclick="toggleMenu()">☰</button>
-
-<div class="dropdown" id="dropdown">
-<a href="#today">📅 Günün Oyunları</a>
-<a href="#live">🔴 Canlı Hesablar</a>
-<a href="#table">🏆 Turnir Cədvəli</a>
-<a href="#transfer">💰 Transferlər</a>
-<a href="#tv">📺 Canlı Yayım</a>
-</div>
+  <div class="logo"><img src="logo.png"></div>
+  <button class="menu-btn" onclick="toggleMenu()">⋮</button>
+  <div class="dropdown" id="dropdown">
+    <a href="#today">📅 Günün Oyunları</a>
+    <a href="#live">🔴 Canlı</a>
+    <a href="#transfer">💰 Transfer</a>
+    <a href="#tv">📺 Canlı TV</a>
+    <a href="#contact">📞 Əlaqə</a>
+  </div>
 </header>
 
+<main>
+
 <div class="section">
-<input id="search" placeholder="🔍 Axtar...">
+  <input type="text" id="search" placeholder="🔍 Axtar...">
 </div>
 
 <section id="today" class="section">
@@ -62,16 +66,27 @@ footer{text-align:center;padding:15px;background:#111;margin-top:20px}
 </section>
 
 <section id="tv" class="section">
-<h2>📺 Canlı Yayım Linkləri</h2>
-<div class="score"><a href="https://selcuksportshd.tv" target="_blank">SelçukSports HD</a></div>
-<div class="score"><a href="https://scorebat.com/video-api/" target="_blank">ScoreBat Live</a></div>
+<h2>📺 Canlı TV Linkləri</h2>
+<div class="score"><a target="_blank" href="https://selcuksportshd.tv">SelçukSports HD</a></div>
+<div class="score"><a target="_blank" href="https://scorebat.com/video-api/">Scorebat Live</a></div>
 </section>
+
+<section id="contact" class="section">
+<h2>📞 Əlaqə</h2>
+<p>+994555266848</p>
+</section>
+
+</main>
 
 <footer>© 2026 Futbol.Az</footer>
 
 <script>
 const API_KEY="bgfKR3x9vChEnjJnwtGQegWZMHhZXDGHJ0BQE3tMi3DEgtWdcJPp65RFalIR";
 const BASE="https://api.sportmonks.com/v3/football";
+
+function today(){
+ return new Date().toISOString().split("T")[0];
+}
 
 function toggleMenu(){
  const d=document.getElementById("dropdown");
@@ -82,12 +97,13 @@ function toggleMenu(){
 async function loadToday(){
  const box=document.getElementById("todayMatches");
  try{
-  const r=await fetch(`${BASE}/fixtures/date/2026-02-10?api_token=${API_KEY}`);
+  const r=await fetch(`${BASE}/fixtures?filter[date]=${today()}&include=participants&api_token=${API_KEY}`);
   const d=await r.json();
   box.innerHTML="";
-  d.data.slice(0,10).forEach(m=>{
+  if(!d.data.length){box.innerHTML="Oyun tapılmadı";return;}
+  d.data.forEach(m=>{
    box.innerHTML+=`<div class="score">
-   ${m.name}
+   ${m.participants[0].name} - ${m.participants[1].name}
    <span>${m.starting_at.substring(11,16)}</span>
    </div>`;
   });
@@ -96,18 +112,17 @@ async function loadToday(){
  }
 }
 
-/* CANLI HESABLAR */
+/* CANLI */
 async function loadLive(){
  const box=document.getElementById("liveScores");
  try{
-  const r=await fetch(`${BASE}/livescores?api_token=${API_KEY}`);
+  const r=await fetch(`${BASE}/livescores?include=participants,scores&api_token=${API_KEY}`);
   const d=await r.json();
   box.innerHTML="";
-  if(d.data.length===0){box.innerHTML="Hazırda canlı oyun yoxdur";return;}
+  if(!d.data.length){box.innerHTML="Canlı oyun yoxdur";return;}
   d.data.forEach(m=>{
    box.innerHTML+=`<div class="score">
-   ${m.name}
-   <span>${m.scores[0]?.score || "0-0"}</span>
+   ${m.participants[0].name} ${m.scores[0]?.score || "0-0"} ${m.participants[1].name}
    </div>`;
   });
  }catch{
@@ -115,14 +130,14 @@ async function loadLive(){
  }
 }
 
-/* TURNİR CƏDVƏLİ */
+/* CƏDVƏL */
 async function loadTable(){
  const box=document.getElementById("leagueTable");
  try{
-  const r=await fetch(`${BASE}/standings/seasons/21648?api_token=${API_KEY}`);
+  const r=await fetch(`${BASE}/standings/seasons/21648?include=participant&api_token=${API_KEY}`);
   const d=await r.json();
-  let html="<table width='100%'>";
-  d.data[0].standings.slice(0,10).forEach(t=>{
+  let html="<table class='table'><tr><th>#</th><th>Komanda</th><th>Xal</th></tr>";
+  d.data[0].standings.forEach(t=>{
    html+=`<tr>
    <td>${t.position}</td>
    <td>${t.participant.name}</td>
@@ -140,17 +155,18 @@ async function loadTable(){
 async function loadTransfers(){
  const box=document.getElementById("transferBox");
  try{
-  const r=await fetch(`${BASE}/transfers?api_token=${API_KEY}`);
+  const r=await fetch(`${BASE}/transfers?include=player,from_team,to_team&api_token=${API_KEY}`);
   const d=await r.json();
   box.innerHTML="";
-  d.data.slice(0,8).forEach(t=>{
+  if(!d.data.length){box.innerHTML="Transfer yoxdur";return;}
+  d.data.slice(0,10).forEach(t=>{
    box.innerHTML+=`<div class="card">
    <b>${t.player.name}</b>
    <span>${t.from_team.name} → ${t.to_team.name}</span>
    </div>`;
   });
  }catch{
-  box.innerHTML="Transfer məlumatı yoxdur";
+  box.innerHTML="Transfer tapılmadı";
  }
 }
 
@@ -159,14 +175,6 @@ loadLive();
 loadTable();
 loadTransfers();
 setInterval(loadLive,30000);
-
-/* SEARCH */
-document.getElementById("search").addEventListener("input",function(){
- let v=this.value.toLowerCase();
- document.querySelectorAll(".score,.card,tr").forEach(e=>{
-  e.style.display=e.innerText.toLowerCase().includes(v)?"":"none";
- });
-});
 </script>
 
 </body>
