@@ -5,7 +5,7 @@ import cors from "cors";
 const app = express();
 app.use(cors());
 
-const API_KEY = "SENIN_API_KEY";
+const API_KEY = "bgfKR3x9vChEnjJnwtGQegWZMHhZXDGHJ0BQE3tMi3DEgtWdcJPp65RFalIR";
 
 app.get("/today", async (req, res) => {
   const r = await fetch(`https://api.sportmonks.com/v3/football/fixtures/date/${new Date().toISOString().slice(0,10)}?api_token=${API_KEY}&include=participants`);
