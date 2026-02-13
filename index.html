@@ -416,6 +416,81 @@
         .then(() => console.log('Service Worker qeydiyyatdan keçdi!'))
         .catch((err) => console.log('Service Worker xətası:', err));
     }
+        // Axtarış funksiyası (Top 5 Liqa + Türkiyə + Azərbaycan)
+    const globalTeams = [
+        // Azərbaycan
+        { ad: "Qarabağ", liqa: "Azərbaycan Premyer Liqası", xal: 42, reqem: 2 },
+        { ad: "Sabah Baku", liqa: "Azərbaycan Premyer Liqası", xal: 46, reqem: 1 },
+        { ad: "Neftçi Baku", liqa: "Azərbaycan Premyer Liqası", xal: 27, reqem: 6 },
+        { ad: "Zirə", liqa: "Azərbaycan Premyer Liqası", xal: 32, reqem: 4 },
+        { ad: "Turan Tovuz", liqa: "Azərbaycan Premyer Liqası", xal: 33, reqem: 3 },
+        // Türkiyə
+        { ad: "Qalatasaray", liqa: "Türkiyə Super Liqası", xal: 66, reqem: 1 },
+        { ad: "Fənərbaxça", liqa: "Türkiyə Super Liqası", xal: 64, reqem: 2 },
+        { ad: "Beşiktaş", liqa: "Türkiyə Super Liqası", xal: 43, reqem: 3 },
+        { ad: "Trabzonspor", liqa: "Türkiyə Super Liqası", xal: 37, reqem: 4 },
+        // İspaniya (La Liqa)
+        { ad: "Real Madrid", liqa: "İspaniya La Liqası", xal: 65, reqem: 1 },
+        { ad: "Barselona", liqa: "İspaniya La Liqası", xal: 58, reqem: 3 },
+        { ad: "Atletiko Madrid", liqa: "İspaniya La Liqası", xal: 52, reqem: 4 },
+        // İngiltərə (Premyer Liqa)
+        { ad: "Mançester Siti", liqa: "İngiltərə Premyer Liqası", xal: 59, reqem: 2 },
+        { ad: "Liverpul", liqa: "İngiltərə Premyer Liqası", xal: 60, reqem: 1 },
+        { ad: "Arsenal", liqa: "İngiltərə Premyer Liqası", xal: 58, reqem: 3 },
+        { ad: "Çelsi", liqa: "İngiltərə Premyer Liqası", xal: 45, reqem: 8 },
+        { ad: "Mançester Yunayted", liqa: "İngiltərə Premyer Liqası", xal: 44, reqem: 9 },
+        // Almaniya (Bundesliqa)
+        { ad: "Bavariya Münhen", liqa: "Almaniya Bundesliqası", xal: 53, reqem: 2 },
+        { ad: "Bayer Leverkuzen", liqa: "Almaniya Bundesliqası", xal: 61, reqem: 1 },
+        { ad: "Borussiya Dortmund", liqa: "Almaniya Bundesliqası", xal: 41, reqem: 4 },
+        // İtaliya (A Seriyası)
+        { ad: "İnter", liqa: "İtaliya A Seriyası", xal: 69, reqem: 1 },
+        { ad: "Yuventus", liqa: "İtaliya A Seriyası", xal: 57, reqem: 2 },
+        { ad: "Milan", liqa: "İtaliya A Seriyası", xal: 53, reqem: 3 },
+        // Fransa (Liqa 1)
+        { ad: "PSG (Paris Saint-Germain)", liqa: "Fransa Liqa 1", xal: 55, reqem: 1 },
+        { ad: "Monako", liqa: "Fransa Liqa 1", xal: 42, reqem: 3 }
+    ];
+
+    let searchInput = document.getElementById("search");
+    if(searchInput) {
+        // Axtarış nəticələri üçün gizli qutu yaradırıq
+        let resultDiv = document.createElement("div");
+        resultDiv.id = "searchResults";
+        resultDiv.style = "max-width: 650px; margin: 10px auto; text-align: left; display: none;";
+        searchInput.parentNode.parentNode.insertBefore(resultDiv, searchInput.parentNode.nextSibling);
+
+        let tableContainer = document.querySelector("table").parentNode;
+
+        searchInput.addEventListener("input", function() {
+            let val = this.value.toLowerCase().trim();
+            
+            if(val === "") {
+                resultDiv.style.display = "none";
+                tableContainer.style.display = "block"; // Axtarış boşdursa, əsas cədvəli qaytar
+                return;
+            }
+
+            tableContainer.style.display = "none"; // Əsas cədvəli gizlət
+            resultDiv.style.display = "block";
+            
+            let matches = globalTeams.filter(t => t.ad.toLowerCase().includes(val));
+            
+            if(matches.length > 0) {
+                let html = '<h3 style="color:#2ecc71;">🔍 Nəticələr:</h3>';
+                matches.forEach(m => {
+                    html += `<div style="background:#1e293b; padding:15px; border-radius:8px; margin-bottom:10px; border-left:4px solid #2ecc71; animation: fadeIn 0.3s;">
+                        <b style="font-size:18px; color:#fff;">${m.ad}</b> <br>
+                        <span style="font-size:13px; color:#aaa;">🏆 ${m.liqa} | 📈 Sıra: ${m.reqem} | ⚽ Xal: ${m.xal}</span>
+                    </div>`;
+                });
+                resultDiv.innerHTML = html;
+            } else {
+                resultDiv.innerHTML = '<div style="background:#1e293b; padding:15px; border-radius:8px; color:#e74c3c; border-left:4px solid #e74c3c;">⚠️ Belə bir komanda tapılmadı...</div>';
+            }
+        });
+            }
+                
 </script>
 
 </body>
