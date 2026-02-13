@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Futbol.az</title>
+        <meta name="theme-color" content="#020617">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="logo.png">
     <style>
         /* Ümumi dizaynlar */
         body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: #0f172a; color: #fff; text-align: center; }
@@ -207,6 +210,36 @@
         var x = setInterval(function() {
             var indi = new Date().getTime();
             var ferq = oyunTarixi - indi;
+/ 1. Menyu aç/bağla kodu
+    function toggleMenu() {
+        var dropdown = document.getElementById("dropdown");
+        if (dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+        } else {
+            dropdown.style.display = "block";
+        }
+    }
+
+    // 2. Səsvermə kodu
+    function sesVer(komanda) {
+        var netice = document.getElementById('netice');
+        var buttons = document.getElementById('buttons');
+        if(netice && buttons) {
+            netice.innerHTML = "Səs verdiniz: " + komanda + ". Təşəkkürlər!";
+            buttons.style.display = 'none'; 
+        }
+    }
+
+    // 3. Gerisayım (Countdown) kodu (Xətasız format)
+    function startTimer() {
+        var timerElement = document.getElementById("timer");
+        if(!timerElement) return;
+
+        var oyunTarixi = new Date("2026-02-18T21:45:00").getTime();
+        
+        var x = setInterval(function() {
+            var indi = new Date().getTime();
+            var ferq = oyunTarixi - indi;
 
             if (ferq < 0) {
                 clearInterval(x);
@@ -264,6 +297,6 @@
         commentInput.value = "";
     }
 </script>
-
+    
 </body>
 </html>
