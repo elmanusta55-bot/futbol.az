@@ -4,269 +4,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Futbol.az</title>
-        <meta name="theme-color" content="#020617">
+    <meta name="theme-color" content="#020617">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="logo.png">
     <style>
-        /* Ümumi dizaynlar */
         body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: #0f172a; color: #fff; text-align: center; }
         a { text-decoration: none; color: inherit; }
-        
-        /* Menyular */
         header { background: #020617; color: white; display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; position: sticky; top: 0; z-index: 999; border-bottom: 1px solid #1e293b;}
-        .menu-btn { font-size: 26px; background: none; border: none; color: white; cursor: pointer; margin-left: 5px; }
-        .dropdown { display: none; position: absolute; right: 15px; top: 55px; background: #020617; border-radius: 12px; overflow: hidden; min-width: 190px; box-shadow: 0 5px 25px rgba(0,0,0,.4); }
+        .menu-btn { font-size: 26px; background: none; border: none; color: white; cursor: pointer; }
+        .dropdown { display: none; position: absolute; right: 15px; top: 55px; background: #020617; border-radius: 12px; min-width: 190px; box-shadow: 0 5px 25px rgba(0,0,0,.4); border: 1px solid #1e293b;}
         .dropdown a { display: block; padding: 12px; color: white; border-bottom: 1px solid #1e293b; text-align: left;}
-        .dropdown a:hover { background: #1e293b; }
-        
-        /* Axtarış və bölmələr */
         .section { max-width: 650px; margin: 20px auto; background: #020617; padding: 18px; border-radius: 14px; box-shadow: 0 5px 15px rgba(0,0,0,.4); }
-        input[type="text"], textarea { width: 90%; padding: 10px; border-radius: 8px; border: 1px solid #334155; margin-bottom: 15px; background: #0f172a; color: #fff; outline: none;}
-        
-        /* Səsvermə */
+        input, textarea { width: 90%; padding: 10px; border-radius: 8px; border: 1px solid #334155; margin-bottom: 15px; background: #0f172a; color: #fff; outline: none;}
         .poll-container { background: #1e293b; max-width: 610px; margin: 20px auto; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); border-top: 5px solid #27ae60; }
-        .poll-container h3 { margin-top: 0; }
-        .poll-buttons button { background: #27ae60; color: #000; border: none; padding: 12px 25px; margin: 10px; border-radius: 5px; cursor: pointer; font-size: 16px; transition: 0.3s; font-weight: bold;}
-        .poll-buttons button:hover { background: #1e8449; transform: scale(1.05); }
-        
-        /* Cədvəl Dizaynı */
-        table { width: 100%; border-collapse: collapse; background: #151618; border-radius: 10px; overflow: hidden; }
-        th, td { padding: 12px; border-bottom: 1px solid #2c2f33; font-size: 14px; }
-        
+        .poll-buttons button { background: #27ae60; color: #000; border: none; padding: 12px 25px; margin: 10px; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;}
+        table { width: 100%; border-collapse: collapse; background: #151618; border-radius: 10px; overflow: hidden; white-space: nowrap;}
+        th, td { padding: 12px 8px; border-bottom: 1px solid #2c2f33; font-size: 13px; text-align: center;}
         footer { background: #020617; color: white; text-align: center; padding: 15px; margin-top: 40px; border-top: 1px solid #1e293b;}
-
-        /* Yeni Şərh Animasiyası */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-
 <body>
-
 <header>
-  <div class="logo" style="display: flex; align-items: center; gap: 10px;">
-      <img src="logo.png" alt="Loqo" style="height: 40px; border-radius: 5px;">
-      <span style="font-size: 20px; font-weight: bold; color: #2ecc71;">Futbol.az</span>
-  </div>
-  
+  <div class="logo" style="display: flex; align-items: center; gap: 10px;"><img src="logo.png" alt="Loqo" style="height: 40px;"><span style="font-size: 20px; font-weight: bold; color: #2ecc71;">Futbol.az</span></div>
   <button class="menu-btn" onclick="toggleMenu()">⋮</button>
   <div class="dropdown" id="dropdown">
-    <a href="#today">📅 Günün Oyunları</a>
-    <a href="#live">🔴 Canlı</a>
-    <a href="#transfer">💰 Transfer</a>
-    <a href="#tv">📺 Canlı TV</a>
-    <a href="#contact">📞 Əlaqə</a>
+    <a href="#today">📅 Günün Oyunları</a><a href="#live">🔴 Canlı</a><a href="#transfer">💰 Transfer</a><a href="#tv">📺 Canlı TV</a>
   </div>
 </header>
-
 <main>
-    <div class="section">
-        <input type="text" id="search" placeholder="🔍 Xəbər, komanda və ya oyunçu axtar...">
+    <div class="section"><input type="text" placeholder="🔍 Axtarış..."></div>
+    <div id="countdown-container" style="max-width: 650px; margin: 20px auto; background: linear-gradient(135deg, #1a1c1f, #0b0c0d); padding: 25px; border-radius: 12px; border: 1px solid #333;">
+        <h3 style="color: #2ecc71; margin: 0;">🏆 Qarabağ - Newcastle</h3>
+        <div id="timer" style="font-size: 28px; font-weight: bold; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; display: inline-block;">Yüklənir...</div>
     </div>
-
-    <div id="countdown-container" style="max-width: 650px; margin: 20px auto; background: linear-gradient(135deg, #1a1c1f, #0b0c0d); padding: 20px; border-radius: 12px; border: 1px solid #333;">
-        <h3 style="color: #2ecc71; margin: 0 0 10px 0;">🏆 Çempionlar Liqası</h3>
-        <p style="margin: 0 0 15px 0; font-size: 18px;">Qarabağ FK - Newcastle United</p>
-        <div id="timer" style="font-size: 28px; font-weight: bold; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; display: inline-block; min-width: 200px;">Yüklənir...</div>
-    </div>
-
-    <div style="max-width: 650px; margin: 20px auto; overflow-x: auto; box-shadow: 0 6px 15px rgba(0,0,0,0.4); border-radius: 10px;">
-        <div style="background: #0b0c0d; color: white; padding: 15px; text-align: center; font-size: 18px; font-weight: bold; border-bottom: 2px solid #27ae60;">
-            🏆 Azərbaycan Premyer Liqası
-        </div>
+    <div style="max-width: 650px; margin: 20px auto; overflow-x: auto; border-radius: 10px;">
         <table>
-            <tr style="background: #1e2022; color: #aaa;">
-                <th>#</th><th style="text-align: left;">Komanda</th><th>O</th><th>X</th>
-            </tr>
-            <tr>
-                <td><span style="background: #0052cc; color: white; padding: 3px 7px; border-radius: 4px; font-weight: bold;">1</span></td>
-                <td style="text-align: left; font-weight: bold;">Sabah Baku</td><td>19</td><td style="font-weight: bold; color: #2ecc71;">46</td>
-            </tr>
-            <tr style="background: #1a1c1f;">
-                <td><span style="background: #900c3f; color: white; padding: 3px 7px; border-radius: 4px; font-weight: bold;">2</span></td>
-                <td style="text-align: left; font-weight: bold;">Qarabağ</td><td>19</td><td style="font-weight: bold; color: #2ecc71;">42</td>
-            </tr>
-            <tr>
-                <td><span style="background: #900c3f; color: white; padding: 3px 7px; border-radius: 4px; font-weight: bold;">3</span></td>
-                <td style="text-align: left; font-weight: bold;">Turan Tovuz</td><td>18</td><td style="font-weight: bold; color: #2ecc71;">33</td>
-            </tr>
-            <tr style="background: #1a1c1f;">
-                <td>4</td><td style="text-align: left;">Zirə</td><td>19</td><td>32</td>
-            </tr>
-            <tr>
-                <td>5</td><td style="text-align: left;">Sumqayıt</td><td>19</td><td>30</td>
-            </tr>
+            <tr style="background: #0b0c0d; color: #2ecc71;"><th>#</th><th style="text-align: left;">Komanda</th><th>O</th><th>Q</th><th>H</th><th>M</th><th>Xal</th></tr>
+            <tr style="background:#151618"><td>1</td><td style="text-align:left">Sabah</td><td>19</td><td>14</td><td>4</td><td>1</td><td>46</td></tr>
+            <tr style="background:#1a1c1f"><td>2</td><td style="text-align:left">Qarabağ</td><td>19</td><td>13</td><td>3</td><td>3</td><td>42</td></tr>
+            <tr style="background:#151618"><td>3</td><td style="text-align:left">Turan Tovuz</td><td>18</td><td>10</td><td>3</td><td>5</td><td>33</td></tr>
+            <tr style="background:#1a1c1f"><td>4</td><td style="text-align:left">Zirə</td><td>19</td><td>8</td><td>8</td><td>3</td><td>32</td></tr>
+            <tr style="background:#151618"><td>5</td><td style="text-align:left">Sumqayıt</td><td>19</td><td>9</td><td>3</td><td>7</td><td>30</td></tr>
+            <tr style="background:#1a1c1f"><td>6</td><td style="text-align:left">Neftçi</td><td>19</td><td>6</td><td>9</td><td>4</td><td>27</td></tr>
+            <tr style="background:#151618"><td>7</td><td style="text-align:left">Araz</td><td>19</td><td>7</td><td>6</td><td>6</td><td>27</td></tr>
+            <tr style="background:#1a1c1f"><td>8</td><td style="text-align:left">Şamaxı</td><td>19</td><td>6</td><td>5</td><td>8</td><td>23</td></tr>
+            <tr style="background:#151618"><td>9</td><td style="text-align:left">İmişli</td><td>19</td><td>4</td><td>7</td><td>8</td><td>19</td></tr>
+            <tr style="background:#1a1c1f"><td>10</td><td style="text-align:left">Qəbələ</td><td>18</td><td>4</td><td>2</td><td>12</td><td>14</td></tr>
+            <tr style="background:#151618"><td>11</td><td style="text-align:left; color:red">Kəpəz</td><td>19</td><td>4</td><td>1</td><td>14</td><td>13</td></tr>
+            <tr style="background:#1a1c1f"><td>12</td><td style="text-align:left; color:red">Karvan</td><td>19</td><td>1</td><td>3</td><td>15</td><td>6</td></tr>
         </table>
     </div>
-
-    <div style="max-width: 650px; margin: 20px auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 12px; overflow: hidden; background: #1a1b1e; color: white;">
-        <div style="background: #24262b; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333;">
-            <span style="font-weight: bold; font-size: 18px; color: #fff;">🎯 Bombardirlər</span>
-            <span style="font-size: 12px; color: #2ecc71; background: rgba(46, 204, 113, 0.1); padding: 5px 10px; border-radius: 20px;">Canlı Statistika</span>
-        </div>
-        <div style="padding: 5px;">
-            <div style="display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #26282c; align-items: center;">
-                <div style="display: flex; align-items: center;">
-                    <span style="width: 25px; font-weight: bold; color: #555;">1.</span>
-                    <div style="margin-left: 10px;">
-                        <div style="font-weight: bold; font-size: 15px;">Mickels J.</div><div style="font-size: 12px; color: #888;">Sabah Baku</div>
-                    </div>
-                </div>
-                <div style="font-size: 18px; font-weight: bold; color: #2ecc71;">9</div>
-            </div>
-            <div style="display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #26282c; align-items: center; background: #1e2024;">
-                <div style="display: flex; align-items: center;">
-                    <span style="width: 25px; font-weight: bold; color: #555;">1.</span>
-                    <div style="margin-left: 10px;">
-                        <div style="font-weight: bold; font-size: 15px;">Simic V.</div><div style="font-size: 12px; color: #888;">Sabah Baku</div>
-                    </div>
-                </div>
-                <div style="font-size: 18px; font-weight: bold; color: #2ecc71;">9</div>
-            </div>
-            <div style="display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #26282c; align-items: center;">
-                <div style="display: flex; align-items: center;">
-                    <span style="width: 25px; font-weight: bold; color: #555;">3.</span>
-                    <div style="margin-left: 10px;">
-                        <div style="font-weight: bold; font-size: 15px;">Bayramov T.</div><div style="font-size: 12px; color: #888;">Qarabağ</div>
-                    </div>
-                </div>
-                <div style="font-size: 18px; font-weight: bold; color: #fff;">7</div>
-            </div>
+        <div style="max-width: 650px; margin: 20px auto; background: #1a1b1e; border-radius: 12px; overflow: hidden; border: 1px solid #333;">
+        <div style="background: #24262b; padding: 15px; color: #2ecc71; font-weight: bold; text-align: left;">🎯 Top Bombardirlər</div>
+        <div style="padding: 10px;">
+            <div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #333;"><span>1. Mickels (Sabah)</span><b>9</b></div>
+            <div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #333;"><span>1. Simic (Sabah)</span><b>9</b></div>
+            <div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #333;"><span>3. Bayramov (Qarabağ)</span><b>7</b></div>
+            <div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #333;"><span>3. Dos Santos (İmişli)</span><b>7</b></div>
+            <div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #333;"><span>3. Rossi (Şamaxı)</span><b>7</b></div>
+            <div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #333;"><span>3. Sambou (Neftçi)</span><b>7</b></div>
+            <div style="display:flex; justify-content:space-between; padding:10px;"><span>3. Simakala (Araz)</span><b>7</b></div>
         </div>
     </div>
-
     <div class="poll-container">
-        <h3 style="color: #27ae60;">⚽ Günün Oyunu: Qalatasaray vs Eyüpspor</h3>
-        <p>Sizcə kim qalib gələcək?</p>
-        <div id="buttons" class="poll-buttons">
-            <button onclick="sesVer('Qalatasaray')">Qalatasaray</button>
-            <button onclick="sesVer('Heç-heçə')">Heç-heçə</button>
-            <button onclick="sesVer('Eyüpspor')">Eyüpspor</button>
-        </div>
-        <div id="netice" style="margin-top: 15px; font-weight: bold; color: #2ecc71;"></div>
+        <h3 style="color:#2ecc71">⚽ Səsvermə: GS - Eyüpspor</h3>
+        <div id="buttons"><button onclick="sesVer('GS')">GS</button><button onclick="sesVer('Heç-heçə')">Heç-heçə</button></div>
+        <div id="netice"></div>
     </div>
-
-    <div id="comments-section" style="max-width: 650px; margin: 40px auto; background: #1a1b1e; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #333; color: white; text-align: left;">
-        <h3 style="color: #2ecc71; margin-top: 0; border-bottom: 2px solid #26282c; padding-bottom: 15px; font-size: 20px;">
-            💬 Canlı Müzakirə
-        </h3>
-
-        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px;">
-            <input type="text" id="userName" placeholder="Adınız (məs: Elman)...">
-            <textarea id="userComment" placeholder="Oyunlar, transferlər və komandalar haqqında fikrinizi yazın..." rows="3"></textarea>
-            <button onclick="addComment()" style="background: #2ecc71; color: #000; font-weight: bold; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 15px; transition: 0.3s;">
-                Şərh Göndər ➔
-            </button>
-        </div>
-
-        <div id="commentsList" style="display: flex; flex-direction: column; gap: 15px;">
-            <div style="background: #24262b; padding: 15px; border-radius: 8px; border-left: 4px solid #2ecc71;">
-                <div style="font-weight: bold; font-size: 14px; color: #2ecc71; margin-bottom: 5px;">
-                    Sadiq <span style="font-size: 11px; color: #888; font-weight: normal; margin-left: 10px;">19:15</span>
-                </div>
-                <div style="font-size: 14px; color: #ddd; line-height: 1.5;">
-                    Qarabağ bu gün mütləq qələbə qazanmalıdır! Juninhodan qol gözləyirəm. Sayt da əla alınıb! 🔥
-                </div>
-            </div>
-        </div>
+    <div class="section" style="text-align: left;">
+        <h3 style="color: #2ecc71;">💬 Canlı Müzakirə</h3>
+        <input type="text" id="userName" placeholder="Adınız...">
+        <textarea id="userComment" placeholder="Fikriniz..." rows="3"></textarea>
+        <button onclick="addComment()" style="background:#2ecc71; color:#000; font-weight:bold; border:none; padding:12px; border-radius:8px; width:100%; cursor:pointer;">Göndər</button>
+        <div id="commentsList" style="margin-top:20px;"></div>
     </div>
-
 </main>
-
-<footer>
-    <p>&copy; 2026 Futbol.az - Bütün hüquqlar qorunur</p>
-</footer>
-
+<footer><p>&copy; 2026 Futbol.az</p></footer>
 <script>
-    // 1. Menyu aç/bağla kodu
-    function toggleMenu() {
-        var dropdown = document.getElementById("dropdown");
-        if (dropdown.style.display === "block") {
-            dropdown.style.display = "none";
-        } else {
-            dropdown.style.display = "block";
-        }
-    }
-
-    // 2. Səsvermə kodu
-    function sesVer(komanda) {
-        var netice = document.getElementById('netice');
-        var buttons = document.getElementById('buttons');
-        if(netice && buttons) {
-            netice.innerHTML = "Səs verdiniz: " + komanda + ". Təşəkkürlər!";
-            buttons.style.display = 'none'; 
-        }
-    }
-
-    // 3. Gerisayım (Countdown) kodu (Xətasız format)
+    function toggleMenu() { var d = document.getElementById("dropdown"); d.style.display = (d.style.display === "block") ? "none" : "block"; }
+    function sesVer(k) { document.getElementById('netice').innerHTML = "✅ Səs verildi: " + k; document.getElementById('buttons').style.display = 'none'; }
     function startTimer() {
-        var timerElement = document.getElementById("timer");
-        if(!timerElement) return;
-
-        var oyunTarixi = new Date("2026-02-18T21:45:00").getTime();
-        
-        var x = setInterval(function() {
-            var indi = new Date().getTime();
-            var ferq = oyunTarixi - indi;
-
-            if (ferq < 0) {
-                clearInterval(x);
-                timerElement.innerHTML = "⚽ OYUN BAŞLADI!";
-                timerElement.style.color = "#e74c3c"; 
-            } else {
-                var gunler = Math.floor(ferq / (1000 * 60 * 60 * 24));
-                var saatlar = Math.floor((ferq % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                var deqiqeler = Math.floor((ferq % (1000 * 60 * 60)) / (1000 * 60));
-                var saniyeler = Math.floor((ferq % (1000 * 60)) / 1000);
-
-                timerElement.innerHTML = gunler + "g " + saatlar + "s " + deqiqeler + "d " + saniyeler + "san";
-            }
+        var t = new Date("2026-02-18T21:45:00").getTime();
+        setInterval(function() {
+            var n = new Date().getTime(); var f = t - n;
+            if (f < 0) { document.getElementById("timer").innerHTML = "⚽ OYUN BAŞLADI!"; return; }
+            var d = Math.floor(f / (1000 * 60 * 60 * 24));
+            var h = Math.floor((f % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var m = Math.floor((f % (1000 * 60 * 60)) / (1000 * 60));
+            var s = Math.floor((f % (1000 * 60)) / 1000);
+            document.getElementById("timer").innerHTML = d + "g " + h + "s " + m + "d " + s + "san";
         }, 1000);
     }
     startTimer();
-
-    // 4. CANLI ŞƏRH KODU (Xətasız format)
     function addComment() {
-        var nameInput = document.getElementById("userName");
-        var commentInput = document.getElementById("userComment");
-
-        if (!nameInput || !commentInput) return;
-
-        var name = nameInput.value.trim();
-        var comment = commentInput.value.trim();
-
-        if (name === "" || comment === "") {
-            alert("⚠️ Zəhmət olmasa adınızı və şərhinizi yazın!");
-            return;
-        }
-
-        var time = new Date();
-        var hours = time.getHours();
-        var minutes = time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes();
-        var timeString = hours + ":" + minutes;
-
-        var commentBox = document.createElement("div");
-        commentBox.style.background = "#24262b";
-        commentBox.style.padding = "15px";
-        commentBox.style.borderRadius = "8px";
-        commentBox.style.borderLeft = "4px solid #2ecc71";
-        commentBox.style.animation = "fadeIn 0.5s";
-        commentBox.style.marginBottom = "15px";
-
-        // Təhlükəsiz HTML birləşdirmə
-        commentBox.innerHTML = '<div style="font-weight: bold; font-size: 14px; color: #fff; margin-bottom: 5px;">' + name + ' <span style="font-size: 11px; color: #888; font-weight: normal; margin-left: 10px;">' + timeString + '</span></div><div style="font-size: 14px; color: #ddd; line-height: 1.5;">' + comment + '</div>';
-
-        var list = document.getElementById("commentsList");
-        if(list) {
-            list.insertBefore(commentBox, list.firstChild);
-        }
-
-        nameInput.value = "";
-        commentInput.value = "";
+        var u = document.getElementById("userName").value; var c = document.getElementById("userComment").value;
+        if(u=="" || c=="") { alert("Boş buraxmayın!"); return; }
+        var box = document.createElement("div"); box.style = "background:#24262b; padding:10px; border-radius:8px; border-left:4px solid #2ecc71; margin-bottom:10px; animation: fadeIn 0.5s;";
+        box.innerHTML = "<b>"+u+":</b> <p>"+c+"</p>";
+        document.getElementById("commentsList").prepend(box);
+        document.getElementById("userName").value = ""; document.getElementById("userComment").value = "";
     }
+    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js'); }
 </script>
-
 </body>
 </html>
