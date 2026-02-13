@@ -6,36 +6,31 @@
     <title>Futbol.az</title>
     <style>
         /* Ümumi dizaynlar */
-        body { margin: 0; font-family: Segoe UI, Arial, sans-serif; background: #0f172a; color: #fff; text-align: center; }
+        body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: #0f172a; color: #fff; text-align: center; }
         a { text-decoration: none; color: inherit; }
         
         /* Menyular */
-        header { background: #020617; color: white; display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; position: sticky; top: 0; z-index: 999; }
+        header { background: #020617; color: white; display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; position: sticky; top: 0; z-index: 999; border-bottom: 1px solid #1e293b;}
         .menu-btn { font-size: 26px; background: none; border: none; color: white; cursor: pointer; margin-left: 5px; }
         .dropdown { display: none; position: absolute; right: 15px; top: 55px; background: #020617; border-radius: 12px; overflow: hidden; min-width: 190px; box-shadow: 0 5px 25px rgba(0,0,0,.4); }
-        .dropdown a { display: block; padding: 12px; color: white; border-bottom: 1px solid #1e293b; }
+        .dropdown a { display: block; padding: 12px; color: white; border-bottom: 1px solid #1e293b; text-align: left;}
         .dropdown a:hover { background: #1e293b; }
         
         /* Axtarış və bölmələr */
-        .section { max-width: 950px; margin: 20px auto; background: #020617; padding: 18px; border-radius: 14px; box-shadow: 0 5px 15px rgba(0,0,0,.4); }
-        input[type="text"] { width: 90%; padding: 10px; border-radius: 8px; border: 1px solid #334155; margin-bottom: 15px; background: #0f172a; color: #fff; outline: none;}
-        
-        /* Xəbər Kartları CSS */
-        .news-wrapper { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; text-align: left; }
-        .news-card { min-width: 260px; flex: 1; background: #1e293b; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: 0.3s; }
-        .news-card:hover { transform: translateY(-5px); }
-        .news-img { width: 100%; height: 160px; object-fit: cover; }
-        .news-content { padding: 15px; }
-        .news-tag { font-size: 12px; color: #2ecc71; margin-bottom: 5px; font-weight: bold; }
-        .news-title { margin: 0 0 10px 0; color: white; font-size: 16px; line-height: 1.4; }
+        .section { max-width: 650px; margin: 20px auto; background: #020617; padding: 18px; border-radius: 14px; box-shadow: 0 5px 15px rgba(0,0,0,.4); }
+        input[type="text"], textarea { width: 90%; padding: 10px; border-radius: 8px; border: 1px solid #334155; margin-bottom: 15px; background: #0f172a; color: #fff; outline: none;}
         
         /* Səsvermə */
-        .poll-container { background: #020617; max-width: 610px; margin: 20px auto; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); border-top: 5px solid #27ae60; }
+        .poll-container { background: #1e293b; max-width: 610px; margin: 20px auto; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); border-top: 5px solid #27ae60; }
         .poll-container h3 { margin-top: 0; }
-        .poll-buttons button { background: #27ae60; color: white; border: none; padding: 12px 25px; margin: 10px; border-radius: 5px; cursor: pointer; font-size: 16px; transition: 0.3s; }
+        .poll-buttons button { background: #27ae60; color: #000; border: none; padding: 12px 25px; margin: 10px; border-radius: 5px; cursor: pointer; font-size: 16px; transition: 0.3s; font-weight: bold;}
         .poll-buttons button:hover { background: #1e8449; transform: scale(1.05); }
         
-        footer { background: #020617; color: white; text-align: center; padding: 15px; margin-top: 40px; }
+        /* Cədvəl Dizaynı */
+        table { width: 100%; border-collapse: collapse; background: #151618; border-radius: 10px; overflow: hidden; }
+        th, td { padding: 12px; border-bottom: 1px solid #2c2f33; font-size: 14px; }
+        
+        footer { background: #020617; color: white; text-align: center; padding: 15px; margin-top: 40px; border-top: 1px solid #1e293b;}
 
         /* Yeni Şərh Animasiyası */
         @keyframes fadeIn {
@@ -68,101 +63,39 @@
         <input type="text" id="search" placeholder="🔍 Xəbər, komanda və ya oyunçu axtar...">
     </div>
 
-    <div class="section" style="background: transparent; box-shadow: none; padding: 0;">
-        <h2 style="color: #2ecc71; text-align: left; border-bottom: 2px solid #1e293b; padding-bottom: 10px; margin-bottom: 20px;">📰 Son Xəbərlər</h2>
-        <div class="news-wrapper">
-            <div class="news-card">
-                <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=400&auto=format&fit=crop" class="news-img">
-                <div class="news-content">
-                    <div class="news-tag">PREMYER LİQA</div>
-                    <h4 class="news-title">"Sabah" liderliyini qoruyur: Ardıcıl inamlı qələbələr davam edir</h4>
-                    <a href="#" style="font-size: 13px; color: #888; text-decoration: underline;">Ətraflı oxu ➔</a>
-                </div>
-            </div>
-            <div class="news-card">
-                <img src="https://images.unsplash.com/photo-1518605368461-1e1e38ce8058?q=80&w=400&auto=format&fit=crop" class="news-img">
-                <div class="news-content">
-                    <div class="news-tag">ÇEMPİONLAR LİQASI</div>
-                    <h4 class="news-title">"Qarabağ"ın "Nyukasl"la tarixi oyunu üçün biletlər satışa çıxdı</h4>
-                    <a href="#" style="font-size: 13px; color: #888; text-decoration: underline;">Ətraflı oxu ➔</a>
-                </div>
-            </div>
-            <div class="news-card">
-                <img src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=400&auto=format&fit=crop" class="news-img">
-                <div class="news-content">
-                    <div class="news-tag">STATİSTİKA</div>
-                    <h4 class="news-title">Jesse Lingard mövsümə damğa vurur! O, artıq zirvədədir</h4>
-                    <a href="#" style="font-size: 13px; color: #888; text-decoration: underline;">Ətraflı oxu ➔</a>
-                </div>
-            </div>
-        </div>
+    <div id="countdown-container" style="max-width: 650px; margin: 20px auto; background: linear-gradient(135deg, #1a1c1f, #0b0c0d); padding: 20px; border-radius: 12px; border: 1px solid #333;">
+        <h3 style="color: #2ecc71; margin: 0 0 10px 0;">🏆 Çempionlar Liqası</h3>
+        <p style="margin: 0 0 15px 0; font-size: 18px;">Qarabağ FK - Newcastle United</p>
+        <div id="timer" style="font-size: 28px; font-weight: bold; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; display: inline-block; min-width: 200px;">Yüklənir...</div>
     </div>
 
-    <div class="poll-container">
-        <h3 style="color: #27ae60;">⚽ Günün Oyunu: Qalatasaray vs Eyüpspor</h3>
-        <p>Sizcə kim qalib gələcək?</p>
-        <div id="buttons" class="poll-buttons">
-            <button onclick="sesVer('Qalatasaray')">Qalatasaray</button>
-            <button onclick="sesVer('Heç-heçə')">Heç-heçə</button>
-            <button onclick="sesVer('Eyüpspor')">Eyüpspor</button>
-        </div>
-        <div id="netice" style="margin-top: 15px; font-weight: bold; color: #2ecc71;"></div>
-    </div>
-
-    <div style="max-width: 650px; margin: 20px auto; font-family: Arial, sans-serif; box-shadow: 0 6px 15px rgba(0,0,0,0.4); border-radius: 10px; overflow: hidden; background: #151618; color: white;">
+    <div style="max-width: 650px; margin: 20px auto; overflow-x: auto; box-shadow: 0 6px 15px rgba(0,0,0,0.4); border-radius: 10px;">
         <div style="background: #0b0c0d; color: white; padding: 15px; text-align: center; font-size: 18px; font-weight: bold; border-bottom: 2px solid #27ae60;">
             🏆 Azərbaycan Premyer Liqası
         </div>
-        <table style="width: 100%; border-collapse: collapse; text-align: center; font-size: 14px;">
-            <tr style="background: #1e2022; color: #aaa; border-bottom: 1px solid #333;">
-                <th style="padding: 12px 5px;">#</th><th style="padding: 12px 10px; text-align: left;">Komanda</th><th style="padding: 12px 5px;">O</th><th style="padding: 12px 5px;">Q</th><th style="padding: 12px 5px;">H</th><th style="padding: 12px 5px;">M</th><th style="padding: 12px 5px; font-weight: bold; color: #fff;">Xal</th>
+        <table>
+            <tr style="background: #1e2022; color: #aaa;">
+                <th>#</th><th style="text-align: left;">Komanda</th><th>O</th><th>X</th>
             </tr>
-            <tr style="border-bottom: 1px solid #2c2f33; background: #151618;">
-                <td style="padding: 10px 5px;"><span style="background: #0052cc; color: white; padding: 3px 7px; border-radius: 4px; font-weight: bold;">1</span></td><td style="padding: 10px; text-align: left; font-weight: bold; color: white;">Sabah Baku</td><td style="color: #ccc;">19</td><td style="color: #ccc;">14</td><td style="color: #ccc;">4</td><td style="color: #ccc;">1</td><td style="font-weight: bold; color: #2ecc71;">46</td>
+            <tr>
+                <td><span style="background: #0052cc; color: white; padding: 3px 7px; border-radius: 4px; font-weight: bold;">1</span></td>
+                <td style="text-align: left; font-weight: bold;">Sabah Baku</td><td>19</td><td style="font-weight: bold; color: #2ecc71;">46</td>
             </tr>
-            <tr style="border-bottom: 1px solid #2c2f33; background: #1a1c1f;">
-                <td style="padding: 10px 5px;"><span style="background: #900c3f; color: white; padding: 3px 7px; border-radius: 4px; font-weight: bold;">2</span></td><td style="padding: 10px; text-align: left; font-weight: bold; color: white;">Qarabağ</td><td style="color: #ccc;">19</td><td style="color: #ccc;">13</td><td style="color: #ccc;">3</td><td style="color: #ccc;">3</td><td style="font-weight: bold; color: #2ecc71;">42</td>
+            <tr style="background: #1a1c1f;">
+                <td><span style="background: #900c3f; color: white; padding: 3px 7px; border-radius: 4px; font-weight: bold;">2</span></td>
+                <td style="text-align: left; font-weight: bold;">Qarabağ</td><td>19</td><td style="font-weight: bold; color: #2ecc71;">42</td>
             </tr>
-            <tr style="border-bottom: 1px solid #2c2f33; background: #151618;">
-                <td style="padding: 10px 5px;"><span style="background: #900c3f; color: white; padding: 3px 7px; border-radius: 4px; font-weight: bold;">3</span></td><td style="padding: 10px; text-align: left; font-weight: bold; color: white;">Turan Tovuz</td><td style="color: #ccc;">18</td><td style="color: #ccc;">10</td><td style="color: #ccc;">3</td><td style="color: #ccc;">5</td><td style="font-weight: bold; color: #2ecc71;">33</td>
+            <tr>
+                <td><span style="background: #900c3f; color: white; padding: 3px 7px; border-radius: 4px; font-weight: bold;">3</span></td>
+                <td style="text-align: left; font-weight: bold;">Turan Tovuz</td><td>18</td><td style="font-weight: bold; color: #2ecc71;">33</td>
             </tr>
-            <tr style="border-bottom: 1px solid #2c2f33; background: #1a1c1f;">
-                <td style="padding: 10px 5px; color: #aaa; font-weight: bold;">4</td><td style="padding: 10px; text-align: left; color: white;">Zirə</td><td style="color: #ccc;">19</td><td style="color: #ccc;">8</td><td style="color: #ccc;">8</td><td style="color: #ccc;">3</td><td style="font-weight: bold; color: #fff;">32</td>
+            <tr style="background: #1a1c1f;">
+                <td>4</td><td style="text-align: left;">Zirə</td><td>19</td><td>32</td>
             </tr>
-            <tr style="border-bottom: 1px solid #2c2f33; background: #151618;">
-                <td style="padding: 10px 5px; color: #aaa; font-weight: bold;">5</td><td style="padding: 10px; text-align: left; color: white;">Sumqayıt</td><td style="color: #ccc;">19</td><td style="color: #ccc;">9</td><td style="color: #ccc;">3</td><td style="color: #ccc;">7</td><td style="font-weight: bold; color: #fff;">30</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #2c2f33; background: #1a1c1f;">
-                <td style="padding: 10px 5px; color: #aaa; font-weight: bold;">6</td><td style="padding: 10px; text-align: left; color: white;">Neftçi Baku</td><td style="color: #ccc;">19</td><td style="color: #ccc;">6</td><td style="color: #ccc;">9</td><td style="color: #ccc;">4</td><td style="font-weight: bold; color: #fff;">27</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #2c2f33; background: #151618;">
-                <td style="padding: 10px 5px; color: #aaa; font-weight: bold;">7</td><td style="padding: 10px; text-align: left; color: white;">Araz</td><td style="color: #ccc;">19</td><td style="color: #ccc;">7</td><td style="color: #ccc;">6</td><td style="color: #ccc;">6</td><td style="font-weight: bold; color: #fff;">27</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #2c2f33; background: #1a1c1f;">
-                <td style="padding: 10px 5px; color: #aaa; font-weight: bold;">8</td><td style="padding: 10px; text-align: left; color: white;">Şamaxı</td><td style="color: #ccc;">19</td><td style="color: #ccc;">6</td><td style="color: #ccc;">5</td><td style="color: #ccc;">8</td><td style="font-weight: bold; color: #fff;">23</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #2c2f33; background: #151618;">
-                <td style="padding: 10px 5px; color: #aaa; font-weight: bold;">9</td><td style="padding: 10px; text-align: left; color: white;">İmişli FK</td><td style="color: #ccc;">19</td><td style="color: #ccc;">4</td><td style="color: #ccc;">7</td><td style="color: #ccc;">8</td><td style="font-weight: bold; color: #fff;">19</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #2c2f33; background: #1a1c1f;">
-                <td style="padding: 10px 5px; color: #aaa; font-weight: bold;">10</td><td style="padding: 10px; text-align: left; color: white;">Qəbələ</td><td style="color: #ccc;">18</td><td style="color: #ccc;">4</td><td style="color: #ccc;">2</td><td style="color: #ccc;">12</td><td style="font-weight: bold; color: #fff;">14</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #2c2f33; background: #151618;">
-                <td style="padding: 10px 5px;"><span style="background: #e74c3c; color: white; padding: 3px 5px; border-radius: 4px; font-weight: bold;">11</span></td><td style="padding: 10px; text-align: left; color: white;">Kəpəz</td><td style="color: #ccc;">19</td><td style="color: #ccc;">4</td><td style="color: #ccc;">1</td><td style="color: #ccc;">14</td><td style="font-weight: bold; color: #e74c3c;">13</td>
-            </tr>
-            <tr style="border-bottom: 1px solid #2c2f33; background: #1a1c1f;">
-                <td style="padding: 10px 5px;"><span style="background: #e74c3c; color: white; padding: 3px 5px; border-radius: 4px; font-weight: bold;">12</span></td><td style="padding: 10px; text-align: left; color: white;">Karvan</td><td style="color: #ccc;">19</td><td style="color: #ccc;">1</td><td style="color: #ccc;">3</td><td style="color: #ccc;">15</td><td style="font-weight: bold; color: #e74c3c;">6</td>
+            <tr>
+                <td>5</td><td style="text-align: left;">Sumqayıt</td><td>19</td><td>30</td>
             </tr>
         </table>
-    </div>
-
-    <div id="countdown-container" style="max-width: 650px; margin: 20px auto; background: linear-gradient(135px, #1a1c1f, #0b0c0d); color: white; padding: 25px; border-radius: 10px; text-align: center; box-shadow: 0 6px 15px rgba(0,0,0,0.4); border: 1px solid #333;">
-        <h3 style="margin: 0 0 10px 0; color: #2ecc71; font-size: 16px;">🏆 Çempionlar Liqası - Pley-off</h3>
-        <h2 style="margin: 0 0 15px 0; font-size: 24px;">Qarabağ FK - Newcastle United</h2>
-        <div id="timer" style="font-size: 32px; font-weight: bold; letter-spacing: 2px; color: #fff; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; display: inline-block;">
-            Yüklənir...
-        </div>
-        <p style="margin-top: 15px; font-size: 13px; color: #888;">Oyunun başlamasına qalan vaxt (18 Fevral, 21:45)</p>
     </div>
 
     <div style="max-width: 650px; margin: 20px auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 12px; overflow: hidden; background: #1a1b1e; color: white;">
@@ -198,35 +131,28 @@
                 </div>
                 <div style="font-size: 18px; font-weight: bold; color: #fff;">7</div>
             </div>
-            <div style="display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #26282c; align-items: center; background: #1e2024;">
-                <div style="display: flex; align-items: center;">
-                    <span style="width: 25px; font-weight: bold; color: #555;">3.</span>
-                    <div style="margin-left: 10px;">
-                        <div style="font-weight: bold; font-size: 15px;">Dos Santos D.</div><div style="font-size: 12px; color: #888;">İmişli FK</div>
-                    </div>
-                </div>
-                <div style="font-size: 18px; font-weight: bold; color: #fff;">7</div>
-            </div>
-            <div style="display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #26282c; align-items: center;">
-                <div style="display: flex; align-items: center;">
-                    <span style="width: 25px; font-weight: bold; color: #555;">3.</span>
-                    <div style="margin-left: 10px;">
-                        <div style="font-weight: bold; font-size: 15px;">Rossi K.</div><div style="font-size: 12px; color: #888;">Şamaxı</div>
-                    </div>
-                </div>
-                <div style="font-size: 18px; font-weight: bold; color: #fff;">7</div>
-            </div>
         </div>
     </div>
 
-    <div id="comments-section" style="max-width: 650px; margin: 40px auto; background: #1a1b1e; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #333; color: white; text-align: left; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <div class="poll-container">
+        <h3 style="color: #27ae60;">⚽ Günün Oyunu: Qalatasaray vs Eyüpspor</h3>
+        <p>Sizcə kim qalib gələcək?</p>
+        <div id="buttons" class="poll-buttons">
+            <button onclick="sesVer('Qalatasaray')">Qalatasaray</button>
+            <button onclick="sesVer('Heç-heçə')">Heç-heçə</button>
+            <button onclick="sesVer('Eyüpspor')">Eyüpspor</button>
+        </div>
+        <div id="netice" style="margin-top: 15px; font-weight: bold; color: #2ecc71;"></div>
+    </div>
+
+    <div id="comments-section" style="max-width: 650px; margin: 40px auto; background: #1a1b1e; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #333; color: white; text-align: left;">
         <h3 style="color: #2ecc71; margin-top: 0; border-bottom: 2px solid #26282c; padding-bottom: 15px; font-size: 20px;">
             💬 Canlı Müzakirə
         </h3>
 
         <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px;">
-            <input type="text" id="userName" placeholder="Adınız (məs: Elman)..." style="padding: 12px; border-radius: 8px; border: 1px solid #333; background: #24262b; color: white; font-size: 14px; outline: none;">
-            <textarea id="userComment" placeholder="Oyunlar, transferlər və komandalar haqqında fikrinizi yazın..." rows="3" style="padding: 12px; border-radius: 8px; border: 1px solid #333; background: #24262b; color: white; font-size: 14px; resize: vertical; outline: none;"></textarea>
+            <input type="text" id="userName" placeholder="Adınız (məs: Elman)...">
+            <textarea id="userComment" placeholder="Oyunlar, transferlər və komandalar haqqında fikrinizi yazın..." rows="3"></textarea>
             <button onclick="addComment()" style="background: #2ecc71; color: #000; font-weight: bold; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 15px; transition: 0.3s;">
                 Şərh Göndər ➔
             </button>
@@ -238,7 +164,7 @@
                     Sadiq <span style="font-size: 11px; color: #888; font-weight: normal; margin-left: 10px;">19:15</span>
                 </div>
                 <div style="font-size: 14px; color: #ddd; line-height: 1.5;">
-                    Sayt əla alınıb! 🔥
+                    Qarabağ bu gün mütləq qələbə qazanmalıdır! Juninhodan qol gözləyirəm. Sayt da əla alınıb! 🔥
                 </div>
             </div>
         </div>
@@ -254,4 +180,90 @@
     // 1. Menyu aç/bağla kodu
     function toggleMenu() {
         var dropdown = document.getElementById("dropdown");
-        if (dropdown.
+        if (dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+        } else {
+            dropdown.style.display = "block";
+        }
+    }
+
+    // 2. Səsvermə kodu
+    function sesVer(komanda) {
+        var netice = document.getElementById('netice');
+        var buttons = document.getElementById('buttons');
+        if(netice && buttons) {
+            netice.innerHTML = "Səs verdiniz: " + komanda + ". Təşəkkürlər!";
+            buttons.style.display = 'none'; 
+        }
+    }
+
+    // 3. Gerisayım (Countdown) kodu (Xətasız format)
+    function startTimer() {
+        var timerElement = document.getElementById("timer");
+        if(!timerElement) return;
+
+        var oyunTarixi = new Date("2026-02-18T21:45:00").getTime();
+        
+        var x = setInterval(function() {
+            var indi = new Date().getTime();
+            var ferq = oyunTarixi - indi;
+
+            if (ferq < 0) {
+                clearInterval(x);
+                timerElement.innerHTML = "⚽ OYUN BAŞLADI!";
+                timerElement.style.color = "#e74c3c"; 
+            } else {
+                var gunler = Math.floor(ferq / (1000 * 60 * 60 * 24));
+                var saatlar = Math.floor((ferq % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var deqiqeler = Math.floor((ferq % (1000 * 60 * 60)) / (1000 * 60));
+                var saniyeler = Math.floor((ferq % (1000 * 60)) / 1000);
+
+                timerElement.innerHTML = gunler + "g " + saatlar + "s " + deqiqeler + "d " + saniyeler + "san";
+            }
+        }, 1000);
+    }
+    startTimer();
+
+    // 4. CANLI ŞƏRH KODU (Xətasız format)
+    function addComment() {
+        var nameInput = document.getElementById("userName");
+        var commentInput = document.getElementById("userComment");
+
+        if (!nameInput || !commentInput) return;
+
+        var name = nameInput.value.trim();
+        var comment = commentInput.value.trim();
+
+        if (name === "" || comment === "") {
+            alert("⚠️ Zəhmət olmasa adınızı və şərhinizi yazın!");
+            return;
+        }
+
+        var time = new Date();
+        var hours = time.getHours();
+        var minutes = time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes();
+        var timeString = hours + ":" + minutes;
+
+        var commentBox = document.createElement("div");
+        commentBox.style.background = "#24262b";
+        commentBox.style.padding = "15px";
+        commentBox.style.borderRadius = "8px";
+        commentBox.style.borderLeft = "4px solid #2ecc71";
+        commentBox.style.animation = "fadeIn 0.5s";
+        commentBox.style.marginBottom = "15px";
+
+        // Təhlükəsiz HTML birləşdirmə
+        commentBox.innerHTML = '<div style="font-weight: bold; font-size: 14px; color: #fff; margin-bottom: 5px;">' + name + ' <span style="font-size: 11px; color: #888; font-weight: normal; margin-left: 10px;">' + timeString + '</span></div><div style="font-size: 14px; color: #ddd; line-height: 1.5;">' + comment + '</div>';
+
+        var list = document.getElementById("commentsList");
+        if(list) {
+            list.insertBefore(commentBox, list.firstChild);
+        }
+
+        nameInput.value = "";
+        commentInput.value = "";
+    }
+</script>
+
+</body>
+</html>
