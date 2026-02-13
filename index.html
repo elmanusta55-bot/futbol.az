@@ -1,111 +1,49 @@
 <!DOCTYPE html>
-<html lang="az">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Futbol.az</title>
-    <meta name="theme-color" content="#020617">
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="logo.png">
-    <style>
-        body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: #0f172a; color: #fff; text-align: center; }
-        a { text-decoration: none; color: inherit; }
-        header { background: #020617; color: white; display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; position: sticky; top: 0; z-index: 999; border-bottom: 1px solid #1e293b;}
-        .menu-btn { font-size: 26px; background: none; border: none; color: white; cursor: pointer; }
-        .dropdown { display: none; position: absolute; right: 15px; top: 55px; background: #020617; border-radius: 12px; min-width: 190px; box-shadow: 0 5px 25px rgba(0,0,0,.4); border: 1px solid #1e293b;}
-        .dropdown a { display: block; padding: 12px; color: white; border-bottom: 1px solid #1e293b; text-align: left;}
-        .section { max-width: 650px; margin: 20px auto; background: #020617; padding: 18px; border-radius: 14px; box-shadow: 0 5px 15px rgba(0,0,0,.4); }
-        input, textarea { width: 90%; padding: 10px; border-radius: 8px; border: 1px solid #334155; margin-bottom: 15px; background: #0f172a; color: #fff; outline: none;}
-        .poll-container { background: #1e293b; max-width: 610px; margin: 20px auto; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); border-top: 5px solid #27ae60; }
-        .poll-buttons button { background: #27ae60; color: #000; border: none; padding: 12px 25px; margin: 10px; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;}
-        table { width: 100%; border-collapse: collapse; background: #151618; border-radius: 10px; overflow: hidden; white-space: nowrap;}
-        th, td { padding: 12px 8px; border-bottom: 1px solid #2c2f33; font-size: 13px; text-align: center;}
-        footer { background: #020617; color: white; text-align: center; padding: 15px; margin-top: 40px; border-top: 1px solid #1e293b;}
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
-</head>
+<html lang="az"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Futbol.az</title>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#020617">
+<style>
+body{margin:0;font-family:sans-serif;background:#0f172a;color:#fff;text-align:center}
+header{background:#020617;display:flex;align-items:center;justify-content:space-between;padding:10px 15px;position:sticky;top:0;z-index:99;border-bottom:1px solid #1e293b}
+.menu-btn{font-size:26px;background:none;border:none;color:#fff;cursor:pointer}
+.dropdown{display:none;position:absolute;right:15px;top:55px;background:#020617;border-radius:12px;min-width:180px;box-shadow:0 5px 25px #000;border:1px solid #1e293b}
+.dropdown a{display:block;padding:12px;color:#fff;text-decoration:none;border-bottom:1px solid #1e293b;text-align:left}
+.section{max-width:600px;margin:15px auto;background:#020617;padding:15px;border-radius:12px;box-shadow:0 5px 15px #000}
+input,textarea{width:90%;padding:10px;margin-bottom:10px;background:#0f172a;color:#fff;border:1px solid #334155;border-radius:8px;outline:none}
+table{width:100%;border-collapse:collapse;background:#151618;border-radius:10px;overflow:hidden;font-size:12px}
+th,td{padding:8px;border-bottom:1px solid #2c2f33}
+.send-btn{background:#2ecc71;color:#000;font-weight:bold;border:none;padding:10px;border-radius:8px;width:100%;cursor:pointer}
+</style></head>
 <body>
 <header>
-  <div class="logo" style="display: flex; align-items: center; gap: 10px;"><img src="logo.png" alt="Loqo" style="height: 40px;"><span style="font-size: 20px; font-weight: bold; color: #2ecc71;">Futbol.az</span></div>
-  <button class="menu-btn" onclick="toggleMenu()">⋮</button>
-  <div class="dropdown" id="dropdown">
-    <a href="#today">📅 Günün Oyunları</a><a href="#live">🔴 Canlı</a><a href="#transfer">💰 Transfer</a><a href="#tv">📺 Canlı TV</a>
-  </div>
+<div style="display:flex;align-items:center;gap:10px"><img src="logo.png" alt="⚽" style="height:35px"><b>Futbol.az</b></div>
+<button class="menu-btn" onclick="toggleMenu()">⋮</button>
+<div class="dropdown" id="dropdown"><a href="#">📅 Oyunlar</a><a href="#">💰 Transfer</a><a href="#">📺 TV</a></div>
 </header>
 <main>
-    <div class="section"><input type="text" placeholder="🔍 Axtarış..."></div>
-    <div id="countdown-container" style="max-width: 650px; margin: 20px auto; background: linear-gradient(135deg, #1a1c1f, #0b0c0d); padding: 25px; border-radius: 12px; border: 1px solid #333;">
-        <h3 style="color: #2ecc71; margin: 0;">🏆 Qarabağ - Newcastle</h3>
-        <div id="timer" style="font-size: 28px; font-weight: bold; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; display: inline-block;">Yüklənir...</div>
-    </div>
-    <div style="max-width: 650px; margin: 20px auto; overflow-x: auto; border-radius: 10px;">
-        <table>
-            <tr style="background: #0b0c0d; color: #2ecc71;"><th>#</th><th style="text-align: left;">Komanda</th><th>O</th><th>Q</th><th>H</th><th>M</th><th>Xal</th></tr>
-            <tr style="background:#151618"><td>1</td><td style="text-align:left">Sabah</td><td>19</td><td>14</td><td>4</td><td>1</td><td>46</td></tr>
-            <tr style="background:#1a1c1f"><td>2</td><td style="text-align:left">Qarabağ</td><td>19</td><td>13</td><td>3</td><td>3</td><td>42</td></tr>
-            <tr style="background:#151618"><td>3</td><td style="text-align:left">Turan Tovuz</td><td>18</td><td>10</td><td>3</td><td>5</td><td>33</td></tr>
-            <tr style="background:#1a1c1f"><td>4</td><td style="text-align:left">Zirə</td><td>19</td><td>8</td><td>8</td><td>3</td><td>32</td></tr>
-            <tr style="background:#151618"><td>5</td><td style="text-align:left">Sumqayıt</td><td>19</td><td>9</td><td>3</td><td>7</td><td>30</td></tr>
-            <tr style="background:#1a1c1f"><td>6</td><td style="text-align:left">Neftçi</td><td>19</td><td>6</td><td>9</td><td>4</td><td>27</td></tr>
-            <tr style="background:#151618"><td>7</td><td style="text-align:left">Araz</td><td>19</td><td>7</td><td>6</td><td>6</td><td>27</td></tr>
-            <tr style="background:#1a1c1f"><td>8</td><td style="text-align:left">Şamaxı</td><td>19</td><td>6</td><td>5</td><td>8</td><td>23</td></tr>
-            <tr style="background:#151618"><td>9</td><td style="text-align:left">İmişli</td><td>19</td><td>4</td><td>7</td><td>8</td><td>19</td></tr>
-            <tr style="background:#1a1c1f"><td>10</td><td style="text-align:left">Qəbələ</td><td>18</td><td>4</td><td>2</td><td>12</td><td>14</td></tr>
-            <tr style="background:#151618"><td>11</td><td style="text-align:left; color:red">Kəpəz</td><td>19</td><td>4</td><td>1</td><td>14</td><td>13</td></tr>
-            <tr style="background:#1a1c1f"><td>12</td><td style="text-align:left; color:red">Karvan</td><td>19</td><td>1</td><td>3</td><td>15</td><td>6</td></tr>
-        </table>
-    </div>
-        <div style="max-width: 650px; margin: 20px auto; background: #1a1b1e; border-radius: 12px; overflow: hidden; border: 1px solid #333;">
-        <div style="background: #24262b; padding: 15px; color: #2ecc71; font-weight: bold; text-align: left;">🎯 Top Bombardirlər</div>
-        <div style="padding: 10px;">
-            <div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #333;"><span>1. Mickels (Sabah)</span><b>9</b></div>
-            <div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #333;"><span>1. Simic (Sabah)</span><b>9</b></div>
-            <div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #333;"><span>3. Bayramov (Qarabağ)</span><b>7</b></div>
-            <div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #333;"><span>3. Dos Santos (İmişli)</span><b>7</b></div>
-            <div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #333;"><span>3. Rossi (Şamaxı)</span><b>7</b></div>
-            <div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #333;"><span>3. Sambou (Neftçi)</span><b>7</b></div>
-            <div style="display:flex; justify-content:space-between; padding:10px;"><span>3. Simakala (Araz)</span><b>7</b></div>
-        </div>
-    </div>
-    <div class="poll-container">
-        <h3 style="color:#2ecc71">⚽ Səsvermə: GS - Eyüpspor</h3>
-        <div id="buttons"><button onclick="sesVer('GS')">GS</button><button onclick="sesVer('Heç-heçə')">Heç-heçə</button></div>
-        <div id="netice"></div>
-    </div>
-    <div class="section" style="text-align: left;">
-        <h3 style="color: #2ecc71;">💬 Canlı Müzakirə</h3>
-        <input type="text" id="userName" placeholder="Adınız...">
-        <textarea id="userComment" placeholder="Fikriniz..." rows="3"></textarea>
-        <button onclick="addComment()" style="background:#2ecc71; color:#000; font-weight:bold; border:none; padding:12px; border-radius:8px; width:100%; cursor:pointer;">Göndər</button>
-        <div id="commentsList" style="margin-top:20px;"></div>
-    </div>
+<div class="section"><div id="timer" style="font-size:22px;font-weight:bold;color:#2ecc71">Yüklənir...</div></div>
+<div style="max-width:600px;margin:auto;overflow-x:auto">
+<table><tr style="background:#0b0c0d;color:#2ecc71"><th>#</th><th>Komanda</th><th>O</th><th>Q</th><th>H</th><th>M</th><th>X</th></tr>
+<tr><td>1</td><td>Sabah</td><td>19</td><td>14</td><td>4</td><td>1</td><td>46</td></tr><tr><td>2</td><td>Qarabağ</td><td>19</td><td>13</td><td>3</td><td>3</td><td>42</td></tr><tr><td>3</td><td>Turan</td><td>18</td><td>10</td><td>3</td><td>5</td><td>33</td></tr><tr><td>4</td><td>Zirə</td><td>19</td><td>8</td><td>8</td><td>3</td><td>32</td></tr><tr><td>5</td><td>Sumqayıt</td><td>19</td><td>9</td><td>3</td><td>7</td><td>30</td></tr><tr><td>6</td><td>Neftçi</td><td>19</td><td>6</td><td>9</td><td>4</td><td>27</td></tr><tr><td>7</td><td>Araz</td><td>19</td><td>7</td><td>6</td><td>6</td><td>27</td></tr><tr><td>8</td><td>Şamaxı</td><td>19</td><td>6</td><td>5</td><td>8</td><td>23</td></tr><tr><td>9</td><td>İmişli</td><td>19</td><td>4</td><td>7</td><td>8</td><td>19</td></tr><tr><td>10</td><td>Qəbələ</td><td>18</td><td>4</td><td>2</td><td>12</td><td>14</td></tr><tr><td>11</td><td style="color:red">Kəpəz</td><td>19</td><td>4</td><td>1</td><td>14</td><td>13</td></tr><tr><td>12</td><td style="color:red">Karvan</td><td>19</td><td>1</td><td>3</td><td>15</td><td>6</td></tr></table>
+</div>
+<div class="section" style="text-align:left">
+<h3 style="color:#2ecc71">🎯 Bombardirlər</h3>
+<p>1. Mickels J. (Sabah) - 9</p><p>1. Simic V. (Sabah) - 9</p><p>3. Bayramov T. (Qarabağ) - 7</p>
+</div>
+<div class="section" style="text-align:left">
+<h3>💬 Şərhlər</h3>
+<input id="uN" placeholder="Ad..."><textarea id="uM" placeholder="Fikir..."></textarea>
+<button class="send-btn" onclick="addC()">Göndər</button>
+<div id="cL" style="margin-top:15px"></div>
+</div>
 </main>
-<footer><p>&copy; 2026 Futbol.az</p></footer>
 <script>
-    function toggleMenu() { var d = document.getElementById("dropdown"); d.style.display = (d.style.display === "block") ? "none" : "block"; }
-    function sesVer(k) { document.getElementById('netice').innerHTML = "✅ Səs verildi: " + k; document.getElementById('buttons').style.display = 'none'; }
-    function startTimer() {
-        var t = new Date("2026-02-18T21:45:00").getTime();
-        setInterval(function() {
-            var n = new Date().getTime(); var f = t - n;
-            if (f < 0) { document.getElementById("timer").innerHTML = "⚽ OYUN BAŞLADI!"; return; }
-            var d = Math.floor(f / (1000 * 60 * 60 * 24));
-            var h = Math.floor((f % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var m = Math.floor((f % (1000 * 60 * 60)) / (1000 * 60));
-            var s = Math.floor((f % (1000 * 60)) / 1000);
-            document.getElementById("timer").innerHTML = d + "g " + h + "s " + m + "d " + s + "san";
-        }, 1000);
-    }
-    startTimer();
-    function addComment() {
-        var u = document.getElementById("userName").value; var c = document.getElementById("userComment").value;
-        if(u=="" || c=="") { alert("Boş buraxmayın!"); return; }
-        var box = document.createElement("div"); box.style = "background:#24262b; padding:10px; border-radius:8px; border-left:4px solid #2ecc71; margin-bottom:10px; animation: fadeIn 0.5s;";
-        box.innerHTML = "<b>"+u+":</b> <p>"+c+"</p>";
-        document.getElementById("commentsList").prepend(box);
-        document.getElementById("userName").value = ""; document.getElementById("userComment").value = "";
-    }
-    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js'); }
-</script>
-</body>
-</html>
+function toggleMenu(){var d=document.getElementById("dropdown");d.style.display=(d.style.display==="block")?"none":"block"}
+function startT(){var t=new Date("2026-02-18T21:45:00").getTime();setInterval(function(){var n=new Date().getTime();var f=t-n;if(f<0){document.getElementById("timer").innerHTML="BAŞLADI!";return}
+var d=Math.floor(f/864e5),h=Math.floor((f%864e5)/36e5),m=Math.floor((f%36e5)/6e4),s=Math.floor((f%6e4)/1e3);
+document.getElementById("timer").innerHTML=d+"g "+h+"s "+m+"d "+s+"s"},1000)}startT();
+function addC(){var n=document.getElementById("uN").value,m=document.getElementById("uM").value;if(!n||!m)return;
+var b=document.createElement("div");b.style="background:#1e293b;padding:10px;border-radius:8px;margin-bottom:8px;border-left:4px solid #2ecc71";
+b.innerHTML="<b>"+n+":</b> <p style='margin:5px 0'>"+m+"</p>";document.getElementById("cL").prepend(b);
+document.getElementById("uN").value="";document.getElementById("uM").value=""}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js')}
+</script></body></html>
