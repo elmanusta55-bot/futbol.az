@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Futbol.az</title>
     <style>
-     /* Ümumi dizaynlar */
+        /* Ümumi dizaynlar */
         body { margin: 0; font-family: Segoe UI, Arial, sans-serif; background: #0f172a; color: #fff; text-align: center; }
         a { text-decoration: none; color: inherit; }
         
@@ -18,7 +18,7 @@
         
         /* Axtarış və bölmələr */
         .section { max-width: 950px; margin: 20px auto; background: #020617; padding: 18px; border-radius: 14px; box-shadow: 0 5px 15px rgba(0,0,0,.4); }
-        input[type="text"] { width: 90%; padding: 10px; border-radius: 8px; border: 1px solid #334155; margin-bottom: 15px; background: #0f172a; color: #fff; }
+        input[type="text"] { width: 90%; padding: 10px; border-radius: 8px; border: 1px solid #334155; margin-bottom: 15px; background: #0f172a; color: #fff; outline: none;}
         
         /* Xəbər Kartları CSS */
         .news-wrapper { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; text-align: left; }
@@ -36,6 +36,12 @@
         .poll-buttons button:hover { background: #1e8449; transform: scale(1.05); }
         
         footer { background: #020617; color: white; text-align: center; padding: 15px; margin-top: 40px; }
+
+        /* Yeni Şərh Animasiyası */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 
@@ -91,6 +97,7 @@
             </div>
         </div>
     </div>
+
     <div class="poll-container">
         <h3 style="color: #27ae60;">⚽ Günün Oyunu: Qalatasaray vs Eyüpspor</h3>
         <p>Sizcə kim qalib gələcək?</p>
@@ -152,11 +159,9 @@
     <div id="countdown-container" style="max-width: 650px; margin: 20px auto; background: linear-gradient(135px, #1a1c1f, #0b0c0d); color: white; padding: 25px; border-radius: 10px; text-align: center; box-shadow: 0 6px 15px rgba(0,0,0,0.4); border: 1px solid #333;">
         <h3 style="margin: 0 0 10px 0; color: #2ecc71; font-size: 16px;">🏆 Çempionlar Liqası - Pley-off</h3>
         <h2 style="margin: 0 0 15px 0; font-size: 24px;">Qarabağ FK - Newcastle United</h2>
-        
         <div id="timer" style="font-size: 32px; font-weight: bold; letter-spacing: 2px; color: #fff; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; display: inline-block;">
             Yüklənir...
         </div>
-        
         <p style="margin-top: 15px; font-size: 13px; color: #888;">Oyunun başlamasına qalan vaxt (18 Fevral, 21:45)</p>
     </div>
 
@@ -165,7 +170,6 @@
             <span style="font-weight: bold; font-size: 18px; color: #fff;">🎯 Bombardirlər</span>
             <span style="font-size: 12px; color: #2ecc71; background: rgba(46, 204, 113, 0.1); padding: 5px 10px; border-radius: 20px;">Canlı Statistika</span>
         </div>
-
         <div style="padding: 5px;">
             <div style="display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #26282c; align-items: center;">
                 <div style="display: flex; align-items: center;">
@@ -176,7 +180,6 @@
                 </div>
                 <div style="font-size: 18px; font-weight: bold; color: #2ecc71;">9</div>
             </div>
-
             <div style="display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #26282c; align-items: center; background: #1e2024;">
                 <div style="display: flex; align-items: center;">
                     <span style="width: 25px; font-weight: bold; color: #555;">1.</span>
@@ -186,7 +189,6 @@
                 </div>
                 <div style="font-size: 18px; font-weight: bold; color: #2ecc71;">9</div>
             </div>
-
             <div style="display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #26282c; align-items: center;">
                 <div style="display: flex; align-items: center;">
                     <span style="width: 25px; font-weight: bold; color: #555;">3.</span>
@@ -196,7 +198,6 @@
                 </div>
                 <div style="font-size: 18px; font-weight: bold; color: #fff;">7</div>
             </div>
-
             <div style="display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #26282c; align-items: center; background: #1e2024;">
                 <div style="display: flex; align-items: center;">
                     <span style="width: 25px; font-weight: bold; color: #555;">3.</span>
@@ -206,7 +207,6 @@
                 </div>
                 <div style="font-size: 18px; font-weight: bold; color: #fff;">7</div>
             </div>
-
             <div style="display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #26282c; align-items: center;">
                 <div style="display: flex; align-items: center;">
                     <span style="width: 25px; font-weight: bold; color: #555;">3.</span>
@@ -218,74 +218,40 @@
             </div>
         </div>
     </div>
+
+    <div id="comments-section" style="max-width: 650px; margin: 40px auto; background: #1a1b1e; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #333; color: white; text-align: left; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <h3 style="color: #2ecc71; margin-top: 0; border-bottom: 2px solid #26282c; padding-bottom: 15px; font-size: 20px;">
+            💬 Canlı Müzakirə
+        </h3>
+
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px;">
+            <input type="text" id="userName" placeholder="Adınız (məs: Elman)..." style="padding: 12px; border-radius: 8px; border: 1px solid #333; background: #24262b; color: white; font-size: 14px; outline: none;">
+            <textarea id="userComment" placeholder="Oyunlar, transferlər və komandalar haqqında fikrinizi yazın..." rows="3" style="padding: 12px; border-radius: 8px; border: 1px solid #333; background: #24262b; color: white; font-size: 14px; resize: vertical; outline: none;"></textarea>
+            <button onclick="addComment()" style="background: #2ecc71; color: #000; font-weight: bold; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 15px; transition: 0.3s;">
+                Şərh Göndər ➔
+            </button>
+        </div>
+
+        <div id="commentsList" style="display: flex; flex-direction: column; gap: 15px;">
+            <div style="background: #24262b; padding: 15px; border-radius: 8px; border-left: 4px solid #2ecc71;">
+                <div style="font-weight: bold; font-size: 14px; color: #2ecc71; margin-bottom: 5px;">
+                    Sadiq <span style="font-size: 11px; color: #888; font-weight: normal; margin-left: 10px;">19:15</span>
+                </div>
+                <div style="font-size: 14px; color: #ddd; line-height: 1.5;">
+                    Qarabağ bu gün mütləq qələbə qazanmalıdır! Juninhodan qol gözləyirəm. Sayt da əla alınıb! 🔥
+                </div>
+            </div>
+        </div>
+    </div>
+
 </main>
 
 <footer>
     <p>&copy; 2026 Futbol.az - Bütün hüquqlar qorunur</p>
 </footer>
-        <div style="max-width: 650px; margin: 30px auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-        <h2 style="color: #2ecc71; text-align: left; border-bottom: 2px solid #1e293b; padding-bottom: 10px; margin-bottom: 15px; font-size: 20px;">📺 Oyun İcmalları</h2>
-        
-        <div style="background: #1a1b1e; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #333;">
-            <div style="padding: 15px; border-bottom: 1px solid #26282c; display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-weight: bold; font-size: 15px; color: #fff;">🔥 Qarabağ 2-3 Bayer Leverkuzen (Tam İcmal)</span>
-                <span style="background: #e74c3c; color: white; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; letter-spacing: 1px;">HD VİDEO</span>
-            </div>
-            
-            <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-                <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
-                        src="https://www.youtube.com/embed/DkF26A66_S8" 
-                        title="YouTube video player" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                        allowfullscreen>
-                </iframe>
-            </div>
-            
-            <div style="background: #24262b; padding: 12px 15px; font-size: 13px; color: #aaa; display: flex; justify-content: space-between;">
-                <span>Avropa Liqası - 1/8 Final</span>
-                <span style="color: #2ecc71; cursor: pointer;">Bütün videolar ➔</span>
-            </div>
-        </div>
-        </div>
 
 <script>
     // 1. Menyu aç/bağla kodu
     function toggleMenu() {
         var dropdown = document.getElementById("dropdown");
-        if (dropdown.style.display === "block") {
-            dropdown.style.display = "none";
-        } else {
-            dropdown.style.display = "block";
-        }
-    }
-
-    // 2. Səsvermə kodu
-    function sesVer(komanda) {
-        document.getElementById('netice').innerHTML = "Səs verdiniz: " + komanda + ". Təşəkkürlər!";
-        document.getElementById('buttons').style.display = 'none'; 
-    }
-
-    // 3. Gerisayım (Countdown) kodu
-    var oyunTarixi = new Date("Feb 18, 2026 21:45:00").getTime();
-    var x = setInterval(function() {
-      var indi = new Date().getTime();
-      var ferq = oyunTarixi - indi;
-
-      var gunler = Math.floor(ferq / (1000 * 60 * 60 * 24));
-      var saatlar = Math.floor((ferq % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      var deqiqeler = Math.floor((ferq % (1000 * 60 * 60)) / (1000 * 60));
-      var saniyeler = Math.floor((ferq % (1000 * 60)) / 1000);
-
-      document.getElementById("timer").innerHTML = 
-        gunler + "g " + saatlar + "s " + deqiqeler + "d " + saniyeler + "san";
-
-      if (ferq < 0) {
-        clearInterval(x);
-        document.getElementById("timer").innerHTML = "⚽ OYUN BAŞLADI!";
-        document.getElementById("timer").style.color = "#e74c3c"; 
-      }
-    }, 1000);
-</script>
-
-</body>
-</html>
+        if (dropdown.
