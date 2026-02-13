@@ -44,7 +44,17 @@ footer{background:#020617;color:white;text-align:center;padding:15px}
 <div class="section">
   <input type="text" id="search" placeholder="🔍 Axtar...">
 </div>
-
+<div class="poll-container">
+    <h3>⚽ Günün Oyunu: Qalatasaray vs Eyüpspor</h3>
+    <p>Sizcə kim qalib gələcək?</p>
+    <div class="poll-buttons">
+        <button onclick="vote('Qalatasaray')">Qalatasaray</button>
+        <button onclick="vote('Heç-heçə')">Heç-heçə</button>
+        <button onclick="vote('Eyüpspor')">Eyüpspor</button>
+    </div>
+    <div id="poll-result" style="margin-top: 15px; font-weight: bold; color: #2ecc71;"></div>
+</div>
+  
 <section id="today" class="section">
 <h2>📅 Günün Oyunları</h2>
 <div id="todayMatches">Yüklənir...</div>
