@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="az">
 <head>
     <meta charset="UTF-8">
@@ -11,7 +11,6 @@
         
         /* Menyular */
         header { background: #020617; color: white; display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; position: sticky; top: 0; z-index: 999; }
-        .logo img { height: 45px; }
         .menu-btn { font-size: 26px; background: none; border: none; color: white; cursor: pointer; margin-left: 5px; }
         .dropdown { display: none; position: absolute; right: 15px; top: 55px; background: #020617; border-radius: 12px; overflow: hidden; min-width: 190px; box-shadow: 0 5px 25px rgba(0,0,0,.4); }
         .dropdown a { display: block; padding: 12px; color: white; border-bottom: 1px solid #1e293b; }
@@ -20,6 +19,15 @@
         /* Axtarış və bölmələr */
         .section { max-width: 950px; margin: 20px auto; background: #020617; padding: 18px; border-radius: 14px; box-shadow: 0 5px 15px rgba(0,0,0,.4); }
         input[type="text"] { width: 90%; padding: 10px; border-radius: 8px; border: 1px solid #334155; margin-bottom: 15px; background: #0f172a; color: #fff; }
+        
+        /* Xəbər Kartları CSS */
+        .news-wrapper { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; text-align: left; }
+        .news-card { min-width: 260px; flex: 1; background: #1e293b; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: 0.3s; }
+        .news-card:hover { transform: translateY(-5px); }
+        .news-img { width: 100%; height: 160px; object-fit: cover; }
+        .news-content { padding: 15px; }
+        .news-tag { font-size: 12px; color: #2ecc71; margin-bottom: 5px; font-weight: bold; }
+        .news-title { margin: 0 0 10px 0; color: white; font-size: 16px; line-height: 1.4; }
         
         /* Səsvermə */
         .poll-container { background: #020617; max-width: 610px; margin: 20px auto; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); border-top: 5px solid #27ae60; }
@@ -34,7 +42,12 @@
 <body>
 
 <header>
-  <div class="logo">⚽ Futbol.az</div> <button class="menu-btn" onclick="toggleMenu()">⋮</button>
+  <div class="logo" style="display: flex; align-items: center; gap: 10px;">
+      <img src="logo.png" alt="Loqo" style="height: 40px; border-radius: 5px;">
+      <span style="font-size: 20px; font-weight: bold; color: #2ecc71;">Futbol.az</span>
+  </div>
+  
+  <button class="menu-btn" onclick="toggleMenu()">⋮</button>
   <div class="dropdown" id="dropdown">
     <a href="#today">📅 Günün Oyunları</a>
     <a href="#live">🔴 Canlı</a>
@@ -46,9 +59,38 @@
 
 <main>
     <div class="section">
-        <input type="text" id="search" placeholder="🔍 Axtar...">
+        <input type="text" id="search" placeholder="🔍 Xəbər, komanda və ya oyunçu axtar...">
     </div>
 
+    <div class="section" style="background: transparent; box-shadow: none; padding: 0;">
+        <h2 style="color: #2ecc71; text-align: left; border-bottom: 2px solid #1e293b; padding-bottom: 10px; margin-bottom: 20px;">📰 Son Xəbərlər</h2>
+        <div class="news-wrapper">
+            <div class="news-card">
+                <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=400&auto=format&fit=crop" class="news-img">
+                <div class="news-content">
+                    <div class="news-tag">PREMYER LİQA</div>
+                    <h4 class="news-title">"Sabah" liderliyini qoruyur: Ardıcıl inamlı qələbələr davam edir</h4>
+                    <a href="#" style="font-size: 13px; color: #888; text-decoration: underline;">Ətraflı oxu ➔</a>
+                </div>
+            </div>
+            <div class="news-card">
+                <img src="https://images.unsplash.com/photo-1518605368461-1e1e38ce8058?q=80&w=400&auto=format&fit=crop" class="news-img">
+                <div class="news-content">
+                    <div class="news-tag">ÇEMPİONLAR LİQASI</div>
+                    <h4 class="news-title">"Qarabağ"ın "Nyukasl"la tarixi oyunu üçün biletlər satışa çıxdı</h4>
+                    <a href="#" style="font-size: 13px; color: #888; text-decoration: underline;">Ətraflı oxu ➔</a>
+                </div>
+            </div>
+            <div class="news-card">
+                <img src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=400&auto=format&fit=crop" class="news-img">
+                <div class="news-content">
+                    <div class="news-tag">STATİSTİKA</div>
+                    <h4 class="news-title">Jesse Lingard mövsümə damğa vurur! O, artıq zirvədədir</h4>
+                    <a href="#" style="font-size: 13px; color: #888; text-decoration: underline;">Ətraflı oxu ➔</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="poll-container">
         <h3 style="color: #27ae60;">⚽ Günün Oyunu: Qalatasaray vs Eyüpspor</h3>
         <p>Sizcə kim qalib gələcək?</p>
