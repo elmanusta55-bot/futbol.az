@@ -196,4 +196,41 @@ function sesVer(komanda) {
         <div><span style="display: inline-block; width: 12px; height: 12px; background: #e74c3c; border-radius: 3px; margin-right: 5px;"></span> Aşağı Liqaya düşmə</div>
     </div>
 </div>
+    <div id="countdown-container" style="max-width: 650px; margin: 20px auto; background: linear-gradient(135px, #1a1c1f, #0b0c0d); color: white; padding: 25px; border-radius: 10px; text-align: center; font-family: Arial, sans-serif; box-shadow: 0 6px 15px rgba(0,0,0,0.4); border: 1px solid #333;">
+    <h3 style="margin: 0 0 10px 0; color: #2ecc71; font-size: 16px;">🏆 Çempionlar Liqası - Pley-off</h3>
+    <h2 style="margin: 0 0 15px 0; font-size: 24px;">Qarabağ FK - Newcastle United</h2>
+    
+    <div id="timer" style="font-size: 32px; font-weight: bold; letter-spacing: 2px; color: #fff; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; display: inline-block;">
+        Yüklənir...
+    </div>
+    
+    <p style="margin-top: 15px; font-size: 13px; color: #888;">Oyunun başlamasına qalan vaxt (18 Fevral, 21:45)</p>
+    </div>
+    <script>
+// Qarabağ - Newcastle oyununun dəqiq vaxtı: 18 Fevral 2026, 21:45
+var oyunTarixi = new Date("Feb 18, 2026 21:45:00").getTime();
+
+var x = setInterval(function() {
+  var indi = new Date().getTime();
+  var ferq = oyunTarixi - indi;
+
+  // Gün, saat, dəqiqə və saniyə hesablanması
+  var gunler = Math.floor(ferq / (1000 * 60 * 60 * 24));
+  var saatlar = Math.floor((ferq % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var deqiqeler = Math.floor((ferq % (1000 * 60 * 60)) / (1000 * 60));
+  var saniyeler = Math.floor((ferq % (1000 * 60)) / 1000);
+
+  // Nəticəni ekrana yazdırmaq (gözəl formatda)
+  document.getElementById("timer").innerHTML = 
+    gunler + "g " + saatlar + "s " + deqiqeler + "d " + saniyeler + "san";
+
+  // Vaxt bitdikdə və ya oyun başlayanda nə baş versin?
+  if (ferq < 0) {
+    clearInterval(x);
+    document.getElementById("timer").innerHTML = "⚽ OYUN BAŞLADI!";
+    document.getElementById("timer").style.color = "#e74c3c"; // Rəngi qırmızı olur
+  }
+}, 1000);
+    </script>
+    
     
