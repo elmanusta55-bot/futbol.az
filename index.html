@@ -256,4 +256,330 @@
     </div>
 
     <div class="poll-container">
-        <h3 style="color: #27ae60;">⚽ Günün Oyunu: Qalatasaray vs Eyü
+        <h3 style="color: #27ae60;">⚽ Günün Oyunu: Qalatasaray vs Eyüpspor</h3>
+        <p>Sizcə kim qalib gələcək?</p>
+        <div id="buttons" class="poll-buttons">
+            <button onclick="sesVer('Qalatasaray')">Qalatasaray</button>
+            <button onclick="sesVer('Heç-heçə')">Heç-heçə</button>
+            <button onclick="sesVer('Eyüpspor')">Eyüpspor</button>
+        </div>
+        <div id="netice" style="margin-top: 15px; font-weight: bold; color: #2ecc71;"></div>
+    </div>
+
+    <div id="comments-section" style="max-width: 650px; margin: 40px auto; background: #1a1b1e; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #333; color: white; text-align: left;">
+        <h3 style="color: #2ecc71; margin-top: 0; border-bottom: 2px solid #26282c; padding-bottom: 15px; font-size: 20px;">
+            💬 Canlı Müzakirə
+        </h3>
+
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px;">
+            <input type="text" id="userName" placeholder="Adınız (məs: Elman)...">
+            <textarea id="userComment" placeholder="Oyunlar, transferlər və komandalar haqqında fikrinizi yazın..." rows="3"></textarea>
+            <button onclick="addComment()" style="background: #2ecc71; color: #000; font-weight: bold; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 15px; transition: 0.3s;">
+                Şərh Göndər ➔
+            </button>
+        </div>
+
+        <div id="commentsList" style="display: flex; flex-direction: column; gap: 15px;">
+            <div style="background: #24262b; padding: 15px; border-radius: 8px; border-left: 4px solid #2ecc71;">
+                <div style="font-weight: bold; font-size: 14px; color: #2ecc71; margin-bottom: 5px;">
+                    Sadiq <span style="font-size: 11px; color: #888; font-weight: normal; margin-left: 10px;">19:15</span>
+                </div>
+                <div style="font-size: 14px; color: #ddd; line-height: 1.5;">
+                    Qarabağ bu gün mütləq qələbə qazanmalıdır! Juninhodan qol gözləyirəm. Sayt da əla alınıb! 🔥
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tvModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <b style="color:#2ecc71;">🔴 CBC Sport Canlı (Test)</b>
+                <span class="close-btn" onclick="closeTV()">&times;</span>
+            </div>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/DkF26A66_S8?autoplay=0" allowfullscreen></iframe>
+            </div>
+            <div style="padding:12px; font-size:13px; color:#aaa; text-align:left;">
+                Oyunun başlamasına az qalıb. Yayım HD formatındadır.
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<footer>
+    <p>&copy; 2026 Futbol.az - Bütün hüquqlar qorunur</p>
+</footer>
+
+<script>
+    // 1. Menyu aç/bağla kodu
+    function toggleMenu() {
+        var dropdown = document.getElementById("dropdown");
+        if (dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+        } else {
+            dropdown.style.display = "block";
+        }
+    }
+
+    // Canlı TV Pəncərəsi kodları
+    function openTV(e) {
+        if(e) e.preventDefault();
+        document.getElementById("tvModal").style.display = "flex";
+        document.getElementById("dropdown").style.display = "none";
+    }
+    function closeTV() {
+        document.getElementById("tvModal").style.display = "none";
+    }
+
+    // 2. Səsvermə kodu
+    function sesVer(komanda) {
+        var netice = document.getElementById('netice');
+        var buttons = document.getElementById('buttons');
+        if(netice && buttons) {
+            netice.innerHTML = "Səs verdiniz: " + komanda + ". Təşəkkürlər!";
+            buttons.style.display = 'none'; 
+        }
+    }
+
+    // 3. Gerisayım (Countdown) kodu
+    function startTimer() {
+        var timerElement = document.getElementById("timer");
+        if(!timerElement) return;
+
+        var oyunTarixi = new Date("2026-02-18T21:45:00").getTime();
+        
+        var x = setInterval(function() {
+            var indi = new Date().getTime();
+            var ferq = oyunTarixi - indi;
+
+            if (ferq < 0) {
+                clearInterval(x);
+                timerElement.innerHTML = "⚽ OYUN BAŞLADI!";
+                timerElement.style.color = "#e74c3c"; 
+            } else {
+                var gunler = Math.floor(ferq / (1000 * 60 * 60 * 24));
+                var saatlar = Math.floor((ferq % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var deqiqeler = Math.floor((ferq % (1000 * 60 * 60)) / (1000 * 60));
+                var saniyeler = Math.floor((ferq % (1000 * 60)) / 1000);
+
+                timerElement.innerHTML = gunler + "g " + saatlar + "s " + deqiqeler + "d " + saniyeler + "san";
+            }
+        }, 1000);
+    }
+    startTimer();
+
+    // 4. CANLI ŞƏRH KODU
+    function addComment() {
+        var nameInput = document.getElementById("userName");
+        var commentInput = document.getElementById("userComment");
+
+        if (!nameInput || !commentInput) return;
+
+        var name = nameInput.value.trim();
+        var comment = commentInput.value.trim();
+
+        if (name === "" || comment === "") {
+            alert("⚠️ Zəhmət olmasa adınızı və şərhinizi yazın!");
+            return;
+        }
+
+        var time = new Date();
+        var hours = time.getHours();
+        var minutes = time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes();
+        var timeString = hours + ":" + minutes;
+
+        var commentBox = document.createElement("div");
+        commentBox.style.background = "#24262b";
+        commentBox.style.padding = "15px";
+        commentBox.style.borderRadius = "8px";
+        commentBox.style.borderLeft = "4px solid #2ecc71";
+        commentBox.style.animation = "fadeIn 0.5s";
+        commentBox.style.marginBottom = "15px";
+
+        // Təhlükəsiz HTML birləşdirmə
+        commentBox.innerHTML = '<div style="font-weight: bold; font-size: 14px; color: #fff; margin-bottom: 5px;">' + name + ' <span style="font-size: 11px; color: #888; font-weight: normal; margin-left: 10px;">' + timeString + '</span></div><div style="font-size: 14px; color: #ddd; line-height: 1.5;">' + comment + '</div>';
+
+        var list = document.getElementById("commentsList");
+        if(list) {
+            list.insertBefore(commentBox, list.firstChild);
+        }
+
+        nameInput.value = "";
+        commentInput.value = "";
+    }
+
+    // 5. PWA (Proqram kimi yüklənmə) Kodu
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js')
+        .then(() => console.log('Service Worker qeydiyyatdan keçdi!'))
+        .catch((err) => console.log('Service Worker xətası:', err));
+    }
+</script>
+
+</body>
+</html>pspor</h3>
+        <p>Sizcə kim qalib gələcək?</p>
+        <div id="buttons" class="poll-buttons">
+            <button onclick="sesVer('Qalatasaray')">Qalatasaray</button>
+            <button onclick="sesVer('Heç-heçə')">Heç-heçə</button>
+            <button onclick="sesVer('Eyüpspor')">Eyüpspor</button>
+        </div>
+        <div id="netice" style="margin-top: 15px; font-weight: bold; color: #2ecc71;"></div>
+    </div>
+
+    <div id="comments-section" style="max-width: 650px; margin: 40px auto; background: #1a1b1e; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #333; color: white; text-align: left;">
+        <h3 style="color: #2ecc71; margin-top: 0; border-bottom: 2px solid #26282c; padding-bottom: 15px; font-size: 20px;">
+            💬 Canlı Müzakirə
+        </h3>
+
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px;">
+            <input type="text" id="userName" placeholder="Adınız (məs: Elman)...">
+            <textarea id="userComment" placeholder="Oyunlar, transferlər və komandalar haqqında fikrinizi yazın..." rows="3"></textarea>
+            <button onclick="addComment()" style="background: #2ecc71; color: #000; font-weight: bold; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 15px; transition: 0.3s;">
+                Şərh Göndər ➔
+            </button>
+        </div>
+
+        <div id="commentsList" style="display: flex; flex-direction: column; gap: 15px;">
+            <div style="background: #24262b; padding: 15px; border-radius: 8px; border-left: 4px solid #2ecc71;">
+                <div style="font-weight: bold; font-size: 14px; color: #2ecc71; margin-bottom: 5px;">
+                    Sadiq <span style="font-size: 11px; color: #888; font-weight: normal; margin-left: 10px;">19:15</span>
+                </div>
+                <div style="font-size: 14px; color: #ddd; line-height: 1.5;">
+                    Qarabağ bu gün mütləq qələbə qazanmalıdır! Juninhodan qol gözləyirəm. Sayt da əla alınıb! 🔥
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tvModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <b style="color:#2ecc71;">🔴 CBC Sport Canlı (Test)</b>
+                <span class="close-btn" onclick="closeTV()">&times;</span>
+            </div>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/DkF26A66_S8?autoplay=0" allowfullscreen></iframe>
+            </div>
+            <div style="padding:12px; font-size:13px; color:#aaa; text-align:left;">
+                Oyunun başlamasına az qalıb. Yayım HD formatındadır.
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<footer>
+    <p>&copy; 2026 Futbol.az - Bütün hüquqlar qorunur</p>
+</footer>
+
+<script>
+    // 1. Menyu aç/bağla kodu
+    function toggleMenu() {
+        var dropdown = document.getElementById("dropdown");
+        if (dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+        } else {
+            dropdown.style.display = "block";
+        }
+    }
+
+    // Canlı TV Pəncərəsi kodları
+    function openTV(e) {
+        if(e) e.preventDefault();
+        document.getElementById("tvModal").style.display = "flex";
+        document.getElementById("dropdown").style.display = "none";
+    }
+    function closeTV() {
+        document.getElementById("tvModal").style.display = "none";
+    }
+
+    // 2. Səsvermə kodu
+    function sesVer(komanda) {
+        var netice = document.getElementById('netice');
+        var buttons = document.getElementById('buttons');
+        if(netice && buttons) {
+            netice.innerHTML = "Səs verdiniz: " + komanda + ". Təşəkkürlər!";
+            buttons.style.display = 'none'; 
+        }
+    }
+
+    // 3. Gerisayım (Countdown) kodu
+    function startTimer() {
+        var timerElement = document.getElementById("timer");
+        if(!timerElement) return;
+
+        var oyunTarixi = new Date("2026-02-18T21:45:00").getTime();
+        
+        var x = setInterval(function() {
+            var indi = new Date().getTime();
+            var ferq = oyunTarixi - indi;
+
+            if (ferq < 0) {
+                clearInterval(x);
+                timerElement.innerHTML = "⚽ OYUN BAŞLADI!";
+                timerElement.style.color = "#e74c3c"; 
+            } else {
+                var gunler = Math.floor(ferq / (1000 * 60 * 60 * 24));
+                var saatlar = Math.floor((ferq % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var deqiqeler = Math.floor((ferq % (1000 * 60 * 60)) / (1000 * 60));
+                var saniyeler = Math.floor((ferq % (1000 * 60)) / 1000);
+
+                timerElement.innerHTML = gunler + "g " + saatlar + "s " + deqiqeler + "d " + saniyeler + "san";
+            }
+        }, 1000);
+    }
+    startTimer();
+
+    // 4. CANLI ŞƏRH KODU
+    function addComment() {
+        var nameInput = document.getElementById("userName");
+        var commentInput = document.getElementById("userComment");
+
+        if (!nameInput || !commentInput) return;
+
+        var name = nameInput.value.trim();
+        var comment = commentInput.value.trim();
+
+        if (name === "" || comment === "") {
+            alert("⚠️ Zəhmət olmasa adınızı və şərhinizi yazın!");
+            return;
+        }
+
+        var time = new Date();
+        var hours = time.getHours();
+        var minutes = time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes();
+        var timeString = hours + ":" + minutes;
+
+        var commentBox = document.createElement("div");
+        commentBox.style.background = "#24262b";
+        commentBox.style.padding = "15px";
+        commentBox.style.borderRadius = "8px";
+        commentBox.style.borderLeft = "4px solid #2ecc71";
+        commentBox.style.animation = "fadeIn 0.5s";
+        commentBox.style.marginBottom = "15px";
+
+        // Təhlükəsiz HTML birləşdirmə
+        commentBox.innerHTML = '<div style="font-weight: bold; font-size: 14px; color: #fff; margin-bottom: 5px;">' + name + ' <span style="font-size: 11px; color: #888; font-weight: normal; margin-left: 10px;">' + timeString + '</span></div><div style="font-size: 14px; color: #ddd; line-height: 1.5;">' + comment + '</div>';
+
+        var list = document.getElementById("commentsList");
+        if(list) {
+            list.insertBefore(commentBox, list.firstChild);
+        }
+
+        nameInput.value = "";
+        commentInput.value = "";
+    }
+
+    // 5. PWA (Proqram kimi yüklənmə) Kodu
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js')
+        .then(() => console.log('Service Worker qeydiyyatdan keçdi!'))
+        .catch((err) => console.log('Service Worker xətası:', err));
+    }
+</script>
+
+</body>
+</html>
