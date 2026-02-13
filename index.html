@@ -1,10 +1,51 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-<meta charset="UTF-8">
-<title>Futbol.Az</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futbol.az - Canlı Səsvermə</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f4f4f4; text-align: center; margin: 0; padding: 20px; }
+        .container { background: white; max-width: 500px; margin: 50px auto; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #27ae60; }
+        h1 { color: #27ae60; }
+        .poll-box { margin-top: 20px; }
+        button { background: #27ae60; color: white; border: none; padding: 12px 25px; margin: 10px; border-radius: 5px; cursor: pointer; font-size: 16px; transition: 0.3s; }
+        button:hover { background: #1e8449; transform: scale(1.05); }
+        #result { margin-top: 20px; font-weight: bold; color: #333; font-size: 18px; }
+    </style>
+</head>
+<body>
 
+    <div class="container">
+        <h1>Futbol.az</h1>
+        <p>Azərbaycanın futbol portalı</p>
+        <hr>
+        
+        <div class="poll-box">
+            <h3>🔥 Günün Sualı:</h3>
+            <p>Bu həftə kim qalib gələcək?</p>
+            
+            <div id="vote-section">
+                <button onclick="vote('Qarabağ')">Qarabağ</button>
+                <button onclick="vote('Neftçi')">Neftçi</button>
+                <button onclick="vote('Heç-heçə')">Heç-heçə</button>
+            </div>
+            
+            <div id="result"></div>
+        </div>
+    </div>
+
+    <script>
+        function vote(choice) {
+            // Düymələri gizlət
+            document.getElementById('vote-section').style.display = 'none';
+            // Nəticəni göstər
+            document.getElementById('result').innerHTML = "✅ Səs verdiniz: <span style='color:#27ae60'>" + choice + "</span><br><br>Təşəkkürlər!";
+        }
+    </script>
+
+</body>
+</html>
 <style>
 body{margin:0;font-family:Segoe UI,Arial;background:#0f172a;color:#fff}
 a{text-decoration:none;color:inherit}
