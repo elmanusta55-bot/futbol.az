@@ -113,14 +113,22 @@
         <div id="timer" style="font-size: 32px; font-weight: bold; letter-spacing: 2px; color: #fff; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; display: inline-block;">Yüklənir...</div>
         <p style="margin-top: 15px; font-size: 13px; color: #888;">Oyunun başlamasına qalan vaxt (18 Fevral, 21:45)</p>
     </div>
-    <div style="max-width: 650px; margin: 15px auto; background: #020617; border-radius: 14px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,.4); border: 1px solid #1e293b;">
-    <div style="background: #2ecc71; color: #000; padding: 10px; font-weight: bold; font-size: 14px; text-align: center;">
-        🔴 CANLI HESABLAR (GLOBAL)
+<div class="section" style="padding: 0; overflow: hidden; border: 1px solid #2ecc71;">
+    <div style="background: #2ecc71; color: #000; padding: 10px; font-weight: bold; font-size: 14px;">
+        🔴 CANLI NƏTİCƏLƏR
     </div>
-    <iframe src="https://www.scoreaxis.com/widget/live-scores?autoHeight=1&theme=dark&links=0" 
-            style="width:100%; border:none; height: 500px;">
-    </iframe>
-    </div>
+    <div id="ls-widget" data-w="ls_widget_65ca5b" class="ls-widget"></div>
+    <script type="text/javascript" src="https://ls.livescore.in/active/js/ls_widget.js?v=1"></script>
+    <script type="text/javascript">
+        new LS_Widget("ls_widget_65ca5b", {
+            "m": "1",
+            "v": "1",
+            "t": "dark",
+            "s": "1",
+            "l": "az"
+        });
+    </script>
+</div>
     
 
     <div style="max-width: 650px; margin: 20px auto; overflow-x: auto; box-shadow: 0 6px 15px rgba(0,0,0,0.4); border-radius: 10px;">
