@@ -282,32 +282,17 @@
         </div>
         <div id="netice" style="margin-top: 15px; font-weight: bold; color: #2ecc71;"></div>
     </div>
-
-    <div id="comments-section" style="max-width: 650px; margin: 40px auto; background: #1a1b1e; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #333; color: white; text-align: left;">
-        <h3 style="color: #2ecc71; margin-top: 0; border-bottom: 2px solid #26282c; padding-bottom: 15px; font-size: 20px;">
-            💬 Canlı Müzakirə
-        </h3>
-
-        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px;">
-            <input type="text" id="userName" placeholder="Adınız (məs: Elman)...">
-            <textarea id="userComment" placeholder="Oyunlar, transferlər və komandalar haqqında fikrinizi yazın..." rows="3"></textarea>
-            <button onclick="addComment()" style="background: #2ecc71; color: #000; font-weight: bold; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 15px; transition: 0.3s;">
-                Şərh Göndər ➔
-            </button>
+    <div class="section">
+    <h3 style="color: #2ecc71; border-bottom: 1px solid #1e293b; padding-bottom: 10px;">💬 Canlı Müzakirə</h3>
+    <div id="cboxdiv" style="position: relative; margin: 0 auto; width: 100%; font-size: 0; line-height: 0;">
+        <div style="position: relative; height: 400px; overflow: auto; overflow-y: auto; -webkit-overflow-scrolling: touch; border: 1px solid #334155; border-radius: 8px;">
+            <iframe src="https://www3.cbox.ws/box/?boxid=3534567&boxtag=futbolaz&sec=main" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto" allowtransparency="yes" name="cboxmain" id="cboxmain" style="border: 0; display: block;"></iframe>
         </div>
-
-        <div id="commentsList" style="display: flex; flex-direction: column; gap: 15px;">
-            <div style="background: #24262b; padding: 15px; border-radius: 8px; border-left: 4px solid #2ecc71;">
-                <div style="font-weight: bold; font-size: 14px; color: #2ecc71; margin-bottom: 5px;">
-                    Sadiq <span style="font-size: 11px; color: #888; font-weight: normal; margin-left: 10px;">19:15</span>
-                </div>
-                <div style="font-size: 14px; color: #ddd; line-height: 1.5;">
-                    Qarabağ bu gün mütləq qələbə qazanmalıdır! Juninhodan qol gözləyirəm. Sayt da əla alınıb! 🔥
-                </div>
-            </div>
+        <div style="position: relative; height: 100px; margin-top: 5px; border: 1px solid #334155; border-radius: 8px;">
+            <iframe src="https://www3.cbox.ws/box/?boxid=3534567&boxtag=futbolaz&sec=form" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0" scrolling="no" allowtransparency="yes" name="cboxform" id="cboxform" style="border: 0; display: block;"></iframe>
         </div>
     </div>
-
+    </div>
     <div id="tvModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
