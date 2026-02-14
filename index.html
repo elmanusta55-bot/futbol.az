@@ -224,6 +224,32 @@
         </p>
     </div>
     </div>
+    <div class="section" style="background: linear-gradient(135deg, #2c3e50 0%, #000000 100%); padding: 20px; border-radius: 15px; border: 2px solid #e67e22; margin-top: 25px; text-align: center;">
+    <h3 style="color: #e67e22; margin: 0 0 10px 0; font-size: 16px;">🏆 HƏFTƏNİN QUİZİ</h3>
+    <p id="quiz-question" style="font-size: 14px; color: #fff; margin-bottom: 20px;">Azərbaycan Premyer Liqasında ən çox çempion olan klub hansıdır?</p>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <button onclick="checkQuiz(false)" style="background: rgba(255,255,255,0.1); border: 1px solid #555; color: #fff; padding: 10px; border-radius: 8px; cursor: pointer;">Neftçi</button>
+        <button onclick="checkQuiz(true)" style="background: rgba(255,255,255,0.1); border: 1px solid #555; color: #fff; padding: 10px; border-radius: 8px; cursor: pointer;">Qarabağ</button>
+        <button onclick="checkQuiz(false)" style="background: rgba(255,255,255,0.1); border: 1px solid #555; color: #fff; padding: 10px; border-radius: 8px; cursor: pointer;">Kəpəz</button>
+        <button onclick="checkQuiz(false)" style="background: rgba(255,255,255,0.1); border: 1px solid #555; color: #fff; padding: 10px; border-radius: 8px; cursor: pointer;">Şamaxı</button>
+    </div>
+    
+    <p id="quiz-result" style="margin-top: 15px; font-weight: bold; font-size: 13px;"></p>
+</div>
+
+<script>
+function checkQuiz(isCorrect) {
+    const res = document.getElementById('quiz-result');
+    if(isCorrect) {
+        res.innerHTML = "✅ AFƏRİN! Qarabağ 11 qat çempiondur.";
+        res.style.color = "#2ecc71";
+    } else {
+        res.innerHTML = "❌ SƏHV BİLDİN! Bir daha yoxla.";
+        res.style.color = "#e74c3c";
+    }
+}
+</script>
     
 
     <div id="countdown-container" style="max-width: 650px; margin: 20px auto; background: linear-gradient(135deg, #1a1c1f, #0b0c0d); padding: 25px; border-radius: 12px; border: 1px solid #333; box-shadow: 0 6px 15px rgba(0,0,0,0.4);">
