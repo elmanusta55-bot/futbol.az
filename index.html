@@ -328,6 +328,33 @@
             </div>
             <div style="font-size: 10px; color: #aaa; margin-top: 3px;">Mənbə: Fabrizio Romano</div>
         </div>
+        <div style="position: absolute; top: 20px; right: 20px; z-index: 1000;">
+    <button onclick="toggleTheme()" id="themeBtn" style="background: #f1c40f; border: none; padding: 8px 12px; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: bold; box-shadow: 0 0 10px rgba(0,0,0,0.5);">
+        🌙 Gecə Modu
+    </button>
+</div>
+
+<script>
+function toggleTheme() {
+    const body = document.body;
+    const btn = document.getElementById('themeBtn');
+    
+    if (body.style.backgroundColor === 'white') {
+        body.style.backgroundColor = '#000';
+        body.style.color = '#fff';
+        btn.innerHTML = '☀️ Gündüz Modu';
+        btn.style.background = '#f1c40f';
+        btn.style.color = '#000';
+    } else {
+        body.style.backgroundColor = 'white';
+        body.style.color = '#000';
+        btn.innerHTML = '🌙 Gecə Modu';
+        btn.style.background = '#2c3e50';
+        btn.style.color = '#fff';
+    }
+}
+</script>
+        
 
     </div>
     </div>
