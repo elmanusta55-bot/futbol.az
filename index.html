@@ -35,6 +35,81 @@
     </style>
 </head>
 <body>
+    <div id="auth-section" class="section" style="background: #1e293b; padding: 20px; border-radius: 15px; margin-top: 10px; border: 1px solid #3498db;">
+    
+    <div id="login-form">
+        <h3 style="color: #fff; margin-top: 0;">👤 Sayta Giriş</h3>
+        <input type="text" id="username" placeholder="İstifadəçi adı" style="width: 90%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: none;">
+        <input type="password" id="password" placeholder="Şifrə" style="width: 90%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: none;">
+        <button onclick="handleLogin()" style="width: 100%; padding: 12px; background: #3498db; color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Giriş Et</button>
+        <p style="font-size: 11px; color: #aaa; margin-top: 10px;">Hesabın yoxdur? Tezliklə qeydiyyat aktivləşəcək!</p>
+    </div>
+
+    <div id="user-profile" style="display: none; text-align: center;">
+        <div style="position: relative; display: inline-block;">
+            <img id="profile-img" src="https://www.w3schools.com/howto/img_avatar.png" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #3498db; object-fit: cover;">
+            <label for="upload-photo" style="position: absolute; bottom: 0; right: 0; background: #3498db; color: #fff; padding: 5px; border-radius: 50%; cursor: pointer; font-size: 12px;">📷</label>
+            <input type="file" id="upload-photo" hidden onchange="updatePhoto(event)">
+        </div>
+        <h3 id="display-name" style="color: #fff; margin: 10px 0 5px 0;">İstifadəçi</h3>
+        <p style="color: #2ecc71; font-size: 12px; margin: 0;">⚽ Gold Üzv</p>
+        
+        <div style="display: flex; justify-content: space-around; margin-top: 15px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 10px;">
+            <div>
+                <span style="display: block; color: #fff; font-weight: bold;">125</span>
+                <span style="font-size: 10px; color: #aaa;">Xal</span>
+            </div>
+            <div>
+                <span style="display: block; color: #fff; font-weight: bold;">12</span>
+                <span style="font-size: 10px; color: #aaa;">Şərh</span>
+            </div>
+        </div>
+        <button onclick="handleLogout()" style="margin-top: 15px; background: none; border: 1px solid #e74c3c; color: #e74c3c; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 11px;">Çıxış Et</button>
+    </div>
+</div>
+
+<script>
+// Giriş funksiyası
+function handleLogin() {
+    const user = document.getElementById('username').value;
+    if(user.length > 2) {
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('user-profile').style.display = 'block';
+        document.getElementById('display-name').innerText = user;
+        // Məlumatı yadda saxla (Səhifə yenilənəndə itməsin)
+        localStorage.setItem('futbolUser', user);
+    } else {
+        alert("Zəhmət olmasa düzgün istifadəçi adı yazın!");
+    }
+}
+
+// Çıxış funksiyası
+function handleLogout() {
+    localStorage.removeItem('futbolUser');
+    document.getElementById('login-form').style.display = 'block';
+    document.getElementById('user-profile').style.display = 'none';
+}
+
+// Şəkil yeniləmə
+function updatePhoto(event) {
+    const reader = new FileReader();
+    reader.onload = function() {
+        document.getElementById('profile-img').src = reader.result;
+    }
+    reader.readAsDataURL(event.target.files[0]);
+}
+
+// Səhifə açılanda yoxla
+window.onload = function() {
+    const savedUser = localStorage.getItem('futbolUser');
+    if(savedUser) {
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('user-profile').style.display = 'block';
+        document.getElementById('display-name').innerText = savedUser;
+    }
+}
+    </script>
+    
     <meta name="theme-color" content="#020617">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="logo.png">
