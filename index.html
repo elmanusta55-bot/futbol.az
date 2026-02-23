@@ -84,44 +84,6 @@
         <h1 style="color: #2ecc71; margin: 0; font-size: 20px;">Futbol.az</h1>
         <span id="user-status" style="font-size: 12px; color: #aaa;">👤 Qonaq</span>
     </header>
-
-    <div class="section" style="border: 2px dashed #f1c40f;">
-        <h3 style="color: #f1c40f; margin: 0;">SƏNİN REKLAMIN BURADA OLA BİLƏR!</h3>
-        <p style="font-size: 12px; color: #ccc;">Əlaqə: +994 55 526 68 48</p>
-    </div>
-
-    <div class="section">
-        <h3>⚽ PENALTİ OYUNU</h3>
-        <p>Xalın: <span id="score" style="color: #2ecc71;">0</span></p>
-        <div style="display: flex; gap: 10px; justify-content: center;">
-            <button onclick="play(1)" style="padding: 15px; background: #e74c3c; color: #fff; flex: 1;">SOL</button>
-            <button onclick="play(2)" style="padding: 15px; background: #3498db; color: #fff; flex: 1;">MƏRKƏZ</button>
-            <button onclick="play(3)" style="padding: 15px; background: #e74c3c; color: #fff; flex: 1;">SAĞ</button>
-        </div>
-        <p id="msg" style="margin-top: 15px;"></p>
-    </div>
-
-    <footer style="margin-top: 50px; padding: 20px; border-top: 1px solid #1e293b; color: #64748b; font-size: 11px;">
-        © 2026 İmarət Media. Hazırladı: Elman Usta
-    </footer>
-
-    <script>
-        let score = 0;
-        function play(userChoice) {
-            let gk = Math.floor(Math.random() * 3) + 1;
-            let m = document.getElementById('msg');
-            if(userChoice === gk) {
-                m.innerText = "❌ Qapıçı tutdu!"; m.style.color = "#e74c3c";
-            } else {
-                score += 10;
-                document.getElementById('score').innerText = score;
-                m.innerText = "⚽ QOL!"; m.style.color = "#2ecc71";
-            }
-        }
-    </script>
-</body>
-</html> 
-    
     <meta name="theme-color" content="#020617">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="logo.png">
