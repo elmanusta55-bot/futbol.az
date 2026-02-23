@@ -31,84 +31,39 @@
     
     <style>
         body { margin: 0; font-family: sans-serif; background: #000; color: #fff; }
-        /* Digər stillərin burda qalacaq */
-    </style>
-</head>
-<body>
-    <div id="auth-section" class="section" style="background: #1e293b; padding: 20px; border-radius: 15px; margin-top: 10px; border: 1px solid #3498db;">
+    <div id="auth-modal" style="background: rgba(0,0,0,0.85); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
     
-    <div id="login-form">
-        <h3 style="color: #fff; margin-top: 0;">👤 Sayta Giriş</h3>
-        <input type="text" id="username" placeholder="İstifadəçi adı" style="width: 90%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: none;">
-        <input type="password" id="password" placeholder="Şifrə" style="width: 90%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: none;">
-        <button onclick="handleLogin()" style="width: 100%; padding: 12px; background: #3498db; color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Giriş Et</button>
-        <p style="font-size: 11px; color: #aaa; margin-top: 10px;">Hesabın yoxdur? Tezliklə qeydiyyat aktivləşəcək!</p>
-    </div>
-
-    <div id="user-profile" style="display: none; text-align: center;">
-        <div style="position: relative; display: inline-block;">
-            <img id="profile-img" src="https://www.w3schools.com/howto/img_avatar.png" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #3498db; object-fit: cover;">
-            <label for="upload-photo" style="position: absolute; bottom: 0; right: 0; background: #3498db; color: #fff; padding: 5px; border-radius: 50%; cursor: pointer; font-size: 12px;">📷</label>
-            <input type="file" id="upload-photo" hidden onchange="updatePhoto(event)">
-        </div>
-        <h3 id="display-name" style="color: #fff; margin: 10px 0 5px 0;">İstifadəçi</h3>
-        <p style="color: #2ecc71; font-size: 12px; margin: 0;">⚽ Gold Üzv</p>
+    <div style="background: #1e293b; padding: 30px 20px; border-radius: 15px; width: 90%; max-width: 380px; border: 1px solid #334155; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         
-        <div style="display: flex; justify-content: space-around; margin-top: 15px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 10px;">
-            <div>
-                <span style="display: block; color: #fff; font-weight: bold;">125</span>
-                <span style="font-size: 10px; color: #aaa;">Xal</span>
-            </div>
-            <div>
-                <span style="display: block; color: #fff; font-weight: bold;">12</span>
-                <span style="font-size: 10px; color: #aaa;">Şərh</span>
-            </div>
+        <button onclick="document.getElementById('auth-modal').style.display='none'" style="position: absolute; top: 15px; right: 20px; background: transparent; color: #94a3b8; border: none; font-size: 20px; cursor: pointer; transition: 0.3s;">✖</button>
+
+        <h2 style="color: #fff; margin: 0 0 5px 0; font-size: 22px;">Futbol.az</h2>
+        <p style="color: #94a3b8; font-size: 13px; margin-bottom: 25px;">Şəxsi hesabına daxil ol və fərqi hiss et</p>
+
+        <button onclick="alert('Firebase bazası qurulmalıdır!')" style="width: 100%; padding: 12px; background: #fff; color: #333; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: 0.2s;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="20" alt="Google Logo">
+            Google ilə daxil ol
+        </button>
+
+        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+            <div style="flex: 1; height: 1px; background: #334155;"></div>
+            <span style="color: #64748b; padding: 0 10px; font-size: 11px; text-transform: uppercase;">və ya email ilə</span>
+            <div style="flex: 1; height: 1px; background: #334155;"></div>
         </div>
-        <button onclick="handleLogout()" style="margin-top: 15px; background: none; border: 1px solid #e74c3c; color: #e74c3c; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 11px;">Çıxış Et</button>
+
+        <input type="email" id="email-input" placeholder="Email ünvanı" style="width: 85%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: #fff; font-size: 14px; outline: none;">
+        
+        <input type="password" id="password-input" placeholder="Şifrə" style="width: 85%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: #fff; font-size: 14px; outline: none;">
+
+        <button onclick="alert('Firebase bazası qurulmalıdır!')" style="width: 95%; padding: 12px; background: #3498db; color: #fff; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; margin-bottom: 15px; transition: background 0.3s;">
+            Giriş Et
+        </button>
+        
+        <p style="color: #94a3b8; font-size: 12px; margin: 0;">
+            Hesabın yoxdur? <a href="#" style="color: #3498db; text-decoration: none; font-weight: bold;">Qeydiyyatdan keç</a>
+        </p>
     </div>
-</div>
-
-<script>
-// Giriş funksiyası
-function handleLogin() {
-    const user = document.getElementById('username').value;
-    if(user.length > 2) {
-        document.getElementById('login-form').style.display = 'none';
-        document.getElementById('user-profile').style.display = 'block';
-        document.getElementById('display-name').innerText = user;
-        // Məlumatı yadda saxla (Səhifə yenilənəndə itməsin)
-        localStorage.setItem('futbolUser', user);
-    } else {
-        alert("Zəhmət olmasa düzgün istifadəçi adı yazın!");
-    }
-}
-
-// Çıxış funksiyası
-function handleLogout() {
-    localStorage.removeItem('futbolUser');
-    document.getElementById('login-form').style.display = 'block';
-    document.getElementById('user-profile').style.display = 'none';
-}
-
-// Şəkil yeniləmə
-function updatePhoto(event) {
-    const reader = new FileReader();
-    reader.onload = function() {
-        document.getElementById('profile-img').src = reader.result;
-    }
-    reader.readAsDataURL(event.target.files[0]);
-}
-
-// Səhifə açılanda yoxla
-window.onload = function() {
-    const savedUser = localStorage.getItem('futbolUser');
-    if(savedUser) {
-        document.getElementById('login-form').style.display = 'none';
-        document.getElementById('user-profile').style.display = 'block';
-        document.getElementById('display-name').innerText = savedUser;
-    }
-}
-    </script>
+</div>  
     
     <meta name="theme-color" content="#020617">
     <link rel="manifest" href="manifest.json">
