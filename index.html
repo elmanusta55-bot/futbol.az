@@ -1,69 +1,91 @@
-<!DOCTYPE html>
+> <!DOCTYPE html>
 <html lang="az">
 <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q79WE0TMKH"></script> 
-<script> 
-  window.dataLayer = window.dataLayer || []; 
-  function gtag(){dataLayer.push(arguments);} 
-  gtag('js', new Date()); 
-  gtag('config', 'G-Q79WE0TMKH'); 
-</script>
-    
+    <script> 
+      window.dataLayer = window.dataLayer || []; 
+      function gtag(){dataLayer.push(arguments);} 
+      gtag('js', new Date()); 
+      gtag('config', 'G-Q79WE0TMKH'); 
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <meta name="google-site-verification" content="yfd1nTk5KYcOXH0tRVciOxFtmU_mUBrc50cNzAUM1ZQ" />
-    <meta name="google-adsense-account" content="ca-pub-8330893952904159">
-    
+    <title>Futbol.az - Azərbaycanın Futbol Portalı</title>
 
-    <title>Futbol.az - Azərbaycan Premyer Liqası Canlı Nəticələr</title>
-
-    <meta name="description" content="Azərbaycan Premyer Liqası 2025/26: Canlı nəticələr, Turnir Cədvəli, Transferlər və Çat.">
-    <meta name="keywords" content="futbol, qarabağ fk, neftçi, canlı hesab, idman, premyer liqa">
-    <meta name="author" content="Elman Usta">
-
-
-    <meta property="og:title" content="Futbol.az - Azərbaycanın Futbol Portalı">
-    <meta property="og:description" content="Canlı oyunlar, biletlər və azarkeş müzakirəsi bir ünvanda! ⚽🇦🇿">
-    <meta property="og:image" content="https://elmanusta55-bot.github.io/futbol.az/logo.png">
-    <meta property="og:url" content="https://elmanusta55-bot.github.io/futbol.az/">
-
-    
     <style>
-        body { margin: 0; font-family: sans-serif; background: #000; color: #fff; }
-    <div id="auth-modal" style="background: rgba(0,0,0,0.85); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
-    
-    <div style="background: #1e293b; padding: 30px 20px; border-radius: 15px; width: 90%; max-width: 380px; border: 1px solid #334155; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #020617; color: #fff; overflow-x: hidden; }
+        .container { padding: 15px; max-width: 650px; margin: auto; }
+        .section { background: #1e293b; border-radius: 15px; padding: 20px; margin-bottom: 25px; border: 1px solid #334155; }
+        .btn { cursor: pointer; border: none; border-radius: 8px; font-weight: bold; transition: 0.3s; }
         
-        <button onclick="document.getElementById('auth-modal').style.display='none'" style="position: absolute; top: 15px; right: 20px; background: transparent; color: #94a3b8; border: none; font-size: 20px; cursor: pointer; transition: 0.3s;">✖</button>
+        /* Son dəqiqə lenti animasiyası */
+        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+    </style>
+</head>
+<body>
 
-        <h2 style="color: #fff; margin: 0 0 5px 0; font-size: 22px;">Futbol.az</h2>
-        <p style="color: #94a3b8; font-size: 13px; margin-bottom: 25px;">Şəxsi hesabına daxil ol və fərqi hiss et</p>
+    <div style="background: #990000; color: #fff; padding: 10px 0; overflow: hidden; white-space: nowrap; border-bottom: 2px solid #f1c40f;">
+        <div style="display: inline-block; animation: ticker 20s linear infinite;">
+            🔥 SON DƏQİQƏ: Qarabağ FK Avropa Liqasında növbəti mərhələdə! &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; ⚽ TRANSFER: Futbol.az yeni istifadəçi sisteminə keçdi!
+        </div>
+    </div>
 
-        <button onclick="alert('Firebase bazası qurulmalıdır!')" style="width: 100%; padding: 12px; background: #fff; color: #333; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: 0.2s;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="20" alt="Google Logo">
-            Google ilə daxil ol
-        </button>
+    <div id="auth-modal" style="background: rgba(0,0,0,0.9); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
+        <div style="background: #1e293b; padding: 30px; border-radius: 20px; width: 85%; max-width: 350px; text-align: center; border: 1px solid #3498db;">
+            <h2 style="color: #3498db; margin-bottom: 5px;">Futbol.az</h2>
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 20px;">Giriş et və xallarını qoru!</p>
+            <button onclick="document.getElementById('auth-modal').style.display='none'" style="width: 100%; padding: 12px; background: #fff; color: #333; border-radius: 8px; margin-bottom: 15px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; border: none; cursor: pointer;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="18"> Google ilə daxil ol
+            </button>
+            <button onclick="document.getElementById('auth-modal').style.display='none'" class="btn" style="width: 100%; padding: 12px; background: #3498db; color: #fff;">Səhifəyə Keç</button>
+        </div>
+    </div>
 
-        <div style="display: flex; align-items: center; margin-bottom: 20px;">
-            <div style="flex: 1; height: 1px; background: #334155;"></div>
-            <span style="color: #64748b; padding: 0 10px; font-size: 11px; text-transform: uppercase;">və ya email ilə</span>
-            <div style="flex: 1; height: 1px; background: #334155;"></div>
+    <div class="container">
+        <header style="text-align: center; padding: 20px 0;">
+            <h1 style="margin: 0; color: #3498db;">FUTBOL.AZ</h1>
+            <p style="font-size: 12px; color: #94a3b8;">Sənin futbol dünyan</p>
+        </header>
+
+        <div class="section">
+            <h3 style="margin-top: 0;">🎥 GÜNÜN EDİTİ</h3>
+            <div style="position: relative; padding-bottom: 177%; height: 0; overflow: hidden; border-radius: 12px;">
+                <iframe src="https://www.youtube.com/embed/8w7kYQjL7Wk" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
+            </div>
         </div>
 
-        <input type="email" id="email-input" placeholder="Email ünvanı" style="width: 85%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: #fff; font-size: 14px; outline: none;">
-        
-        <input type="password" id="password-input" placeholder="Şifrə" style="width: 85%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: #fff; font-size: 14px; outline: none;">
+        <div class="section" style="text-align: center; border: 1px solid #f1c40f;">
+            <h3 style="color: #f1c40f;">⚽ PENALTİ ŞOUSU</h3>
+            <p>Xalın: <span id="score" style="font-weight: bold; color: #2ecc71;">0</span></p>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button onclick="play(1)" class="btn" style="padding: 15px; background: #e74c3c; color: #fff; flex: 1;">SOL</button>
+                <button onclick="play(2)" class="btn" style="padding: 15px; background: #3498db; color: #fff; flex: 1;">MƏRKƏZ</button>
+                <button onclick="play(3)" class="btn" style="padding: 15px; background: #e74c3c; color: #fff; flex: 1;">SAĞ</button>
+            </div>
+            <p id="msg" style="margin-top: 15px; font-weight: bold;"></p>
+        </div>
 
-        <button onclick="alert('Firebase bazası qurulmalıdır!')" style="width: 95%; padding: 12px; background: #3498db; color: #fff; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; margin-bottom: 15px; transition: background 0.3s;">
-            Giriş Et
-        </button>
-        
-        <p style="color: #94a3b8; font-size: 12px; margin: 0;">
-            Hesabın yoxdur? <a href="#" style="color: #3498db; text-decoration: none; font-weight: bold;">Qeydiyyatdan keç</a>
-        </p>
+        <footer style="text-align: center; margin-top: 50px; padding: 20px; border-top: 1px solid #334155; font-size: 12px; color: #64748b;">
+            © 2026 <b>FUTBOL AZ</b>. Hazırladı: Elman Usta
+        </footer>
     </div>
-</div>  
+
+    <script>
+        let s = 0;
+        function play(p) {
+            let gk = Math.floor(Math.random() * 3) + 1;
+            let m = document.getElementById('msg');
+            if(p === gk) {
+                m.innerText = "❌ Qapıçı tutdu!"; m.style.color = "#e74c3c";
+            } else {
+                s += 10; m.innerText = "⚽ GOOOL!"; m.style.color = "#2ecc71";
+                document.getElementById('score').innerText = s;
+            }
+        }
+    </script>
+</body>
+</html>
     
     <meta name="theme-color" content="#020617">
     <link rel="manifest" href="manifest.json">
