@@ -54,6 +54,44 @@
     </script>
 </head>
 <body>
+    // 1. Database modulunu import et (digər importların yanına qoy)
+import { getDatabase, ref, set, onValue, query, orderByChild, limitToLast } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+// 2. Database-i başlat
+const db = getDatabase(app);
+
+// 3. Xalı bazaya yazan funksiya
+window.updateScoreInDB = (newScore) => {
+    if (currentUser) { // currentUser - daxil olan istifadəçidir
+        set(ref(db, 'users/' + currentUser.uid), {
+            name: currentUser.displayName,
+            score: newScore
+        });
+    }
+};
+
+// 4. Liderlər siyahısını real-vaxtda izləyən funksiya
+const leadersRef = query(ref(db, 'users'), orderByChild('score'), limitToLast(5));
+
+onValue(leadersRef, (snapshot) => {
+    const list = document.getElementById('leader-list'); // HTML-də bu ID-li div olmalıdır
+    if (!list) return;
+    
+    list.innerHTML = "";
+    let players = [];
+    
+    snapshot.forEach(child => { 
+        players.push(child.val()); 
+    });
+    
+    // Ən yüksək xalı ən yuxarıda göstər
+    players.reverse().forEach(p => {
+        list.innerHTML += `<div class="leader-item" style="display:flex; justify-content:space-between; padding:5px; border-bottom:1px solid #333;">
+            <span>${p.name}</span>
+            <b>${p.score} xal</b>
+        </div>`;
+    });
+});
 
     <div id="auth-modal" style="background: rgba(0,0,0,0.85); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
         <div style="background: #1e293b; padding: 30px 20px; border-radius: 15px; width: 90%; max-width: 380px; border: 1px solid #334155; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
@@ -1405,16 +1443,6 @@ updateTimer();
             </a>
         </div>
 
-        <div style="border-top: 1px solid #1e293b; padding-top: 20px;">
-            <p style="font-size: 11px; color: #64748b; margin: 0;">
-                © 2026 <strong>İmarət Media</strong>. Bütün hüquqlar qorunur.
-            </p>
-            <p style="font-size: 10px; color: #475569; margin-top: 5px;">
-                Hazırladı: <span style="color: #3498db;">Elman Usta</span>
-            </p>
-        </div>
-    </div>
-            </footer>
             
 </body>
 </html>
