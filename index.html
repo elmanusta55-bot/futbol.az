@@ -54,12 +54,112 @@
     </script>
 </head>
 <body>
+<script type="module">
+  // 1. BÜTÜN LAZIMI MODULLARI İMPORT EDİRİK (Bildirişlər də daxil)
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getDatabase, ref, set, onValue, query, orderByChild, limitToLast } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+  import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging.js";
+
+  // 2. FİREBASE AYARLARI
+  const firebaseConfig = {
+    apiKey: "AIzaSyCDR1NfpLsMst6ArPLaIdvJ_uvljQf8TVg",
+    authDomain: "futbol-az.firebaseapp.com",
+    projectId: "futbol-az",
+    databaseURL: "https://futbol-az-default-rtdb.firebaseio.com",
+    storageBucket: "futbol-az.appspot.com",
+    messagingSenderId: "750508557267",
+    appId: "1:750508557267:web:b41ab05233b72fb033a526",
+    measurementId: "G-16Q6G2QDKR"
+  };
+
+  // 3. SİSTEMLƏRİ BAŞLADIRIQ
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getDatabase(app);
+  const messaging = getMessaging(app);
+  const provider = new GoogleAuthProvider();
+
+  let currentUser = null;
+
+  // --- GİRİŞ VƏ LİDERLƏR CƏDVƏLİ KODLARI ---
+  window.googleLogin = () => {
+    signInWithPopup(auth, provider).then(() => {
+        const modal = document.getElementById('auth-modal');
+        if(modal) modal.style.display = 'none';
+    }).catch((error) => { alert("Xəta: " + error.message); });
+  };
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+        currentUser = user;
+        const userInfo = document.getElementById('user-info');
+        if(userInfo) userInfo.innerText = "👤 " + user.displayName;
+        const modal = document.getElementById('auth-modal');
+        if(modal) modal.style.display = 'none';
+    }
+  });
+
+  const leadersRef = query(ref(db, 'users'), orderByChild('score'), limitToLast(5));
+  onValue(leadersRef, (snapshot) => {
+    const list = document.getElementById('leader-list');
+    if(!list) return;
+    list.innerHTML = "";
+    let players = [];
+    snapshot.forEach(child => { players.push(child.val()); });
+    players.reverse().forEach(p => {
+        list.innerHTML += `<div class="leader-item" style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #334155;">
+            <span>${p.name}</span><b>${p.score} xal</b>
+        </div>`;
+    });
+  });
+
+  window.updateScoreInDB = (newScore) => {
+    if(currentUser) {
+        set(ref(db, 'users/' + currentUser.uid), {
+            name: currentUser.displayName,
+            score: newScore
+        });
+    }
+  };
+
+  // --- BİLDİRİŞ (PUSH NOTIFICATION) KODLARI ---
+  const myVapidKey = "BK8UNHVDE4lzoBiSROpy_2oyHFAKmcGdR8G3FEVWkqrgbDjpjxysFPRBPAS-GJEMSpdur7yJBz5eMoaed6gH9H4";
+
+  window.requestNotificationPermission = () => {
+      Notification.requestPermission().then((permission) => {
+          if (permission === 'granted') {
+              getToken(messaging, { vapidKey: myVapidKey })
+                  .then((currentToken) => {
+                      if (currentToken) {
+                          console.log("Token alındı:", currentToken);
+                          alert("Əla! Artıq Futbol.Az bildirişlərinə abunə oldun.");
+                          
+                          // Abunə olanları bazaya yazırıq
+                          if (currentUser) {
+                              set(ref(db, 'tokens/' + currentUser.uid), {
+                                  token: currentToken,
+                                  name: currentUser.displayName
+                              });
+                          }
+                      } else {
+                          console.log('Token tapılmadı.');
+                      }
+                  }).catch((err) => {
+                      console.log('Xəta:', err);
+                  });
+          } else {
+              alert("Bildirişlərə icazə vermədin.");
+          }
+      });
+  };
+</script>
+    
     <div class="section" style="border: 1px solid #3498db; padding: 15px;">
     <h3 style="color: #3498db; margin-top: 0; font-size: 16px;">🔍 SAYTDA AXTARIŞ</h3>
     <script async src="https://cse.google.com/cse.js?cx=a5957c9c178244169"></script>
     <div class="gcse-search"></div>
 </div>
-
 <style>
     /* Google axtarış çubuğunu saytın qara dizaynına uyğunlaşdırırıq */
     .gsc-control-cse {
@@ -110,6 +210,7 @@ function changeMap(stadium) {
     document.querySelector('iframe').src = maps[stadium];
 }
 </script>
+ 
     
     
     
