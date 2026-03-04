@@ -249,95 +249,10 @@ function googleTranslateElementInit() {
     <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); border-radius: 13px; z-index: 0;"></div>
 
     <div style="position: relative; z-index: 1;">
-        <h3 style="color: #f1c40f; margin: 0 0 10px 0; text-transform: uppercase; text-shadow: 0 0 10px #000;">⚽ PENALTİ VUR, HƏDİYYƏ QAZAN! 🎁</h3>
-        <p style="color: #fff; font-size: 12px;">3 dəfə ard-arda qol vur, gizli kodu əldə et!</p>
-
-        <div style="font-size: 24px; font-weight: bold; color: #fff; margin: 15px 0; background: rgba(0,0,0,0.5); display: inline-block; padding: 5px 20px; border-radius: 10px;">
-            STREAK: <span id="streak" style="color: #2ecc71;">0</span> / 3
-        </div>
-
-        <div id="game-msg" style="height: 40px; color: #fff; font-weight: bold; margin-bottom: 10px; font-size: 14px;">Topu hara vurursan?</div>
-
-        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
-            <button onclick="shoot('SOL')" style="flex: 1; padding: 15px; background: #e74c3c; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 0 #c0392b;">⬅ SOL</button>
-            <button onclick="shoot('MƏRKƏZ')" style="flex: 1; padding: 15px; background: #3498db; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 0 #2980b9;">⬆ MƏRKƏZ</button>
-            <button onclick="shoot('SAĞ')" style="flex: 1; padding: 15px; background: #e74c3c; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 0 #c0392b;">SAĞ ➡</button>
-        </div>
-
-        <div id="prize-box" style="display: none; margin-top: 20px; background: #f1c40f; padding: 15px; border-radius: 10px; animation: popIn 0.5s;">
-            <h2 style="margin: 0; color: #000;">🎉 TƏBRİKLƏR! 🎉</h2>
-            <p style="color: #333; font-size: 12px; margin: 5px 0;">Sən 3 qol vurdun! Budur sənin Hədiyyə Kodun:</p>
-            <div style="background: #fff; padding: 10px; font-size: 18px; font-weight: bold; border: 2px dashed #000; color: #e74c3c; letter-spacing: 2px;">
-                FUTBOL2026
-            </div>
-            <p style="font-size: 10px; color: #000; margin-top: 5px;">Bu kodu screenshot et və WhatsApp kanalına at!</p>
-        </div>
-
-    </div>
-</div>
 
 <script>
-let streak = 0;
 
-function shoot(direction) {
-    const positions = ['SOL', 'MƏRKƏZ', 'SAĞ'];
-    // Qapıçı təsadüfi bir yer seçir
-    const gkChoice = positions[Math.floor(Math.random() * positions.length)];
-    const msg = document.getElementById('game-msg');
-    const streakDisplay = document.getElementById('streak');
-    const prizeBox = document.getElementById('prize-box');
 
-    // Əgər hədiyyə artıq qazanılıbsa, oyunu dayandır
-    if(prizeBox.style.display === 'block') return;
-
-    if (direction === gkChoice) {
-        // Qapıçı tutdu
-        streak = 0;
-        msg.innerHTML = "❌ Qapıçı " + gkChoice + " tərəfə tullandı və TUTDU!";
-        msg.style.color = "#e74c3c";
-    } else {
-        // QOL
-        streak++;
-        msg.innerHTML = "⚽ GOOOL! Qapıçı " + gkChoice + " tərəfə tullandı!";
-        msg.style.color = "#2ecc71";
-    }
-
-    streakDisplay.innerHTML = streak;
-
-    // 3 Qol vuran kimi hədiyyəni aç
-    if (streak === 3) {
-        msg.innerHTML = "🏆 ÇEMPİON! HƏDİYYƏNİ AÇIRIQ...";
-        setTimeout(() => {
-            prizeBox.style.display = 'block';
-        }, 500);
-    }
-}
-</script>
-
-<style>
-@keyframes popIn {
-    0% { transform: scale(0); }
-    100% { transform: scale(1); }
-}
-</style>
-
-    
-
-<script>
-function openNews() {
-    var hiddenDiv = document.getElementById("hidden-news");
-    var btn = document.getElementById("more-btn");
-    
-    if (hiddenDiv.style.display === "none") {
-        hiddenDiv.style.display = "flex";
-        btn.innerHTML = "Xəbərləri bağla ⬆";
-    } else {
-        hiddenDiv.style.display = "none";
-        btn.innerHTML = "Daha çox xəbər oxu ➔";
-    }
-}
-</script>
-    
     
                 </div>
             </div>
