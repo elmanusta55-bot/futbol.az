@@ -33,11 +33,16 @@
         .card { background: var(--card-bg); border-radius: 20px; padding: 20px; border: 1px solid #1e293b; margin-bottom: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
         .section-title { font-size: 18px; color: #fff; margin: 0 0 15px 0; font-weight: bold; display: flex; justify-content: center; align-items: center; gap: 8px; border-bottom: 1px solid #334155; padding-bottom: 10px; }
 
-        /* OYUN */
+        /* OYUN & DÜYMƏLƏR */
         .game-grid { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
         .btn-shoot { background: #1e293b; border: 1px solid var(--accent); color: #fff; padding: 12px 20px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-weight: bold; font-size: 14px; }
         .btn-shoot:hover { background: var(--accent); }
         .chances-box { display: inline-block; background: #e74c3c; color: white; padding: 5px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-top: 10px; }
+
+        /* PROMOKOD */
+        .promo-input { padding: 12px; border-radius: 8px; border: 1px solid #334155; background: #050a14; color: #fff; text-transform: uppercase; width: 60%; font-weight: bold; outline: none; }
+        .promo-btn { background: #f1c40f; color: #000; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .promo-btn:hover { background: #d4ac0d; }
 
         /* MAĞAZA */
         .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
@@ -75,6 +80,15 @@
     <div class="container">
         
         <div class="card">
+            <h3 class="section-title" style="color: #f1c40f; border-bottom-color: #f1c40f;"><span>🎁</span> HƏDİYYƏ KODU (PROMOKOD)</h3>
+            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+                <input type="text" id="promo-input" class="promo-input" placeholder="Kodu daxil edin...">
+                <button class="promo-btn" onclick="usePromo()">TƏSDİQLƏ</button>
+            </div>
+            <p style="font-size: 12px; color: #64748b; margin-top: 10px;">Reklamlardan və partnyorlardan aldığınız kodları bura yazın.</p>
+        </div>
+
+        <div class="card">
             <h3 class="section-title"><span>🧤</span> PENALTİ YARIŞI</h3>
             <p id="msg" style="height: 20px; font-weight: bold; color: #aaa;">Topu hara vurursan?</p>
             <div class="game-grid">
@@ -111,6 +125,18 @@
                     <span class="item-name">Real Madrid</span>
                     <span class="price">1500 XAL</span>
                     <button id="btn-real" class="buy-btn" onclick="buy('real', 'Real Madrid Forması', 1500)">SATIN AL</button>
+                </div>
+                <div class="shop-item">
+                    <span class="item-icon">🏟️</span>
+                    <span class="item-name">Stadion Bileti</span>
+                    <span class="price">2000 XAL</span>
+                    <button id="btn-bilet" class="buy-btn" onclick="buy('bilet', 'Stadion Bileti', 2000)">SATIN AL</button>
+                </div>
+                <div class="shop-item">
+                    <span class="item-icon">🌟</span>
+                    <span class="item-name">VİP Status</span>
+                    <span class="price">5000 XAL</span>
+                    <button id="btn-vip" class="buy-btn" onclick="buy('vip', 'VİP Status', 5000)">SATIN AL</button>
                 </div>
             </div>
         </div>
@@ -151,11 +177,12 @@
     </div>
 
     <script>
-        // 1. MƏLUMATLARI YADDAŞDAN ÇƏKİRİK
+        // YADDAŞDAN MƏLUMATLAR
         let score = localStorage.getItem('futbol_score_v5') ? parseInt(localStorage.getItem('futbol_score_v5')) : 0;
         let inventory = localStorage.getItem('futbol_inventory_v5') ? JSON.parse(localStorage.getItem('futbol_inventory_v5')) : [];
+        let usedPromos = localStorage.getItem('futbol_promos') ? JSON.parse(localStorage.getItem('futbol_promos')) : [];
         
-        // 2. GÜNDƏLİK 3 ŞANS SİSTEMİ
+        // GÜNDƏLİK ŞANS
         let today = new Date().toLocaleDateString();
         let lastDate = localStorage.getItem('futbol_date_v5');
         let chances = localStorage.getItem('futbol_chances_v5') ? parseInt(localStorage.getItem('futbol_chances_v5')) : 3;
@@ -171,16 +198,23 @@
         const chancesEl = document.getElementById('chances-display');
         const boardScoreEl = document.getElementById('board-user-score');
 
+        // MÖVCUD PROMOKODLAR VƏ XALLARI
+        const validPromos = {
+            'ELMANUSTA': 2000,
+            'IMARET1000': 1000,
+            'REKLAM500': 500,
+            'FUTBOLAZ': 3000
+        };
+
         // EKRANI YENİLƏYƏN FUNKSİYA
         function updateUI() {
             balEl.innerText = score.toLocaleString();
-            boardScoreEl.innerText = score.toLocaleString() + " XAL"; // Liderlər cədvəlini yeniləyir
+            boardScoreEl.innerText = score.toLocaleString() + " XAL"; 
             chancesEl.innerText = chances;
             
             localStorage.setItem('futbol_score_v5', score);
             localStorage.setItem('futbol_chances_v5', chances);
             
-            // Alınan əşyaların düymələrini AKTİV edirik
             inventory.forEach(itemId => {
                 let btn = document.getElementById('btn-' + itemId);
                 if (btn) {
@@ -189,6 +223,33 @@
                     btn.disabled = true; 
                 }
             });
+        }
+
+        // PROMOKOD FUNKSİYASI
+        function usePromo() {
+            const inputVal = document.getElementById('promo-input').value.trim().toUpperCase();
+            
+            if (inputVal === "") {
+                alert("Zəhmət olmasa kodu daxil edin!");
+                return;
+            }
+
+            if (usedPromos.includes(inputVal)) {
+                alert("❌ Bu koddan artıq istifadə etmisiniz!");
+                return;
+            }
+
+            if (validPromos[inputVal]) {
+                let reward = validPromos[inputVal];
+                score += reward;
+                usedPromos.push(inputVal);
+                localStorage.setItem('futbol_promos', JSON.stringify(usedPromos));
+                updateUI();
+                alert("🎉 Təbriklər! Promokod qəbul olundu. Balansınıza " + reward + " XAL əlavə edildi!");
+                document.getElementById('promo-input').value = ""; 
+            } else {
+                alert("❌ Yanlış və ya vaxtı keçmiş promokod!");
+            }
         }
 
         // PENALTİ OYUNU
@@ -226,7 +287,7 @@
                 updateUI();
                 alert("🎉 Təbriklər! " + name + " uğurla alındı və aktivləşdi!");
             } else {
-                alert("❌ Xalınız çatmır! Daha çox penalti vurun.");
+                alert("❌ Xalınız çatmır! Daha çox penalti vurun və ya promokod tapın.");
             }
         }
 
