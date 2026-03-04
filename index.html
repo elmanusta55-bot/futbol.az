@@ -19,35 +19,35 @@
 
     <style>
         :root { --neon-green: #2ecc71; --dark-bg: #050a14; --card-bg: #0f172a; --accent: #3498db; }
-        body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--dark-bg); color: #fff; overflow-x: hidden; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--dark-bg); color: #fff; overflow-x: hidden; text-align: center; }
         
-        /* HEADER */
+        /* HEADER VƏ BALANS */
         header { background: linear-gradient(180deg, #1e293b 0%, var(--dark-bg) 100%); padding: 30px 10px; border-bottom: 2px solid var(--neon-green); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .logo { font-size: 32px; font-weight: 900; color: var(--neon-green); text-transform: uppercase; letter-spacing: 3px; margin: 0; }
-        
-        /* BALANS KARTI */
         .balance-card { background: var(--card-bg); margin: -25px auto 20px; width: 85%; max-width: 400px; padding: 20px; border-radius: 20px; border: 1px solid #1e293b; box-shadow: 0 15px 35px rgba(0,0,0,0.4); position: relative; z-index: 10; }
         .balance-label { font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
         .balance-val { font-size: 36px; font-weight: bold; color: var(--neon-green); margin: 5px 0; }
 
-        /* SECTIONS */
-        .container { max-width: 600px; margin: auto; padding: 10px; }
-        .section-title { text-align: left; font-size: 14px; color: #64748b; margin: 25px 0 10px 15px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
-        .card { background: var(--card-bg); border-radius: 20px; padding: 20px; border: 1px solid #1e293b; margin-bottom: 15px; }
+        /* KARTLAR */
+        .container { max-width: 650px; margin: auto; padding: 10px; }
+        .card { background: var(--card-bg); border-radius: 20px; padding: 20px; border: 1px solid #1e293b; margin-bottom: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .section-title { font-size: 18px; color: #fff; margin: 0 0 15px 0; font-weight: bold; display: flex; justify-content: center; align-items: center; gap: 8px; border-bottom: 1px solid #334155; padding-bottom: 10px; }
 
-        /* OYUN DÜYMƏLƏRİ */
-        .game-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-        .btn-shoot { background: #1e293b; border: 1px solid var(--accent); color: #fff; padding: 15px 5px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-weight: bold; }
-        .btn-shoot:active { transform: scale(0.9); background: var(--accent); }
+        /* OYUN */
+        .game-grid { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
+        .btn-shoot { background: #1e293b; border: 1px solid var(--accent); color: #fff; padding: 12px 20px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-weight: bold; font-size: 14px; }
+        .btn-shoot:hover { background: var(--accent); }
+        .chances-box { display: inline-block; background: #e74c3c; color: white; padding: 5px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-top: 10px; }
 
-        /* MAĞAZA İTEMS */
+        /* MAĞAZA */
         .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .shop-item { background: #151c2c; padding: 15px; border-radius: 15px; border: 1px solid #1e293b; transition: 0.3s; }
-        .shop-item:hover { border-color: var(--neon-green); }
-        .item-icon { font-size: 40px; margin-bottom: 10px; display: block; }
-        .buy-btn { background: var(--neon-green); color: #000; width: 100%; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-
-        #msg { height: 20px; font-size: 14px; margin-top: 15px; font-weight: bold; }
+        .shop-item { background: #151c2c; padding: 15px; border-radius: 15px; border: 1px solid #334155; transition: 0.3s; }
+        .shop-item:hover { border-color: var(--neon-green); transform: translateY(-3px); }
+        .item-icon { font-size: 45px; margin-bottom: 5px; display: block; }
+        .item-name { font-weight: bold; font-size: 14px; margin-bottom: 5px; display: block; }
+        .price { color: #f1c40f; font-weight: bold; font-size: 16px; margin-bottom: 10px; display: block; }
+        .buy-btn { background: #f1c40f; color: #000; width: 100%; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .buy-btn:disabled { background: var(--neon-green); color: #000; cursor: not-allowed; opacity: 1; }
     </style>
 </head>
 <body>
@@ -63,76 +63,147 @@
 
     <div class="container">
         
-        <div class="section-title"><span>🧤</span> OYUN SAHƏSİ</div>
         <div class="card">
-            <h3 style="margin-top:0;">Penalti Atışı</h3>
-            <p id="msg">Qol vur, xal qazan!</p>
+            <h3 class="section-title"><span>🧤</span> PENALTİ YARIŞI</h3>
+            <p id="msg" style="height: 20px; font-weight: bold; color: #aaa;">Topu hara vurursan?</p>
             <div class="game-grid">
                 <button class="btn-shoot" onclick="play('SOL')">SOL</button>
                 <button class="btn-shoot" onclick="play('MƏRKƏZ')">MƏRKƏZ</button>
                 <button class="btn-shoot" onclick="play('SAĞ')">SAĞ</button>
             </div>
+            <div class="chances-box">Qalan Şans: <span id="chances-display">3</span></div>
         </div>
 
-        <div class="section-title"><span>🛒</span> VİRTUAL MAĞAZA</div>
         <div class="card">
+            <h3 class="section-title"><span>🛒</span> VİRTUAL MAĞAZA</h3>
             <div class="shop-grid">
                 <div class="shop-item">
                     <span class="item-icon">👟</span>
-                    <b>Qızıl Butsi</b><br>
-                    <small style="color: #f1c40f;">500 XAL</small>
-                    <button class="buy-btn" onclick="buy('Qızıl Butsi', 500)">AL</button>
+                    <span class="item-name">Qızıl Butsi</span>
+                    <span class="price">500 XAL</span>
+                    <button id="btn-butsi" class="buy-btn" onclick="buy('butsi', 'Qızıl Butsi', 500)">SATIN AL</button>
                 </div>
                 <div class="shop-item">
                     <span class="item-icon">👕</span>
-                    <b>Qarabağ Forması</b><br>
-                    <small style="color: #f1c40f;">1000 XAL</small>
-                    <button class="buy-btn" onclick="buy('Qarabağ Forması', 1000)">AL</button>
+                    <span class="item-name">Qarabağ Forması</span>
+                    <span class="price">1000 XAL</span>
+                    <button id="btn-qarabag" class="buy-btn" onclick="buy('qarabag', 'Qarabağ Forması', 1000)">SATIN AL</button>
+                </div>
+                <div class="shop-item">
+                    <span class="item-icon">🏴󠁥󠁮󠁧󠁿</span>
+                    <span class="item-name">Neftçi Forması</span>
+                    <span class="price">1000 XAL</span>
+                    <button id="btn-neftci" class="buy-btn" onclick="buy('neftci', 'Neftçi Forması', 1000)">SATIN AL</button>
+                </div>
+                <div class="shop-item">
+                    <span class="item-icon">👑</span>
+                    <span class="item-name">Real Madrid</span>
+                    <span class="price">1500 XAL</span>
+                    <button id="btn-real" class="buy-btn" onclick="buy('real', 'Real Madrid Forması', 1500)">SATIN AL</button>
+                </div>
+                <div class="shop-item">
+                    <span class="item-icon">🏟️</span>
+                    <span class="item-name">Stadion Bileti</span>
+                    <span class="price">2000 XAL</span>
+                    <button id="btn-bilet" class="buy-btn" onclick="buy('bilet', 'Stadion Bileti', 2000)">SATIN AL</button>
+                </div>
+                <div class="shop-item">
+                    <span class="item-icon">🌟</span>
+                    <span class="item-name">VİP Status</span>
+                    <span class="price">5000 XAL</span>
+                    <button id="btn-vip" class="buy-btn" onclick="buy('vip', 'VİP Status', 5000)">SATIN AL</button>
                 </div>
             </div>
         </div>
 
-        <div id="google_translate_element"></div>
+        <div id="google_translate_element" style="margin-bottom: 20px;"></div>
     </div>
 
     <script>
-        let score = localStorage.getItem('futbol_az_v3') ? parseInt(localStorage.getItem('futbol_az_v3')) : 0;
-        const balEl = document.getElementById('bal');
-        const msgEl = document.getElementById('msg');
+        // 1. MƏLUMATLARI YADDAŞDAN ÇƏKİRİK
+        let score = localStorage.getItem('futbol_score_v4') ? parseInt(localStorage.getItem('futbol_score_v4')) : 0;
+        let inventory = localStorage.getItem('futbol_inventory_v4') ? JSON.parse(localStorage.getItem('futbol_inventory_v4')) : [];
+        
+        // 2. GÜNDƏLİK 3 ŞANS SİSTEMİ
+        let today = new Date().toLocaleDateString();
+        let lastDate = localStorage.getItem('futbol_date');
+        let chances = localStorage.getItem('futbol_chances') ? parseInt(localStorage.getItem('futbol_chances')) : 3;
 
-        function update() {
-            balEl.innerText = score.toLocaleString();
-            localStorage.setItem('futbol_az_v3', score);
+        // Əgər gün dəyişibsə, şansları yenilə (3 şans ver)
+        if (lastDate !== today) {
+            chances = 3;
+            localStorage.setItem('futbol_date', today);
+            localStorage.setItem('futbol_chances', chances);
         }
 
+        const balEl = document.getElementById('bal');
+        const msgEl = document.getElementById('msg');
+        const chancesEl = document.getElementById('chances-display');
+
+        // EKRANI YENİLƏYƏN FUNKSİYA
+        function updateUI() {
+            balEl.innerText = score.toLocaleString();
+            chancesEl.innerText = chances;
+            localStorage.setItem('futbol_score_v4', score);
+            localStorage.setItem('futbol_chances', chances);
+            
+            // Alınan əşyaların düymələrini AKTİV edirik
+            inventory.forEach(itemId => {
+                let btn = document.getElementById('btn-' + itemId);
+                if (btn) {
+                    btn.innerText = "AKTİVDİR ✅";
+                    btn.style.background = "#2ecc71"; // Yaşıl rəng
+                    btn.disabled = true; // Yenidən basılmasının qarşısını alırıq
+                }
+            });
+        }
+
+        // PENALTİ OYUNU
         function play(user) {
+            if (chances <= 0) {
+                alert("🛑 Bu günlük 3 şansınız bitdi! Sabah yenidən gəlin.");
+                return;
+            }
+
+            chances--; // Şansı 1 dənə azaldırıq
             const gk = ['SOL', 'MƏRKƏZ', 'SAĞ'][Math.floor(Math.random() * 3)];
+            
             if (user === gk) {
-                msgEl.innerText = "❌ Qapıçı tutdu!";
-                msgEl.style.color = "#ff4757";
+                msgEl.innerText = "❌ Qapıçı tutdu! Xal yoxdur.";
+                msgEl.style.color = "#e74c3c";
             } else {
                 score += 100;
                 msgEl.innerText = "⚽ QOOOL! +100 XAL";
                 msgEl.style.color = "#2ecc71";
-                update();
             }
+            updateUI();
         }
 
-        function buy(name, price) {
+        // MAĞAZADAN ALIŞ-VERİŞ
+        function buy(id, name, price) {
+            if (inventory.includes(id)) {
+                alert("Siz artıq bunu almısınız!");
+                return;
+            }
+
             if (score >= price) {
                 score -= price;
-                update();
-                alert("✅ " + name + " alındı!");
+                inventory.push(id); // Əşyanı yaddaşa (inventara) atırıq
+                localStorage.setItem('futbol_inventory_v4', JSON.stringify(inventory));
+                updateUI();
+                alert("🎉 Təbriklər! " + name + " uğurla alındı və aktivləşdi!");
             } else {
-                alert("❌ Xalın yetmir!");
+                alert("❌ Xalınız çatmır! Daha çox penalti vurun.");
             }
         }
 
+        // GOOGLE TRANSLATE
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({pageLanguage: 'az'}, 'google_translate_element');
         }
 
-        update();
+        // SƏHİFƏ AÇILANDA ÇAĞIRILIR
+        updateUI();
     </script>
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
