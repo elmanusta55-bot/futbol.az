@@ -253,5 +253,25 @@
         window.googleTranslateElementInit = function() { new google.translate.TranslateElement({pageLanguage: 'az'}, 'google_translate_element'); };
     </script>
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <div class="live-results-container" style="border: 2px solid #2ecc71; border-radius: 15px; overflow: hidden; background: #fff;">
+    <div style="background: #2ecc71; color: #000; padding: 12px; font-weight: bold; text-align: center; font-size: 18px;">
+        📢 CANLI FUTBOL NƏTİCƏLƏRİ (4 MART 2026)
+    </div>
+    
+    <div id="ls-widget" data-w="ls_widget_65ca5b" class="ls-widget"></div>
+    <script type="text/javascript" src="https://ls.livescore.in/active/js/ls_widget.js?v=1"></script>
+    <script type="text/javascript">
+        new LS_Widget("ls_widget_65ca5b", {
+            "m": "1",        // Canlı oyunları önə çıxar
+            "v": "1",        // Versiya
+            "t": "dark",     // Qara mövzu (saytına uyğun)
+            "s": "1",        // Səsli bildiriş aktiv
+            "l": "az",       // Dil: Azərbaycan dili
+            "f": "1",        // Sevimli liqaları göstər
+            "p": "1"         // Premyer Liqanı avtomatik tap
+        });
+    </script>
+    </div>
+    
 </body>
 </html>
