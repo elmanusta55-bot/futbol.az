@@ -48,6 +48,17 @@
         .price { color: #f1c40f; font-weight: bold; font-size: 16px; margin-bottom: 10px; display: block; }
         .buy-btn { background: #f1c40f; color: #000; width: 100%; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .buy-btn:disabled { background: var(--neon-green); color: #000; cursor: not-allowed; opacity: 1; }
+
+        /* LİDERLƏR CƏDVƏLİ */
+        .leader-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 5px; border-bottom: 1px solid #1e293b; }
+        .leader-item:last-child { border-bottom: none; }
+        .rank { width: 28px; height: 28px; background: #1e293b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px; color: #fff; }
+        .gold { background: #f1c40f; color: #000; box-shadow: 0 0 10px rgba(241, 196, 15, 0.5); }
+        .silver { background: #bdc3c7; color: #000; }
+        .bronze { background: #cd7f32; color: #000; }
+        .you-item { background: rgba(46, 204, 113, 0.1); border-left: 4px solid var(--neon-green); border-radius: 8px; padding: 12px; margin: 5px 0; }
+        .leader-name { flex: 1; text-align: left; margin-left: 15px; font-weight: bold; font-size: 14px; color: #e2e8f0; }
+        .leader-score { color: var(--neon-green); font-weight: bold; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -101,59 +112,81 @@
                     <span class="price">1500 XAL</span>
                     <button id="btn-real" class="buy-btn" onclick="buy('real', 'Real Madrid Forması', 1500)">SATIN AL</button>
                 </div>
-                <div class="shop-item">
-                    <span class="item-icon">🏟️</span>
-                    <span class="item-name">Stadion Bileti</span>
-                    <span class="price">2000 XAL</span>
-                    <button id="btn-bilet" class="buy-btn" onclick="buy('bilet', 'Stadion Bileti', 2000)">SATIN AL</button>
-                </div>
-                <div class="shop-item">
-                    <span class="item-icon">🌟</span>
-                    <span class="item-name">VİP Status</span>
-                    <span class="price">5000 XAL</span>
-                    <button id="btn-vip" class="buy-btn" onclick="buy('vip', 'VİP Status', 5000)">SATIN AL</button>
-                </div>
             </div>
         </div>
 
-        <div id="google_translate_element" style="margin-bottom: 20px;"></div>
+        <div class="card">
+            <h3 class="section-title"><span>🏆</span> LİDERLƏR (TOP 5)</h3>
+            
+            <div class="leader-item">
+                <span class="rank gold">1</span>
+                <span class="leader-name">Elvin_007</span>
+                <span class="leader-score">8500 XAL</span>
+            </div>
+            <div class="leader-item">
+                <span class="rank silver">2</span>
+                <span class="leader-name">Qarabağ_Fan</span>
+                <span class="leader-score">6200 XAL</span>
+            </div>
+            <div class="leader-item">
+                <span class="rank bronze">3</span>
+                <span class="leader-name">Aftandil_99</span>
+                <span class="leader-score">4100 XAL</span>
+            </div>
+            
+            <div class="leader-item you-item">
+                <span class="rank">4</span>
+                <span class="leader-name">SƏN (Sənin Profilin)</span>
+                <span class="leader-score" id="board-user-score">0 XAL</span>
+            </div>
+
+            <div class="leader-item">
+                <span class="rank">5</span>
+                <span class="leader-name">Emin_Baku</span>
+                <span class="leader-score">1200 XAL</span>
+            </div>
+        </div>
+
+        <div id="google_translate_element" style="margin-bottom: 20px; display: flex; justify-content: center;"></div>
     </div>
 
     <script>
         // 1. MƏLUMATLARI YADDAŞDAN ÇƏKİRİK
-        let score = localStorage.getItem('futbol_score_v4') ? parseInt(localStorage.getItem('futbol_score_v4')) : 0;
-        let inventory = localStorage.getItem('futbol_inventory_v4') ? JSON.parse(localStorage.getItem('futbol_inventory_v4')) : [];
+        let score = localStorage.getItem('futbol_score_v5') ? parseInt(localStorage.getItem('futbol_score_v5')) : 0;
+        let inventory = localStorage.getItem('futbol_inventory_v5') ? JSON.parse(localStorage.getItem('futbol_inventory_v5')) : [];
         
         // 2. GÜNDƏLİK 3 ŞANS SİSTEMİ
         let today = new Date().toLocaleDateString();
-        let lastDate = localStorage.getItem('futbol_date');
-        let chances = localStorage.getItem('futbol_chances') ? parseInt(localStorage.getItem('futbol_chances')) : 3;
+        let lastDate = localStorage.getItem('futbol_date_v5');
+        let chances = localStorage.getItem('futbol_chances_v5') ? parseInt(localStorage.getItem('futbol_chances_v5')) : 3;
 
-        // Əgər gün dəyişibsə, şansları yenilə (3 şans ver)
         if (lastDate !== today) {
             chances = 3;
-            localStorage.setItem('futbol_date', today);
-            localStorage.setItem('futbol_chances', chances);
+            localStorage.setItem('futbol_date_v5', today);
+            localStorage.setItem('futbol_chances_v5', chances);
         }
 
         const balEl = document.getElementById('bal');
         const msgEl = document.getElementById('msg');
         const chancesEl = document.getElementById('chances-display');
+        const boardScoreEl = document.getElementById('board-user-score');
 
         // EKRANI YENİLƏYƏN FUNKSİYA
         function updateUI() {
             balEl.innerText = score.toLocaleString();
+            boardScoreEl.innerText = score.toLocaleString() + " XAL"; // Liderlər cədvəlini yeniləyir
             chancesEl.innerText = chances;
-            localStorage.setItem('futbol_score_v4', score);
-            localStorage.setItem('futbol_chances', chances);
+            
+            localStorage.setItem('futbol_score_v5', score);
+            localStorage.setItem('futbol_chances_v5', chances);
             
             // Alınan əşyaların düymələrini AKTİV edirik
             inventory.forEach(itemId => {
                 let btn = document.getElementById('btn-' + itemId);
                 if (btn) {
                     btn.innerText = "AKTİVDİR ✅";
-                    btn.style.background = "#2ecc71"; // Yaşıl rəng
-                    btn.disabled = true; // Yenidən basılmasının qarşısını alırıq
+                    btn.style.background = "#2ecc71"; 
+                    btn.disabled = true; 
                 }
             });
         }
@@ -165,7 +198,7 @@
                 return;
             }
 
-            chances--; // Şansı 1 dənə azaldırıq
+            chances--; 
             const gk = ['SOL', 'MƏRKƏZ', 'SAĞ'][Math.floor(Math.random() * 3)];
             
             if (user === gk) {
@@ -188,8 +221,8 @@
 
             if (score >= price) {
                 score -= price;
-                inventory.push(id); // Əşyanı yaddaşa (inventara) atırıq
-                localStorage.setItem('futbol_inventory_v4', JSON.stringify(inventory));
+                inventory.push(id); 
+                localStorage.setItem('futbol_inventory_v5', JSON.stringify(inventory));
                 updateUI();
                 alert("🎉 Təbriklər! " + name + " uğurla alındı və aktivləşdi!");
             } else {
@@ -202,7 +235,6 @@
             new google.translate.TranslateElement({pageLanguage: 'az'}, 'google_translate_element');
         }
 
-        // SƏHİFƏ AÇILANDA ÇAĞIRILIR
         updateUI();
     </script>
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
