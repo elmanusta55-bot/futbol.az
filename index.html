@@ -2,311 +2,319 @@
 <html lang="az">
 <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q79WE0TMKH"></script> 
-    <script> 
-      window.dataLayer = window.dataLayer || []; 
-      function gtag(){dataLayer.push(arguments);} 
-      gtag('js', new Date()); 
-      gtag('config', 'G-Q79WE0TMKH'); 
-    </script>
+    <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-Q79WE0TMKH'); </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8330893952904159" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="yfd1nTk5KYcOXH0tRVciOxFtmU_mUBrc50cNzAUM1ZQ" />
-    <meta name="google-adsense-account" content=Liqası: Canlı nəticələr, Mağaza və Oyunlar.">
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-16Q6G2QDKR"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-16Q6G2QDKR');
-</script>
-
-    <title>Futbol.Az - Premium Portal</title>
+    <meta name="google-adsense-account" content="ca-pub-8330893952904159">
+    <title>Futbol.Az - Premium Meqa Portal</title>
 
     <style>
-        :root { --neon-green: #2ecc71; --dark-bg: #050a14; --card-bg: #0f172a; --accent: #3498db; }
-        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--dark-bg); color: #fff; overflow-x: hidden; text-align: center; }
+        :root { --main: #2ecc71; --bg: #020617; --card: #0f172a; --border: #1e293b; --text: #f8fafc; --gold: #f1c40f; --danger: #e74c3c; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
         
-        /* HEADER VƏ BALANS */
-        header { background: linear-gradient(180deg, #1e293b 0%, var(--dark-bg) 100%); padding: 30px 10px; border-bottom: 2px solid var(--neon-green); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .logo { font-size: 32px; font-weight: 900; color: var(--neon-green); text-transform: uppercase; letter-spacing: 3px; margin: 0; }
-        .balance-card { background: var(--card-bg); margin: -25px auto 20px; width: 85%; max-width: 400px; padding: 20px; border-radius: 20px; border: 1px solid #1e293b; box-shadow: 0 15px 35px rgba(0,0,0,0.4); position: relative; z-index: 10; }
-        .balance-label { font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
-        .balance-val { font-size: 36px; font-weight: bold; color: var(--neon-green); margin: 5px 0; }
+        /* HEADER & TICKER */
+        header { background: #000; padding: 20px 0; text-align: center; border-bottom: 2px solid var(--main); position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .logo { font-size: 38px; font-weight: 900; color: var(--main); margin: 0; letter-spacing: 3px; text-shadow: 0 0 10px rgba(46, 204, 113, 0.4); }
+        .ticker { background: var(--danger); color: #fff; display: flex; font-size: 14px; font-weight: bold; overflow: hidden; padding: 6px 0; }
+        .ticker-title { background: #991b1b; padding: 0 15px; z-index: 2; display: flex; align-items: center; }
+        .ticker-move { white-space: nowrap; animation: ticker 25s linear infinite; padding-left: 100%; }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        /* KARTLAR */
-        .container { max-width: 650px; margin: auto; padding: 10px; }
-        .card { background: var(--card-bg); border-radius: 20px; padding: 20px; border: 1px solid #1e293b; margin-bottom: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .section-title { font-size: 18px; color: #fff; margin: 0 0 15px 0; font-weight: bold; display: flex; justify-content: center; align-items: center; gap: 8px; border-bottom: 1px solid #334155; padding-bottom: 10px; }
+        /* LAYOUT GRID */
+        .mega-container { max-width: 1250px; margin: 20px auto; padding: 0 15px; display: grid; grid-template-columns: 2.5fr 1fr; gap: 25px; }
+        @media(max-width: 900px) { .mega-container { grid-template-columns: 1fr; } }
+        
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 20px; margin-bottom: 25px; box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+        .card-title { font-size: 18px; color: var(--main); border-bottom: 2px solid var(--border); padding-bottom: 12px; margin-top: 0; display: flex; align-items: center; gap: 10px; text-transform: uppercase; }
+        
+        /* GERİ SAYIM */
+        .countdown-box { background: linear-gradient(135deg, #1e293b, #000); text-align: center; padding: 20px; border-radius: 12px; border: 1px solid var(--gold); }
+        .time-blocks { display: flex; justify-content: center; gap: 15px; margin-top: 15px; }
+        .time-block { background: rgba(255,255,255,0.1); padding: 10px 15px; border-radius: 8px; font-size: 24px; font-weight: bold; color: var(--gold); }
+        .time-block span { display: block; font-size: 10px; color: #aaa; font-weight: normal; }
 
-        /* OYUN & DÜYMƏLƏR */
-        .game-grid { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
-        .btn-shoot { background: #1e293b; border: 1px solid var(--accent); color: #fff; padding: 12px 20px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-weight: bold; font-size: 14px; }
-        .btn-shoot:hover { background: var(--accent); }
-        .chances-box { display: inline-block; background: #e74c3c; color: white; padding: 5px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-top: 10px; }
-
-        /* PROMOKOD */
-        .promo-input { padding: 12px; border-radius: 8px; border: 1px solid #334155; background: #050a14; color: #fff; text-transform: uppercase; width: 60%; font-weight: bold; outline: none; }
-        .promo-btn { background: #f1c40f; color: #000; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .promo-btn:hover { background: #d4ac0d; }
+        /* OYUN */
+        .game-area { text-align: center; }
+        .game-btns { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+        .shoot-btn { background: #1e293b; color: #fff; border: 2px solid #3b82f6; padding: 15px 30px; font-size: 16px; font-weight: bold; border-radius: 10px; cursor: pointer; transition: 0.3s; }
+        .shoot-btn:hover { background: #3b82f6; transform: scale(1.05); }
+        .chances { background: var(--danger); padding: 5px 15px; border-radius: 20px; font-size: 13px; display: inline-block; margin-top: 15px; font-weight: bold; }
 
         /* MAĞAZA */
-        .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .shop-item { background: #151c2c; padding: 15px; border-radius: 15px; border: 1px solid #334155; transition: 0.3s; }
-        .shop-item:hover { border-color: var(--neon-green); transform: translateY(-3px); }
-        .item-icon { font-size: 45px; margin-bottom: 5px; display: block; }
-        .item-name { font-weight: bold; font-size: 14px; margin-bottom: 5px; display: block; }
-        .price { color: #f1c40f; font-weight: bold; font-size: 16px; margin-bottom: 10px; display: block; }
-        .buy-btn { background: #f1c40f; color: #000; width: 100%; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .buy-btn:disabled { background: var(--neon-green); color: #000; cursor: not-allowed; opacity: 1; }
+        .shop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; }
+        .shop-item { background: #020617; padding: 15px; text-align: center; border-radius: 12px; border: 1px solid var(--border); transition: 0.3s; }
+        .shop-item:hover { border-color: var(--main); transform: translateY(-5px); }
+        .shop-item h4 { margin: 10px 0; font-size: 14px; }
+        .price-tag { color: var(--gold); font-weight: bold; display: block; margin-bottom: 10px; font-size: 16px; }
+        .btn { background: var(--main); color: #000; border: none; padding: 10px 20px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.3s; width: 100%; }
+        .btn:hover { opacity: 0.8; }
+        .btn:disabled { background: var(--main); color: #000; cursor: not-allowed; opacity: 1; }
 
-        /* LİDERLƏR CƏDVƏLİ */
-        .leader-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 5px; border-bottom: 1px solid #1e293b; }
-        .leader-item:last-child { border-bottom: none; }
-        .rank { width: 28px; height: 28px; background: #1e293b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px; color: #fff; }
-        .gold { background: #f1c40f; color: #000; box-shadow: 0 0 10px rgba(241, 196, 15, 0.5); }
-        .silver { background: #bdc3c7; color: #000; }
-        .bronze { background: #cd7f32; color: #000; }
-        .you-item { background: rgba(46, 204, 113, 0.1); border-left: 4px solid var(--neon-green); border-radius: 8px; padding: 12px; margin: 5px 0; }
-        .leader-name { flex: 1; text-align: left; margin-left: 15px; font-weight: bold; font-size: 14px; color: #e2e8f0; }
-        .leader-score { color: var(--neon-green); font-weight: bold; font-size: 14px; }
+        /* ÇAT VƏ TURNİR CƏDVƏLİ */
+        .chat-frame { width: 100%; height: 400px; border: none; border-radius: 10px; background: #fff; }
+        .league-table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: center; }
+        .league-table th { background: #1e293b; padding: 10px; color: #aaa; }
+        .league-table td { padding: 12px 5px; border-bottom: 1px solid var(--border); }
+        .team-name { text-align: left; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+
+        /* SAĞ SÜTUN - BALANS VƏ LİDERLƏR */
+        .balance-board { text-align: center; background: linear-gradient(45deg, #0f172a, #1e293b); padding: 25px; border-radius: 15px; border: 1px solid var(--main); position: relative; overflow: hidden; }
+        .bal-val { font-size: 45px; color: var(--gold); font-weight: bold; text-shadow: 0 0 15px rgba(241, 196, 15, 0.3); }
+        .promo-wrap { display: flex; gap: 10px; margin-top: 20px; }
+        .promo-input { flex: 1; padding: 12px; background: #000; border: 1px solid var(--border); color: #fff; border-radius: 8px; text-transform: uppercase; outline: none; font-weight: bold; }
+        
+        .leader-row { display: flex; justify-content: space-between; padding: 12px 10px; border-bottom: 1px solid var(--border); font-size: 14px; align-items: center; }
+        .leader-row:last-child { border: none; }
+        .rank { width: 28px; height: 28px; background: var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .me-row { background: rgba(46, 204, 113, 0.1); border-left: 4px solid var(--main); border-radius: 5px; }
+
+        /* SOSİAL BANNERS */
+        .social-banner { display: flex; align-items: center; justify-content: center; gap: 10px; background: #25D366; color: #fff; padding: 15px; border-radius: 10px; text-align: center; font-weight: bold; text-decoration: none; margin-bottom: 15px; transition: 0.3s; font-size: 15px; }
+        .social-banner.yt { background: #ff0000; }
+        .social-banner:hover { opacity: 0.9; transform: scale(1.02); }
+
+        footer { text-align: center; padding: 30px; background: #000; border-top: 1px solid var(--border); margin-top: 40px; font-size: 13px; color: #64748b; }
     </style>
 </head>
 <body>
 
     <header>
         <h1 class="logo">FUTBOL.AZ</h1>
+        <div id="google_translate_element" style="position: absolute; right: 20px; top: 25px;"></div>
     </header>
 
-    <div class="balance-card">
-        <span class="balance-label">Mövcud Balans</span>
-        <div class="balance-val"><span id="bal">0</span> <small style="font-size: 14px;">XAL</small></div>
+    <div class="ticker">
+        <div class="ticker-title">SON DƏQİQƏ</div>
+        <div class="ticker-move">
+            🔥 Qarabağ FK - Frankfurt matçına hazırlıqlar tam sürətlə davam edir! &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; 
+            ⚽ Elman Usta kanalında yeni futbol analizi videosu yayımlandı! &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; 
+            🏆 Futbol.Az istifadəçiləri üçün Meqa Mağaza sistemi aktiv edildi!
+        </div>
     </div>
 
-    <div class="container">
+    <div class="mega-container">
         
-        <div class="card">
-            <h3 class="section-title" style="color: #f1c40f; border-bottom-color: #f1c40f;"><span>🎁</span> HƏDİYYƏ KODU (PROMOKOD)</h3>
-            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
-                <input type="text" id="promo-input" class="promo-input" placeholder="Kodu daxil edin...">
-                <button class="promo-btn" onclick="usePromo()">TƏSDİQLƏ</button>
-            </div>
-            <p style="font-size: 12px; color: #64748b; margin-top: 10px;">Reklamlardan və partnyorlardan aldığınız kodları bura yazın.</p>
-        </div>
-
-        <div class="card">
-            <h3 class="section-title"><span>🧤</span> PENALTİ YARIŞI</h3>
-            <p id="msg" style="height: 20px; font-weight: bold; color: #aaa;">Topu hara vurursan?</p>
-            <div class="game-grid">
-                <button class="btn-shoot" onclick="play('SOL')">SOL</button>
-                <button class="btn-shoot" onclick="play('MƏRKƏZ')">MƏRKƏZ</button>
-                <button class="btn-shoot" onclick="play('SAĞ')">SAĞ</button>
-            </div>
-            <div class="chances-box">Qalan Şans: <span id="chances-display">3</span></div>
-        </div>
-
-        <div class="card">
-            <h3 class="section-title"><span>🛒</span> VİRTUAL MAĞAZA</h3>
-            <div class="shop-grid">
-                <div class="shop-item">
-                    <span class="item-icon">👟</span>
-                    <span class="item-name">Qızıl Butsi</span>
-                    <span class="price">500 XAL</span>
-                    <button id="btn-butsi" class="buy-btn" onclick="buy('butsi', 'Qızıl Butsi', 500)">SATIN AL</button>
-                </div>
-                <div class="shop-item">
-                    <span class="item-icon">👕</span>
-                    <span class="item-name">Qarabağ Forması</span>
-                    <span class="price">1000 XAL</span>
-                    <button id="btn-qarabag" class="buy-btn" onclick="buy('qarabag', 'Qarabağ Forması', 1000)">SATIN AL</button>
-                </div>
-                <div class="shop-item">
-                    <span class="item-icon">🏴󠁥󠁮󠁧󠁿</span>
-                    <span class="item-name">Neftçi Forması</span>
-                    <span class="price">1000 XAL</span>
-                    <button id="btn-neftci" class="buy-btn" onclick="buy('neftci', 'Neftçi Forması', 1000)">SATIN AL</button>
-                </div>
-                <div class="shop-item">
-                    <span class="item-icon">👑</span>
-                    <span class="item-name">Real Madrid</span>
-                    <span class="price">1500 XAL</span>
-                    <button id="btn-real" class="buy-btn" onclick="buy('real', 'Real Madrid Forması', 1500)">SATIN AL</button>
-                </div>
-                <div class="shop-item">
-                    <span class="item-icon">🏟️</span>
-                    <span class="item-name">Stadion Bileti</span>
-                    <span class="price">2000 XAL</span>
-                    <button id="btn-bilet" class="buy-btn" onclick="buy('bilet', 'Stadion Bileti', 2000)">SATIN AL</button>
-                </div>
-                <div class="shop-item">
-                    <span class="item-icon">🌟</span>
-                    <span class="item-name">VİP Status</span>
-                    <span class="price">5000 XAL</span>
-                    <button id="btn-vip" class="buy-btn" onclick="buy('vip', 'VİP Status', 5000)">SATIN AL</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <h3 class="section-title"><span>🏆</span> LİDERLƏR (TOP 5)</h3>
+        <div class="main-content">
             
-            <div class="leader-item">
-                <span class="rank gold">1</span>
-                <span class="leader-name">Elvin_007</span>
-                <span class="leader-score">8500 XAL</span>
-            </div>
-            <div class="leader-item">
-                <span class="rank silver">2</span>
-                <span class="leader-name">Qarabağ_Fan</span>
-                <span class="leader-score">6200 XAL</span>
-            </div>
-            <div class="leader-item">
-                <span class="rank bronze">3</span>
-                <span class="leader-name">Aftandil_99</span>
-                <span class="leader-score">4100 XAL</span>
-            </div>
-            
-            <div class="leader-item you-item">
-                <span class="rank">4</span>
-                <span class="leader-name">SƏN (Sənin Profilin)</span>
-                <span class="leader-score" id="board-user-score">0 XAL</span>
+            <div class="card countdown-box">
+                <h3 style="margin: 0; color: #ccc; font-size: 14px; text-transform: uppercase;">🔥 Növbəti Böyük Oyun</h3>
+                <h2 style="margin: 5px 0; color: #fff; font-size: 24px;">Qarabağ FK - Frankfurt</h2>
+                <div class="time-blocks">
+                    <div class="time-block" id="cd-days">00<span>GÜN</span></div>
+                    <div class="time-block" id="cd-hours">00<span>SAAT</span></div>
+                    <div class="time-block" id="cd-mins">00<span>DƏQİQƏ</span></div>
+                    <div class="time-block" id="cd-secs">00<span>SANİYƏ</span></div>
+                </div>
             </div>
 
-            <div class="leader-item">
-                <span class="rank">5</span>
-                <span class="leader-name">Emin_Baku</span>
-                <span class="leader-score">1200 XAL</span>
+            <div class="card game-area">
+                <h2 class="card-title">⚽ PENALTİ YARIŞI (GÜNDƏLİK)</h2>
+                <p id="msg" style="color: #94a3b8; font-size: 16px; height: 20px; font-weight: bold;">Qapıçını aldat, xalı qap!</p>
+                <div class="game-btns">
+                    <button class="shoot-btn" onclick="play('SOL')">⬅ SOL</button>
+                    <button class="shoot-btn" onclick="play('MƏRKƏZ')">⬆ MƏRKƏZ</button>
+                    <button class="shoot-btn" onclick="play('SAĞ')">SAĞ ➡</button>
+                </div>
+                <div class="chances">QALAN ŞANS: <span id="chance-val">3</span></div>
             </div>
+
+            <div class="card">
+                <h2 class="card-title">🛒 MEQA MAĞAZA (VİRTUAL)</h2>
+                <div class="shop-grid">
+                    <div class="shop-item">
+                        <div style="font-size: 45px;">👕</div>
+                        <h4>Qarabağ Forması</h4>
+                        <span class="price-tag">1000 XAL</span>
+                        <button id="btn-qarabag" class="btn" style="background:var(--gold);" onclick="buy('qarabag', 'Qarabağ Forması', 1000)">AL</button>
+                    </div>
+                    <div class="shop-item">
+                        <div style="font-size: 45px;">👟</div>
+                        <h4>Qızıl Butsi</h4>
+                        <span class="price-tag">1500 XAL</span>
+                        <button id="btn-butsi" class="btn" style="background:var(--gold);" onclick="buy('butsi', 'Qızıl Butsi', 1500)">AL</button>
+                    </div>
+                    <div class="shop-item">
+                        <div style="font-size: 45px;">🏴󠁥󠁮󠁧󠁿</div>
+                        <h4>Neftçi Forması</h4>
+                        <span class="price-tag">1000 XAL</span>
+                        <button id="btn-neftci" class="btn" style="background:var(--gold);" onclick="buy('neftci', 'Neftçi Forması', 1000)">AL</button>
+                    </div>
+                    <div class="shop-item">
+                        <div style="font-size: 45px;">👑</div>
+                        <h4>VİP Status</h4>
+                        <span class="price-tag">5000 XAL</span>
+                        <button id="btn-vip" class="btn" style="background:var(--gold);" onclick="buy('vip', 'VİP Status', 5000)">AL</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">💬 CANLI MÜZAKİRƏ OTAĞI</h2>
+                <p style="font-size: 13px; color: #888;">Qeydiyyatsız sadəcə adınızı yazın və sohbətə qoşulun.</p>
+                <iframe src="https://tlk.io/futbolaz-canli" class="chat-frame"></iframe>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">🏆 AZƏRBAYCAN PREMYER LİQASI</h2>
+                <div style="overflow-x: auto;">
+                    <table class="league-table">
+                        <tr><th>#</th><th style="text-align:left;">KOMANDA</th><th>O</th><th>Q</th><th>H</th><th>M</th><th>XAL</th></tr>
+                        <tr><td>1</td><td class="team-name">🦅 Qarabağ FK</td><td>20</td><td>15</td><td>3</td><td>2</td><td style="color:var(--main);font-weight:bold;">48</td></tr>
+                        <tr><td>2</td><td class="team-name">🦉 Sabah FK</td><td>20</td><td>13</td><td>4</td><td>3</td><td style="color:var(--main);font-weight:bold;">43</td></tr>
+                        <tr><td>3</td><td class="team-name">🏁 Neftçi PFK</td><td>20</td><td>11</td><td>5</td><td>4</td><td style="color:var(--main);font-weight:bold;">38</td></tr>
+                        <tr><td>4</td><td class="team-name">🦅 Zirə FK</td><td>20</td><td>10</td><td>6</td><td>4</td><td style="color:var(--main);font-weight:bold;">36</td></tr>
+                        <tr><td>5</td><td class="team-name">🏹 Turan Tovuz</td><td>20</td><td>9</td><td>5</td><td>6</td><td style="color:var(--main);font-weight:bold;">32</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card" style="padding: 0; overflow: hidden; border-color: var(--main);">
+                <div style="background: var(--main); color: #000; padding: 15px; font-weight: bold; font-size: 16px;">🔴 CANLI NƏTİCƏLƏR (DÜNYA)</div>
+                <div id="ls-widget" data-w="ls_widget_65ca5b" style="width: 100%; min-height: 500px; background: #fff;"></div>
+                <script type="text/javascript" src="https://ls.livescore.in/active/js/ls_widget.js?v=1"></script>
+                <script type="text/javascript">new LS_Widget("ls_widget_65ca5b", {"m": "1", "v": "1", "t": "dark", "s": "1", "l": "az"});</script>
+            </div>
+
         </div>
 
-        <div id="google_translate_element" style="margin-bottom: 20px; display: flex; justify-content: center;"></div>
+        <div class="sidebar">
+            
+            <div class="balance-board card">
+                <div style="color: #94a3b8; font-size: 15px; letter-spacing: 1px;">ŞƏXSİ BALANSINIZ</div>
+                <div class="bal-val"><span id="score-display">0</span></div>
+                
+                <div style="margin-top: 25px; border-top: 1px dashed #334155; padding-top: 15px;">
+                    <div style="font-size: 12px; color: #ccc; margin-bottom: 8px;">HƏDİYYƏ KODUNUZ VAR?</div>
+                    <div class="promo-wrap">
+                        <input type="text" id="promo-code" class="promo-input" placeholder="KODU YAZIN">
+                        <button class="btn" onclick="usePromo()">TƏSDİQLƏ</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">📢 BİZİ İZLƏYİN</h2>
+                <a href="https://whatsapp.com/channel/0029Vb0yqZlLSmbeGg6X8z2l" target="_blank" class="social-banner">
+                    📱 İmarət Media WhatsApp
+                </a>
+                <a href="#" target="_blank" class="social-banner yt">
+                    ▶️ Elman Usta YouTube
+                </a>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">🏆 TOP 5 REYTİNQ</h2>
+                <div class="leader-row"><span class="rank" style="background:var(--gold);color:#000;">1</span> <b style="flex:1; margin-left:10px;">Elvin_007</b> <span style="color:var(--main);font-weight:bold;">12500</span></div>
+                <div class="leader-row"><span class="rank" style="background:#bdc3c7;color:#000;">2</span> <b style="flex:1; margin-left:10px;">Qarabağ_Fan</b> <span style="color:var(--main);font-weight:bold;">9200</span></div>
+                <div class="leader-row"><span class="rank" style="background:#cd7f32;color:#000;">3</span> <b style="flex:1; margin-left:10px;">Aftandil_99</b> <span style="color:var(--main);font-weight:bold;">7100</span></div>
+                
+                <div class="leader-row me-row">
+                    <span class="rank" style="background:var(--main);color:#000;">4</span> 
+                    <b style="flex:1; margin-left:10px;">SƏNİN PROFİLİN</b> 
+                    <span id="me-score" style="color:var(--main); font-weight:bold; font-size: 16px;">0</span>
+                </div>
+
+                <div class="leader-row"><span class="rank">5</span> <b style="flex:1; margin-left:10px;">Emin_Baku</b> <span style="color:var(--main);font-weight:bold;">3200</span></div>
+            </div>
+
+            <div class="card" style="padding: 0; overflow: hidden;">
+                <h2 class="card-title" style="padding: 15px; border: none; margin: 0; background: #1e293b;">📺 GÜNÜN İCMALI</h2>
+                <iframe width="100%" height="250" src="https://www.youtube.com/embed/8w7kYQjL7Wk?rel=0" frameborder="0" allowfullscreen style="display: block;"></iframe>
+            </div>
+
+        </div>
     </div>
+
+    <footer>
+        &copy; 2026 Futbol.Az - Azərbaycanın Ən Dinamik Futbol Portalı<br>
+        Layihə AdSense qaydalarına və Google Məxfilik siyasətinə tam uyğundur.
+    </footer>
 
     <script>
-        // YADDAŞDAN MƏLUMATLAR
-        let score = localStorage.getItem('futbol_score_v5') ? parseInt(localStorage.getItem('futbol_score_v5')) : 0;
-        let inventory = localStorage.getItem('futbol_inventory_v5') ? JSON.parse(localStorage.getItem('futbol_inventory_v5')) : [];
-        let usedPromos = localStorage.getItem('futbol_promos') ? JSON.parse(localStorage.getItem('futbol_promos')) : [];
+        // ================= SİSTEM MƏNTİQİ (JS) =================
         
-        // GÜNDƏLİK ŞANS
+        // 1. Yaddaş İdarəetməsi
+        let score = localStorage.getItem('faz_v6_score') ? parseInt(localStorage.getItem('faz_v6_score')) : 0;
+        let inventory = localStorage.getItem('faz_v6_inv') ? JSON.parse(localStorage.getItem('faz_v6_inv')) : [];
+        let usedPromos = localStorage.getItem('faz_v6_promos') ? JSON.parse(localStorage.getItem('faz_v6_promos')) : [];
+        
+        // 2. Gündəlik Şans
         let today = new Date().toLocaleDateString();
-        let lastDate = localStorage.getItem('futbol_date_v5');
-        let chances = localStorage.getItem('futbol_chances_v5') ? parseInt(localStorage.getItem('futbol_chances_v5')) : 3;
-
-        if (lastDate !== today) {
+        let chances = localStorage.getItem('faz_v6_chances') ? parseInt(localStorage.getItem('faz_v6_chances')) : 3;
+        if (localStorage.getItem('faz_v6_date') !== today) {
             chances = 3;
-            localStorage.setItem('futbol_date_v5', today);
-            localStorage.setItem('futbol_chances_v5', chances);
+            localStorage.setItem('faz_v6_date', today);
         }
 
-        const balEl = document.getElementById('bal');
-        const msgEl = document.getElementById('msg');
-        const chancesEl = document.getElementById('chances-display');
-        const boardScoreEl = document.getElementById('board-user-score');
+        // 3. Promokod Siyahısı (Buradan yeni kodlar əlavə edə bilərsən)
+        const validPromos = { 'ELMANUSTA': 2000, 'IMARET1000': 1000, 'FUTBOLAZ': 3000, 'QARABAG': 1500 };
 
-        // MÖVCUD PROMOKODLAR VƏ XALLARI
-        const validPromos = {
-            'ELMANUSTA': 2000,
-            'IMARET1000': 1000,
-            'REKLAM500': 500,
-            'FUTBOLAZ': 3000
-        };
-
-        // EKRANI YENİLƏYƏN FUNKSİYA
+        // 4. Ekranda hər şeyi yeniləyən əsas funksiya
         function updateUI() {
-            balEl.innerText = score.toLocaleString();
-            boardScoreEl.innerText = score.toLocaleString() + " XAL"; 
-            chancesEl.innerText = chances;
+            document.getElementById('score-display').innerText = score.toLocaleString();
+            document.getElementById('me-score').innerText = score.toLocaleString();
+            document.getElementById('chance-val').innerText = chances;
             
-            localStorage.setItem('futbol_score_v5', score);
-            localStorage.setItem('futbol_chances_v5', chances);
+            localStorage.setItem('faz_v6_score', score);
+            localStorage.setItem('faz_v6_chances', chances);
             
-            inventory.forEach(itemId => {
-                let btn = document.getElementById('btn-' + itemId);
+            // Alınan məhsulları yaşıl etmək
+            inventory.forEach(id => {
+                let btn = document.getElementById('btn-' + id);
                 if (btn) {
                     btn.innerText = "AKTİVDİR ✅";
-                    btn.style.background = "#2ecc71"; 
-                    btn.disabled = true; 
+                    btn.style.background = "var(--main)";
+                    btn.style.color = "#000";
+                    btn.disabled = true;
                 }
             });
         }
 
-        // PROMOKOD FUNKSİYASI
-        function usePromo() {
-            const inputVal = document.getElementById('promo-input').value.trim().toUpperCase();
-            
-            if (inputVal === "") {
-                alert("Zəhmət olmasa kodu daxil edin!");
-                return;
-            }
-
-            if (usedPromos.includes(inputVal)) {
-                alert("❌ Bu koddan artıq istifadə etmisiniz!");
-                return;
-            }
-
-            if (validPromos[inputVal]) {
-                let reward = validPromos[inputVal];
-                score += reward;
-                usedPromos.push(inputVal);
-                localStorage.setItem('futbol_promos', JSON.stringify(usedPromos));
-                updateUI();
-                alert("🎉 Təbriklər! Promokod qəbul olundu. Balansınıza " + reward + " XAL əlavə edildi!");
-                document.getElementById('promo-input').value = ""; 
-            } else {
-                alert("❌ Yanlış və ya vaxtı keçmiş promokod!");
-            }
-        }
-
-        // PENALTİ OYUNU
+        // 5. Penalti Oyunu
         function play(user) {
-            if (chances <= 0) {
-                alert("🛑 Bu günlük 3 şansınız bitdi! Sabah yenidən gəlin.");
-                return;
-            }
-
+            if (chances <= 0) { alert("🛑 Şansınız bitdi! Gecə 00:00-dan sonra yenidən gəlin."); return; }
             chances--; 
             const gk = ['SOL', 'MƏRKƏZ', 'SAĞ'][Math.floor(Math.random() * 3)];
+            const msg = document.getElementById('msg');
             
             if (user === gk) {
-                msgEl.innerText = "❌ Qapıçı tutdu! Xal yoxdur.";
-                msgEl.style.color = "#e74c3c";
+                msg.innerText = "❌ Qapıçı " + gk + " tərəfi seçdi və TUTDU!";
+                msg.style.color = "var(--danger)";
             } else {
                 score += 100;
-                msgEl.innerText = "⚽ QOOOL! +100 XAL";
-                msgEl.style.color = "#2ecc71";
+                msg.innerText = "⚽ QOOOL! +100 XAL (Qapıçı: "+gk+")";
+                msg.style.color = "var(--main)";
             }
             updateUI();
         }
 
-        // MAĞAZADAN ALIŞ-VERİŞ
+        // 6. Mağaza Alış-Veriş
         function buy(id, name, price) {
-            if (inventory.includes(id)) {
-                alert("Siz artıq bunu almısınız!");
-                return;
-            }
-
+            if (inventory.includes(id)) { alert("Siz artıq " + name + " almısınız!"); return; }
             if (score >= price) {
                 score -= price;
                 inventory.push(id); 
-                localStorage.setItem('futbol_inventory_v5', JSON.stringify(inventory));
+                localStorage.setItem('faz_v6_inv', JSON.stringify(inventory));
                 updateUI();
-                alert("🎉 Təbriklər! " + name + " uğurla alındı və aktivləşdi!");
+                alert("🎉 Təbriklər! " + name + " hesabınıza əlavə edildi!");
             } else {
-                alert("❌ Xalınız çatmır! Daha çox penalti vurun və ya promokod tapın.");
+                alert("❌ Xalınız çatmır! Qiymət: " + price + " Xal.");
             }
         }
 
-        // GOOGLE TRANSLATE
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'az'}, 'google_translate_element');
-        }
-
-        updateUI();
-    </script>
-    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-</body>
-</html>
+        // 7. Promokod Təsdiqi
+        function usePromo() {
+            const input = document.getElementById('promo-code');
+            const val = input.value.trim().toUpperCase();
+            
+            if (val === "") { alert("Zəhmət olmasa kod yazın."); return; }
+            if (usedPromos.includes(val)) { alert("❌ Bu kodu artıq istifadə etmisiniz!"); return; }
+            
+            if (validPromos[val]) {
+                score += validPromos[val];
+                usedPromos.push(val);
+                localStorage.setItem('faz_v6_promos', JSON.stringify(usedPromos));
+                updateU
