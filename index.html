@@ -1,74 +1,165 @@
 <!DOCTYPE html>
-<html>
+<html lang="az">
 <head>
 <meta charset="UTF-8">
-<title>Canlı Futbol</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Canlı Futbol və Mağaza</title>
 
 <style>
+body { background:#0b1c2c; font-family:Arial, sans-serif; color:white; padding:20px; margin: 0; }
+.card { background:#1e2f45; padding:20px; margin-bottom:20px; border-radius:10px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: 0.3s; }
+h2 { color:#4fc3f7; margin-top: 0; border-bottom: 2px solid #0b1c2c; padding-bottom: 10px; }
+iframe { width:100%; height:600px; border:none; border-radius: 8px; }
 
-body{
-background:#0b1c2c;
-font-family:Arial;
-color:white;
-padding:20px;
-}
+/* DÜYMƏLƏR VƏ OYUN */
+.btn { background: #4fc3f7; color: #000; border: none; padding: 12px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; margin: 5px; font-size: 14px; transition: 0.2s; }
+.btn:active { transform: scale(0.95); }
+.btn:disabled { background: #555; color: #aaa; cursor: not-allowed; }
+.btn-gold { background: #f1c40f; }
 
-.card{
-background:#1e2f45;
-padding:20px;
-margin-bottom:20px;
-border-radius:10px;
-}
+/* PROFİL KARTI (VİP ALINANDA DƏYİŞƏCƏK) */
+#profile-card { border: 2px solid #4fc3f7; text-align: center; }
+.score-text { font-size: 40px; font-weight: bold; color: #f1c40f; margin: 10px 0; }
+#profile-badges { font-size: 24px; letter-spacing: 5px; }
 
-h2{
-color:#4fc3f7;
-}
-
-iframe{
-width:100%;
-height:600px;
-border:none;
-}
-
+/* MAĞAZA QRİDİ */
+.shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.shop-item { background: #0b1c2c; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #4fc3f7; }
 </style>
 </head>
 
 <body>
 
-<div class="card">
-<h2>📅 Günün Oyunları</h2>
+    <div class="card" id="profile-card">
+        <h2 style="color: inherit; border-bottom: none; margin-bottom: 0;">MƏNİM PROFİLİM <span id="profile-badges"></span></h2>
+        <div class="score-text"><span id="score-ui">0</span> <span style="font-size: 16px; color: #fff;">XAL</span></div>
+        <p style="color: #aaa; font-size: 12px; margin-top: -5px;">Gündəlik qalan şans: <span id="chances-ui" style="color: #ff4757; font-weight: bold;">3</span></p>
+    </div>
 
-<iframe src="https://www.scorebat.com/embed/livescore/"></iframe>
+    <div class="card">
+        <h2>🧤 PENALTİ YARIŞI</h2>
+        <p id="msg-ui" style="font-weight: bold; height: 20px; color: #ccc;">Qapıçını aldat, xal qazan!</p>
+        <div style="display: flex; justify-content: center; gap: 5px;">
+            <button class="btn" onclick="oyna('SOL')">⬅ SOL</button>
+            <button class="btn" onclick="oyna('MƏRKƏZ')">⬆ MƏRKƏZ</button>
+            <button class="btn" onclick="oyna('SAĞ')">SAĞ ➡</button>
+        </div>
+    </div>
 
-</div>
+    <div class="card">
+        <h2>🛒 VİRTUAL MAĞAZA</h2>
+        <div class="shop-grid">
+            <div class="shop-item">
+                <div style="font-size:35px;">👕</div>
+                <h4 style="margin: 10px 0;">Qarabağ Forması</h4>
+                <div style="color:#f1c40f; font-weight:bold; margin-bottom: 10px;">1000 XAL</div>
+                <button class="btn btn-gold" id="btn-qarabag" style="width: 100%;" onclick="al('qarabag', 1000)">AL</button>
+            </div>
+            <div class="shop-item">
+                <div style="font-size:35px;">👑</div>
+                <h4 style="margin: 10px 0;">VİP Status</h4>
+                <div style="color:#f1c40f; font-weight:bold; margin-bottom: 10px;">5000 XAL</div>
+                <button class="btn btn-gold" id="btn-vip" style="width: 100%;" onclick="al('vip', 5000)">AL</button>
+            </div>
+        </div>
+    </div>
 
-<div class="card">
-<h2>🔴 Canlı Hesablar</h2>
+    <div class="card">
+        <h2>🔴 Canlı Hesablar</h2>
+        <iframe src="https://www.scorebat.com/embed/livescore/"></iframe>
+    </div>
 
-<iframe src="https://www.scorebat.com/embed/livescore/"></iframe>
+    <div class="card">
+        <h2>📺 Günün Oyunlarını İzlə</h2>
+        <ul style="list-style:none; padding:0; font-size:16px;">
+            <li style="margin:15px 0; background: #0b1c2c; padding: 10px; border-radius: 8px;">
+                ⚽ <a href="https://www.selcuksportshd.is/" target="_blank" style="color:#4fc3f7; text-decoration:none; font-weight: bold;">Canlı Futbol Yayınları</a>
+            </li>
+            <li style="margin:15px 0; background: #0b1c2c; padding: 10px; border-radius: 8px;">
+                🔥 <a href="https://whatsapp.com/channel/0029VbB1htT6buMHDvLjz90w" target="_blank" style="color:#4fc3f7; text-decoration:none; font-weight: bold;">Günün Qolları və Oyun Videoları</a>
+            </li>
+        </ul>
+    </div>
 
-</div>
-  <div class="card">
-<h2>📺 Günün Oyunlarını İzlə</h2>
+    <script>
+        // Məlumatları yaddaşdan çəkirik
+        let xal = localStorage.getItem('e_xal') ? parseInt(localStorage.getItem('e_xal')) : 0;
+        let sans = localStorage.getItem('e_sans') ? parseInt(localStorage.getItem('e_sans')) : 3;
+        let esyalar = localStorage.getItem('e_esya') ? JSON.parse(localStorage.getItem('e_esya')) : [];
+        
+        let bugun = new Date().toLocaleDateString();
+        if(localStorage.getItem('e_tarix') !== bugun) {
+            sans = 3;
+            localStorage.setItem('e_tarix', bugun);
+        }
 
-<ul style="list-style:none;padding:0;font-size:18px">
+        // EKRANI YENİLƏYƏN VƏ EFFEKTLƏRİ VERƏN FUNKSİYA
+        function ekraniYenile() {
+            document.getElementById('score-ui').innerText = xal;
+            document.getElementById('chances-ui').innerText = sans;
+            
+            let nisanlar = "";
+            let profilKarti = document.getElementById('profile-card');
 
-<li style="margin:10px 0;">
-⚽ <a href="https://www.selcuksportshd.is/" target="_blank" style="color:#4fc3f7;text-decoration:none;">
-Canlı Futbol Yayınları
-</a>
-</li>
+            // Əgər formanı alıbsa, profilə ikonka əlavə et
+            if(esyalar.includes('qarabag')) {
+                nisanlar += "👕 ";
+                let btn = document.getElementById('btn-qarabag');
+                if(btn) { btn.innerText = "GEYİNİLDİ ✅"; btn.disabled = true; }
+            }
 
+            // Əgər VIP alıbsa, BÜTÜN PROFİL KARTINI QIZILI RƏNGƏ BOYAYIRIQ
+            if(esyalar.includes('vip')) {
+                nisanlar += "👑";
+                profilKarti.style.background = "linear-gradient(135deg, #d4af37, #f1c40f)";
+                profilKarti.style.color = "#000";
+                profilKarti.style.border = "2px solid #fff";
+                
+                let btn = document.getElementById('btn-vip');
+                if(btn) { btn.innerText = "VİP AKTİVDİR ✅"; btn.disabled = true; }
+            }
 
-<li style="margin:10px 0;">
-🔥 <a href="https://whatsapp.com/channel/0029VbB1htT6buMHDvLjz90w" target="_blank" style="color:#4fc3f7;text-decoration:none;">
-Günün Qolları və Oyun Videoları
-</a>
-</li>
+            document.getElementById('profile-badges').innerText = nisanlar;
 
-</ul>
+            localStorage.setItem('e_xal', xal);
+            localStorage.setItem('e_sans', sans);
+            localStorage.setItem('e_esya', JSON.stringify(esyalar));
+        }
 
-  </div>
+        // OYUN MƏNTİQİ
+        function oyna(teref) {
+            if(sans <= 0) { alert("Bu günlük şansın bitdi!"); return; }
+            sans--;
+            let qapici = ['SOL', 'MƏRKƏZ', 'SAĞ'][Math.floor(Math.random() * 3)];
+            let mesaj = document.getElementById('msg-ui');
 
+            if(teref === qapici) {
+                mesaj.innerText = "❌ Qapıçı tutdu! (O da " + qapici + " seçdi)";
+                mesaj.style.color = "#ff4757";
+            } else {
+                xal += 100;
+                mesaj.innerText = "⚽ QOOOL! +100 XAL qazandın!";
+                mesaj.style.color = "#2ecc71";
+            }
+            ekraniYenile();
+        }
+
+        // MAĞAZA MƏNTİQİ
+        function al(id, qiymet) {
+            if(esyalar.includes(id)) { return; }
+            if(xal >= qiymet) {
+                xal -= qiymet;
+                esyalar.push(id);
+                ekraniYenile();
+                alert("🎉 Uğurla alındı! Profilinə bax, dəyişikliyi görəcəksən.");
+            } else {
+                alert("❌ Xalın çatmır! Bir az da oyun oyna.");
+            }
+        }
+
+        // Başlanğıcda ekrani yenile
+        ekraniYenile();
+    </script>
 </body>
 </html>
+
