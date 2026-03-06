@@ -1,92 +1,63 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q79WE0TMKH"></script>
-    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-Q79WE0TMKH');</script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8330893952904159" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Futbol.Az - Canlı Nəticələr</title>
+    <title>Futbol.Az - İşlək Versiya</title>
     <style>
         :root { --main: #00ff88; --bg: #0b0e14; --card: #161b22; --text: #ffffff; --gray: #8b949e; }
-        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); }
+        body { margin: 0; font-family: sans-serif; background: var(--bg); color: var(--text); }
+        header { background: #000; padding: 15px; border-bottom: 1px solid #30363d; text-align: center; }
+        .logo { font-size: 24px; font-weight: 800; color: var(--main); }
+        .container { max-width: 600px; margin: auto; padding: 15px; }
         
-        /* HEADER - MODERN STİL */
-        header { background: #000; padding: 15px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
-        .logo { font-size: 22px; font-weight: 800; color: var(--main); letter-spacing: -1px; }
+        .user-card { background: #1f2937; border-radius: 15px; padding: 20px; margin-bottom: 20px; text-align: center; border: 1px solid var(--main); }
+        .bal-num { font-size: 32px; font-weight: 800; color: var(--main); }
         
-        .container { max-width: 800px; margin: auto; padding: 15px; }
-
-        /* BALANS KARTI */
-        .user-card { background: linear-gradient(135deg, #1f2937, #111827); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
-        .bal-title { font-size: 13px; color: var(--gray); text-transform: uppercase; margin-bottom: 5px; }
-        .bal-num { font-size: 28px; font-weight: 800; color: var(--main); }
-
-        /* MAĞAZA & OYUN QRİD */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .card { background: var(--card); border-radius: 12px; padding: 15px; border: 1px solid #30363d; text-align: center; }
+        .card { background: var(--card); border-radius: 12px; padding: 20px; border: 1px solid #30363d; text-align: center; margin-bottom: 15px; }
         
-        /* DÜYMƏLƏR */
-        .btn { background: var(--main); color: #000; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; }
-        .btn:active { transform: scale(0.95); }
+        .btn { background: var(--main); color: #000; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; font-size: 16px; margin: 5px 0; display: block; }
+        .btn:active { background: #00cc6e; transform: scale(0.98); }
         .btn-outline { background: transparent; border: 1px solid var(--main); color: var(--main); }
-
-        /* CANLI NƏTİCƏLƏR (LIVESCORE) */
-        .ls-wrap { background: #fff; border-radius: 12px; overflow: hidden; margin-top: 20px; }
         
-        /* TAB SİSTEMİ */
-        .tabs { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
-        .tab { background: #21262d; padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; white-space: nowrap; }
-        .tab.active { background: var(--main); color: #000; font-weight: bold; }
+        #game-msg { height: 20px; margin: 10px 0; font-weight: bold; }
+        .ls-wrap { background: #fff; border-radius: 12px; overflow: hidden; margin-top: 20px; min-height: 400px; }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">FUTBOL.AZ</div>
-        <div id="google_translate_element"></div>
-    </header>
+    <header><div class="logo">FUTBOL.AZ</div></header>
 
     <div class="container">
         
         <div class="user-card">
-            <div>
-                <div class="bal-title">Sizin Balansınız</div>
-                <div class="bal-num"><span id="u-bal">0</span> <small style="font-size: 12px; color: #aaa;">XAL</small></div>
-            </div>
-            <button class="btn" style="width: auto; padding: 8px 20px;" onclick="addPoints()">+ XAL AL</button>
+            <div style="color: #aaa; font-size: 14px;">BALANSINIZ</div>
+            <div class="bal-num" id="u-bal">0</div>
+            <button class="btn" style="margin-top: 10px;" onclick="window.addPoints()">PROMOKOD DAXİL ET</button>
         </div>
 
-        <div class="tabs">
-            <div class="tab active">Canlı</div>
-            <div class="tab">Cədvəl</div>
-            <div class="tab">Mağaza</div>
-            <div class="tab">Promokod</div>
+        <div class="card">
+            <div style="font-size: 14px; color: var(--gray);">Qalan Şans: <span id="ch-val">3</span></div>
+            <h3>Qapıçıya Qol Vur!</h3>
+            <div id="game-msg">Hazırlaş...</div>
+            <button class="btn btn-outline" onclick="window.playGame('SOL')">SOLA VUR</button>
+            <button class="btn btn-outline" onclick="window.playGame('MƏRKƏZ')">ORTAYA VUR</button>
+            <button class="btn btn-outline" onclick="window.playGame('SAĞ')">SAĞA VUR</button>
         </div>
 
-        <div class="card" style="margin-bottom: 20px;">
-            <div style="font-size: 14px; color: var(--gray); margin-bottom: 10px;">Gündəlik 3 Şans: <span id="ch-val">3</span></div>
-            <h3 style="margin: 10px 0;">Qapıçını Aldat!</h3>
-            <div style="display: flex; gap: 10px;">
-                <button class="btn btn-outline" onclick="playGame('SOL')">SOL</button>
-                <button class="btn btn-outline" onclick="playGame('MƏRKƏZ')">MƏRKƏZ</button>
-                <button class="btn btn-outline" onclick="playGame('SAĞ')">SAĞ</button>
-            </div>
-            <p id="game-msg" style="font-size: 13px; margin-top: 10px; font-weight: bold;"></p>
-        </div>
-
-        <div class="grid">
-            <div class="card">
-                <div style="font-size: 30px;">👕</div>
-                <div style="font-weight: bold; margin: 5px 0;">Qarabağ Forması</div>
-                <div style="color: var(--main); font-size: 14px; margin-bottom: 10px;">1000 XAL</div>
-                <button id="btn-q1" class="btn" onclick="buyItem('q1', 1000)">AL</button>
-            </div>
-            <div class="card">
-                <div style="font-size: 30px;">👟</div>
-                <div style="font-weight: bold; margin: 5px 0;">Qızıl Butsi</div>
-                <div style="color: var(--main); font-size: 14px; margin-bottom: 10px;">1500 XAL</div>
-                <button id="btn-b1" class="btn" onclick="buyItem('b1', 1500)">AL</button>
+        <div class="card">
+            <h3>Meqa Mağaza</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div style="border: 1px solid #333; padding: 10px; border-radius: 10px;">
+                    <div>👕 Forma</div>
+                    <div style="color: var(--main);">500 XAL</div>
+                    <button id="btn-q1" class="btn" onclick="window.buyItem('q1', 500)">AL</button>
+                </div>
+                <div style="border: 1px solid #333; padding: 10px; border-radius: 10px;">
+                    <div>👟 Butsi</div>
+                    <div style="color: var(--main);">800 XAL</div>
+                    <button id="btn-b1" class="btn" onclick="window.buyItem('b1', 800)">AL</button>
+                </div>
             </div>
         </div>
 
@@ -101,54 +72,81 @@
     </div>
 
     <script>
+        // Dəyişənləri yükləyirik
         let score = localStorage.getItem('f_score') ? parseInt(localStorage.getItem('f_score')) : 0;
         let chances = localStorage.getItem('f_chances') ? parseInt(localStorage.getItem('f_chances')) : 3;
         let inv = localStorage.getItem('f_inv') ? JSON.parse(localStorage.getItem('f_inv')) : [];
 
-        function update() {
+        // UI Yeniləmə Funksiyası
+        window.updateUI = function() {
             document.getElementById('u-bal').innerText = score.toLocaleString();
             document.getElementById('ch-val').innerText = chances;
-            localStorage.setItem('f_score', score);
-            localStorage.setItem('f_chances', chances);
+            
+            // Mağaza yoxlanışı
             inv.forEach(id => {
                 let b = document.getElementById('btn-' + id);
-                if (b) { b.innerText = "ALINIB ✅"; b.disabled = true; b.style.opacity = "0.5"; }
+                if (b) {
+                    b.innerText = "ALINIB";
+                    b.style.background = "#333";
+                    b.disabled = true;
+                }
             });
-        }
 
-        function playGame(dir) {
-            if (chances <= 0) { alert("Şansınız bitdi!"); return; }
-            chances--;
-            const gk = ['SOL', 'MƏRKƏZ', 'SAĞ'][Math.floor(Math.random() * 3)];
-            const msg = document.getElementById('game-msg');
-            if (dir === gk) {
-                msg.innerText = "❌ Qapıçı tutdu!"; msg.style.color = "#ff4d4d";
-            } else {
-                score += 100; msg.innerText = "⚽ QOL! +100 XAL"; msg.style.color = var(--main);
+            localStorage.setItem('f_score', score);
+            localStorage.setItem('f_chances', chances);
+            localStorage.setItem('f_inv', JSON.stringify(inv));
+        };
+
+        // Oyun Funksiyası
+        window.playGame = function(direction) {
+            if (chances <= 0) {
+                alert("Gündəlik 3 şansınız bitdi!");
+                return;
             }
-            update();
-        }
 
-        function buyItem(id, price) {
+            const positions = ['SOL', 'MƏRKƏZ', 'SAĞ'];
+            const gkPos = positions[Math.floor(Math.random() * 3)];
+            const msg = document.getElementById('game-msg');
+
+            chances--;
+
+            if (direction === gkPos) {
+                msg.innerText = "❌ Qapıçı tutdu! (O " + gkPos + " tərəfə tullandı)";
+                msg.style.color = "#ff4d4d";
+            } else {
+                score += 100;
+                msg.innerText = "⚽ QOOOL! +100 XAL (Qapıçı " + gkPos + " qaldı)";
+                msg.style.color = "#00ff88";
+            }
+            window.updateUI();
+        };
+
+        // Mağaza Funksiyası
+        window.buyItem = function(id, price) {
             if (score >= price) {
-                score -= price; inv.push(id);
-                localStorage.setItem('f_inv', JSON.stringify(inv));
-                update(); alert("Uğurla alındı!");
-            } else { alert("Xalınız çatmır!"); }
-        }
+                score -= price;
+                inv.push(id);
+                window.updateUI();
+                alert("Məhsul alındı!");
+            } else {
+                alert("Xalınız kifayət deyil!");
+            }
+        };
 
-        function addPoints() {
-            let code = prompt("Promokodu daxil edin (Məs: ELMANUSTA):");
-            if (code === "ELMANUSTA") { score += 2000; update(); alert("2000 XAL əlavə edildi!"); }
-        }
+        // Promokod Funksiyası
+        window.addPoints = function() {
+            let code = prompt("Promokodu daxil edin:");
+            if (code && code.toUpperCase() === "ELMANUSTA") {
+                score += 5000;
+                window.updateUI();
+                alert("Təbrikler! 5000 XAL əlavə olundu!");
+            } else if (code) {
+                alert("Yanlış kod!");
+            }
+        };
 
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'az'}, 'google_translate_element');
-        }
-
-        update();
+        // Səhifə açılanda işə sal
+        window.updateUI();
     </script>
-    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
 </body>
 </html>
