@@ -17,10 +17,11 @@ iframe { width:100%; height:600px; border:none; border-radius: 8px; }
 .btn:disabled { background: #555; color: #aaa; cursor: not-allowed; }
 .btn-gold { background: #f1c40f; }
 
-/* PROFİL KARTI (VİP ALINANDA DƏYİŞƏCƏK) */
+/* PROFİL VƏ PROMOKOD */
 #profile-card { border: 2px solid #4fc3f7; text-align: center; }
 .score-text { font-size: 40px; font-weight: bold; color: #f1c40f; margin: 10px 0; }
 #profile-badges { font-size: 24px; letter-spacing: 5px; }
+.promo-input { padding: 12px; width: 50%; max-width: 200px; border-radius: 8px; border: 1px solid #4fc3f7; background: #0b1c2c; color: #fff; font-weight: bold; text-transform: uppercase; outline: none; }
 
 /* MAĞAZA QRİDİ */
 .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
@@ -34,6 +35,11 @@ iframe { width:100%; height:600px; border:none; border-radius: 8px; }
         <h2 style="color: inherit; border-bottom: none; margin-bottom: 0;">MƏNİM PROFİLİM <span id="profile-badges"></span></h2>
         <div class="score-text"><span id="score-ui">0</span> <span style="font-size: 16px; color: #fff;">XAL</span></div>
         <p style="color: #aaa; font-size: 12px; margin-top: -5px;">Gündəlik qalan şans: <span id="chances-ui" style="color: #ff4757; font-weight: bold;">3</span></p>
+        
+        <div style="margin-top: 15px; border-top: 1px dashed #4fc3f7; padding-top: 15px;">
+            <input type="text" id="promo-input" class="promo-input" placeholder="PROMOKOD">
+            <button class="btn btn-gold" onclick="promoYoxla()">TƏSDİQLƏ</button>
+        </div>
     </div>
 
     <div class="card">
@@ -86,6 +92,7 @@ iframe { width:100%; height:600px; border:none; border-radius: 8px; }
         let xal = localStorage.getItem('e_xal') ? parseInt(localStorage.getItem('e_xal')) : 0;
         let sans = localStorage.getItem('e_sans') ? parseInt(localStorage.getItem('e_sans')) : 3;
         let esyalar = localStorage.getItem('e_esya') ? JSON.parse(localStorage.getItem('e_esya')) : [];
+        let istifadeOlunanPromolar = localStorage.getItem('e_promo') ? JSON.parse(localStorage.getItem('e_promo')) : [];
         
         let bugun = new Date().toLocaleDateString();
         if(localStorage.getItem('e_tarix') !== bugun) {
@@ -126,6 +133,24 @@ iframe { width:100%; height:600px; border:none; border-radius: 8px; }
             localStorage.setItem('e_esya', JSON.stringify(esyalar));
         }
 
+        // PROMOKOD MƏNTİQİ
+        function promoYoxla() {
+            let kod = document.getElementById('promo-input').value.trim().toUpperCase();
+            if(!kod) { alert("Zəhmət olmasa kod daxil edin!"); return; }
+            if(istifadeOlunanPromolar.includes(kod)) { alert("❌ Bu koddan artıq istifadə etmisiniz!"); return; }
+
+            if(kod === "ELMANUSTA") {
+                xal += 2000;
+                istifadeOlunanPromolar.push(kod);
+                localStorage.setItem('e_promo', JSON.stringify(istifadeOlunanPromolar));
+                ekraniYenile();
+                alert("🎁 TƏBRİKLƏR! 'ELMANUSTA' kodu ilə 2000 XAL qazandın!");
+                document.getElementById('promo-input').value = ""; // Xanani temizleyirik
+            } else {
+                alert("❌ Yanlış və ya vaxtı keçmiş promokod!");
+            }
+        }
+
         // OYUN MƏNTİQİ
         function oyna(teref) {
             if(sans <= 0) { alert("Bu günlük şansın bitdi!"); return; }
@@ -153,7 +178,7 @@ iframe { width:100%; height:600px; border:none; border-radius: 8px; }
                 ekraniYenile();
                 alert("🎉 Uğurla alındı! Profilinə bax, dəyişikliyi görəcəksən.");
             } else {
-                alert("❌ Xalın çatmır! Bir az da oyun oyna.");
+                alert("❌ Xalın çatmır! Bir az da oyun oyna və ya promokod tap.");
             }
         }
 
@@ -162,4 +187,3 @@ iframe { width:100%; height:600px; border:none; border-radius: 8px; }
     </script>
 </body>
 </html>
-
