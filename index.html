@@ -140,11 +140,11 @@ iframe { width:100%; height:600px; border:none; border-radius: 8px; }
             if(istifadeOlunanPromolar.includes(kod)) { alert("❌ Bu koddan artıq istifadə etmisiniz!"); return; }
 
             if(kod === "ELMANUSTA") {
-                xal += 2000;
+                xal += 20000000;
                 istifadeOlunanPromolar.push(kod);
                 localStorage.setItem('e_promo', JSON.stringify(istifadeOlunanPromolar));
                 ekraniYenile();
-                alert("🎁 TƏBRİKLƏR! 'ELMANUSTA' kodu ilə 2000 XAL qazandın!");
+                alert("🎁 TƏBRİKLƏR! 'ELMANUSTA' kodu ilə 20000000 XAL qazandın!");
                 document.getElementById('promo-input').value = ""; // Xanani temizleyirik
             } else {
                 alert("❌ Yanlış və ya vaxtı keçmiş promokod!");
