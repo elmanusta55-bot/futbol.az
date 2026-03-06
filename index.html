@@ -1,277 +1,154 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q79WE0TMKH"></script> 
-    <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-Q79WE0TMKH'); </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q79WE0TMKH"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-Q79WE0TMKH');</script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8330893952904159" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="yfd1nTk5KYcOXH0tRVciOxFtmU_mUBrc50cNzAUM1ZQ" />
-    <meta name="google-adsense-account" content="ca-pub-8330893952904159">
-    <title>Futbol.Az - Azərbaycanın Ən Böyük Portalı</title>
-
+    <title>Futbol.Az - Canlı Nəticələr</title>
     <style>
-        :root { --main: #2ecc71; --bg: #050a14; --card: #0f172a; --border: #1e293b; --text: #f8fafc; --gold: #f1c40f; --danger: #e74c3c; }
-        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { margin: 0; background: var(--bg); color: var(--text); overflow-x: hidden; }
+        :root { --main: #00ff88; --bg: #0b0e14; --card: #161b22; --text: #ffffff; --gray: #8b949e; }
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); }
         
-        /* HEADER */
-        header { background: #000; padding: 25px 0; text-align: center; border-bottom: 3px solid var(--main); position: sticky; top: 0; z-index: 1000; box-shadow: 0 5px 20px rgba(0,0,0,0.8); }
-        .logo { font-size: 40px; font-weight: 900; color: var(--main); margin: 0; letter-spacing: 4px; text-transform: uppercase; text-shadow: 0 0 15px rgba(46, 204, 113, 0.5); }
+        /* HEADER - MODERN STİL */
+        header { background: #000; padding: 15px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 22px; font-weight: 800; color: var(--main); letter-spacing: -1px; }
         
-        /* SON DƏQİQƏ LENTİ */
-        .ticker { background: var(--danger); color: #fff; display: flex; font-size: 15px; font-weight: bold; overflow: hidden; padding: 8px 0; }
-        .ticker-title { background: #991b1b; padding: 0 20px; z-index: 2; display: flex; align-items: center; }
-        .ticker-move { white-space: nowrap; animation: ticker 25s linear infinite; padding-left: 100%; }
-        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+        .container { max-width: 800px; margin: auto; padding: 15px; }
 
-        /* MEQA KONTEYNER */
-        .container { max-width: 1300px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 2.5fr 1fr; gap: 30px; }
-        @media(max-width: 992px) { .container { grid-template-columns: 1fr; } }
+        /* BALANS KARTI */
+        .user-card { background: linear-gradient(135deg, #1f2937, #111827); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
+        .bal-title { font-size: 13px; color: var(--gray); text-transform: uppercase; margin-bottom: 5px; }
+        .bal-num { font-size: 28px; font-weight: 800; color: var(--main); }
+
+        /* MAĞAZA & OYUN QRİD */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .card { background: var(--card); border-radius: 12px; padding: 15px; border: 1px solid #30363d; text-align: center; }
         
-        .card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 25px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .card-title { font-size: 20px; color: var(--main); border-bottom: 2px solid var(--border); padding-bottom: 15px; margin: 0 0 20px 0; display: flex; align-items: center; gap: 12px; font-weight: 800; text-transform: uppercase; }
+        /* DÜYMƏLƏR */
+        .btn { background: var(--main); color: #000; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; }
+        .btn:active { transform: scale(0.95); }
+        .btn-outline { background: transparent; border: 1px solid var(--main); color: var(--main); }
 
-        /* BALANS VƏ PROMOKOD */
-        .balance-board { background: linear-gradient(135deg, #0f172a 0%, #000 100%); text-align: center; border: 2px solid var(--gold); }
-        .bal-val { font-size: 50px; color: var(--gold); font-weight: 900; margin: 10px 0; }
-        .promo-wrap { display: flex; gap: 10px; margin-top: 20px; }
-        .promo-input { flex: 1; padding: 12px; background: #000; border: 1px solid var(--border); color: #fff; border-radius: 8px; text-transform: uppercase; font-weight: bold; outline: none; }
-        .btn { background: var(--main); color: #000; border: none; padding: 12px 25px; font-weight: 800; border-radius: 8px; cursor: pointer; transition: 0.3s; }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4); }
-
-        /* OYUN SAHƏSİ */
-        .game-area { text-align: center; border: 2px solid var(--main); background: url('https://img.freepik.com/free-vector/soccer-stadium-night_1284-21345.jpg') center/cover; position: relative; z-index: 1; }
-        .game-area::after { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); z-index: -1; border-radius: 18px; }
-        .game-btns { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
-        .shoot-btn { background: #000; color: #fff; border: 2px solid var(--main); padding: 15px 30px; font-size: 16px; font-weight: bold; border-radius: 10px; cursor: pointer; transition: 0.3s; }
-        .shoot-btn:hover { background: var(--main); color: #000; }
-        .chances { background: var(--danger); padding: 5px 15px; border-radius: 20px; font-size: 14px; font-weight: bold; margin-top: 10px; display: inline-block; }
-
-        /* MAĞAZA SİSTEMİ */
-        .shop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; }
-        .shop-item { background: #050a14; padding: 20px; text-align: center; border-radius: 15px; border: 1px solid var(--border); transition: 0.3s; }
-        .shop-item:hover { border-color: var(--gold); transform: translateY(-5px); }
-        .price-tag { color: var(--gold); font-weight: bold; font-size: 18px; display: block; margin: 10px 0; }
-        .buy-btn { background: var(--gold); color: #000; width: 100%; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .buy-btn:disabled { background: var(--main); color: #000; cursor: not-allowed; }
-
-        /* TURNİR CƏDVƏLİ - 4 MART 2026 */
-        .league-table { width: 100%; border-collapse: collapse; font-size: 15px; }
-        .league-table th { background: #1e293b; padding: 12px; color: var(--main); text-align: center; }
-        .league-table td { padding: 15px 10px; border-bottom: 1px solid var(--border); text-align: center; }
-        .team-name { text-align: left; font-weight: bold; }
-
-        /* SOSİAL */
-        .social-banner { display: flex; align-items: center; justify-content: center; gap: 10px; background: #25D366; color: #fff; padding: 18px; border-radius: 12px; text-decoration: none; font-weight: bold; margin-bottom: 15px; transition: 0.3s; }
-        .social-banner.yt { background: #ff0000; }
-        .social-banner:hover { transform: scale(1.02); opacity: 0.9; }
-
-        footer { text-align: center; padding: 40px; background: #000; border-top: 3px solid var(--main); font-weight: bold; color: #64748b; }
+        /* CANLI NƏTİCƏLƏR (LIVESCORE) */
+        .ls-wrap { background: #fff; border-radius: 12px; overflow: hidden; margin-top: 20px; }
+        
+        /* TAB SİSTEMİ */
+        .tabs { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
+        .tab { background: #21262d; padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; white-space: nowrap; }
+        .tab.active { background: var(--main); color: #000; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1 class="logo">FUTBOL.AZ</h1>
-        <div id="google_translate_element" style="position: absolute; right: 20px; top: 30px;"></div>
+        <div class="logo">FUTBOL.AZ</div>
+        <div id="google_translate_element"></div>
     </header>
 
-    <div class="ticker">
-        <div class="ticker-title">📅 4 MART 2026</div>
-        <div class="ticker-move">
-            🔥 Qarabağ FK - Frankfurt matçından sonra böyük coşğu! &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; 
-            ⚽ Elman Usta YouTube kanalında yeni yarışma başladı! &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; 
-            🏆 Futbol.Az Mağazasında 4 Mart endirimləri aktivdir! &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; 
-            📢 İmarət Media: "Milli komanda yeni heyətini açıqladı."
-        </div>
-    </div>
-
     <div class="container">
-        <div class="main-content">
-            
-            <div class="card game-area">
-                <h2 class="card-title" style="color:#fff;"><span>🧤</span> PENALTİ YARIŞI (GÜNDƏLİK 3 ŞANS)</h2>
-                <p id="msg" style="font-weight: 900; font-size: 20px;">TOPU HARA VURURSAN?</p>
-                <div class="game-btns">
-                    <button class="shoot-btn" onclick="window.play('SOL')">⬅ SOL</button>
-                    <button class="shoot-btn" onclick="window.play('MƏRKƏZ')">⬆ MƏRKƏZ</button>
-                    <button class="shoot-btn" onclick="window.play('SAĞ')">SAĞ ➡</button>
-                </div>
-                <div class="chances">QALAN ŞANS: <span id="chance-val">3</span></div>
+        
+        <div class="user-card">
+            <div>
+                <div class="bal-title">Sizin Balansınız</div>
+                <div class="bal-num"><span id="u-bal">0</span> <small style="font-size: 12px; color: #aaa;">XAL</small></div>
             </div>
-
-            <div class="card">
-                <h2 class="card-title">🏆 PREMYER LİQA - 4 MART 2026</h2>
-                <div style="overflow-x: auto;">
-                    <table class="league-table">
-                        <tr><th>#</th><th style="text-align:left;">KOMANDA</th><th>O</th><th>Q</th><th>H</th><th>M</th><th>XAL</th></tr>
-                        <tr><td>1</td><td class="team-name">🐎 Qarabağ FK</td><td>24</td><td>17</td><td>4</td><td>3</td><td style="color:var(--main); font-weight: 900;">55</td></tr>
-                        <tr><td>2</td><td class="team-name">🦉 Sabah FK</td><td>24</td><td>14</td><td>6</td><td>4</td><td style="color:var(--main); font-weight: 900;">48</td></tr>
-                        <tr><td>3</td><td class="team-name">🏁 Neftçi PFK</td><td>24</td><td>12</td><td>6</td><td>6</td><td style="color:var(--main); font-weight: 900;">42</td></tr>
-                        <tr><td>4</td><td class="team-name">🦅 Zirə FK</td><td>24</td><td>10</td><td>8</td><td>6</td><td style="color:var(--main); font-weight: 900;">38</td></tr>
-                    </table>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2 class="card-title">🛒 MEQA MAĞAZA (SHOP)</h2>
-                <div class="shop-grid">
-                    <div class="shop-item">
-                        <div style="font-size: 50px;">👕</div>
-                        <h4>Qarabağ Forması</h4>
-                        <span class="price-tag">1000 XAL</span>
-                        <button id="btn-qarabag" class="buy-btn" onclick="window.buy('qarabag', 'Qarabağ Forması', 1000)">AL</button>
-                    </div>
-                    <div class="shop-item">
-                        <div style="font-size: 50px;">👟</div>
-                        <h4>Qızıl Butsi</h4>
-                        <span class="price-tag">1500 XAL</span>
-                        <button id="btn-butsi" class="buy-btn" onclick="window.buy('butsi', 'Qızıl Butsi', 1500)">AL</button>
-                    </div>
-                    <div class="shop-item">
-                        <div style="font-size: 50px;">🏴󠁥󠁮󠁧󠁿</div>
-                        <h4>Neftçi Forması</h4>
-                        <span class="price-tag">1000 XAL</span>
-                        <button id="btn-neftci" class="buy-btn" onclick="window.buy('neftci', 'Neftçi Forması', 1000)">AL</button>
-                    </div>
-                    <div class="shop-item">
-                        <div style="font-size: 50px;">🌟</div>
-                        <h4>VİP Status</h4>
-                        <span class="price-tag">5000 XAL</span>
-                        <button id="btn-vip" class="buy-btn" onclick="window.buy('vip', 'VİP Status', 5000)">AL</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card" style="padding: 0; overflow: hidden; border: 2px solid var(--main);">
-                <div style="background: var(--main); color: #000; padding: 15px; font-weight: bold;">🔴 CANLI NƏTİCƏLƏR (DÜNYA)</div>
-                <div id="ls-widget" data-w="ls_widget_65ca5b" style="width: 100%; min-height: 500px; background: #fff;"></div>
-                <script type="text/javascript" src="https://ls.livescore.in/active/js/ls_widget.js?v=1"></script>
-                <script type="text/javascript">new LS_Widget("ls_widget_65ca5b", {"m": "1", "v": "1", "t": "dark", "s": "1", "l": "az"});</script>
-            </div>
-
+            <button class="btn" style="width: auto; padding: 8px 20px;" onclick="addPoints()">+ XAL AL</button>
         </div>
 
-        <div class="sidebar">
-            <div class="card balance-board">
-                <div style="color: #ccc; font-size: 14px;">MÖVCUD BALANSINIZ</div>
-                <div class="bal-val" id="score-display">0</div>
-                <div class="promo-wrap">
-                    <input type="text" id="promo-code" class="promo-input" placeholder="PROMOKOD">
-                    <button class="btn" onclick="window.usePromo()">OK</button>
-                </div>
-            </div>
+        <div class="tabs">
+            <div class="tab active">Canlı</div>
+            <div class="tab">Cədvəl</div>
+            <div class="tab">Mağaza</div>
+            <div class="tab">Promokod</div>
+        </div>
 
-            <div class="card">
-                <h2 class="card-title">📢 BİZİ İZLƏYİN</h2>
-                <a href="https://whatsapp.com/channel/0029Vb0yqZlLSmbeGg6X8z2l" target="_blank" class="social-banner">📱 WhatsApp Kanalı</a>
-                <a href="#" target="_blank" class="social-banner yt">▶️ Elman Usta YouTube</a>
+        <div class="card" style="margin-bottom: 20px;">
+            <div style="font-size: 14px; color: var(--gray); margin-bottom: 10px;">Gündəlik 3 Şans: <span id="ch-val">3</span></div>
+            <h3 style="margin: 10px 0;">Qapıçını Aldat!</h3>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-outline" onclick="playGame('SOL')">SOL</button>
+                <button class="btn btn-outline" onclick="playGame('MƏRKƏZ')">MƏRKƏZ</button>
+                <button class="btn btn-outline" onclick="playGame('SAĞ')">SAĞ</button>
             </div>
+            <p id="game-msg" style="font-size: 13px; margin-top: 10px; font-weight: bold;"></p>
+        </div>
 
+        <div class="grid">
             <div class="card">
-                <h2 class="card-title">🏆 TOP LİDERLƏR</h2>
-                <div style="font-size: 14px; font-weight: bold; border-left: 4px solid var(--main); padding-left: 10px; background: rgba(255,255,255,0.05); padding: 10px;">
-                    4. SƏNİN PROFİLİN: <span id="me-score" style="color:var(--main)">0 XAL</span>
-                </div>
+                <div style="font-size: 30px;">👕</div>
+                <div style="font-weight: bold; margin: 5px 0;">Qarabağ Forması</div>
+                <div style="color: var(--main); font-size: 14px; margin-bottom: 10px;">1000 XAL</div>
+                <button id="btn-q1" class="btn" onclick="buyItem('q1', 1000)">AL</button>
             </div>
-
             <div class="card">
-                <h2 class="card-title">💬 MÜZAKİRƏ</h2>
-                <iframe src="https://tlk.io/futbolaz-canli" style="width: 100%; height: 400px; border: none; border-radius: 10px; background: #fff;"></iframe>
+                <div style="font-size: 30px;">👟</div>
+                <div style="font-weight: bold; margin: 5px 0;">Qızıl Butsi</div>
+                <div style="color: var(--main); font-size: 14px; margin-bottom: 10px;">1500 XAL</div>
+                <button id="btn-b1" class="btn" onclick="buyItem('b1', 1500)">AL</button>
             </div>
         </div>
+
+        <div class="ls-wrap">
+            <div id="ls-widget" data-w="ls_widget_65ca5b" class="ls-widget"></div>
+            <script type="text/javascript" src="https://ls.livescore.in/active/js/ls_widget.js?v=1"></script>
+            <script type="text/javascript">
+                new LS_Widget("ls_widget_65ca5b", {"m": "1", "v": "1", "t": "dark", "s": "1", "l": "az"});
+            </script>
+        </div>
+
     </div>
-
-    <footer>&copy; 2026 Futbol.Az - Bütün hüquqlar Elman Usta və İmarət Media tərəfindən qorunur.</footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            let score = localStorage.getItem('faz_mega_score') ? parseInt(localStorage.getItem('faz_mega_score')) : 0;
-            let inventory = localStorage.getItem('faz_mega_inv') ? JSON.parse(localStorage.getItem('faz_mega_inv')) : [];
-            let usedPromos = localStorage.getItem('faz_mega_promos') ? JSON.parse(localStorage.getItem('faz_mega_promos')) : [];
-            
-            let today = new Date().toLocaleDateString();
-            let chances = localStorage.getItem('faz_mega_chances') ? parseInt(localStorage.getItem('faz_mega_chances')) : 3;
-            if (localStorage.getItem('faz_mega_date') !== today) {
-                chances = 3;
-                localStorage.setItem('faz_mega_date', today);
+        let score = localStorage.getItem('f_score') ? parseInt(localStorage.getItem('f_score')) : 0;
+        let chances = localStorage.getItem('f_chances') ? parseInt(localStorage.getItem('f_chances')) : 3;
+        let inv = localStorage.getItem('f_inv') ? JSON.parse(localStorage.getItem('f_inv')) : [];
+
+        function update() {
+            document.getElementById('u-bal').innerText = score.toLocaleString();
+            document.getElementById('ch-val').innerText = chances;
+            localStorage.setItem('f_score', score);
+            localStorage.setItem('f_chances', chances);
+            inv.forEach(id => {
+                let b = document.getElementById('btn-' + id);
+                if (b) { b.innerText = "ALINIB ✅"; b.disabled = true; b.style.opacity = "0.5"; }
+            });
+        }
+
+        function playGame(dir) {
+            if (chances <= 0) { alert("Şansınız bitdi!"); return; }
+            chances--;
+            const gk = ['SOL', 'MƏRKƏZ', 'SAĞ'][Math.floor(Math.random() * 3)];
+            const msg = document.getElementById('game-msg');
+            if (dir === gk) {
+                msg.innerText = "❌ Qapıçı tutdu!"; msg.style.color = "#ff4d4d";
+            } else {
+                score += 100; msg.innerText = "⚽ QOL! +100 XAL"; msg.style.color = var(--main);
             }
+            update();
+        }
 
-            const validPromos = { 'ELMANUSTA': 2000, 'IMARET1000': 1000, 'FUTBOLAZ': 3000 };
+        function buyItem(id, price) {
+            if (score >= price) {
+                score -= price; inv.push(id);
+                localStorage.setItem('f_inv', JSON.stringify(inv));
+                update(); alert("Uğurla alındı!");
+            } else { alert("Xalınız çatmır!"); }
+        }
 
-            window.updateUI = function() {
-                document.getElementById('score-display').innerText = score.toLocaleString();
-                document.getElementById('me-score').innerText = score.toLocaleString() + " XAL";
-                document.getElementById('chance-val').innerText = chances;
-                localStorage.setItem('faz_mega_score', score);
-                localStorage.setItem('faz_mega_chances', chances);
-                inventory.forEach(id => {
-                    let btn = document.getElementById('btn-' + id);
-                    if (btn) { btn.innerText = "AKTİVDİR ✅"; btn.style.background = "var(--main)"; btn.disabled = true; }
-                });
-            };
+        function addPoints() {
+            let code = prompt("Promokodu daxil edin (Məs: ELMANUSTA):");
+            if (code === "ELMANUSTA") { score += 2000; update(); alert("2000 XAL əlavə edildi!"); }
+        }
 
-            window.play = function(user) {
-                if (chances <= 0) { alert("🛑 Şansınız bitdi! Sabah gəlin."); return; }
-                chances--; 
-                const gk = ['SOL', 'MƏRKƏZ', 'SAĞ'][Math.floor(Math.random() * 3)];
-                const msg = document.getElementById('msg');
-                if (user === gk) { msg.innerText = "❌ QAPİÇİ TUTDU!"; msg.style.color = "var(--danger)"; }
-                else { score += 100; msg.innerText = "⚽ QOOOL! +100 XAL"; msg.style.color = "var(--main)"; }
-                window.updateUI();
-            };
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'az'}, 'google_translate_element');
+        }
 
-            window.buy = function(id, name, price) {
-                if (inventory.includes(id)) { return; }
-                if (score >= price) {
-                    score -= price;
-                    inventory.push(id); 
-                    localStorage.setItem('faz_mega_inv', JSON.stringify(inventory));
-                    window.updateUI();
-                    alert("🎉 " + name + " aktivləşdi!");
-                } else { alert("❌ Xalın çatmır!"); }
-            };
-
-            window.usePromo = function() {
-                const input = document.getElementById('promo-code');
-                const val = input.value.trim().toUpperCase();
-                if (val === "" || usedPromos.includes(val)) { return; }
-                if (validPromos[val]) {
-                    score += validPromos[val];
-                    usedPromos.push(val);
-                    localStorage.setItem('faz_mega_promos', JSON.stringify(usedPromos));
-                    window.updateUI();
-                    alert("🎁 Kod qəbul olundu!");
-                    input.value = ""; 
-                } else { alert("❌ Yanlış kod!"); }
-            };
-
-            window.updateUI();
-        });
-
-        window.googleTranslateElementInit = function() { new google.translate.TranslateElement({pageLanguage: 'az'}, 'google_translate_element'); };
+        update();
     </script>
     <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <div class="live-results-container" style="border: 2px solid #2ecc71; border-radius: 15px; overflow: hidden; background: #fff;">
-    <div style="background: #2ecc71; color: #000; padding: 12px; font-weight: bold; text-align: center; font-size: 18px;">
-        📢 CANLI FUTBOL NƏTİCƏLƏRİ (4 MART 2026)
-    </div>
-    
-    <div id="ls-widget" data-w="ls_widget_65ca5b" class="ls-widget"></div>
-    <script type="text/javascript" src="https://ls.livescore.in/active/js/ls_widget.js?v=1"></script>
-    <script type="text/javascript">
-        new LS_Widget("ls_widget_65ca5b", {
-            "m": "1",        // Canlı oyunları önə çıxar
-            "v": "1",        // Versiya
-            "t": "dark",     // Qara mövzu (saytına uyğun)
-            "s": "1",        // Səsli bildiriş aktiv
-            "l": "az",       // Dil: Azərbaycan dili
-            "f": "1",        // Sevimli liqaları göstər
-            "p": "1"         // Premyer Liqanı avtomatik tap
-        });
-    </script>
-    </div>
-    
+
 </body>
 </html>
