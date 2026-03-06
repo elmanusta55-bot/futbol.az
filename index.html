@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="az">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Football Live</title>
+<title>Canlı Futbol</title>
 
 <style>
+
 body{
 background:#0b1c2c;
 font-family:Arial;
 color:white;
-margin:0;
 padding:20px;
 }
 
@@ -24,146 +24,30 @@ h2{
 color:#4fc3f7;
 }
 
-.match{
-padding:8px;
-border-bottom:1px solid #2e445f;
-}
-
-table{
+iframe{
 width:100%;
-border-collapse:collapse;
-}
-
-td,th{
-padding:8px;
-text-align:center;
-}
-
-th{
-color:#4fc3f7;
-}
-
-.search{
-width:100%;
-padding:12px;
-border-radius:8px;
+height:600px;
 border:none;
-margin-bottom:20px;
 }
+
 </style>
-
 </head>
-<body>
 
-<input class="search" placeholder="🔎 Komanda axtar...">
+<body>
 
 <div class="card">
 <h2>📅 Günün Oyunları</h2>
-<div id="todayMatches">Yüklənir...</div>
+
+<iframe src="https://www.scorebat.com/embed/livescore/"></iframe>
+
 </div>
 
 <div class="card">
 <h2>🔴 Canlı Hesablar</h2>
-<div id="liveMatches">Yüklənir...</div>
+
+<iframe src="https://www.scorebat.com/embed/livescore/"></iframe>
+
 </div>
-
-<div class="card">
-<h2>📊 Turnir Cədvəli</h2>
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>Komanda</th>
-<th>O</th>
-<th>Q</th>
-<th>M</th>
-<th>P</th>
-</tr>
-</thead>
-<tbody id="standings"></tbody>
-</table>
-</div>
-
-<div class="card">
-<h2>💰 Son Transferlər</h2>
-<div id="transfers">Yüklənir...</div>
-</div>
-
-<script>
-
-const API_KEY = "VWu2sDI43xzsqIX3";
-
-async function getLiveMatches(){
-
-const res = await fetch(`http://api.isportsapi.com/sport/football/livescores?api_key=${API_KEY}`);
-const data = await res.json();
-
-const container = document.getElementById("liveMatches");
-container.innerHTML="";
-
-if(!data.data) return;
-
-data.data.forEach(match=>{
-
-container.innerHTML+=`
-<div class="match">
-${match.home_team} ${match.home_score} - ${match.away_score} ${match.away_team}
-</div>
-`;
-
-});
-
-}
-
-async function getTodayMatches(){
-
-const res = await fetch(`http://api.isportsapi.com/sport/football/matches?api_key=${API_KEY}`);
-const data = await res.json();
-
-const container = document.getElementById("todayMatches");
-container.innerHTML="";
-
-if(!data.data) return;
-
-data.data.slice(0,10).forEach(match=>{
-
-container.innerHTML+=`
-<div class="match">
-${match.home_team} vs ${match.away_team}
-</div>
-`;
-
-});
-
-}
-
-async function getTransfers(){
-
-const res = await fetch(`http://api.isportsapi.com/sport/football/transfers?api_key=${API_KEY}`);
-const data = await res.json();
-
-const container = document.getElementById("transfers");
-container.innerHTML="";
-
-if(!data.data) return;
-
-data.data.slice(0,10).forEach(t=>{
-
-container.innerHTML+=`
-<div class="match">
-${t.player} → ${t.to_team}
-</div>
-`;
-
-});
-
-}
-
-getLiveMatches();
-getTodayMatches();
-getTransfers();
-
-</script>
 
 </body>
 </html>
