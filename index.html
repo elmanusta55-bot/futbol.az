@@ -1,49 +1,43 @@
 <!DOCTYPE html>
 <html lang="az">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>⚽ Futbol Live</title>
+<title>⚽ Live Futbol</title>
 
 <style>
 
 body{
 background:#0b1c2c;
 font-family:Arial;
-color:white;
 margin:0;
 padding:20px;
+color:white;
 }
 
 header{
-background:#1e2f45;
-padding:15px;
-border-radius:10px;
 text-align:center;
 margin-bottom:20px;
 }
 
 h1{
-margin:0;
 color:#4fc3f7;
 }
 
 .card{
 background:#1e2f45;
 padding:20px;
-margin-bottom:20px;
 border-radius:10px;
+margin-bottom:20px;
 }
 
 .match{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:10px;
+background:#0f2a44;
+padding:12px;
 margin:8px 0;
-background:#0b1c2c;
 border-radius:8px;
 }
 
@@ -52,31 +46,19 @@ font-weight:bold;
 }
 
 .score{
-font-size:18px;
+font-size:20px;
 color:#f1c40f;
 font-weight:bold;
 }
 
 .status{
-font-size:12px;
+font-size:13px;
 color:#2ecc71;
-}
-
-.btn{
-background:#4fc3f7;
-color:black;
-border:none;
-padding:6px 10px;
-border-radius:6px;
-font-weight:bold;
-cursor:pointer;
-text-decoration:none;
 }
 
 </style>
 
 </head>
-
 <body>
 
 <header>
@@ -87,18 +69,7 @@ text-decoration:none;
 
 <h2>🔴 Canlı Oyunlar</h2>
 
-<div id="live-scores">
-Yüklənir...
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>📅 Günün Oyunları</h2>
-
-<div id="todayMatches">
+<div id="live">
 Yüklənir...
 </div>
 
@@ -110,23 +81,25 @@ Yüklənir...
 const API_TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVsbWFudXN0YTU1QGdtYWlsLmNvbSIsInRpZXIiOiJmcmVlIiwidXNlcklkIjoiNnd6WVdpYkdFaFg2YWg1OEtrV1FnVnVlcE95MiIsImlhdCI6MTc3Mjg4NzU0OCwiZXhwIjoxODA0NDIzNTQ4fQ.24PFI20zY9RY-8qOOxfdrie3BdvBSxrVhvB5ZyrwPVU"
 
 
-async function loadLiveScores(){
+async function loadLive(){
 
-const box=document.getElementById("live-scores")
+const box=document.getElementById("live")
 
 try{
 
-const res=await fetch("https://api.realtimesportsapi.com/v1/football/live",{
+const res=await fetch("https://realtimesportsapi.com/api/v1/sports/football/leagues/nfl/events/live",{
+
 headers:{
 "Authorization":"Bearer "+API_TOKEN
 }
+
 })
 
 const data=await res.json()
 
 box.innerHTML=""
 
-if(!data.matches){
+if(!data.events){
 
 box.innerHTML="Canlı oyun yoxdur"
 
@@ -134,21 +107,19 @@ return
 
 }
 
-data.matches.forEach(m=>{
+data.events.forEach(game=>{
 
 box.innerHTML+=`
 
 <div class="match">
 
-<div class="team">${m.home_team}</div>
+<div class="team">${game.homeTeam?.name}</div>
 
-<div class="score">${m.home_score} - ${m.away_score}</div>
+<div class="score">${game.homeScore ?? 0} - ${game.awayScore ?? 0}</div>
 
-<div class="team">${m.away_team}</div>
+<div class="team">${game.awayTeam?.name}</div>
 
-<div class="status">${m.status}</div>
-
-<a href="${m.watch_link}" target="_blank" class="btn">İzlə</a>
+<div class="status">${game.status ?? ""}</div>
 
 </div>
 
@@ -156,7 +127,7 @@ box.innerHTML+=`
 
 })
 
-}catch{
+}catch(e){
 
 box.innerHTML="Oyunlar yüklənmədi"
 
@@ -164,71 +135,9 @@ box.innerHTML="Oyunlar yüklənmədi"
 
 }
 
+loadLive()
 
-
-async function loadTodayMatches(){
-
-const box=document.getElementById("todayMatches")
-
-try{
-
-const today=new Date().toISOString().slice(0,10)
-
-const res=await fetch(`https://api.realtimesportsapi.com/v1/football/fixtures?date=${today}`,{
-
-headers:{
-"Authorization":"Bearer "+API_TOKEN
-}
-
-})
-
-const data=await res.json()
-
-box.innerHTML=""
-
-if(!data.matches){
-
-box.innerHTML="Bugün oyun yoxdur"
-
-return
-
-}
-
-data.matches.forEach(m=>{
-
-box.innerHTML+=`
-
-<div class="match">
-
-<div class="team">${m.home_team}</div>
-
-<div class="score">vs</div>
-
-<div class="team">${m.away_team}</div>
-
-<div class="status">${m.time}</div>
-
-<a href="${m.watch_link}" target="_blank" class="btn">İzlə</a>
-
-</div>
-
-`
-
-})
-
-}catch{
-
-box.innerHTML="Oyunlar yüklənmədi"
-
-}
-
-}
-
-
-loadLiveScores()
-loadTodayMatches()
-
-setInterval(loadLiveScores,30000)
+setInterval(loadLive,30000)
 
 </script>
 
