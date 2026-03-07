@@ -1,145 +1,98 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>⚽ Live Futbol</title>
-
-<style>
-
-body{
-background:#0b1c2c;
-font-family:Arial;
-margin:0;
-padding:20px;
-color:white;
-}
-
-header{
-text-align:center;
-margin-bottom:20px;
-}
-
-h1{
-color:#4fc3f7;
-}
-
-.card{
-background:#1e2f45;
-padding:20px;
-border-radius:10px;
-margin-bottom:20px;
-}
-
-.match{
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:#0f2a44;
-padding:12px;
-margin:8px 0;
-border-radius:8px;
-}
-
-.team{
-font-weight:bold;
-}
-
-.score{
-font-size:20px;
-color:#f1c40f;
-font-weight:bold;
-}
-
-.status{
-font-size:13px;
-color:#2ecc71;
-}
-
-</style>
-
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q79WE0TMKH"></script> 
+    <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-Q79WE0TMKH'); </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8330893952904159" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futbol.Az - iSports API Canlı</title>
+    <style>
+        :root { --main: #00ff88; --bg: #0b1c2c; --card: #1e2f45; --text: #ffffff; }
+        body { background: var(--bg); font-family: Arial; color: var(--text); padding: 20px; text-align: center; }
+        .card { background: var(--card); padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #4fc3f7; }
+        .score-num { font-size: 40px; color: #f1c40f; font-weight: bold; }
+        .btn { background: #4fc3f7; color: #000; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin: 5px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th { background: #0b1c2c; padding: 10px; color: #4fc3f7; }
+        td { padding: 10px; border-bottom: 1px solid #333; }
+    </style>
 </head>
 <body>
 
-<header>
-<h1>⚽ Futbol Canlı Hesablar</h1>
-</header>
+    <div class="card">
+        <h2 style="color:#4fc3f7;">📊 ŞƏXSİ BALANS</h2>
+        <div class="score-num" id="u-bal">0</div>
+        <p>Gündəlik Şans: <span id="ch-val">3</span></p>
+        <input type="text" id="promo-in" placeholder="Promokod" style="padding:10px; border-radius:5px; border:none;">
+        <button class="btn" onclick="usePromo()">OK</button>
+    </div>
 
-<div class="card">
+    <div class="card">
+        <h2 style="color:#4fc3f7;">🏆 CANLI CƏDVƏL (iSports API)</h2>
+        <div id="standings-api">Yüklənir... 📡</div>
+    </div>
 
-<h2>🔴 Canlı Oyunlar</h2>
+    <div class="card">
+        <h2>🧤 PENALTİ OYUNU</h2>
+        <p id="game-msg">Atış et!</p>
+        <button class="btn" onclick="play('SOL')">SOL</button>
+        <button class="btn" onclick="play('MƏRKƏZ')">MƏRKƏZ</button>
+        <button class="btn" onclick="play('SAĞ')">SAĞ</button>
+    </div>
 
-<div id="live">
-Yüklənir...
-</div>
+    <div class="card">
+        <h2>🔴 CANLI HESABLAR</h2>
+        <iframe src="https://www.scorebat.com/embed/livescore/" style="width:100%; height:500px; border:none;"></iframe>
+    </div>
 
-</div>
+    <script>
+        // Sənin iSports API kodun bura yerləşdirildi
+        const MY_API_KEY = "VWu2sDl43xzsqIX3"; 
 
+        async function fetchStandings() {
+            const box = document.getElementById('standings-api');
+            try {
+                // Azərbaycan Premyer Liqası üçün iSports API istəyi
+                const res = await fetch(`https://api.isportsapi.com/sport/football/standing?api_key=${MY_API_KEY}&leagueId=297`);
+                const result = await response.json();
+                if(result.code === 0) {
+                    let html = "<table><tr><th>#</th><th>Komanda</th><th>Xal</th></tr>";
+                    result.data.slice(0, 5).forEach(t => {
+                        html += `<tr><td>${t.rank}</td><td>${t.teamName}</td><td>${t.points}</td></tr>`;
+                    });
+                    box.innerHTML = html + "</table>";
+                } else { box.innerHTML = "Məlumat tapılmadı. (Qarabağ 55 xal)"; }
+            } catch (e) { box.innerHTML = "API Serverinə bağlanmaq olmur."; }
+        }
 
-<script>
+        // Oyun və Balans sistemi
+        let xal = localStorage.getItem('s_xal') ? parseInt(localStorage.getItem('s_xal')) : 0;
+        let sans = localStorage.getItem('s_sans') ? parseInt(localStorage.getItem('s_sans')) : 3;
 
-const API_TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVsbWFudXN0YTU1QGdtYWlsLmNvbSIsInRpZXIiOiJmcmVlIiwidXNlcklkIjoiNnd6WVdpYkdFaFg2YWg1OEtrV1FnVnVlcE95MiIsImlhdCI6MTc3Mjg4NzU0OCwiZXhwIjoxODA0NDIzNTQ4fQ.24PFI20zY9RY-8qOOxfdrie3BdvBSxrVhvB5ZyrwPVU"
+        function updateUI() {
+            document.getElementById('u-bal').innerText = xal;
+            document.getElementById('ch-val').innerText = sans;
+            localStorage.setItem('s_xal', xal);
+            localStorage.setItem('s_sans', sans);
+        }
 
+        function play(t) {
+            if(sans <= 0) { alert("Şansın bitdi!"); return; }
+            sans--;
+            let g = ['SOL', 'MƏRKƏZ', 'SAĞ'][Math.floor(Math.random()*3)];
+            if(t !== g) { xal += 100; document.getElementById('game-msg').innerText = "⚽ QOL! +100"; }
+            else { document.getElementById('game-msg').innerText = "❌ TUTDU!"; }
+            updateUI();
+        }
 
-async function loadLive(){
+        function usePromo() {
+            let p = document.getElementById('promo-in').value.toUpperCase();
+            if(p === "ELMANUSTA") { xal += 2000; updateUI(); alert("🎁 +2000 XAL!"); }
+        }
 
-const box=document.getElementById("live")
-
-try{
-
-const res=await fetch("https://realtimesportsapi.com/api/v1/sports/football/leagues/nfl/events/live",{
-
-headers:{
-"Authorization":"Bearer "+API_TOKEN
-}
-
-})
-
-const data=await res.json()
-
-box.innerHTML=""
-
-if(!data.events){
-
-box.innerHTML="Canlı oyun yoxdur"
-
-return
-
-}
-
-data.events.forEach(game=>{
-
-box.innerHTML+=`
-
-<div class="match">
-
-<div class="team">${game.homeTeam?.name}</div>
-
-<div class="score">${game.homeScore ?? 0} - ${game.awayScore ?? 0}</div>
-
-<div class="team">${game.awayTeam?.name}</div>
-
-<div class="status">${game.status ?? ""}</div>
-
-</div>
-
-`
-
-})
-
-}catch(e){
-
-box.innerHTML="Oyunlar yüklənmədi"
-
-}
-
-}
-
-loadLive()
-
-setInterval(loadLive,30000)
-
-</script>
-
+        window.onload = function() { updateUI(); fetchStandings(); };
+    </script>
 </body>
 </html>
+
