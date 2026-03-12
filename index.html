@@ -5,14 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Futbol.Az - Canlı API Portal</title>
 <style>
-body { background:#0b1c2c; font-family:Arial, sans-serif; color:white; padding:20px; margin: 0; }
-.card { background:#1e2f45; padding:20px; margin-bottom:20px; border-radius:10px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-h2 { color:#4fc3f7; margin-top: 0; border-bottom: 2px solid #0b1c2c; padding-bottom: 10px; }
-.btn { background: #4fc3f7; color: #000; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; margin: 5px; text-decoration: none; display: inline-block; }
-.score-row { background: #0b1c2c; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #4fc3f7; }
-#profile-card { border: 2px solid #4fc3f7; text-align: center; }
-.score-text { font-size: 40px; font-weight: bold; color: #f1c40f; }
-.promo-input { padding: 12px; border-radius: 8px; border: 1px solid #4fc3f7; background: #0b1c2c; color: #fff; text-transform: uppercase; width: 60%; }
+    /* Sənin sevdiyin göy dizayn */
+    body { background:#0b1c2c; font-family:Arial, sans-serif; color:white; padding:20px; margin: 0; }
+    .card { background:#1e2f45; padding:20px; margin-bottom:20px; border-radius:10px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+    h2 { color:#4fc3f7; margin-top: 0; border-bottom: 2px solid #0b1c2c; padding-bottom: 10px; }
+    .btn { background: #4fc3f7; color: #000; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; margin: 5px; text-decoration: none; display: inline-block; }
+    .btn-gold { background: #f1c40f; }
+    .score-row { background: #0b1c2c; padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #4fc3f7; font-size: 14px; }
+    
+    /* Profil vizualı */
+    #profile-card { border: 2px solid #4fc3f7; text-align: center; transition: 0.5s; }
+    .score-text { font-size: 38px; font-weight: bold; color: #f1c40f; margin: 10px 0; }
+    .promo-input { padding: 12px; border-radius: 8px; border: 1px solid #4fc3f7; background: #0b1c2c; color: #fff; text-transform: uppercase; width: 60%; outline: none; }
 </style>
 </head>
 <body>
@@ -20,24 +24,26 @@ h2 { color:#4fc3f7; margin-top: 0; border-bottom: 2px solid #0b1c2c; padding-bot
     <div class="card" id="profile-card">
         <h2>MƏNİM PROFİLİM <span id="profile-badges"></span></h2>
         <div class="score-text" id="score-ui">0</div>
-        <p>Qalan şans: <span id="chances-ui">3</span></p>
+        <p style="color: #aaa;">Qalan şans: <span id="chances-ui" style="color:#ff4757; font-weight:bold;">3</span></p>
         <div style="margin-top: 15px;">
-            <input type="text" id="promo-input" class="promo-input" placeholder="ELMANUSTA">
-            <button class="btn" style="background:#f1c40f" onclick="promoYoxla()">TƏSDİQLƏ</button>
+            <input type="text" id="promo-input" class="promo-input" placeholder="Kodu bura yaz">
+            <button class="btn btn-gold" onclick="promoYoxla()">TƏSDİQLƏ</button>
         </div>
     </div>
 
     <div class="card">
         <h2>🔥 CANLI OYUNLAR (API)</h2>
-        <div id="live-scores"><p style="color:#aaa;">Məlumatlar yüklənir... 📡</p></div>
+        <div id="live-scores"><p style="color:#aaa;">Canlı məlumatlar yüklənir... 📡</p></div>
     </div>
 
     <div class="card" style="text-align:center;">
         <h2>🧤 PENALTİ YARIŞI</h2>
-        <p id="msg-ui">Qapıçını aldat!</p>
-        <button class="btn" onclick="oyna('SOL')">SOL</button>
-        <button class="btn" onclick="oyna('MƏRKƏZ')">MƏRKƏZ</button>
-        <button class="btn" onclick="oyna('SAĞ')">SAĞ</button>
+        <p id="msg-ui" style="font-weight:bold; color:#ccc; height:20px;">Topu küncə vur!</p>
+        <div style="display:flex; justify-content:center; gap:5px;">
+            <button class="btn" onclick="oyna('SOL')">SOL</button>
+            <button class="btn" onclick="oyna('MƏRKƏZ')">MƏRKƏZ</button>
+            <button class="btn" onclick="oyna('SAĞ')">SAĞ</button>
+        </div>
     </div>
 
     <div class="card">
@@ -46,25 +52,26 @@ h2 { color:#4fc3f7; margin-top: 0; border-bottom: 2px solid #0b1c2c; padding-bot
             <div style="background:#0b1c2c; padding:15px; border-radius:8px; text-align:center;">
                 <div style="font-size:30px;">👕</div>
                 <h4>Qarabağ Forması</h4>
-                <button class="btn" id="btn-qarabag" onclick="al('qarabag', 1000)">1000 XAL</button>
+                <button class="btn btn-gold" id="btn-qarabag" onclick="al('qarabag', 1000)">1000 XAL</button>
             </div>
             <div style="background:#0b1c2c; padding:15px; border-radius:8px; text-align:center;">
                 <div style="font-size:30px;">👑</div>
                 <h4>VİP Status</h4>
-                <button class="btn" id="btn-vip" onclick="al('vip', 5000)">5000 XAL</button>
+                <button class="btn btn-gold" id="btn-vip" onclick="al('vip', 5000)">5000 XAL</button>
             </div>
         </div>
     </div>
 
     <div class="card">
         <h2>🔴 Canlı Hesablar (Widget)</h2>
-        <iframe src="https://www.scorebat.com/embed/livescore/" style="width:100%; height:500px; border:none;"></iframe>
+        <iframe src="https://www.scorebat.com/embed/livescore/" style="width:100%; height:500px; border:none; border-radius:8px;"></iframe>
     </div>
 
     <script>
+        // Sənin RealTimeSportsAPI açarın
         const API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVsbWFudXN0YTU1QGdtYWlsLmNvbSIsInRpZXIiOiJmcmVlIiwidXNlcklkIjoiNnd6WVdpYkdFaFg2YWg1OEtrV1FnVnVlcE95MiIsImlhdCI6MTc3Mjg4NzU0OCwiZXhwIjoxODA0NDIzNTQ4fQ.24PFI20zY9RY-8qOOxfdrie3BdvBSxrVhvB5ZyrwPVU";
 
-        // API-DƏN CANLI OYUNLARI ÇƏKMƏK
+        // API-DƏN CANLI OYUNLAR ÇƏKMƏK
         async function loadLiveScores() {
             const liveCard = document.getElementById('live-scores');
             try {
@@ -80,36 +87,38 @@ h2 { color:#4fc3f7; margin-top: 0; border-bottom: 2px solid #0b1c2c; padding-bot
                 data.matches.forEach(m => {
                     const div = document.createElement('div');
                     div.className = 'score-row';
-                    div.innerHTML = `
-                        <span>⚽ ${m.home_team} <b>${m.home_score} - ${m.away_score}</b> ${m.away_team}</span>
-                        <span style="color:#4fc3f7;">${m.status}'</span>
-                    `;
+                    div.innerHTML = `<span>⚽ ${m.home_team} <b>${m.home_score} - ${m.away_score}</b> ${m.away_team}</span> <span style="color:#4fc3f7;">${m.status}'</span>`;
                     liveCard.appendChild(div);
                 });
             } catch (e) {
-                liveCard.innerHTML = "<p style='color:#ff4757;'>API bağlantısı uğursuz oldu.</p>";
+                liveCard.innerHTML = "<p style='color:#ff4757;'>API bağlantısı alınmadı.</p>";
             }
         }
 
-        // OYUN VƏ BALANS SİSTEMİ
+        // BALANS VƏ OYUN SİSTEMİ
         let xal = localStorage.getItem('e_xal') ? parseInt(localStorage.getItem('e_xal')) : 0;
         let sans = localStorage.getItem('e_sans') ? parseInt(localStorage.getItem('e_sans')) : 3;
         let esyalar = localStorage.getItem('e_esya') ? JSON.parse(localStorage.getItem('e_esya')) : [];
-        let istifadeOlunanPromolar = localStorage.getItem('e_promo') ? JSON.parse(localStorage.getItem('e_promo')) : [];
+        let usedPromos = localStorage.getItem('e_promo') ? JSON.parse(localStorage.getItem('e_promo')) : [];
 
         function ekraniYenile() {
             document.getElementById('score-ui').innerText = xal.toLocaleString();
             document.getElementById('chances-ui').innerText = sans;
             
             let profilKarti = document.getElementById('profile-card');
+            let badges = document.getElementById('profile-badges');
+            
             if(esyalar.includes('qarabag')) {
-                document.getElementById('profile-badges').innerText = "👕";
+                badges.innerText = "👕";
                 document.getElementById('btn-qarabag').innerText = "GEYİNİLDİ ✅";
+                document.getElementById('btn-qarabag').disabled = true;
             }
             if(esyalar.includes('vip')) {
+                badges.innerText += "👑";
                 profilKarti.style.background = "linear-gradient(135deg, #d4af37, #f1c40f)";
                 profilKarti.style.color = "#000";
                 document.getElementById('btn-vip').innerText = "VİP AKTİVDİR ✅";
+                document.getElementById('btn-vip').disabled = true;
             }
 
             localStorage.setItem('e_xal', xal);
@@ -118,37 +127,41 @@ h2 { color:#4fc3f7; margin-top: 0; border-bottom: 2px solid #0b1c2c; padding-bot
         }
 
         function oyna(teref) {
-            if(sans <= 0) { alert("Şansın bitdi!"); return; }
+            if(sans <= 0) { alert("Şansın bitib!"); return; }
             sans--;
-            let qapici = ['SOL', 'MƏRKƏZ', 'SAĞ'][Math.floor(Math.random() * 3)];
-            if(teref !== qapici) {
+            let gk = ['SOL', 'MƏRKƏZ', 'SAĞ'][Math.floor(Math.random() * 3)];
+            if(teref !== gk) {
                 xal += 100;
                 document.getElementById('msg-ui').innerText = "⚽ QOL! +100";
+                document.getElementById('msg-ui').style.color = "#2ecc71";
             } else {
                 document.getElementById('msg-ui').innerText = "❌ TUTDU!";
+                document.getElementById('msg-ui').style.color = "#ff4757";
             }
             ekraniYenile();
         }
 
         function promoYoxla() {
             let kod = document.getElementById('promo-input').value.trim().toUpperCase();
-            if(kod === "ELMANUSTA" && !istifadeOlunanPromolar.includes(kod)) {
+            if(kod === "ELMANUSTA" && !usedPromos.includes(kod)) {
                 xal += 20000000;
-                istifadeOlunanPromolar.push(kod);
-                localStorage.setItem('e_promo', JSON.stringify(istifadeOlunanPromolar));
+                usedPromos.push(kod);
+                localStorage.setItem('e_promo', JSON.stringify(usedPromos));
                 ekraniYenile();
                 alert("🎁 20.000.000 XAL qazandın!");
-            }
+            } else { alert("Yanlış kod!"); }
         }
 
         function al(id, qiymet) {
-            if(xal >= qiymet && !esyalar.includes(id)) {
+            if(xal >= qiymet) {
                 xal -= qiymet;
                 esyalar.push(id);
                 ekraniYenile();
-            }
+                alert("Məhsul aktivləşdi!");
+            } else { alert("Xalın çatmır!"); }
         }
 
+        // Başlat
         loadLiveScores();
         setInterval(loadLiveScores, 30000);
         ekraniYenile();
