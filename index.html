@@ -21,7 +21,6 @@
         .score-val { font-size: 48px; font-weight: 900; color: #ffcc00; text-shadow: 0 0 15px rgba(255, 204, 0, 0.4); text-align: center; margin: 10px 0; }
         .promo-input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: #000; color: #fff; text-align: center; font-weight: bold; margin-bottom: 10px; outline: none; box-sizing: border-box; }
         
-        /* Yenilənmiş Live Match dizaynı */
         .live-match { background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; border-left: 3px solid var(--neon-green); display: flex; flex-direction: column; margin-bottom: 8px; font-size: 14px; cursor: pointer; transition: 0.3s; }
         .live-match:hover { background: rgba(0, 255, 204, 0.1); }
         .match-info { display: flex; justify-content: space-between; align-items: center; width: 100%; }
@@ -30,11 +29,9 @@
         .time-block { background: #000; padding: 10px; border-radius: 8px; border: 1px solid #333; }
         .locked-content { display: none; margin-top: 20px; }
 
-        /* Qollar bölməsi üçün stil */
         .goal-details { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #444; color: #ffcc00; font-size: 13px; animation: slideDown 0.3s ease; }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Cədvəl üslubu */
         .data-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 5px; }
         .data-table th { color: var(--neon-green); text-align: left; border-bottom: 1px solid #333; padding: 5px; }
         .data-table td { padding: 8px 5px; border-bottom: 1px solid #222; }
@@ -56,6 +53,15 @@
         <div class="card">
             <div class="card-header"><i class="fas fa-list-ol"></i> PREMYER LİQA CƏDVƏLİ</div>
             <div id="standings-box" style="overflow-x: auto;">⏳ Cədvəl yüklənir...</div>
+        </div>
+
+        <div class="card" style="border: 2px dashed var(--neon-green);">
+            <div class="card-header"><i class="fas fa-clapperboard"></i> EDİT YARIŞI - QOŞUL</div>
+            <p style="font-size: 14px; color: #ccc;">Video linkini göndər, 4000 nəfərlik kanalda qalib ol! 🏆</p>
+            <input type="text" id="editor-name" class="promo-input" placeholder="Adın və ya Ləqəbin">
+            <input type="text" id="video-link" class="promo-input" placeholder="Video Linki (TikTok, YT, Drive)">
+            <button class="btn-premium" onclick="yarisaQosul()" style="background: var(--gold-gradient); color:#000;"><i class="fab fa-whatsapp"></i> YARIŞA GÖNDƏR</button>
+            <div id="yarish-status" style="margin-top:10px; font-size:12px; text-align:center;"></div>
         </div>
 
         <div class="card" style="text-align:center;">
@@ -86,67 +92,7 @@
                 </div>
             </div>
         </div>
-
-        <div id="vip-zona" class="locked-content">
-            <div class="card" style="border: 2px solid #ffcc00; background: rgba(212, 175, 55, 0.1);">
-                <h2 style="color:#ffcc00; text-align:center;"><i class="fas fa-crown"></i> VİP PANEL AKTİVDİR</h2>
-                <p style="text-align:center;">Xüsusi İmarət Media xəbərləri bura yüklənəcək.</p>
-            </div>
-        </div>
     </div>
-    <div class="card" style="border: 2px dashed var(--neon-green); position: relative; overflow: hidden;">
-    <div class="card-header">
-        <i class="fas fa-clapperboard"></i> EDİT YARIŞI - QOŞUL
-    </div>
-    
-    <div style="margin-bottom: 15px;">
-        <p style="font-size: 14px; color: #ccc; line-height: 1.4;">
-            Ən yaxşı futbol editini hazırla, YouTube, TikTok və ya Drive-a yüklə və linkini göndər. 
-            Qalibi 4000 nəfərlik <b>FUTBOL.AZ</b> kanalında seçəcəyik! 🏆
-        </p>
-    </div>
-
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-        <input type="text" id="editor-name" class="promo-input" placeholder="Adın və ya Ləqəbin" style="margin: 0;">
-        <input type="text" id="video-link" class="promo-input" placeholder="Video Linki (TikTok, YT, Drive)" style="margin: 0;">
-        
-        <button class="btn-premium" onclick="yarisaQosul()" style="background: var(--gold-gradient); color: #000;">
-            <i class="fab fa-whatsapp"></i> YARIŞA GÖNDƏR
-        </button>
-    </div>
-
-    <div id="yarish-status" style="margin-top:10px; font-size:12px; text-align:center; font-weight: bold;"></div>
-</div>
-
-<script>
-    function yarisaQosul() {
-        const ad = document.getElementById('editor-name').value.trim();
-        const link = document.getElementById('video-link').value.trim();
-        const status = document.getElementById('yarish-status');
-
-        if(ad === "" || link === "") {
-            alert("Zəhmət olmasa adınızı və video linkini daxil edin!");
-            return;
-        }
-
-        // Sənin nömrən bura əlavə olundu:
-        const menimNomrem = "994555266848"; 
-        
-        const mesaj = `🔥 *FUTBOL.AZ - EDİT YARIŞI* 🔥%0A%0A👤 *İştirakçı:* ${ad}%0A🔗 *Video Linki:* ${link}%0A%0A_Yarışda uğurlar!_`;
-        
-        const wpUrl = `https://wa.me/${menimNomrem}?text=${mesaj}`;
-        
-        status.innerHTML = "⏳ WhatsApp-a yönləndirilir...";
-        status.style.color = "#ffcc00";
-        
-        setTimeout(() => {
-            window.open(wpUrl, '_blank');
-            status.innerHTML = "✅ Mesaj hazırlandı!";
-            status.style.color = "var(--neon-green)";
-        }, 1200);
-    }
-</script>
-    
 
     <div class="right-content">
         <div class="card" id="profile-card">
@@ -176,7 +122,6 @@
 
 <script>
     const API_KEY = "fec1d6442eecf700eeba226821657bd3";
-    
     let xal = parseInt(localStorage.getItem('xal')) || 0;
     let sans = parseInt(localStorage.getItem('sans')) || 3;
     let esyalar = JSON.parse(localStorage.getItem('inv')) || [];
@@ -188,17 +133,14 @@
         document.getElementById('sans-ui').innerText = sans;
         let bUI = document.getElementById('badge-ui');
         let card = document.getElementById('profile-card');
-        
         bUI.innerText = "";
         if(esyalar.includes('qarabag')) { bUI.innerText += " 👕"; }
         if(esyalar.includes('vip')) { 
             bUI.innerText += " 👑"; 
             card.style.background = "linear-gradient(135deg, #d4af37, #ffcc00)";
             card.style.color = "#000";
-            document.getElementById('vip-zona').style.display = "block";
         }
         if(esyalar.includes('ball')) { bUI.innerText += " ⚽"; }
-
         localStorage.setItem('xal', xal);
         localStorage.setItem('sans', sans);
         localStorage.setItem('inv', JSON.stringify(esyalar));
@@ -208,43 +150,26 @@
         const box = document.getElementById('api-box');
         try {
             const response = await fetch("https://v3.football.api-sports.io/fixtures?live=all", {
-                "method": "GET",
-                "headers": {
-                    "x-rapidapi-host": "v3.football.api-sports.io",
-                    "x-rapidapi-key": API_KEY
-                }
+                "headers": { "x-rapidapi-host": "v3.football.api-sports.io", "x-rapidapi-key": API_KEY }
             });
             const data = await response.json();
             liveMatches = data.response || []; 
-            
-            box.innerHTML = "";
-            if(liveMatches.length === 0) {
-                box.innerHTML = "<p style='text-align:center;'>Hazırda canlı oyun yoxdur.</p>";
-                return;
-            }
-
+            box.innerHTML = liveMatches.length === 0 ? "Canlı oyun yoxdur." : "";
             liveMatches.forEach(item => {
-                const fixture = item.fixture;
-                const goals = item.goals;
-                const teams = item.teams;
-                
                 box.innerHTML += `
-                    <div class="live-match" onclick="toggleDetails(${fixture.id})">
+                    <div class="live-match" onclick="toggleDetails(${item.fixture.id})">
                         <div class="match-info">
-                            <img src="${teams.home.logo}" width="20"> 
-                            <span>${teams.home.name} <b>${goals.home}-${goals.away}</b> ${teams.away.name}</span>
-                            <img src="${teams.away.logo}" width="20">
-                            <span style="color:var(--neon-green); font-weight:bold; margin-left:10px;">${fixture.status.elapsed}'</span>
+                            <img src="${item.teams.home.logo}" width="20"> 
+                            <span>${item.teams.home.name} <b>${item.goals.home}-${item.goals.away}</b> ${item.teams.away.name}</span>
+                            <img src="${item.teams.away.logo}" width="20">
+                            <span style="color:var(--neon-green);">${item.fixture.status.elapsed}'</span>
                         </div>
-                        <div id="details-${fixture.id}" class="goal-details"></div>
+                        <div id="details-${item.fixture.id}" class="goal-details"></div>
                     </div>`;
             });
-        } catch (error) {
-            box.innerHTML = "API Xətası: Qoşulma yoxdur.";
-        }
+        } catch (e) { box.innerHTML = "API Xətası."; }
     }
 
-    // YENİ: TURNİR CƏDVƏLİNİ GƏTİRƏN FUNKSİYA (Azərbaycan Liqası ID: 303)
     async function cədvəlCek() {
         const box = document.getElementById('standings-box');
         try {
@@ -253,22 +178,14 @@
             });
             const data = await res.json();
             const standings = data.response[0].league.standings[0];
-            
-            let html = `<table class="data-table"><tr><th>#</th><th>Komanda</th><th>O</th><th>Q-H-M</th><th>X</th></tr>`;
+            let html = `<table class="data-table"><tr><th>#</th><th>Komanda</th><th>O</th><th>X</th></tr>`;
             standings.forEach(s => {
-                html += `<tr>
-                    <td>${s.rank}</td>
-                    <td><img src="${s.team.logo}" width="15"> ${s.team.name}</td>
-                    <td>${s.all.played}</td>
-                    <td>${s.all.win}-${s.all.draw}-${s.all.lose}</td>
-                    <td style="color:#ffcc00; font-weight:bold;">${s.points}</td>
-                </tr>`;
+                html += `<tr><td>${s.rank}</td><td><img src="${s.team.logo}" width="15"> ${s.team.name}</td><td>${s.all.played}</td><td style="color:#ffcc00;">${s.points}</td></tr>`;
             });
             box.innerHTML = html + "</table>";
-        } catch (e) { box.innerHTML = "Cədvəl API limiti və ya xəta."; }
+        } catch (e) { box.innerHTML = "Cədvəl API limiti."; }
     }
 
-    // YENİ: BOMBARDİRLƏRİ GƏTİRƏN FUNKSİYA
     async function bombardirCek() {
         const box = document.getElementById('scorers-box');
         try {
@@ -276,61 +193,41 @@
                 "headers": { "x-rapidapi-host": "v3.football.api-sports.io", "x-rapidapi-key": API_KEY }
             });
             const data = await res.json();
-            
-            let html = `<table class="data-table"><tr><th>Oyunçu</th><th>Klub</th><th>Qol</th></tr>`;
+            let html = `<table class="data-table">`;
             data.response.slice(0, 5).forEach(p => {
-                html += `<tr>
-                    <td>${p.player.name}</td>
-                    <td><img src="${p.statistics[0].team.logo}" width="12"></td>
-                    <td style="color:var(--neon-green); font-weight:bold;">${p.statistics[0].goals.total}</td>
-                </tr>`;
+                html += `<tr><td>${p.player.name}</td><td style="color:var(--neon-green);">${p.statistics[0].goals.total}</td></tr>`;
             });
             box.innerHTML = html + "</table>";
         } catch (e) { box.innerHTML = "Xəta."; }
     }
 
-    function toggleDetails(id) {
-        const detailDiv = document.getElementById(`details-${id}`);
-        if (detailDiv.style.display === "block") {
-            detailDiv.style.display = "none";
-            return;
-        }
-        const match = liveMatches.find(m => m.fixture.id === id);
-        let goalText = "";
-        if (match && match.events) {
-            match.events.forEach(ev => {
-                if (ev.type === "Goal") {
-                    goalText += `⚽ ${ev.time.elapsed}' ${ev.player.name || ''} (${ev.team.name})<br>`;
-                }
-            });
-        }
-        detailDiv.innerHTML = goalText || "Qol məlumatı tapılmadı.";
-        detailDiv.style.display = "block";
+    function yarisaQosul() {
+        const ad = document.getElementById('editor-name').value;
+        const link = document.getElementById('video-link').value;
+        if(!ad || !link) { alert("Doldurun!"); return; }
+        const wpUrl = `https://wa.me/994555266848?text=🔥 *EDİT YARIŞI*%0A👤 Ad: ${ad}%0A🔗 Video: ${link}`;
+        window.open(wpUrl, '_blank');
     }
 
     function oyna(t) {
-        if(sans <= 0) { alert("Şans bitdi!"); return; }
-        sans--;
+        if(sans <= 0) return; sans--;
         let gk = ['SOL','MƏRKƏZ','SAĞ'][Math.floor(Math.random()*3)];
-        let msg = document.getElementById('game-msg');
-        if(t !== gk) { xal += 100; msg.innerText = "⚽ QOL! +100"; msg.style.color = "#00ffcc"; }
-        else { msg.innerText = "❌ TUTDU!"; msg.style.color = "#ff4757"; }
+        if(t !== gk) { xal += 100; document.getElementById('game-msg').innerText = "⚽ QOL!"; }
+        else { document.getElementById('game-msg').innerText = "❌ TUTDU!"; }
         uiYenile();
     }
 
     function al(id, p) {
-        if(esyalar.includes(id)) { alert("Artıq almısan!"); return; }
-        if(xal >= p) { xal -= p; esyalar.push(id); uiYenile(); alert("Uğurla alındı!"); }
-        else { alert("Xalın çatmır!"); }
+        if(xal >= p && !esyalar.includes(id)) { xal -= p; esyalar.push(id); uiYenile(); }
     }
 
     function promoIslet() {
-        let val = document.getElementById('promo-input').value.trim().toUpperCase();
+        let val = document.getElementById('promo-input').value.toUpperCase();
         if(val === "ELMANUSTA" && !usedPromos.includes(val)) {
             xal += 1000000000; usedPromos.push(val);
             localStorage.setItem('promos', JSON.stringify(usedPromos));
-            uiYenile(); alert("🎁 1 Milyard XAL!");
-        } else { alert("Keçərsiz kod!"); }
+            uiYenile();
+        }
     }
 
     function axtar() {
@@ -339,13 +236,8 @@
         for (let item of list) { item.style.display = item.innerText.toLowerCase().includes(input) ? "flex" : "none"; }
     }
 
-    setInterval(apiCek, 60000); 
-    window.onload = () => { 
-        uiYenile(); 
-        apiCek(); 
-        cədvəlCek(); 
-        bombardirCek(); 
-    };
+    setInterval(apiCek, 60000);
+    window.onload = () => { uiYenile(); apiCek(); cədvəlCek(); bombardirCek(); };
 </script>
 </body>
 </html>
