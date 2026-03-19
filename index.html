@@ -20,10 +20,19 @@
         .btn-outline { background: transparent; border: 2px solid var(--neon-green); color: var(--neon-green); box-shadow: none; margin: 5px; width: auto; min-width: 80px; }
         .score-val { font-size: 48px; font-weight: 900; color: #ffcc00; text-shadow: 0 0 15px rgba(255, 204, 0, 0.4); text-align: center; margin: 10px 0; }
         .promo-input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: #000; color: #fff; text-align: center; font-weight: bold; margin-bottom: 10px; outline: none; box-sizing: border-box; }
-        .live-match { background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; border-left: 3px solid var(--neon-green); display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; align-items: center; }
+        
+        /* Yenilənmiş Live Match dizaynı */
+        .live-match { background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; border-left: 3px solid var(--neon-green); display: flex; flex-direction: column; margin-bottom: 8px; font-size: 14px; cursor: pointer; transition: 0.3s; }
+        .live-match:hover { background: rgba(0, 255, 204, 0.1); }
+        .match-info { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        
         .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; text-align: center; }
         .time-block { background: #000; padding: 10px; border-radius: 8px; border: 1px solid #333; }
         .locked-content { display: none; margin-top: 20px; }
+
+        /* Qollar bölməsi üçün stil */
+        .goal-details { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #444; color: #ffcc00; font-size: 13px; animation: slideDown 0.3s ease; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -98,13 +107,13 @@
 </div>
 
 <script>
-    // SƏNİN YENİ API KEYİN
     const API_KEY = "fec1d6442eecf700eeba226821657bd3";
     
     let xal = parseInt(localStorage.getItem('xal')) || 0;
     let sans = parseInt(localStorage.getItem('sans')) || 3;
     let esyalar = JSON.parse(localStorage.getItem('inv')) || [];
     let usedPromos = JSON.parse(localStorage.getItem('promos')) || [];
+    let liveMatches = []; // Oyunları yadda saxlamaq üçün
 
     function uiYenile() {
         document.getElementById('score-ui').innerText = xal.toLocaleString();
@@ -127,7 +136,6 @@
         localStorage.setItem('inv', JSON.stringify(esyalar));
     }
 
-    // YENİ API-FOOTBALL FUNKSİYASI
     async function apiCek() {
         const box = document.getElementById('api-box');
         try {
@@ -139,29 +147,56 @@
                 }
             });
             const data = await response.json();
+            liveMatches = data.response || []; 
             
             box.innerHTML = "";
-            if(!data.response || data.response.length === 0) {
+            if(liveMatches.length === 0) {
                 box.innerHTML = "<p style='text-align:center;'>Hazırda canlı oyun yoxdur.</p>";
                 return;
             }
 
-            data.response.forEach(item => {
+            liveMatches.forEach(item => {
                 const fixture = item.fixture;
                 const goals = item.goals;
                 const teams = item.teams;
                 
                 box.innerHTML += `
-                    <div class="live-match">
-                        <img src="${teams.home.logo}" width="20"> 
-                        <span>${teams.home.name} <b>${goals.home}-${goals.away}</b> ${teams.away.name}</span>
-                        <img src="${teams.away.logo}" width="20">
-                        <span style="color:var(--neon-green); font-weight:bold; margin-left:10px;">${fixture.status.elapsed}'</span>
+                    <div class="live-match" onclick="toggleDetails(${fixture.id})">
+                        <div class="match-info">
+                            <img src="${teams.home.logo}" width="20"> 
+                            <span>${teams.home.name} <b>${goals.home}-${goals.away}</b> ${teams.away.name}</span>
+                            <img src="${teams.away.logo}" width="20">
+                            <span style="color:var(--neon-green); font-weight:bold; margin-left:10px;">${fixture.status.elapsed}'</span>
+                        </div>
+                        <div id="details-${fixture.id}" class="goal-details"></div>
                     </div>`;
             });
         } catch (error) {
-            box.innerHTML = "API Xətası: Limit bitmiş ola bilər və ya qoşulma yoxdur.";
+            box.innerHTML = "API Xətası: Qoşulma yoxdur.";
         }
+    }
+
+    // Yeni: Qolları göstərən funksiya
+    function toggleDetails(id) {
+        const detailDiv = document.getElementById(`details-${id}`);
+        if (detailDiv.style.display === "block") {
+            detailDiv.style.display = "none";
+            return;
+        }
+
+        const match = liveMatches.find(m => m.fixture.id === id);
+        let goalText = "";
+
+        if (match && match.events) {
+            match.events.forEach(ev => {
+                if (ev.type === "Goal") {
+                    goalText += `⚽ ${ev.time.elapsed}' ${ev.player.name || ''} (${ev.team.name})<br>`;
+                }
+            });
+        }
+
+        detailDiv.innerHTML = goalText || "Qol məlumatı tapılmadı.";
+        detailDiv.style.display = "block";
     }
 
     function oyna(t) {
@@ -195,7 +230,7 @@
         for (let item of list) { item.style.display = item.innerText.toLowerCase().includes(input) ? "flex" : "none"; }
     }
 
-    setInterval(apiCek, 60000); // Hər dəqiqə yenilə
+    setInterval(apiCek, 60000); 
     window.onload = () => { uiYenile(); apiCek(); };
 </script>
 </body>
