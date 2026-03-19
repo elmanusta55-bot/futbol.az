@@ -7,6 +7,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Saira+Condensed:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* ALT MENYU VƏ GÖRƏVLƏR DİZAYNI */
+.bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(2, 4, 10, 0.95); border-top: 2px solid var(--neon-green); display: flex; z-index: 2000; backdrop-filter: blur(10px); }
+.nav-btn { flex: 1; padding: 12px 0; text-align: center; color: #777; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.3s; border-right: 1px solid #222; font-family: 'Rajdhani', sans-serif; }
+.nav-btn:last-child { border-right: none; }
+.nav-btn.active { color: var(--neon-green); background: rgba(0, 255, 204, 0.1); text-shadow: var(--neon-glow); }
+.nav-btn i { display: block; font-size: 20px; margin-bottom: 4px; }
+
+#missions-container { display: none; max-width: 800px; margin: 20px auto; padding: 0 15px; padding-bottom: 80px; }
+.mission-card { background: var(--glass-bg); padding: 15px; border-radius: 12px; border: 1px dashed var(--border); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+.mission-info h4 { margin: 0; color: #fff; font-size: 16px; font-family: 'Rajdhani', sans-serif; }
+.mission-info p { margin: 5px 0 0 0; font-size: 13px; color: #aaa; }
+        
         :root { --neon-green: #00ffcc; --neon-glow: 0 0 15px rgba(0, 255, 204, 0.6); --dark-bg: #02040a; --glass-bg: rgba(22, 27, 34, 0.8); --gold-gradient: linear-gradient(135deg, #ffcc00 0%, #ff9900 100%); --text: #f0f6fc; --border: #30363d; }
         body { background: var(--dark-bg); background-image: radial-gradient(circle at center, #0b1c2c 0%, #02040a 70%); font-family: 'Saira Condensed', sans-serif; color: var(--text); margin: 0; padding: 0; letter-spacing: 0.5px; transition: 1s ease-in-out; }
         header { background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); padding: 15px 20px; border-bottom: 2px solid var(--neon-green); text-align: center; position: sticky; top: 0; z-index: 1000; box-shadow: var(--neon-glow); }
@@ -183,6 +195,35 @@
             <div class="card-header"><i class="fas fa-fire"></i> BOMBARDİRLƏR</div>
             <div id="scorers-box">⏳ Yüklənir...</div>
         </div>
+        <div id="missions-container">
+    <h2 style="text-align:center; color: var(--neon-green); font-family:'Rajdhani', sans-serif;"><i class="fas fa-list-check"></i> GÜNLÜK GÖRƏVLƏR</h2>
+    
+    <div class="mission-card" id="task-kanal">
+        <div class="mission-info">
+            <h4>📱 İmarət Media-ya Bax</h4>
+            <p>Kanala daxil ol və xəbərləri oxu (+1000 XAL)</p>
+        </div>
+        <button class="btn-premium btn-outline" onclick="gorevEt('task-kanal', 1000, 'https://chat.whatsapp.com/SƏNİN_LİNKİN')">ET</button>
+    </div>
+
+    <div class="mission-card" id="task-giris">
+        <div class="mission-info">
+            <h4>🎁 Gündəlik Hədiyyə</h4>
+            <p>Sayta bu gün daxil olduğun üçün (+500 XAL)</p>
+        </div>
+        <button class="btn-premium btn-gold" onclick="gorevEt('task-giris', 500, null)">AL</button>
+    </div>
+</div>
+
+<div class="bottom-nav">
+    <div class="nav-btn active" id="nav-home" onclick="menyuDeyis('home')">
+        <i class="fas fa-home"></i> ANA EKRAN
+    </div>
+    <div class="nav-btn" id="nav-missions" onclick="menyuDeyis('missions')">
+        <i class="fas fa-tasks"></i> GÖRƏVLƏR
+    </div>
+</div>
+        
 
         <div class="card">
             <div class="card-header"><i class="fas fa-clock"></i> NÖVBƏTİ OYUN</div>
@@ -414,6 +455,72 @@ function paketAc(tip, qiymet) {
         `;
     }, 1500);
 }
+
+    // Görəvlər üçün yaddaş
+let bitmisGorevler = JSON.parse(localStorage.getItem('gorevler')) || [];
+
+function menyuDeyis(secim) {
+    let mainSec = document.querySelector('.main-container');
+    let missionSec = document.getElementById('missions-container');
+    let homeBtn = document.getElementById('nav-home');
+    let missionBtn = document.getElementById('nav-missions');
+
+    if(secim === 'home') {
+        homeBtn.classList.add('active');
+        missionBtn.classList.remove('active');
+        mainSec.style.display = ''; // CSS-dəki əsas düzülüşə qaytarır
+        missionSec.style.display = 'none';
+    } else {
+        homeBtn.classList.remove('active');
+        missionBtn.classList.add('active');
+        mainSec.style.display = 'none';
+        missionSec.style.display = 'block';
+        gorevleriYoxla(); // Görəvlərin edilib-edilmədiyini UI-da yeniləyir
+    }
+}
+
+function gorevEt(id, qazanc, link) {
+    if(bitmisGorevler.includes(id)) {
+        alert("Bu görəvi artıq tamamlamısan! Növbəti görəvləri gözlə.");
+        return;
+    }
+
+    if(link) {
+        window.open(link, '_blank'); // Kanal linkini açır
+    }
+
+    xal += qazanc;
+    bitmisGorevler.push(id);
+    localStorage.setItem('gorevler', JSON.stringify(bitmisGorevler));
+    
+    uiYenile();
+    gorevleriYoxla();
+    
+    // Gözəl bildiriş
+    let msg = document.getElementById('game-msg');
+    if(msg) { msg.innerText = `🎁 +${qazanc} XAL QAZANDIN!`; msg.style.color = "var(--neon-green)"; }
+    alert(`Təbriklər! +${qazanc} XAL balansına əlavə olundu.`);
+}
+
+function gorevleriYoxla() {
+    bitmisGorevler.forEach(id => {
+        let card = document.getElementById(id);
+        if(card) {
+            let btn = card.querySelector('button');
+            btn.innerText = "TAMAMLANDI";
+            btn.style.background = "#222";
+            btn.style.color = "#555";
+            btn.style.border = "1px solid #333";
+            btn.disabled = true; // Düyməni sıradan çıxarır
+        }
+    });
+}
+
+// Sayt yüklənəndə görəvlərin vəziyyətini yoxla
+window.addEventListener('DOMContentLoaded', (event) => {
+    gorevleriYoxla();
+});
+    
     
 </script>
 </body>
