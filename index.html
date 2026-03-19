@@ -94,6 +94,59 @@
             </div>
         </div>
     </div>
+    <div class="card" style="border: 2px dashed var(--neon-green); position: relative; overflow: hidden;">
+    <div class="card-header">
+        <i class="fas fa-clapperboard"></i> EDİT YARIŞI - QOŞUL
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+        <p style="font-size: 14px; color: #ccc; line-height: 1.4;">
+            Ən yaxşı futbol editini hazırla, YouTube, TikTok və ya Drive-a yüklə və linkini göndər. 
+            Qalibi 4000 nəfərlik <b>İmarət Media</b> kanalında seçəcəyik! 🏆
+        </p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+        <input type="text" id="editor-name" class="promo-input" placeholder="Adın və ya Ləqəbin" style="margin: 0;">
+        <input type="text" id="video-link" class="promo-input" placeholder="Video Linki (TikTok, YT, Drive)" style="margin: 0;">
+        
+        <button class="btn-premium" onclick="yarisaQosul()" style="background: var(--gold-gradient); color: #000;">
+            <i class="fab fa-whatsapp"></i> YARIŞA GÖNDƏR
+        </button>
+    </div>
+
+    <div id="yarish-status" style="margin-top:10px; font-size:12px; text-align:center; font-weight: bold;"></div>
+</div>
+
+<script>
+    function yarisaQosul() {
+        const ad = document.getElementById('editor-name').value.trim();
+        const link = document.getElementById('video-link').value.trim();
+        const status = document.getElementById('yarish-status');
+
+        if(ad === "" || link === "") {
+            alert("Zəhmət olmasa adınızı və video linkini daxil edin!");
+            return;
+        }
+
+        // Sənin nömrən bura əlavə olundu:
+        const menimNomrem = "994555266848"; 
+        
+        const mesaj = `🔥 *FUTBOL.AZ - EDİT YARIŞI* 🔥%0A%0A👤 *İştirakçı:* ${ad}%0A🔗 *Video Linki:* ${link}%0A%0A_Yarışda uğurlar!_`;
+        
+        const wpUrl = `https://wa.me/${menimNomrem}?text=${mesaj}`;
+        
+        status.innerHTML = "⏳ WhatsApp-a yönləndirilir...";
+        status.style.color = "#ffcc00";
+        
+        setTimeout(() => {
+            window.open(wpUrl, '_blank');
+            status.innerHTML = "✅ Mesaj hazırlandı!";
+            status.style.color = "var(--neon-green)";
+        }, 1200);
+    }
+</script>
+    
 
     <div class="right-content">
         <div class="card" id="profile-card">
