@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Futbol.Az - Tam İşlək Premium</title>
+    <title>Futbol.Az - Kilidli Bölmələr</title>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Saira+Condensed:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -29,6 +29,12 @@
         .vote-bar { height: 8px; background: #222; border-radius: 4px; margin-top: 8px; overflow: hidden; }
         .vote-fill { height: 100%; background: var(--neon-green); width: 0%; transition: 0.8s; }
         .search-box { width: 100%; padding: 15px; border-radius: 10px; border: 2px solid var(--neon-green); background: #000; color: #fff; font-size: 16px; outline: none; margin-bottom: 20px; box-sizing: border-box; box-shadow: var(--neon-glow); }
+        
+        /* GİZLİ BÖLMƏLƏR ÜÇÜN DİZAYN */
+        .locked-content { display: none; margin-top: 20px; animation: slideDown 0.5s ease-out forwards; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        .vip-box { background: rgba(212, 175, 55, 0.1); border: 2px solid #ffcc00; padding: 20px; border-radius: 10px; text-align: center; }
+        .game-box { background: rgba(231, 76, 60, 0.1); border: 2px solid #e74c3c; padding: 20px; border-radius: 10px; text-align: center; }
     </style>
 </head>
 <body>
@@ -62,27 +68,37 @@
                     <button class="btn-premium btn-gold" id="btn-qarabag" onclick="al('qarabag', 1000)">1,000 XAL</button>
                 </div>
                 <div class="shop-item" style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #333;">
-                    <div style="font-size: 30px;">👟</div>
-                    <h4 style="margin: 10px 0; font-size: 14px;">Qızıl Butsu</h4>
-                    <button class="btn-premium btn-gold" id="btn-butsu" onclick="al('butsu', 50000)">50,000 XAL</button>
-                </div>
-                <div class="shop-item" style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #333;">
                     <div style="font-size: 30px;">👑</div>
                     <h4 style="margin: 10px 0; font-size: 14px;">VİP Status</h4>
-                    <button class="btn-premium btn-gold" id="btn-vip" onclick="al('vip', 500000)">500,000 XAL</button>
+                    <button class="btn-premium btn-gold" id="btn-vip" onclick="al('vip', 500000)">500K XAL</button>
                 </div>
                 <div class="shop-item" style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #333;">
                     <div style="font-size: 30px;">⚽</div>
                     <h4 style="margin: 10px 0; font-size: 14px;">Efsanəvi Top</h4>
                     <button class="btn-premium btn-gold" id="btn-ball" onclick="al('ball', 1000000)">1M XAL</button>
                 </div>
-                <div class="shop-item" style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #333; grid-column: span 2;">
-                    <div style="font-size: 30px;">🏟️</div>
-                    <h4 style="margin: 10px 0; font-size: 14px;">Stadium Fonu (Xüsusi)</h4>
-                    <button class="btn-premium btn-gold" id="btn-bg" onclick="al('bg', 5000000)">5M XAL</button>
+            </div>
+        </div>
+
+        <div id="vip-zona" class="locked-content">
+            <div class="card vip-box">
+                <h2 style="color: #ffcc00; margin-top:0;"><i class="fas fa-crown"></i> VİP ZONA AÇILDI!</h2>
+                <p>Xoş gəldin, VİP istifadəçi! Sən mağazadan VİP Status aldığın üçün bu gizli bölmə sənə açıldı. Burada ən son transfer xəbərləri və xüsusi videolar olacaq!</p>
+                <div style="background: #000; padding: 20px; border-radius: 10px; margin-top: 15px;">
+                    <h3 style="color: #fff; margin:0;">🔒 İmarət Media Eksklüziv</h3>
+                    <p style="color: var(--neon-green);">Yeni transferlərin gizli siyahısı tezliklə burada...</p>
                 </div>
             </div>
         </div>
+
+        <div id="gizli-oyun" class="locked-content">
+            <div class="card game-box">
+                <h2 style="color: #e74c3c; margin-top:0;"><i class="fas fa-fire"></i> EFSANƏVİ TOP BÖLMƏSİ</h2>
+                <p>Sən efsanəvi topu aldın və bu gizli mərc panelini kəşf etdin! Hər qalibiyyət sənə 2 qat xal verəcək!</p>
+                <button class="btn-premium" style="background: #e74c3c; color: white; width: 50%;" onclick="alert('Super Oyun tezliklə aktiv olacaq!')">GİZLİ OYUNA BAŞLA</button>
+            </div>
+        </div>
+
     </div>
 
     <div class="right-content">
@@ -121,48 +137,40 @@
     let usedPromos = JSON.parse(localStorage.getItem('promos')) || [];
     let votes = JSON.parse(localStorage.getItem('votes')) || {q: 10, n: 10};
 
-    // BÜTÜN DİZAYN DƏYİŞİKLİKLƏRİNİ İDARƏ EDƏN ƏSAS FUNKSİYA
     function uiYenile() {
         document.getElementById('score-ui').innerText = xal.toLocaleString();
         document.getElementById('sans-ui').innerText = sans;
         
         let bUI = document.getElementById('badge-ui');
         let card = document.getElementById('profile-card');
-        let body = document.body;
         
-        bUI.innerText = ""; // Nişanları sıfırla ki, üst-üstə minməsin
+        bUI.innerText = ""; 
         
-        // MAĞAZA ALINANLARININ HƏQİQİ TƏSİRLƏRİ
+        // MAĞAZA TƏSİRLƏRİ VƏ GİZLİ BÖLMƏLƏRİN AÇILMASI
         if(esyalar.includes('qarabag')) { 
             bUI.innerText += " 👕"; 
             let btn = document.getElementById('btn-qarabag');
             if(btn) { btn.innerText = "ALINIB ✅"; btn.disabled = true; btn.style.opacity = "0.5"; }
         }
-        if(esyalar.includes('butsu')) { 
-            bUI.innerText += " 👟"; 
-            let btn = document.getElementById('btn-butsu');
-            if(btn) { btn.innerText = "ALINIB ✅"; btn.disabled = true; btn.style.opacity = "0.5"; }
-        }
+        
         if(esyalar.includes('vip')) { 
             bUI.innerText += " 👑"; 
-            card.style.background = "linear-gradient(135deg, #d4af37, #ffcc00)"; // Profil qızılı olur
+            card.style.background = "linear-gradient(135deg, #d4af37, #ffcc00)"; 
             card.style.color = "#000"; 
             let btn = document.getElementById('btn-vip');
             if(btn) { btn.innerText = "AKTİV ✅"; btn.disabled = true; btn.style.opacity = "0.5"; }
+            // VİP ZONANI GÖRÜNƏN ELƏYİRİK
+            document.getElementById('vip-zona').style.display = "block";
         }
+        
         if(esyalar.includes('ball')) { 
             bUI.innerText += " ⚽"; 
             let btn = document.getElementById('btn-ball');
             if(btn) { btn.innerText = "ALINIB ✅"; btn.disabled = true; btn.style.opacity = "0.5"; }
-        }
-        if(esyalar.includes('bg')) { 
-            // BÜTÜN SAYTIN RƏNGİ DƏYİŞİR
-            body.style.backgroundImage = "radial-gradient(circle at center, #0f3d1b 0%, #02040a 80%)";
-            let btn = document.getElementById('btn-bg');
-            if(btn) { btn.innerText = "AKTİV ✅"; btn.disabled = true; btn.style.opacity = "0.5"; }
+            // GİZLİ OYUN BÖLMƏSİNİ GÖRÜNƏN ELƏYİRİK
+            document.getElementById('gizli-oyun').style.display = "block";
         }
 
-        // Səsvermə faizləri
         const total = votes.q + votes.n;
         const qP = Math.round((votes.q / total) * 100);
         const nP = 100 - qP;
@@ -171,7 +179,6 @@
         document.getElementById('q-bar').style.width = qP + "%";
         document.getElementById('n-bar').style.width = nP + "%";
 
-        // Yaddaşa yaz
         localStorage.setItem('xal', xal);
         localStorage.setItem('sans', sans);
         localStorage.setItem('inv', JSON.stringify(esyalar));
@@ -210,14 +217,22 @@
 
     function al(id, p) {
         if(esyalar.includes(id)) { alert("Bunu artıq almısan!"); return; }
-        if(xal >= p) { xal -= p; esyalar.push(id); uiYenile(); alert("🎉 Uğurla alındı və aktivləşdi!"); }
-        else { alert("Xalın çatmır! Promokod işlət və ya oyun oyna."); }
+        if(xal >= p) { 
+            xal -= p; 
+            esyalar.push(id); 
+            uiYenile(); 
+            
+            // Xüsusi mesajlar veririk ki, istifadəçi bilsin nə açıldı
+            if(id === 'vip') alert("🎉 VİP Status alındı! Saytın aşağısında VİP ZONA açıldı!");
+            if(id === 'ball') alert("🔥 Efsanəvi Top alındı! Saytın aşağısında GİZLİ OYUN açıldı!");
+        }
+        else { alert("Xalın çatmır!"); }
     }
 
     function promoIslet() {
         let val = document.getElementById('promo-input').value.trim().toUpperCase();
         if(val === "ELMANUSTA" && !usedPromos.includes(val)) {
-            xal += 20000000000000000; // Sənin yazdığın nəhəng rəqəm!
+            xal += 200000000;
             usedPromos.push(val);
             localStorage.setItem('promos', JSON.stringify(usedPromos));
             uiYenile(); alert("🎁 Dehşətli dərəcədə XAL qazandın!");
