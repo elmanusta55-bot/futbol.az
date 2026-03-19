@@ -33,6 +33,11 @@
         /* Qollar bölməsi üçün stil */
         .goal-details { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #444; color: #ffcc00; font-size: 13px; animation: slideDown 0.3s ease; }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Cədvəl üslubu */
+        .data-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 5px; }
+        .data-table th { color: var(--neon-green); text-align: left; border-bottom: 1px solid #333; padding: 5px; }
+        .data-table td { padding: 8px 5px; border-bottom: 1px solid #222; }
     </style>
 </head>
 <body>
@@ -46,6 +51,11 @@
         <div class="card">
             <div class="card-header"><i class="fas fa-satellite-dish"></i> CANLI HESABLAR (API-FOOTBALL)</div>
             <div id="api-box">📡 Məlumatlar gətirilir...</div>
+        </div>
+
+        <div class="card">
+            <div class="card-header"><i class="fas fa-list-ol"></i> PREMYER LİQA CƏDVƏLİ</div>
+            <div id="standings-box" style="overflow-x: auto;">⏳ Cədvəl yüklənir...</div>
         </div>
 
         <div class="card" style="text-align:center;">
@@ -95,6 +105,11 @@
         </div>
 
         <div class="card">
+            <div class="card-header"><i class="fas fa-fire"></i> BOMBARDİRLƏR</div>
+            <div id="scorers-box">⏳ Yüklənir...</div>
+        </div>
+
+        <div class="card">
             <div class="card-header"><i class="fas fa-clock"></i> NÖVBƏTİ OYUN</div>
             <div class="timer-grid">
                 <div class="time-block"><span id="d">00</span><br><small>GÜN</small></div>
@@ -113,7 +128,7 @@
     let sans = parseInt(localStorage.getItem('sans')) || 3;
     let esyalar = JSON.parse(localStorage.getItem('inv')) || [];
     let usedPromos = JSON.parse(localStorage.getItem('promos')) || [];
-    let liveMatches = []; // Oyunları yadda saxlamaq üçün
+    let liveMatches = []; 
 
     function uiYenile() {
         document.getElementById('score-ui').innerText = xal.toLocaleString();
@@ -176,17 +191,59 @@
         }
     }
 
-    // Yeni: Qolları göstərən funksiya
+    // YENİ: TURNİR CƏDVƏLİNİ GƏTİRƏN FUNKSİYA (Azərbaycan Liqası ID: 303)
+    async function cədvəlCek() {
+        const box = document.getElementById('standings-box');
+        try {
+            const res = await fetch("https://v3.football.api-sports.io/standings?league=303&season=2025", {
+                "headers": { "x-rapidapi-host": "v3.football.api-sports.io", "x-rapidapi-key": API_KEY }
+            });
+            const data = await res.json();
+            const standings = data.response[0].league.standings[0];
+            
+            let html = `<table class="data-table"><tr><th>#</th><th>Komanda</th><th>O</th><th>Q-H-M</th><th>X</th></tr>`;
+            standings.forEach(s => {
+                html += `<tr>
+                    <td>${s.rank}</td>
+                    <td><img src="${s.team.logo}" width="15"> ${s.team.name}</td>
+                    <td>${s.all.played}</td>
+                    <td>${s.all.win}-${s.all.draw}-${s.all.lose}</td>
+                    <td style="color:#ffcc00; font-weight:bold;">${s.points}</td>
+                </tr>`;
+            });
+            box.innerHTML = html + "</table>";
+        } catch (e) { box.innerHTML = "Cədvəl API limiti və ya xəta."; }
+    }
+
+    // YENİ: BOMBARDİRLƏRİ GƏTİRƏN FUNKSİYA
+    async function bombardirCek() {
+        const box = document.getElementById('scorers-box');
+        try {
+            const res = await fetch("https://v3.football.api-sports.io/players/topscorers?league=303&season=2025", {
+                "headers": { "x-rapidapi-host": "v3.football.api-sports.io", "x-rapidapi-key": API_KEY }
+            });
+            const data = await res.json();
+            
+            let html = `<table class="data-table"><tr><th>Oyunçu</th><th>Klub</th><th>Qol</th></tr>`;
+            data.response.slice(0, 5).forEach(p => {
+                html += `<tr>
+                    <td>${p.player.name}</td>
+                    <td><img src="${p.statistics[0].team.logo}" width="12"></td>
+                    <td style="color:var(--neon-green); font-weight:bold;">${p.statistics[0].goals.total}</td>
+                </tr>`;
+            });
+            box.innerHTML = html + "</table>";
+        } catch (e) { box.innerHTML = "Xəta."; }
+    }
+
     function toggleDetails(id) {
         const detailDiv = document.getElementById(`details-${id}`);
         if (detailDiv.style.display === "block") {
             detailDiv.style.display = "none";
             return;
         }
-
         const match = liveMatches.find(m => m.fixture.id === id);
         let goalText = "";
-
         if (match && match.events) {
             match.events.forEach(ev => {
                 if (ev.type === "Goal") {
@@ -194,7 +251,6 @@
                 }
             });
         }
-
         detailDiv.innerHTML = goalText || "Qol məlumatı tapılmadı.";
         detailDiv.style.display = "block";
     }
@@ -231,7 +287,12 @@
     }
 
     setInterval(apiCek, 60000); 
-    window.onload = () => { uiYenile(); apiCek(); };
+    window.onload = () => { 
+        uiYenile(); 
+        apiCek(); 
+        cədvəlCek(); 
+        bombardirCek(); 
+    };
 </script>
 </body>
 </html>
