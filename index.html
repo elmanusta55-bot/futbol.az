@@ -7,22 +7,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Saira+Condensed:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* ALT MENYU VƏ GÖRƏVLƏR DİZAYNI */
-.bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(2, 4, 10, 0.95); border-top: 2px solid var(--neon-green); display: flex; z-index: 2000; backdrop-filter: blur(10px); }
-.nav-btn { flex: 1; padding: 12px 0; text-align: center; color: #777; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.3s; border-right: 1px solid #222; font-family: 'Rajdhani', sans-serif; }
-.nav-btn:last-child { border-right: none; }
-.nav-btn.active { color: var(--neon-green); background: rgba(0, 255, 204, 0.1); text-shadow: var(--neon-glow); }
-.nav-btn i { display: block; font-size: 20px; margin-bottom: 4px; }
-        body { padding-bottom: 70px; } /* Alt menyunun hündürlüyü qədər boşluq */
-        
-
-.missions-container { display: none; max-width: 800px; margin: 20px auto; padding: 0 15px; padding-bottom: 80px; }
-.mission-card { background: var(--glass-bg); padding: 15px; border-radius: 12px; border: 1px dashed var(--border); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-.mission-info h4 { margin: 0; color: #fff; font-size: 16px; font-family: 'Rajdhani', sans-serif; }
-.mission-info p { margin: 5px 0 0 0; font-size: 13px; color: #aaa; }
-        
         :root { --neon-green: #00ffcc; --neon-glow: 0 0 15px rgba(0, 255, 204, 0.6); --dark-bg: #02040a; --glass-bg: rgba(22, 27, 34, 0.8); --gold-gradient: linear-gradient(135deg, #ffcc00 0%, #ff9900 100%); --text: #f0f6fc; --border: #30363d; }
-        body { background: var(--dark-bg); background-image: radial-gradient(circle at center, #0b1c2c 0%, #02040a 70%); font-family: 'Saira Condensed', sans-serif; color: var(--text); margin: 0; padding: 0; letter-spacing: 0.5px; transition: 1s ease-in-out; }
+        
+        body { background: var(--dark-bg); background-image: radial-gradient(circle at center, #0b1c2c 0%, #02040a 70%); font-family: 'Saira Condensed', sans-serif; color: var(--text); margin: 0; padding: 0; letter-spacing: 0.5px; transition: 1s ease-in-out; padding-bottom: 80px; }
+        
+        /* ALT MENYU VƏ GÖRƏVLƏR DİZAYNI */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(2, 4, 10, 0.95); border-top: 2px solid var(--neon-green); display: flex; z-index: 2000; backdrop-filter: blur(10px); }
+        .nav-btn { flex: 1; padding: 12px 0; text-align: center; color: #777; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.3s; border-right: 1px solid #222; font-family: 'Rajdhani', sans-serif; }
+        .nav-btn:last-child { border-right: none; }
+        .nav-btn.active { color: var(--neon-green); background: rgba(0, 255, 204, 0.1); text-shadow: var(--neon-glow); }
+        .nav-btn i { display: block; font-size: 20px; margin-bottom: 4px; }
+
+        /* GÖRƏVLƏR KONTEYNERİ - YENİLƏNDİ */
+        #missions-container { 
+            display: none; 
+            width: 100%; 
+            max-width: 800px; 
+            margin: 20px auto; 
+            padding: 0 15px; 
+            padding-bottom: 100px; 
+            box-sizing: border-box; 
+        }
+        
+        .mission-card { background: var(--glass-bg); padding: 15px; border-radius: 12px; border: 1px dashed var(--border); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .mission-info h4 { margin: 0; color: #fff; font-size: 16px; font-family: 'Rajdhani', sans-serif; }
+        .mission-info p { margin: 5px 0 0 0; font-size: 13px; color: #aaa; }
+        
         header { background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); padding: 15px 20px; border-bottom: 2px solid var(--neon-green); text-align: center; position: sticky; top: 0; z-index: 1000; box-shadow: var(--neon-glow); }
         .logo { font-family: 'Rajdhani', sans-serif; font-size: 32px; font-weight: 900; color: var(--neon-green); text-transform: uppercase; letter-spacing: 3px; text-shadow: var(--neon-glow); }
         .main-container { max-width: 1200px; margin: 20px auto; padding: 0 15px; display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
@@ -35,20 +45,14 @@
         .score-val { font-size: 48px; font-weight: 900; color: #ffcc00; text-shadow: 0 0 15px rgba(255, 204, 0, 0.4); text-align: center; margin: 10px 0; }
         .promo-input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: #000; color: #fff; text-align: center; font-weight: bold; margin-bottom: 10px; outline: none; box-sizing: border-box; }
         
-        /* Yenilənmiş Live Match dizaynı */
         .live-match { background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; border-left: 3px solid var(--neon-green); display: flex; flex-direction: column; margin-bottom: 8px; font-size: 14px; cursor: pointer; transition: 0.3s; }
         .live-match:hover { background: rgba(0, 255, 204, 0.1); }
         .match-info { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        
         .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; text-align: center; }
         .time-block { background: #000; padding: 10px; border-radius: 8px; border: 1px solid #333; }
         .locked-content { display: none; margin-top: 20px; }
-
-        /* Qollar bölməsi üçün stil */
         .goal-details { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #444; color: #ffcc00; font-size: 13px; animation: slideDown 0.3s ease; }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Cədvəl üslubu */
         .data-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 5px; }
         .data-table th { color: var(--neon-green); text-align: left; border-bottom: 1px solid #333; padding: 5px; }
         .data-table td { padding: 8px 5px; border-bottom: 1px solid #222; }
@@ -108,83 +112,21 @@
             </div>
         </div>
     </div>
-    <div class="card" style="border: 2px solid #ffcc00;">
-    <div class="card-header"><i class="fas fa-box-open"></i> ƏFSANƏLƏR PAKETİ AÇ</div>
-    <p style="font-size: 13px; color: #aaa; margin-bottom: 15px;">Şansını sına! İçində 10 əfsanəvi oyunçu var. Paket açmaq <b>2000 XAL</b> tələb edir.</p>
-    
-    <div style="display: flex; gap: 10px;">
-        <div style="flex: 1; background: linear-gradient(135deg, #111, #333); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #fff; cursor: pointer; transition: 0.3s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
-            <h3 style="margin: 0 0 10px 0; color: #fff; font-family: 'Rajdhani', sans-serif;">CR7 PAKETİ</h3>
-            <div style="font-size: 40px; margin-bottom: 10px; text-shadow: 0 0 10px rgba(255,255,255,0.5);">🐐</div>
-            <button class="btn-premium" style="background: #fff; color: #000; box-shadow: 0 0 10px rgba(255,255,255,0.3);" onclick="paketAc('ronaldo', 2000)">AÇ (2000 XAL)</button>
-        </div>
-        
-        <div style="flex: 1; background: linear-gradient(135deg, #0f1b29, #1a2a6c); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #ffcc00; cursor: pointer; transition: 0.3s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
-            <h3 style="margin: 0 0 10px 0; color: #ffcc00; font-family: 'Rajdhani', sans-serif;">LM10 PAKETİ</h3>
-            <div style="font-size: 40px; margin-bottom: 10px; text-shadow: 0 0 10px rgba(255,204,0,0.5);">👽</div>
-            <button class="btn-premium btn-gold" onclick="paketAc('messi', 2000)">AÇ (2000 XAL)</button>
-        </div>
-    </div>
-    
-    <div id="paket-netice" style="margin-top: 15px; text-align: center; font-size: 16px; min-height: 50px; display: flex; align-items: center; justify-content: center; flex-direction: column; background: rgba(0,0,0,0.5); border-radius: 8px; padding: 10px; display: none;">
-    </div>
-    </div>
-    
-    <div class="card" style="border: 2px dashed var(--neon-green); position: relative; overflow: hidden;">
-    <div class="card-header">
-        <i class="fas fa-clapperboard"></i> EDİT YARIŞI - QOŞUL
-    </div>
-    
-    <div style="margin-bottom: 15px;">
-        <p style="font-size: 14px; color: #ccc; line-height: 1.4;">
-            Ən yaxşı futbol editini hazırla, YouTube, TikTok və ya Drive-a yüklə və linkini göndər. 
-            Qalibi 4000 nəfərlik <b>FUTBOL.AZ</b> kanalında seçəcəyik! 🏆
-        </p>
-    </div>
-
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-        <input type="text" id="editor-name" class="promo-input" placeholder="Adın və ya Ləqəbin" style="margin: 0;">
-        <input type="text" id="video-link" class="promo-input" placeholder="Video Linki (TikTok, YT, Drive)" style="margin: 0;">
-        
-        <button class="btn-premium" onclick="yarisaQosul()" style="background: var(--gold-gradient); color: #000;">
-            <i class="fab fa-whatsapp"></i> YARIŞA GÖNDƏR
-        </button>
-    </div>
-
-    <div id="yarish-status" style="margin-top:10px; font-size:12px; text-align:center; font-weight: bold;"></div>
-</div>
-
-<script>
-    function yarisaQosul() {
-        const ad = document.getElementById('editor-name').value.trim();
-        const link = document.getElementById('video-link').value.trim();
-        const status = document.getElementById('yarish-status');
-
-        if(ad === "" || link === "") {
-            alert("Zəhmət olmasa adınızı və video linkini daxil edin!");
-            return;
-        }
-
-        // Sənin nömrən bura əlavə olundu:
-        const menimNomrem = "994555266848"; 
-        
-        const mesaj = `🔥 *FUTBOL.AZ - EDİT YARIŞI* 🔥%0A%0A👤 *İştirakçı:* ${ad}%0A🔗 *Video Linki:* ${link}%0A%0A_Yarışda uğurlar!_`;
-        
-        const wpUrl = `https://wa.me/${menimNomrem}?text=${mesaj}`;
-        
-        status.innerHTML = "⏳ WhatsApp-a yönləndirilir...";
-        status.style.color = "#ffcc00";
-        
-        setTimeout(() => {
-            window.open(wpUrl, '_blank');
-            status.innerHTML = "✅ Mesaj hazırlandı!";
-            status.style.color = "var(--neon-green)";
-        }, 1200);
-    }
-</script>
-    
 
     <div class="right-content">
+        <div class="card" style="border: 2px solid #ffcc00;">
+            <div class="card-header"><i class="fas fa-box-open"></i> ƏFSANƏLƏR PAKETİ AÇ</div>
+            <div style="display: flex; gap: 10px;">
+                <div style="flex: 1; background: #111; padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #fff;">
+                    <button class="btn-premium" onclick="paketAc('ronaldo', 2000)">CR7 AÇ</button>
+                </div>
+                <div style="flex: 1; background: #0f1b29; padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #ffcc00;">
+                    <button class="btn-premium btn-gold" onclick="paketAc('messi', 2000)">LM10 AÇ</button>
+                </div>
+            </div>
+            <div id="paket-netice" style="margin-top: 15px; text-align: center; display: none;"></div>
+        </div>
+
         <div class="card" id="profile-card">
             <div class="card-header" style="color:#ffcc00; border-bottom: none;"><i class="fas fa-user"></i> PROFİL <span id="badge-ui"></span></div>
             <div class="score-val" id="score-ui">0</div>
@@ -197,7 +139,20 @@
             <div class="card-header"><i class="fas fa-fire"></i> BOMBARDİRLƏR</div>
             <div id="scorers-box">⏳ Yüklənir...</div>
         </div>
-        <div id="missions-container">
+
+        <div class="card">
+            <div class="card-header"><i class="fas fa-clock"></i> NÖVBƏTİ OYUN</div>
+            <div class="timer-grid">
+                <div class="time-block"><span id="d">00</span><br><small>GÜN</small></div>
+                <div class="time-block"><span id="h">00</span><br><small>SAAT</small></div>
+                <div class="time-block"><span id="m">00</span><br><small>DƏQ</small></div>
+                <div class="time-block"><span id="s">00</span><br><small>SAN</small></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="missions-container">
     <h2 style="text-align:center; color: var(--neon-green); font-family:'Rajdhani', sans-serif;"><i class="fas fa-list-check"></i> GÜNLÜK GÖRƏVLƏR</h2>
     
     <div class="mission-card" id="task-kanal">
@@ -225,23 +180,9 @@
         <i class="fas fa-tasks"></i> GÖRƏVLƏR
     </div>
 </div>
-        
-
-        <div class="card">
-            <div class="card-header"><i class="fas fa-clock"></i> NÖVBƏTİ OYUN</div>
-            <div class="timer-grid">
-                <div class="time-block"><span id="d">00</span><br><small>GÜN</small></div>
-                <div class="time-block"><span id="h">00</span><br><small>SAAT</small></div>
-                <div class="time-block"><span id="m">00</span><br><small>DƏQ</small></div>
-                <div class="time-block"><span id="s">00</span><br><small>SAN</small></div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
     const API_KEY = "fec1d6442eecf700eeba226821657bd3";
-    
     let xal = parseInt(localStorage.getItem('xal')) || 0;
     let sans = parseInt(localStorage.getItem('sans')) || 3;
     let esyalar = JSON.parse(localStorage.getItem('inv')) || [];
@@ -269,47 +210,54 @@
         localStorage.setItem('inv', JSON.stringify(esyalar));
     }
 
+    // MENYU DƏYİŞMƏ FUNKSİYASI - DÜZƏLDİLDİ
+    function menyuDeyis(secim) {
+        let mainSec = document.querySelector('.main-container');
+        let missionSec = document.getElementById('missions-container');
+        let homeBtn = document.getElementById('nav-home');
+        let missionBtn = document.getElementById('nav-missions');
+
+        if(secim === 'home') {
+            homeBtn.classList.add('active');
+            missionBtn.classList.remove('active');
+            mainSec.style.display = 'grid'; // Grid sistemini bərpa edirik
+            missionSec.style.display = 'none';
+            
+            if(window.innerWidth <= 992) {
+                mainSec.style.display = 'block';
+            }
+        } else {
+            homeBtn.classList.remove('active');
+            missionBtn.classList.add('active');
+            mainSec.style.display = 'none';
+            missionSec.style.display = 'block'; // Görəvləri blok kimi açırıq
+            gorevleriYoxla();
+        }
+    }
+
     async function apiCek() {
         const box = document.getElementById('api-box');
         try {
             const response = await fetch("https://v3.football.api-sports.io/fixtures?live=all", {
                 "method": "GET",
-                "headers": {
-                    "x-rapidapi-host": "v3.football.api-sports.io",
-                    "x-rapidapi-key": API_KEY
-                }
+                "headers": { "x-rapidapi-host": "v3.football.api-sports.io", "x-rapidapi-key": API_KEY }
             });
             const data = await response.json();
             liveMatches = data.response || []; 
-            
             box.innerHTML = "";
-            if(liveMatches.length === 0) {
-                box.innerHTML = "<p style='text-align:center;'>Hazırda canlı oyun yoxdur.</p>";
-                return;
-            }
-
+            if(liveMatches.length === 0) { box.innerHTML = "<p style='text-align:center;'>Canlı oyun yoxdur.</p>"; return; }
             liveMatches.forEach(item => {
-                const fixture = item.fixture;
-                const goals = item.goals;
-                const teams = item.teams;
-                
-                box.innerHTML += `
-                    <div class="live-match" onclick="toggleDetails(${fixture.id})">
-                        <div class="match-info">
-                            <img src="${teams.home.logo}" width="20"> 
-                            <span>${teams.home.name} <b>${goals.home}-${goals.away}</b> ${teams.away.name}</span>
-                            <img src="${teams.away.logo}" width="20">
-                            <span style="color:var(--neon-green); font-weight:bold; margin-left:10px;">${fixture.status.elapsed}'</span>
-                        </div>
-                        <div id="details-${fixture.id}" class="goal-details"></div>
-                    </div>`;
+                box.innerHTML += `<div class="live-match" onclick="toggleDetails(${item.fixture.id})">
+                    <div class="match-info">
+                        <img src="${item.teams.home.logo}" width="20"> 
+                        <span>${item.teams.home.name} <b>${item.goals.home}-${item.goals.away}</b> ${item.teams.away.name}</span>
+                        <img src="${item.teams.away.logo}" width="20">
+                        <span style="color:var(--neon-green); font-weight:bold;">${item.fixture.status.elapsed}'</span>
+                    </div><div id="details-${item.fixture.id}" class="goal-details"></div></div>`;
             });
-        } catch (error) {
-            box.innerHTML = "API Xətası: Qoşulma yoxdur.";
-        }
+        } catch (e) { box.innerHTML = "API Xətası."; }
     }
 
-    // YENİ: TURNİR CƏDVƏLİNİ GƏTİRƏN FUNKSİYA (Azərbaycan Liqası ID: 303)
     async function cədvəlCek() {
         const box = document.getElementById('standings-box');
         try {
@@ -318,59 +266,10 @@
             });
             const data = await res.json();
             const standings = data.response[0].league.standings[0];
-            
-            let html = `<table class="data-table"><tr><th>#</th><th>Komanda</th><th>O</th><th>Q-H-M</th><th>X</th></tr>`;
-            standings.forEach(s => {
-                html += `<tr>
-                    <td>${s.rank}</td>
-                    <td><img src="${s.team.logo}" width="15"> ${s.team.name}</td>
-                    <td>${s.all.played}</td>
-                    <td>${s.all.win}-${s.all.draw}-${s.all.lose}</td>
-                    <td style="color:#ffcc00; font-weight:bold;">${s.points}</td>
-                </tr>`;
-            });
-            box.innerHTML = html + "</table>";
-        } catch (e) { box.innerHTML = "Cədvəl API limiti və ya xəta."; }
-    }
-
-    // YENİ: BOMBARDİRLƏRİ GƏTİRƏN FUNKSİYA
-    async function bombardirCek() {
-        const box = document.getElementById('scorers-box');
-        try {
-            const res = await fetch("https://v3.football.api-sports.io/players/topscorers?league=303&season=2025", {
-                "headers": { "x-rapidapi-host": "v3.football.api-sports.io", "x-rapidapi-key": API_KEY }
-            });
-            const data = await res.json();
-            
-            let html = `<table class="data-table"><tr><th>Oyunçu</th><th>Klub</th><th>Qol</th></tr>`;
-            data.response.slice(0, 5).forEach(p => {
-                html += `<tr>
-                    <td>${p.player.name}</td>
-                    <td><img src="${p.statistics[0].team.logo}" width="12"></td>
-                    <td style="color:var(--neon-green); font-weight:bold;">${p.statistics[0].goals.total}</td>
-                </tr>`;
-            });
+            let html = `<table class="data-table"><tr><th>#</th><th>Komanda</th><th>X</th></tr>`;
+            standings.forEach(s => { html += `<tr><td>${s.rank}</td><td><img src="${s.team.logo}" width="15"> ${s.team.name}</td><td style="color:#ffcc00;">${s.points}</td></tr>`; });
             box.innerHTML = html + "</table>";
         } catch (e) { box.innerHTML = "Xəta."; }
-    }
-
-    function toggleDetails(id) {
-        const detailDiv = document.getElementById(`details-${id}`);
-        if (detailDiv.style.display === "block") {
-            detailDiv.style.display = "none";
-            return;
-        }
-        const match = liveMatches.find(m => m.fixture.id === id);
-        let goalText = "";
-        if (match && match.events) {
-            match.events.forEach(ev => {
-                if (ev.type === "Goal") {
-                    goalText += `⚽ ${ev.time.elapsed}' ${ev.player.name || ''} (${ev.team.name})<br>`;
-                }
-            });
-        }
-        detailDiv.innerHTML = goalText || "Qol məlumatı tapılmadı.";
-        detailDiv.style.display = "block";
     }
 
     function oyna(t) {
@@ -392,10 +291,25 @@
     function promoIslet() {
         let val = document.getElementById('promo-input').value.trim().toUpperCase();
         if(val === "ELMANUSTA" && !usedPromos.includes(val)) {
-            xal += 1000000000; usedPromos.push(val);
-            localStorage.setItem('promos', JSON.stringify(usedPromos));
-            uiYenile(); alert("🎁 1 Milyard XAL!");
+            xal += 10000000; usedPromos.push(val); uiYenile(); alert("🎁 XAL VERİLDİ!");
         } else { alert("Keçərsiz kod!"); }
+    }
+
+    let bitmisGorevler = JSON.parse(localStorage.getItem('gorevler')) || [];
+    function gorevEt(id, qazanc, link) {
+        if(bitmisGorevler.includes(id)) return;
+        if(link) window.open(link, '_blank');
+        xal += qazanc;
+        bitmisGorevler.push(id);
+        localStorage.setItem('gorevler', JSON.stringify(bitmisGorevler));
+        uiYenile(); gorevleriYoxla(); alert(`+${qazanc} XAL!`);
+    }
+
+    function gorevleriYoxla() {
+        bitmisGorevler.forEach(id => {
+            let btn = document.getElementById(id)?.querySelector('button');
+            if(btn) { btn.innerText = "OK"; btn.disabled = true; btn.style.background = "#222"; }
+        });
     }
 
     function axtar() {
@@ -404,126 +318,7 @@
         for (let item of list) { item.style.display = item.innerText.toLowerCase().includes(input) ? "flex" : "none"; }
     }
 
-    setInterval(apiCek, 60000); 
-    window.onload = () => { 
-        uiYenile(); 
-        apiCek(); 
-        cədvəlCek(); 
-        bombardirCek(); 
-    };
-    // Əfsanəvi Paketlərin Siyahısı (Hərəsində 10 oyunçu)
-const ronaldoPaket = [
-    "👑 Cristiano Ronaldo (100)", "🔥 Karim Benzema (97)", "⚡ Gareth Bale (96)", 
-    "🧠 Luka Modric (98)", "🎯 Toni Kroos (96)", "🧱 Sergio Ramos (97)", 
-    "🪄 Marcelo (95)", "🛡️ Pepe (94)", "🚀 Bruno Fernandes (95)", "🎩 Bernardo Silva (94)"
-];
-
-const messiPaket = [
-    "👑 Lionel Messi (100)", "🧛‍♂️ Luis Suarez (97)", "🕺 Neymar Jr (98)", 
-    "🧠 Andres Iniesta (98)", "🎯 Xavi (97)", "🐙 Sergio Busquets (95)", 
-    "🏃‍♂️ Jordi Alba (93)", "🦅 Angel Di Maria (95)", "🧤 Dibu Martinez (94)", "🕷️ Julian Alvarez (93)"
-];
-
-function paketAc(tip, qiymet) {
-    if (xal < qiymet) {
-        alert("Xalınız çatmır! Penalti oynayıb xal qazanın.");
-        return;
-    }
-    
-    // Xalı çıxırıq və UI yeniləyirik
-    xal -= qiymet;
-    uiYenile(); 
-
-    let secilenPaket = tip === 'ronaldo' ? ronaldoPaket : messiPaket;
-    
-    // Təsadüfi oyunçu seçimi
-    let randomOyunçu = secilenPaket[Math.floor(Math.random() * secilenPaket.length)];
-    
-    let neticeDiv = document.getElementById('paket-netice');
-    neticeDiv.style.display = "flex";
-    neticeDiv.style.border = "1px solid #555";
-    neticeDiv.innerHTML = "<span style='color: #fff; font-size: 14px;'><i class='fas fa-spinner fa-spin'></i> Paket Açılır... Animasiya gedir... ⏳</span>";
-    
-    // Efootball effekti üçün 1.5 saniyə gecikmə
-    setTimeout(() => {
-        let reng = tip === 'ronaldo' ? '#fff' : '#ffcc00';
-        neticeDiv.style.border = `1px solid ${reng}`;
-        neticeDiv.style.boxShadow = `0 0 15px ${reng}66`; // Yüngül neon effekti
-        neticeDiv.innerHTML = `
-            <span style="font-size: 12px; color: #ccc;">🎉 TƏBRİKLƏR! SƏNƏ ÇIXDI:</span>
-            <span style="font-size: 22px; font-weight: 900; color: ${reng}; text-shadow: 0 0 10px ${reng}; margin-top: 5px;">
-                ${randomOyunçu}
-            </span>
-        `;
-    }, 1500);
-}
-
-    // Görəvlər üçün yaddaş
-let bitmisGorevler = JSON.parse(localStorage.getItem('gorevler')) || [];
-
-function menyuDeyis(secim) {
-    let mainSec = document.querySelector('.main-container');
-    let missionSec = document.getElementById('missions-container');
-    let homeBtn = document.getElementById('nav-home');
-    let missionBtn = document.getElementById('nav-missions');
-
-    if(secim === 'home') {
-        homeBtn.classList.add('active');
-        missionBtn.classList.remove('active');
-        mainSec.style.display = ''; // CSS-dəki əsas düzülüşə qaytarır
-        missionSec.style.display = 'none';
-    } else {
-        homeBtn.classList.remove('active');
-        missionBtn.classList.add('active');
-        mainSec.style.display = 'none';
-        missionSec.style.display = 'block';
-        gorevleriYoxla(); // Görəvlərin edilib-edilmədiyini UI-da yeniləyir
-    }
-}
-
-function gorevEt(id, qazanc, link) {
-    if(bitmisGorevler.includes(id)) {
-        alert("Bu görəvi artıq tamamlamısan! Növbəti görəvləri gözlə.");
-        return;
-    }
-
-    if(link) {
-        window.open(link, '_blank'); // Kanal linkini açır
-    }
-
-    xal += qazanc;
-    bitmisGorevler.push(id);
-    localStorage.setItem('gorevler', JSON.stringify(bitmisGorevler));
-    
-    uiYenile();
-    gorevleriYoxla();
-    
-    // Gözəl bildiriş
-    let msg = document.getElementById('game-msg');
-    if(msg) { msg.innerText = `🎁 +${qazanc} XAL QAZANDIN!`; msg.style.color = "var(--neon-green)"; }
-    alert(`Təbriklər! +${qazanc} XAL balansına əlavə olundu.`);
-}
-
-function gorevleriYoxla() {
-    bitmisGorevler.forEach(id => {
-        let card = document.getElementById(id);
-        if(card) {
-            let btn = card.querySelector('button');
-            btn.innerText = "TAMAMLANDI";
-            btn.style.background = "#222";
-            btn.style.color = "#555";
-            btn.style.border = "1px solid #333";
-            btn.disabled = true; // Düyməni sıradan çıxarır
-        }
-    });
-}
-
-// Sayt yüklənəndə görəvlərin vəziyyətini yoxla
-window.addEventListener('DOMContentLoaded', (event) => {
-    gorevleriYoxla();
-});
-    
-    
+    window.onload = () => { uiYenile(); apiCek(); cədvəlCek(); gorevleriYoxla(); };
 </script>
 </body>
 </html>
