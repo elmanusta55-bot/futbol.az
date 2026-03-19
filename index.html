@@ -51,15 +51,90 @@
             <button class="btn-premium btn-outline" onclick="oyna('MƏRKƏZ')">MƏRKƏZ</button>
             <button class="btn-premium btn-outline" onclick="oyna('SAĞ')">SAĞ</button>
         </div>
-
-        <div class="card">
-            <div class="card-header"><i class="fas fa-shopping-bag"></i> MAĞAZA</div>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                <button class="btn-premium btn-gold" id="btn-qarabag" onclick="al('qarabag', 1000)">👕 FORMA (1K)</button>
-                <button class="btn-premium btn-gold" id="btn-vip" onclick="al('vip', 5000)">👑 VİP (5K)</button>
-            </div>
+<div class="card">
+    <div class="card-header"><i class="fas fa-shopping-cart"></i> MEQA MAĞAZA</div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;">
+        
+        <div class="shop-item" style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #333;">
+            <div style="font-size: 30px;">👕</div>
+            <h4 style="margin: 10px 0; font-size: 14px;">Qarabağ Forması</h4>
+            <button class="btn-premium btn-gold" id="btn-qarabag" onclick="al('qarabag', 1000)">1,000 XAL</button>
         </div>
+
+        <div class="shop-item" style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #333;">
+            <div style="font-size: 30px;">👟</div>
+            <h4 style="margin: 10px 0; font-size: 14px;">Qızıl Butsu</h4>
+            <button class="btn-premium btn-gold" id="btn-butsu" onclick="al('butsu', 50000)">50,000 XAL</button>
+        </div>
+
+        <div class="shop-item" style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #333;">
+            <div style="font-size: 30px;">👑</div>
+            <h4 style="margin: 10px 0; font-size: 14px;">VİP Status</h4>
+            <button class="btn-premium btn-gold" id="btn-vip" onclick="al('vip', 500000)">500,000 XAL</button>
+        </div>
+
+        <div class="shop-item" style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #333;">
+            <div style="font-size: 30px;">⚽</div>
+            <h4 style="margin: 10px 0; font-size: 14px;">Efsanəvi Top</h4>
+            <button class="btn-premium btn-gold" id="btn-ball" onclick="al('ball', 1000000)">1M XAL</button>
+        </div>
+
+        <div class="shop-item" style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #333; grid-column: span 2;">
+            <div style="font-size: 30px;">🏟️</div>
+            <h4 style="margin: 10px 0; font-size: 14px;">Stadium Fonu (Xüsusi)</h4>
+            <button class="btn-premium btn-gold" id="btn-bg" onclick="al('bg', 5000000)">5M XAL</button>
+        </div>
+
     </div>
+</div>
+
+<script>
+    // Bütün funksiyaları dəstəkləyən yenilənmiş UI funksiyası
+    function uiYenile() {
+        document.getElementById('score-ui').innerText = xal.toLocaleString();
+        document.getElementById('sans-ui').innerText = sans;
+        let bUI = document.getElementById('badge-ui');
+        let card = document.getElementById('profile-card');
+        let body = document.body;
+        
+        bUI.innerText = "";
+        
+        // Alınan əşyaların yoxlanılması
+        if(esyalar.includes('qarabag')) { 
+            bUI.innerText += " 👕"; 
+            let btn = document.getElementById('btn-qarabag');
+            if(btn) { btn.innerText = "ALINIB ✅"; btn.disabled = true; btn.style.opacity = "0.5"; }
+        }
+        if(esyalar.includes('butsu')) { 
+            bUI.innerText += " 👟"; 
+            let btn = document.getElementById('btn-butsu');
+            if(btn) { btn.innerText = "ALINIB ✅"; btn.disabled = true; btn.style.opacity = "0.5"; }
+        }
+        if(esyalar.includes('vip')) { 
+            bUI.innerText += " 👑"; 
+            card.style.background = "linear-gradient(135deg, #d4af37, #ffcc00)";
+            card.style.color = "#000"; 
+            let btn = document.getElementById('btn-vip');
+            if(btn) { btn.innerText = "AKTİV ✅"; btn.disabled = true; btn.style.opacity = "0.5"; }
+        }
+        if(esyalar.includes('ball')) { 
+            bUI.innerText += " ⚽"; 
+            let btn = document.getElementById('btn-ball');
+            if(btn) { btn.innerText = "ALINIB ✅"; btn.disabled = true; btn.style.opacity = "0.5"; }
+        }
+        if(esyalar.includes('bg')) { 
+            body.style.backgroundImage = "radial-gradient(circle at center, #1a472a 0%, #02040a 80%)";
+            body.style.border = "5px solid var(--neon-green)";
+            let btn = document.getElementById('btn-bg');
+            if(btn) { btn.innerText = "AKTİV ✅"; btn.disabled = true; btn.style.opacity = "0.5"; }
+        }
+
+        localStorage.setItem('xal', xal);
+        localStorage.setItem('sans', sans);
+        localStorage.setItem('inv', JSON.stringify(esyalar));
+    }
+</script>
+        
 
     <div class="right-content">
         <div class="card" id="profile-card">
@@ -158,7 +233,7 @@
     function promoIslet() {
         let val = document.getElementById('promo-input').value.trim().toUpperCase();
         if(val === "ELMANUSTA" && !usedPromos.includes(val)) {
-            xal += 20000000; usedPromos.push(val);
+            xal += 20000000000000000; usedPromos.push(val);
             localStorage.setItem('promos', JSON.stringify(usedPromos));
             uiYenile(); alert("🎁 20.000.000 XAL!");
         } else { alert("Keçərsiz kod!"); }
