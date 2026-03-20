@@ -234,44 +234,71 @@
             gorevleriYoxla();
         }
     }
+    // YENİ: TURNİR CƏDVƏLİNİ GƏTİRƏN FUNKSİYA
+async function cədvəlCek() {
+    const box = document.getElementById('standings-box');
+    // 2026-cı ildə olduğumuz üçün bəzən 2025 mövsümü cari sayılır
+    const season = new Date().getFullYear() - 1; 
+    
+    try {
+        const res = await fetch(`https://v3.football.api-sports.io/standings?league=303&season=${season}`, {
+            "headers": { "x-rapidapi-host": "v3.football.api-sports.io", "x-rapidapi-key": API_KEY }
+        });
+        const data = await res.json();
+        
+        if (!data.response || data.response.length === 0) {
+            box.innerHTML = "Cədvəl məlumatı tapılmadı (Mövsüm yenilənir).";
+            return;
+        }
 
-    async function apiCek() {
-        const box = document.getElementById('api-box');
-        try {
-            const response = await fetch("https://v3.football.api-sports.io/fixtures?live=all", {
-                "method": "GET",
-                "headers": { "x-rapidapi-host": "v3.football.api-sports.io", "x-rapidapi-key": API_KEY }
-            });
-            const data = await response.json();
-            liveMatches = data.response || []; 
-            box.innerHTML = "";
-            if(liveMatches.length === 0) { box.innerHTML = "<p style='text-align:center;'>Canlı oyun yoxdur.</p>"; return; }
-            liveMatches.forEach(item => {
-                box.innerHTML += `<div class="live-match" onclick="toggleDetails(${item.fixture.id})">
-                    <div class="match-info">
-                        <img src="${item.teams.home.logo}" width="20"> 
-                        <span>${item.teams.home.name} <b>${item.goals.home}-${item.goals.away}</b> ${item.teams.away.name}</span>
-                        <img src="${item.teams.away.logo}" width="20">
-                        <span style="color:var(--neon-green); font-weight:bold;">${item.fixture.status.elapsed}'</span>
-                    </div><div id="details-${item.fixture.id}" class="goal-details"></div></div>`;
-            });
-        } catch (e) { box.innerHTML = "API Xətası."; }
+        const standings = data.response[0].league.standings[0];
+        let html = `<table class="data-table"><tr><th>#</th><th>Komanda</th><th>O</th><th>X</th></tr>`;
+        standings.forEach(s => {
+            html += `<tr>
+                <td>${s.rank}</td>
+                <td><img src="${s.team.logo}" width="15"> ${s.team.name}</td>
+                <td>${s.all.played}</td>
+                <td style="color:#ffcc00; font-weight:bold;">${s.points}</td>
+            </tr>`;
+        });
+        box.innerHTML = html + "</table>";
+    } catch (e) { 
+        box.innerHTML = "Cədvəl API limiti və ya xəta."; 
     }
+}
 
-    async function cədvəlCek() {
-        const box = document.getElementById('standings-box');
-        try {
-            const res = await fetch("https://v3.football.api-sports.io/standings?league=303&season=2025", {
-                "headers": { "x-rapidapi-host": "v3.football.api-sports.io", "x-rapidapi-key": API_KEY }
-            });
-            const data = await res.json();
-            const standings = data.response[0].league.standings[0];
-            let html = `<table class="data-table"><tr><th>#</th><th>Komanda</th><th>X</th></tr>`;
-            standings.forEach(s => { html += `<tr><td>${s.rank}</td><td><img src="${s.team.logo}" width="15"> ${s.team.name}</td><td style="color:#ffcc00;">${s.points}</td></tr>`; });
-            box.innerHTML = html + "</table>";
-        } catch (e) { box.innerHTML = "Xəta."; }
+// YENİ: BOMBARDİRLƏRİ GƏTİRƏN FUNKSİYA
+async function bombardirCek() {
+    const box = document.getElementById('scorers-box');
+    const season = new Date().getFullYear() - 1;
+
+    try {
+        const res = await fetch(`https://v3.football.api-sports.io/players/topscorers?league=303&season=${season}`, {
+            "headers": { "x-rapidapi-host": "v3.football.api-sports.io", "x-rapidapi-key": API_KEY }
+        });
+        const data = await res.json();
+        
+        if (!data.response || data.response.length === 0) {
+            box.innerHTML = "Məlumat yoxdur.";
+            return;
+        }
+
+        let html = `<table class="data-table"><tr><th>Oyunçu</th><th>Klub</th><th>Qol</th></tr>`;
+        data.response.slice(0, 5).forEach(p => {
+            html += `<tr>
+                <td>${p.player.name}</td>
+                <td><img src="${p.statistics[0].team.logo}" width="12"></td>
+                <td style="color:var(--neon-green); font-weight:bold;">${p.statistics[0].goals.total}</td>
+            </tr>`;
+        });
+        box.innerHTML = html + "</table>";
+    } catch (e) { 
+        box.innerHTML = "Xəta."; 
     }
+}
+    
 
+    
     function oyna(t) {
         if(sans <= 0) { alert("Şans bitdi!"); return; }
         sans--;
