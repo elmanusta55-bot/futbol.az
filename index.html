@@ -11,7 +11,64 @@
         
         body { background: var(--dark-bg); background-image: radial-gradient(circle at center, #0b1c2c 0%, #02040a 70%); font-family: 'Saira Condensed', sans-serif; color: var(--text); margin: 0; padding: 0; padding-bottom: 80px; letter-spacing: 0.5px; }
         <style>
-    /* MOBİL ÜÇÜN ÖZƏL AYARLAR (Responsive) */
+
+    
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(2, 4, 10, 0.95); border-top: 2px solid var(--neon-green); display: flex; z-index: 2000; backdrop-filter: blur(10px); }
+        .nav-btn { flex: 1; padding: 12px 0; text-align: center; color: #777; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.3s; border-right: 1px solid #222; font-family: 'Rajdhani', sans-serif; }
+        .nav-btn:last-child { border-right: none; }
+        .nav-btn.active { color: var(--neon-green); background: rgba(0, 255, 204, 0.1); text-shadow: var(--neon-glow); }
+        .nav-btn i { display: block; font-size: 20px; margin-bottom: 4px; }
+
+        #missions-container { display: none; width: 100%; max-width: 800px; margin: 20px auto; padding: 0 15px; box-sizing: border-box; }
+        .mission-card { background: var(--glass-bg); padding: 15px; border-radius: 12px; border: 1px dashed var(--border); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .mission-info h4 { margin: 0; color: #fff; font-size: 16px; font-family: 'Rajdhani', sans-serif; }
+        .mission-info p { margin: 5px 0 0 0; font-size: 13px; color: #aaa; }
+        
+        header { background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); padding: 15px 20px; border-bottom: 2px solid var(--neon-green); text-align: center; position: sticky; top: 0; z-index: 1000; box-shadow: var(--neon-glow); }
+        .logo { font-family: 'Rajdhani', sans-serif; font-size: 32px; font-weight: 900; color: var(--neon-green); text-transform: uppercase; letter-spacing: 3px; text-shadow: var(--neon-glow); }
+        .main-container { max-width: 1200px; margin: 20px auto; padding: 0 15px; display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+        @media(max-width: 992px) { .main-container { grid-template-columns: 1fr; } }
+        .card { background: var(--glass-bg); backdrop-filter: blur(10px); padding: 20px; border-radius: 16px; border: 1px solid var(--border); margin-bottom: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
+        .card-header { font-family: 'Rajdhani', sans-serif; font-size: 18px; color: var(--neon-green); padding-bottom: 10px; border-bottom: 1px solid #333; margin-bottom: 15px; font-weight: 700; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
+        .btn-premium { background: var(--neon-green); color: #000; border: none; padding: 12px; border-radius: 10px; font-weight: 900; cursor: pointer; text-transform: uppercase; width: 100%; transition: 0.2s; box-shadow: var(--neon-glow); }
+        .btn-gold { background: var(--gold-gradient); box-shadow: 0 0 15px rgba(255, 153, 0, 0.4); }
+        .btn-outline { background: transparent; border: 2px solid var(--neon-green); color: var(--neon-green); box-shadow: none; margin: 5px; width: auto; min-width: 80px; }
+        .score-val { font-size: 48px; font-weight: 900; color: #ffcc00; text-shadow: 0 0 15px rgba(255, 204, 0, 0.4); text-align: center; margin: 10px 0; }
+        .promo-input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: #000; color: #fff; text-align: center; font-weight: bold; margin-bottom: 10px; outline: none; box-sizing: border-box; }
+        
+        .live-match { background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; border-left: 3px solid var(--neon-green); display: flex; flex-direction: column; margin-bottom: 8px; font-size: 14px; cursor: pointer; transition: 0.3s; }
+        .live-match:hover { background: rgba(0, 255, 204, 0.1); }
+        .match-info { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        
+        /* === KART AÇILMA MODALI ÜÇÜN STİLLƏR (YENİ) === */
+        #card-open-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center;
+            flex-direction: column; backdrop-filter: blur(10px);
+        }
+        .efootball-card {
+            width: 260px; height: 380px; border-radius: 15px; position: relative;
+            background: linear-gradient(180deg, #1a1a1a 0%, #000 100%);
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.5); border: 2px solid #ffcc00;
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+            padding-bottom: 20px; overflow: hidden; animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popUp { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .efootball-card.epic { background: linear-gradient(135deg, #1e0000, #4a0000); border-color: #ffcc00; box-shadow: 0 0 30px rgba(255, 204, 0, 0.8); }
+        .efootball-card.highlight { background: linear-gradient(135deg, #001e15, #004a33); border-color: #00ffcc; box-shadow: 0 0 30px rgba(0, 255, 204, 0.8); }
+        .card-rating {
+            position: absolute; top: 15px; left: 15px; font-size: 36px; font-weight: 900;
+            color: #ffcc00; text-shadow: 2px 2px 4px #000; font-family: 'Rajdhani', sans-serif; z-index: 5;
+        }
+        .player-img-card { width: 100%; height: 75%; object-fit: cover; object-position: top; position: absolute; top: 0; z-index: 1; mask-image: linear-gradient(to bottom, black 60%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%); }
+        .card-info { position: relative; z-index: 2; text-align: center; width: 100%; }
+        .close-modal-btn {
+            margin-top: 25px; background: red; color: white; border: 2px solid #fff; padding: 10px 40px;
+            font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; font-family: 'Rajdhani', sans-serif;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.6); transition: 0.2s;
+        }
+        .close-modal-btn:hover { transform: scale(1.05); }
+            /* MOBİL ÜÇÜN ÖZƏL AYARLAR (Responsive) */
     @media only screen and (max-width: 480px) {
         #versus-container {
             padding: 15px !important;
@@ -82,62 +139,6 @@
     // Bura bayaqkı JavaScript kodunu (db və renderStats) olduğu kimi əlavə edirsən.
     // Sadəcə CSS hissəsindəki dəyişikliklər 360-400px üçün hər şeyi düzəldəcək.
 </script>
-    
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(2, 4, 10, 0.95); border-top: 2px solid var(--neon-green); display: flex; z-index: 2000; backdrop-filter: blur(10px); }
-        .nav-btn { flex: 1; padding: 12px 0; text-align: center; color: #777; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.3s; border-right: 1px solid #222; font-family: 'Rajdhani', sans-serif; }
-        .nav-btn:last-child { border-right: none; }
-        .nav-btn.active { color: var(--neon-green); background: rgba(0, 255, 204, 0.1); text-shadow: var(--neon-glow); }
-        .nav-btn i { display: block; font-size: 20px; margin-bottom: 4px; }
-
-        #missions-container { display: none; width: 100%; max-width: 800px; margin: 20px auto; padding: 0 15px; box-sizing: border-box; }
-        .mission-card { background: var(--glass-bg); padding: 15px; border-radius: 12px; border: 1px dashed var(--border); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        .mission-info h4 { margin: 0; color: #fff; font-size: 16px; font-family: 'Rajdhani', sans-serif; }
-        .mission-info p { margin: 5px 0 0 0; font-size: 13px; color: #aaa; }
-        
-        header { background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); padding: 15px 20px; border-bottom: 2px solid var(--neon-green); text-align: center; position: sticky; top: 0; z-index: 1000; box-shadow: var(--neon-glow); }
-        .logo { font-family: 'Rajdhani', sans-serif; font-size: 32px; font-weight: 900; color: var(--neon-green); text-transform: uppercase; letter-spacing: 3px; text-shadow: var(--neon-glow); }
-        .main-container { max-width: 1200px; margin: 20px auto; padding: 0 15px; display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
-        @media(max-width: 992px) { .main-container { grid-template-columns: 1fr; } }
-        .card { background: var(--glass-bg); backdrop-filter: blur(10px); padding: 20px; border-radius: 16px; border: 1px solid var(--border); margin-bottom: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
-        .card-header { font-family: 'Rajdhani', sans-serif; font-size: 18px; color: var(--neon-green); padding-bottom: 10px; border-bottom: 1px solid #333; margin-bottom: 15px; font-weight: 700; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
-        .btn-premium { background: var(--neon-green); color: #000; border: none; padding: 12px; border-radius: 10px; font-weight: 900; cursor: pointer; text-transform: uppercase; width: 100%; transition: 0.2s; box-shadow: var(--neon-glow); }
-        .btn-gold { background: var(--gold-gradient); box-shadow: 0 0 15px rgba(255, 153, 0, 0.4); }
-        .btn-outline { background: transparent; border: 2px solid var(--neon-green); color: var(--neon-green); box-shadow: none; margin: 5px; width: auto; min-width: 80px; }
-        .score-val { font-size: 48px; font-weight: 900; color: #ffcc00; text-shadow: 0 0 15px rgba(255, 204, 0, 0.4); text-align: center; margin: 10px 0; }
-        .promo-input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: #000; color: #fff; text-align: center; font-weight: bold; margin-bottom: 10px; outline: none; box-sizing: border-box; }
-        
-        .live-match { background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; border-left: 3px solid var(--neon-green); display: flex; flex-direction: column; margin-bottom: 8px; font-size: 14px; cursor: pointer; transition: 0.3s; }
-        .live-match:hover { background: rgba(0, 255, 204, 0.1); }
-        .match-info { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        
-        /* === KART AÇILMA MODALI ÜÇÜN STİLLƏR (YENİ) === */
-        #card-open-modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center;
-            flex-direction: column; backdrop-filter: blur(10px);
-        }
-        .efootball-card {
-            width: 260px; height: 380px; border-radius: 15px; position: relative;
-            background: linear-gradient(180deg, #1a1a1a 0%, #000 100%);
-            box-shadow: 0 0 20px rgba(255, 204, 0, 0.5); border: 2px solid #ffcc00;
-            display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
-            padding-bottom: 20px; overflow: hidden; animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        @keyframes popUp { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        .efootball-card.epic { background: linear-gradient(135deg, #1e0000, #4a0000); border-color: #ffcc00; box-shadow: 0 0 30px rgba(255, 204, 0, 0.8); }
-        .efootball-card.highlight { background: linear-gradient(135deg, #001e15, #004a33); border-color: #00ffcc; box-shadow: 0 0 30px rgba(0, 255, 204, 0.8); }
-        .card-rating {
-            position: absolute; top: 15px; left: 15px; font-size: 36px; font-weight: 900;
-            color: #ffcc00; text-shadow: 2px 2px 4px #000; font-family: 'Rajdhani', sans-serif; z-index: 5;
-        }
-        .player-img-card { width: 100%; height: 75%; object-fit: cover; object-position: top; position: absolute; top: 0; z-index: 1; mask-image: linear-gradient(to bottom, black 60%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%); }
-        .card-info { position: relative; z-index: 2; text-align: center; width: 100%; }
-        .close-modal-btn {
-            margin-top: 25px; background: red; color: white; border: 2px solid #fff; padding: 10px 40px;
-            font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; font-family: 'Rajdhani', sans-serif;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.6); transition: 0.2s;
-        }
-        .close-modal-btn:hover { transform: scale(1.05); }
     </style>
 </head>
 <body>
