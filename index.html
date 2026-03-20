@@ -80,102 +80,117 @@
             <div class="card-header"><i class="fas fa-satellite-dish"></i> CANLI HESABLAR (API-FOOTBALL)</div>
             <div id="api-box">📡 Məlumatlar gətirilir...</div>
         </div>
-        <div id="versus-container" style="background: #0b1c2c; color: white; padding: 30px; border-radius: 20px; font-family: sans-serif; max-width: 800px; margin: 20px auto; border: 2px solid #ffd700;">
+        <div id="versus-container" style="background: #050c16; color: white; padding: 25px; border-radius: 15px; font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: auto; border: 2px solid #ffd700; box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);">
     
-    <h2 style="text-align: center; color: #ffd700; text-transform: uppercase; letter-spacing: 2px;">⚔️ OYUNÇU MÜQAYİSƏSİ ⚔️</h2>
+    <h1 style="text-align: center; color: #ffd700; text-transform: uppercase; font-size: 28px; margin-bottom: 20px;">⚡️ OYUNÇU MÜQAYİSƏSI ⚡️</h1>
 
-    <div style="display: flex; justify-content: space-around; align-items: center; margin-bottom: 30px;">
-        <select id="p1-select" onchange="compare()" style="padding: 10px; border-radius: 5px; width: 40%;">
-            <option value="">1-ci Oyunçunu Seç</option>
+    <div style="display: flex; justify-content: space-between; gap: 15px; margin-bottom: 30px;">
+        <select id="p1-select" onchange="startCompare()" style="flex: 1; padding: 12px; border-radius: 8px; background: #1a2a3a; color: white; border: 1px solid #ffd700; font-weight: bold;">
+            <option value="">1-ci Futbolçu</option>
         </select>
         
-        <span style="font-size: 24px; font-weight: bold; color: #ffd700;">VS</span>
+        <div style="display: flex; align-items: center; font-size: 24px; font-weight: 900; color: #ffd700;">VS</div>
 
-        <select id="p2-select" onchange="compare()" style="padding: 10px; border-radius: 5px; width: 40%;">
-            <option value="">2-ci Oyunçunu Seç</option>
+        <select id="p2-select" onchange="startCompare()" style="flex: 1; padding: 12px; border-radius: 8px; background: #1a2a3a; color: white; border: 1px solid #ffd700; font-weight: bold;">
+            <option value="">2-ci Futbolçu</option>
         </select>
     </div>
 
-    <div id="compare-area" style="display: flex; justify-content: space-between; gap: 20px;">
-        <div id="card1" style="width: 45%; text-align: center; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;">
-            <h3 id="p1-name" style="color: #ffd700;">-</h3>
-            <div id="p1-stats"></div>
+    <div style="display: flex; justify-content: space-between; gap: 20px;">
+        <div id="res-p1" style="width: 48%; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border-top: 4px solid #ffd700;">
+            <h2 id="name-p1" style="text-align: center; color: #fff; margin-bottom: 20px;">-</h2>
+            <div id="stats-p1"></div>
         </div>
 
-        <div id="card2" style="width: 45%; text-align: center; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;">
-            <h3 id="p2-name" style="color: #ffd700;">-</h3>
-            <div id="p2-stats"></div>
+        <div id="res-p2" style="width: 48%; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border-top: 4px solid #ffd700;">
+            <h2 id="name-p2" style="text-align: center; color: #fff; margin-bottom: 20px;">-</h2>
+            <div id="stats-p2"></div>
         </div>
     </div>
 </div>
 
 <script>
-    // 1. OYUNÇU MƏLUMAT BAZASI (Bura istədiyin qədər adam əlavə edə bilərsən)
-    const players = {
-        "ronaldo": { name: "Cristiano Ronaldo", pac: 85, sho: 93, pas: 80, dri: 84, def: 35, phy: 78 },
-        "messi": { name: "Lionel Messi", pac: 80, sho: 89, pas: 92, dri: 94, def: 33, phy: 64 },
+    // 1. NƏHƏNG OYUNÇU BAZASI (Bura istədiyin qədər əlavə edə bilərsən)
+    const db = {
+        "messi": { name: "Lionel Messi", pac: 80, sho: 87, pas: 91, dri: 93, def: 33, phy: 60 },
+        "ronaldo": { name: "C. Ronaldo", pac: 84, sho: 92, pas: 79, dri: 82, def: 34, phy: 75 },
         "mbappe": { name: "Kylian Mbappé", pac: 97, sho: 90, pas: 80, dri: 92, def: 36, phy: 78 },
-        "haaland": { name: "Erling Haaland", pac: 89, sho: 94, pas: 65, dri: 80, def: 45, phy: 88 },
-        "juninho": { name: "Juninho (Qarabağ)", pac: 88, sho: 84, pas: 75, dri: 85, def: 40, phy: 72 },
-        "benzia": { name: "Yassine Benzia", pac: 78, sho: 82, pas: 86, dri: 83, def: 50, phy: 68 },
-        "vinicius": { name: "Vinícius Jr.", pac: 95, sho: 82, pas: 78, dri: 91, def: 29, phy: 68 },
-        "bellingham": { name: "Jude Bellingham", pac: 80, sho: 85, pas: 82, dri: 88, def: 78, phy: 82 }
+        "haaland": { name: "Erling Haaland", pac: 88, sho: 93, pas: 66, dri: 80, def: 45, phy: 88 },
+        "bellingham": { name: "Jude Bellingham", pac: 81, sho: 84, pas: 85, dri: 88, def: 80, phy: 82 },
+        "vinicius": { name: "Vinícius Jr.", pac: 95, sho: 83, pas: 79, dri: 91, def: 30, phy: 68 },
+        "debruyne": { name: "K. De Bruyne", pac: 72, sho: 85, pas: 94, dri: 87, def: 65, phy: 78 },
+        "salah": { name: "Mohamed Salah", pac: 89, sho: 87, pas: 82, dri: 88, def: 45, phy: 75 },
+        "kane": { name: "Harry Kane", pac: 69, sho: 93, pas: 84, dri: 83, def: 49, phy: 82 },
+        "lewandowski": { name: "R. Lewandowski", pac: 75, sho: 91, pas: 70, dri: 86, def: 44, phy: 82 },
+        "neymar": { name: "Neymar Jr", pac: 85, sho: 83, pas: 88, dri: 93, def: 35, phy: 60 },
+        "juninho": { name: "Juninho (Qarabağ)", pac: 89, sho: 85, pas: 74, dri: 86, def: 40, phy: 73 },
+        "benzia": { name: "Yassine Benzia", pac: 78, sho: 83, pas: 87, dri: 84, def: 52, phy: 69 },
+        "zoubir": { name: "Abdellah Zoubir", pac: 82, sho: 78, pas: 81, dri: 89, def: 45, phy: 70 },
+        "emreli": { name: "Mahir Emreli", pac: 80, sho: 79, pas: 72, dri: 77, def: 35, phy: 78 },
+        "yamal": { name: "Lamine Yamal", pac: 85, sho: 78, pas: 80, dri: 89, def: 25, phy: 55 },
+        "wirtz": { name: "Florian Wirtz", pac: 82, sho: 80, pas: 88, dri: 89, def: 55, phy: 68 },
+        "musiala": { name: "Jamal Musiala", pac: 85, sho: 81, pas: 83, dri: 91, def: 60, phy: 70 },
+        "rodri": { name: "Rodri", pac: 65, sho: 75, pas: 86, dri: 80, def: 88, phy: 87 },
+        "modric": { name: "Luka Modric", pac: 70, sho: 76, pas: 90, dri: 87, def: 72, phy: 66 },
+        "kroos": { name: "Toni Kroos", pac: 55, sho: 81, pas: 92, dri: 80, def: 70, phy: 68 },
+        "van-dijk": { name: "Virgil van Dijk", pac: 78, sho: 60, pas: 71, dri: 72, def: 89, phy: 86 },
+        "pele": { name: "Pelé (Legend)", pac: 95, sho: 96, pas: 90, dri: 96, def: 55, phy: 75 },
+        "maradona": { name: "Maradona (Legend)", pac: 92, sho: 91, pas: 92, dri: 97, def: 40, phy: 75 }
+        // Bura 100-ə qədər belə davam edə bilərsən...
     };
 
-    // 2. SEÇİMLƏRİ DOLDURMAQ
-    const p1Select = document.getElementById('p1-select');
-    const p2Select = document.getElementById('p2-select');
+    // Seçim siyahısını doldur
+    const s1 = document.getElementById('p1-select');
+    const s2 = document.getElementById('p2-select');
 
-    for (let key in players) {
-        let opt1 = document.createElement('option');
-        opt1.value = key;
-        opt1.innerHTML = players[key].name;
-        p1Select.appendChild(opt1);
+    Object.keys(db).forEach(id => {
+        let opt = `<option value="${id}">${db[id].name}</option>`;
+        s1.innerHTML += opt;
+        s2.innerHTML += opt;
+    });
 
-        let opt2 = document.createElement('option');
-        opt2.value = key;
-        opt2.innerHTML = players[key].name;
-        p2Select.appendChild(opt2);
+    function startCompare() {
+        const p1 = db[s1.value];
+        const p2 = db[s2.value];
+        if(!p1 || !p2) return;
+
+        document.getElementById('name-p1').innerText = p1.name;
+        document.getElementById('name-p2').innerText = p2.name;
+
+        renderStats(p1, p2, 'p1');
+        renderStats(p2, p1, 'p2');
     }
 
-    // 3. MÜQAYİSƏ FUNKSİYASI
-    function compare() {
-        const p1Key = p1Select.value;
-        const p2Key = p2Select.value;
+    function renderStats(target, opponent, id) {
+        const stats = ["pac", "sho", "pas", "dri", "def", "phy"];
+        const labels = ["Sürət", "Zərbə", "Pas", "Driblinq", "Müdafiə", "Fiziki"];
+        let html = '';
 
-        if (p1Key) renderPlayer(p1Key, 'p1');
-        if (p2Key) renderPlayer(p2Key, 'p2');
-    }
+        stats.forEach((s, index) => {
+            // Qalib tərəfi tapırıq
+            let isWinner = target[s] > opponent[s];
+            let barColor = isWinner ? "#4CAF50" : "#ff4d4d"; // Yaşıl vs Qırmızı
+            if(target[s] == opponent[s]) barColor = "#ffd700"; // Bərabərdirsə qızılı
 
-    function renderPlayer(key, target) {
-        const p = players[key];
-        document.getElementById(`${target}-name`).innerText = p.name;
-        
-        const statsHtml = `
-            ${createBar("Sürət", p.pac)}
-            ${createBar("Zərbə", p.sho)}
-            ${createBar("Pas", p.pas)}
-            ${createBar("Driblinq", p.dri)}
-            ${createBar("Müdafiə", p.def)}
-            ${createBar("Fiziki", p.phy)}
-        `;
-        document.getElementById(`${target}-stats`).innerHTML = statsHtml;
-    }
-
-    function createBar(label, value) {
-        return `
-            <div style="margin-bottom: 10px; text-align: left;">
-                <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 3px;">
-                    <span>${label}</span>
-                    <span>${value}</span>
+            html += `
+                <div style="margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: bold; margin-bottom: 4px;">
+                        <span>${labels[index]}</span>
+                        <span style="color: ${barColor}">${target[s]}</span>
+                    </div>
+                    <div style="width: 100%; background: #222; height: 10px; border-radius: 5px; overflow: hidden;">
+                        <div style="width: ${target[s]}%; background: ${barColor}; height: 100%; transition: 0.8s ease-in-out;"></div>
+                    </div>
                 </div>
-                <div style="width: 100%; background: #222; height: 8px; border-radius: 4px; overflow: hidden;">
-                    <div style="width: ${value}%; background: ${value > 85 ? '#ffd700' : '#4CAF50'}; height: 100%; transition: 0.5s;"></div>
-                </div>
-            </div>
-        `;
+            `;
+        });
+        document.getElementById(`stats-${id}`).innerHTML = html;
     }
 </script>
+        
+        
+ 
+
         
 
         <div class="card" style="text-align:center;">
