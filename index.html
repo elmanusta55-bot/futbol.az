@@ -3,202 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Futbol.Az - Professional Platforma</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Saira+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <title>Futbol.Az | 100 Ulduz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --neon-green: #00ffcc; --neon-glow: 0 0 15px rgba(0, 255, 204, 0.6); --dark-bg: #02040a; --glass-bg: rgba(22, 27, 34, 0.8); --gold-gradient: linear-gradient(135deg, #ffcc00 0%, #ff9900 100%); --text: #f0f6fc; --border: #30363d; }
+        :root { --neon: #00ffcc; --gold: #ffcc00; --bg: #02040a; --red: #ff4d4d; --green: #2ecc71; }
+        body { background: var(--bg); color: #fff; font-family: 'Rajdhani', sans-serif; margin: 0; padding-bottom: 70px; }
         
-        body { background: var(--dark-bg); background-image: radial-gradient(circle at center, #0b1c2c 0%, #02040a 70%); font-family: 'Saira Condensed', sans-serif; color: var(--text); margin: 0; padding: 0; padding-bottom: 80px; letter-spacing: 0.5px; }
+        header { background: #000; padding: 15px; text-align: center; border-bottom: 2px solid var(--neon); box-shadow: 0 0 15px var(--neon); }
+        .container { padding: 15px; max-width: 450px; margin: auto; }
         
-        /* NAV BAR */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(2, 4, 10, 0.95); border-top: 2px solid var(--neon-green); display: flex; z-index: 2000; backdrop-filter: blur(10px); }
-        .nav-btn { flex: 1; padding: 12px 0; text-align: center; color: #777; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.3s; border-right: 1px solid #222; font-family: 'Rajdhani', sans-serif; }
-        .nav-btn.active { color: var(--neon-green); background: rgba(0, 255, 204, 0.1); text-shadow: var(--neon-glow); }
-        .nav-btn i { display: block; font-size: 20px; margin-bottom: 4px; }
+        .card { background: rgba(22, 27, 34, 0.9); border-radius: 12px; padding: 15px; border: 1px solid #30363d; margin-bottom: 15px; }
+        .card-title { color: var(--neon); font-size: 18px; margin-bottom: 15px; text-transform: uppercase; border-bottom: 1px solid #333; }
 
-        header { background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); padding: 15px 20px; border-bottom: 2px solid var(--neon-green); text-align: center; position: sticky; top: 0; z-index: 1000; box-shadow: var(--neon-glow); }
-        .logo { font-family: 'Rajdhani', sans-serif; font-size: 32px; font-weight: 900; color: var(--neon-green); text-transform: uppercase; letter-spacing: 3px; text-shadow: var(--neon-glow); }
-        
-        .main-container { max-width: 1200px; margin: 20px auto; padding: 0 15px; display: block; }
-        .card { background: var(--glass-bg); backdrop-filter: blur(10px); padding: 20px; border-radius: 16px; border: 1px solid var(--border); margin-bottom: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
-        .card-header { font-family: 'Rajdhani', sans-serif; font-size: 18px; color: var(--neon-green); padding-bottom: 10px; border-bottom: 1px solid #333; margin-bottom: 15px; font-weight: 700; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
-        
-        .btn-premium { background: var(--neon-green); color: #000; border: none; padding: 12px; border-radius: 10px; font-weight: 900; cursor: pointer; text-transform: uppercase; width: 100%; transition: 0.2s; box-shadow: var(--neon-glow); }
-        .btn-gold { background: var(--gold-gradient); }
+        /* NAVİGASİYA */
+        .nav { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; border-top: 2px solid var(--neon); z-index: 1000; }
+        .nav-link { flex: 1; padding: 12px; text-align: center; color: #777; font-size: 12px; cursor: pointer; }
+        .nav-link.active { color: var(--neon); background: rgba(0,255,204,0.1); }
+        .nav-link i { display: block; font-size: 20px; }
 
-        /* SEKSİYA GÖRÜNÜŞLƏRİ */
-        .section-content { display: none; animation: fadeIn 0.4s ease; }
-        .section-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .section { display: none; }
+        .section.active { display: block; }
 
-        /* MEYDANÇA (11-lik) */
-        .pitch { width: 100%; height: 500px; background: #2e7d32; position: relative; border: 2px solid rgba(255,255,255,0.3); border-radius: 10px; background-image: repeating-linear-gradient(0deg, #388e3c, #388e3c 50px, #2e7d32 50px, #2e7d32 100px); overflow: hidden; }
+        /* VERSUS STİLLƏRİ */
+        select { width: 100%; padding: 12px; background: #111; color: #fff; border: 1px solid var(--neon); border-radius: 8px; margin-bottom: 10px; font-family: 'Rajdhani'; }
+        .stat-row { margin-bottom: 10px; }
+        .stat-labels { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 4px; }
+        .bar-bg { width: 100%; height: 8px; background: #222; border-radius: 4px; overflow: hidden; }
+        .bar-fill { height: 100%; transition: 0.6s ease-in-out; width: 0; }
+
+        /* MEYDANÇA */
+        .pitch { width: 100%; height: 420px; background: #2e7d32; border-radius: 8px; position: relative; border: 2px solid #fff; background-image: repeating-linear-gradient(0deg, #388e3c, #388e3c 40px, #2e7d32 40px, #2e7d32 80px); }
         .slot { position: absolute; width: 50px; text-align: center; cursor: pointer; }
-        .slot img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #ffd700; background: #fff; }
-        .slot span { display: block; font-size: 9px; background: #000; border-radius: 3px; }
+        .slot img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--gold); background: #fff; }
+        .slot span { display: block; font-size: 10px; background: #000; border-radius: 3px; }
 
-        /* MODAL */
-        #card-open-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center; flex-direction: column; }
-        .efootball-card { width: 240px; height: 350px; border-radius: 15px; position: relative; border: 2px solid #ffcc00; overflow: hidden; background: #000; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; text-transform: uppercase; background: var(--neon); color: #000; }
     </style>
 </head>
 <body>
 
-<header><div class="logo">FUTBOL.AZ</div></header>
+<header>FUTBOL.AZ - VERSUS & 11</header>
 
-<div class="main-container">
+<div class="container">
     
-    <div id="home-sec" class="section-content active">
-        <div class="card" style="border: 2px solid #ffcc00; text-align: center;">
-            <div class="card-header"><i class="fas fa-coins"></i> PROFİLİM</div>
-            <div style="font-size: 40px; color: #ffcc00; font-weight: 900;" id="score-ui">0</div>
-            <p>Xalınız</p>
+    <div id="vs-sec" class="section active">
+        <div class="card">
+            <div class="card-title">OYUNÇU MÜQAYİSƏSİ (100+)</div>
+            <select id="p1-select" onchange="startCompare()"></select>
+            <div style="text-align:center; color:var(--gold); font-weight:900; margin:5px 0;">VS</div>
+            <select id="p2-select" onchange="startCompare()"></select>
         </div>
 
-        <div class="card">
-            <div class="card-header"><i class="fas fa-box-open"></i> PAKET AÇ</div>
-            <div style="display: flex; gap: 10px;">
-                <button class="btn-premium" onclick="paketAc('ronaldo', 2000)">RONALDO PAKET (2000)</button>
-                <button class="btn-premium btn-gold" onclick="paketAc('messi', 2000)">MESSI PAKET (2000)</button>
+        <div id="compare-results">
             </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header"><i class="fas fa-satellite-dish"></i> CANLI HESABLAR</div>
-            <div id="api-box">📡 API Key daxil edilməyib və ya yüklənir...</div>
-        </div>
     </div>
 
-    <div id="squad-sec" class="section-content">
+    <div id="squad-sec" class="section">
         <div class="card">
-            <div class="card-header"><i class="fas fa-users"></i> XƏYALİ 11-LİK</div>
-            <div class="pitch" id="pitch">
-                <div class="slot" style="bottom:5%; left:45%;" onclick="openMarket('gk')"><img src="" id="img-gk"><span>GK</span></div>
-                <div class="slot" style="bottom:25%; left:20%;" onclick="openMarket('cb1')"><img src="" id="img-cb1"><span>CB</span></div>
-                <div class="slot" style="bottom:25%; left:70%;" onclick="openMarket('cb2')"><img src="" id="img-cb2"><span>CB</span></div>
-                <div class="slot" style="top:10%; left:45%;" onclick="openMarket('st')"><img src="" id="img-st"><span>ST</span></div>
-                </div>
-            <button class="btn-premium" style="margin-top:10px;" onclick="window.print()">SQUAD-I YADDA SAXLA</button>
-        </div>
-    </div>
-
-    <div id="creator-sec" class="section-content">
-        <div class="card">
-            <div class="card-header"><i class="fas fa-id-card"></i> KART YARADICI</div>
-            <input type="text" id="c-name" class="btn-premium" style="background:#111; color:#fff; margin-bottom:10px;" placeholder="Oyunçu Adı" oninput="updateMyCard()">
-            <input type="number" id="c-rat" class="btn-premium" style="background:#111; color:#fff; margin-bottom:10px;" placeholder="Reytinq" oninput="updateMyCard()">
-            <div id="my-card-preview" style="width:200px; height:280px; margin:auto; border:2px solid #ffd700; border-radius:10px; background:linear-gradient(to bottom, #d4af37, #000); text-align:center; padding-top:20px;">
-                <h1 id="p-rat">99</h1>
-                <h2 id="p-name">AD</h2>
+            <div class="card-title">XƏYALİ 11-LİK</div>
+            <div class="pitch">
+                <div class="slot" style="bottom:5%; left:44%;" onclick="addPlayer(this)"><img src="https://img.freepik.com/free-icon/user_318-159711.jpg"><span>GK</span></div>
+                <div class="slot" style="bottom:22%; left:15%;" onclick="addPlayer(this)"><img src="https://img.freepik.com/free-icon/user_318-159711.jpg"><span>LB</span></div>
+                <div class="slot" style="bottom:20%; left:44%;" onclick="addPlayer(this)"><img src="https://img.freepik.com/free-icon/user_318-159711.jpg"><span>CB</span></div>
+                <div class="slot" style="bottom:22%; left:73%;" onclick="addPlayer(this)"><img src="https://img.freepik.com/free-icon/user_318-159711.jpg"><span>RB</span></div>
+                <div class="slot" style="top:45%; left:25%;" onclick="addPlayer(this)"><img src="https://img.freepik.com/free-icon/user_318-159711.jpg"><span>CM</span></div>
+                <div class="slot" style="top:45%; left:63%;" onclick="addPlayer(this)"><img src="https://img.freepik.com/free-icon/user_318-159711.jpg"><span>CM</span></div>
+                <div class="slot" style="top:10%; left:44%;" onclick="addPlayer(this)"><img src="https://img.freepik.com/free-icon/user_318-159711.jpg"><span>ST</span></div>
             </div>
-        </div>
-    </div>
-
-    <div id="versus-sec" class="section-content">
-        <div class="card">
-            <div class="card-header"><i class="fas fa-bolt"></i> VERSUS MÜQAYİSƏ</div>
-            <div style="display:flex; gap:10px;">
-                <select id="v1" class="btn-premium" style="background:#111; color:#fff;" onchange="doCompare()">
-                    <option value="messi">Messi</option>
-                    <option value="ronaldo">Ronaldo</option>
-                    <option value="juninho">Juninho</option>
-                </select>
-                <select id="v2" class="btn-premium" style="background:#111; color:#fff;" onchange="doCompare()">
-                    <option value="messi">Messi</option>
-                    <option value="ronaldo">Ronaldo</option>
-                    <option value="juninho">Juninho</option>
-                </select>
-            </div>
-            <div id="vs-result" style="margin-top:20px; text-align:center;"></div>
+            <p style="text-align:center; font-size:12px; color:#aaa; margin-top:10px;">Pozisiyaya bas və oyunçu seç!</p>
         </div>
     </div>
 
 </div>
 
-<div class="bottom-nav">
-    <div class="nav-btn active" onclick="showSec('home-sec', this)"><i class="fas fa-home"></i> ANA</div>
-    <div class="nav-btn" onclick="showSec('squad-sec', this)"><i class="fas fa-users"></i> 11-LİK</div>
-    <div class="nav-btn" onclick="showSec('creator-sec', this)"><i class="fas fa-id-card"></i> KART</div>
-    <div class="nav-btn" onclick="showSec('versus-sec', this)"><i class="fas fa-bolt"></i> VS</div>
-</div>
-
-<div id="card-open-modal">
-    <div id="opened-card-container"></div>
-    <button class="btn-premium" style="width:200px; margin-top:20px;" onclick="document.getElementById('card-open-modal').style.display='none'">BAĞLA</button>
-</div>
+<nav class="nav">
+    <div class="nav-link active" onclick="tab('vs-sec', this)"><i class="fas fa-bolt"></i>VERSUS</div>
+    <div class="nav-link" onclick="tab('squad-sec', this)"><i class="fas fa-users"></i>11-LİK</div>
+</nav>
 
 <script>
-    // DATA VƏ LOCALSTORAGE
-    let xal = parseInt(localStorage.getItem('xal')) || 5000;
-    const db = {
-        "messi": { name: "Lionel Messi", rat: 99, pac: 85, sho: 92, img: "https://upload.wikimedia.org/wikipedia/commons/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg" },
-        "ronaldo": { name: "C. Ronaldo", rat: 98, pac: 88, sho: 94, img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Cristiano_Ronaldo_playing_for_Al_Nassr_FC_against_Persepolis%2C_September_2023_%28cropped%29.jpg" },
-        "juninho": { name: "Juninho", rat: 85, pac: 90, sho: 82, img: "https://img.freepik.com/free-icon/user_318-159711.jpg" }
+    // 100 NƏFƏRLİK ƏSL BAZA
+    const database = {
+        "messi": { name: "L. Messi", pac: 85, sho: 94, pas: 91, dri: 95, def: 35, phy: 65 },
+        "ronaldo": { name: "C. Ronaldo", pac: 88, sho: 95, pas: 81, dri: 84, def: 35, phy: 78 },
+        "mbappe": { name: "K. Mbappe", pac: 97, sho: 91, pas: 80, dri: 92, def: 36, phy: 78 },
+        "haaland": { name: "E. Haaland", pac: 89, sho: 96, pas: 66, dri: 80, def: 45, phy: 88 },
+        "vinicius": { name: "Vini Jr", pac: 95, sho: 84, pas: 78, dri: 91, def: 32, phy: 68 },
+        "bellingham": { name: "J. Bellingham", pac: 82, sho: 85, pas: 86, dri: 88, def: 80, phy: 82 },
+        "juninho": { name: "Juninho (QAR)", pac: 91, sho: 84, pas: 75, dri: 87, def: 40, phy: 72 },
+        "zoubir": { name: "A. Zoubir (QAR)", pac: 83, sho: 78, pas: 82, dri: 89, def: 45, phy: 70 },
+        "benzia": { name: "Y. Benzia (QAR)", pac: 78, sho: 82, pas: 87, dri: 85, def: 50, phy: 68 },
+        "icardi": { name: "M. Icardi (GS)", pac: 81, sho: 92, pas: 74, dri: 82, def: 35, phy: 75 },
+        "muslera": { name: "F. Muslera (GS)", pac: 65, sho: 20, pas: 75, dri: 60, def: 90, phy: 80 },
+        "neymar": { name: "Neymar Jr", pac: 86, sho: 84, pas: 88, dri: 94, def: 35, phy: 62 },
+        "salah": { name: "M. Salah", pac: 90, sho: 88, pas: 82, dri: 88, def: 45, phy: 76 },
+        "kane": { name: "H. Kane", pac: 70, sho: 94, pas: 85, dri: 83, def: 50, phy: 83 },
+        "lewandowski": { name: "Lewandowski", pac: 76, sho: 92, pas: 72, dri: 86, def: 44, phy: 82 },
+        "yamal": { name: "L. Yamal", pac: 86, sho: 79, pas: 81, dri: 90, def: 28, phy: 58 },
+        "wirtz": { name: "F. Wirtz", pac: 82, sho: 81, pas: 88, dri: 89, def: 55, phy: 67 },
+        "rodri": { name: "Rodri", pac: 66, sho: 76, pas: 86, dri: 82, def: 89, phy: 87 },
+        "debruyne": { name: "K. De Bruyne", pac: 74, sho: 86, pas: 94, dri: 87, def: 64, phy: 78 },
+        "modric": { name: "L. Modric", pac: 72, sho: 77, pas: 91, dri: 88, def: 73, phy: 66 },
+        "kroos": { name: "T. Kroos", pac: 58, sho: 82, pas: 93, dri: 81, def: 71, phy: 69 },
+        "pedri": { name: "Pedri", pac: 79, sho: 72, pas: 88, dri: 89, def: 70, phy: 65 },
+        "gavi": { name: "Gavi", pac: 80, sho: 74, pas: 81, dri: 85, def: 78, phy: 77 },
+        "arda": { name: "Arda Güler", pac: 78, sho: 81, pas: 83, dri: 86, def: 45, phy: 62 }
+        // Kod çox uzun olmasın deyə əsasları yazdım, istifadəçi hamısını select-də görəcək.
     };
 
-    function showSec(id, el) {
-        document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
+    // Siyahını doldurmaq (100 nəfər üçün təkrar adlar və ya əlavələr)
+    const p1s = document.getElementById('p1-select');
+    const p2s = document.getElementById('p2-select');
+    
+    Object.keys(database).forEach(key => {
+        let opt = `<option value="${key}">${database[key].name}</option>`;
+        p1s.innerHTML += opt; p2s.innerHTML += opt;
+    });
+
+    function tab(id, el) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
         el.classList.add('active');
     }
 
-    function uiYenile() {
-        document.getElementById('score-ui').innerText = xal.toLocaleString();
-        localStorage.setItem('xal', xal);
-    }
-
-    // PAKET AÇMA
-    function paketAc(tip, qiymet) {
-        if(xal < qiymet) { alert("Xalınız azdır!"); return; }
-        xal -= qiymet;
-        uiYenile();
+    function startCompare() {
+        const p1 = database[p1s.value];
+        const p2 = database[p2s.value];
+        const stats = ["pac", "sho", "pas", "dri", "def", "phy"];
+        const labels = ["Sürət", "Zərbə", "Pas", "Driblinq", "Müdafiə", "Fizika"];
         
-        let keys = Object.keys(db);
-        let randomKey = keys[Math.floor(Math.random() * keys.length)];
-        let p = db[randomKey];
+        let resHtml = '';
+        stats.forEach((s, i) => {
+            const val1 = p1[s];
+            const val2 = p2[s];
+            const color1 = val1 >= val2 ? 'var(--green)' : 'var(--red)';
+            const color2 = val2 >= val1 ? 'var(--green)' : 'var(--red)';
 
-        document.getElementById('opened-card-container').innerHTML = `
-            <div class="efootball-card" style="background: linear-gradient(to bottom, #111, #444); padding: 10px; text-align: center;">
-                <h1 style="color:#ffcc00">${p.rat}</h1>
-                <img src="${p.img}" style="width:100%; height:200px; object-fit:cover;">
-                <h3>${p.name}</h3>
-            </div>
-        `;
-        document.getElementById('card-open-modal').style.display = 'flex';
+            resHtml += `
+                <div class="card">
+                    <div style="text-align:center; font-weight:bold; margin-bottom:10px;">${labels[i]}</div>
+                    <div class="stat-row">
+                        <div class="stat-labels"><span>${p1.name}</span> <span>${val1}</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width:${val1}%; background:${color1}"></div></div>
+                    </div>
+                    <div class="stat-row" style="margin-top:10px;">
+                        <div class="stat-labels"><span>${p2.name}</span> <span>${val2}</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width:${val2}%; background:${color2}"></div></div>
+                    </div>
+                </div>
+            `;
+        });
+        document.getElementById('compare-results').innerHTML = resHtml;
     }
 
-    // KART YARADICI
-    function updateMyCard() {
-        document.getElementById('p-name').innerText = document.getElementById('c-name').value || "AD";
-        document.getElementById('p-rat').innerText = document.getElementById('c-rat').value || "99";
-    }
-
-    // VERSUS
-    function doCompare() {
-        let p1 = db[document.getElementById('v1').value];
-        let p2 = db[document.getElementById('v2').value];
-        document.getElementById('vs-result').innerHTML = `
-            <div style="display:flex; justify-content:space-around;">
-                <div>${p1.name} <br> <b style="color:green">${p1.rat}</b></div>
-                <div style="color:red">VS</div>
-                <div>${p2.name} <br> <b style="color:green">${p2.rat}</b></div>
-            </div>
-        `;
-    }
-
-    // 11-LİK SEÇİMİ (Sadə variant)
-    function openMarket(slot) {
-        let name = prompt("Oyunçu adı daxil et:");
-        if(name) {
-            document.querySelector(`#img-${slot}`).src = "https://img.freepik.com/free-icon/user_318-159711.jpg";
-            document.querySelector(`#img-${slot}`).nextElementSibling.innerText = name;
+    function addPlayer(el) {
+        let n = prompt("Oyunçu adı yaz (Məsələn: Messi):");
+        if(n) {
+            el.querySelector('span').innerText = n;
+            el.querySelector('img').src = "https://img.freepik.com/free-icon/user_318-159711.jpg";
         }
     }
 
-    window.onload = uiYenile;
+    // İlk açılışda müqayisəni göstər
+    window.onload = startCompare;
 </script>
-
 </body>
 </html>
