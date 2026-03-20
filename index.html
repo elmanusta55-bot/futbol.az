@@ -191,6 +191,134 @@
         document.getElementById(`stats-${id}`).innerHTML = html;
     }
 </script>
+        <style>
+    :root { --field-green: #2e7d32; --line-white: rgba(255,255,255,0.5); }
+    #squad-builder { background: #050c16; color: white; font-family: sans-serif; padding: 15px; border-radius: 15px; max-width: 500px; margin: auto; border: 2px solid #ffd700; }
+    
+    /* Futbol Meydançası */
+    .pitch { 
+        width: 100%; height: 500px; background: var(--field-green); position: relative; 
+        border: 2px solid var(--line-white); border-radius: 10px; margin-top: 20px;
+        background-image: repeating-linear-gradient(0deg, #388e3c, #388e3c 50px, #2e7d32 50px, #2e7d32 100px);
+        overflow: hidden;
+    }
+    .pitch::after { content: ""; position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: var(--line-white); }
+    .center-circle { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; border: 2px solid var(--line-white); border-radius: 50%; }
+
+    /* Oyunçu Pozisiyaları */
+    .slot { 
+        position: absolute; width: 60px; text-align: center; cursor: pointer;
+        transition: 0.3s; z-index: 5;
+    }
+    .slot img { width: 45px; height: 45px; background: #fff; border-radius: 50%; border: 2px solid #ffd700; object-fit: cover; }
+    .slot span { display: block; font-size: 10px; background: rgba(0,0,0,0.8); padding: 2px; border-radius: 3px; margin-top: 2px; overflow: hidden; white-space: nowrap; }
+
+    /* Pozisiya Koordinatları (Mobil üçün 360-400px uyğun) */
+    #pos-gk { bottom: 5%; left: 50%; transform: translateX(-50%); }
+    #pos-cb1 { bottom: 20%; left: 30%; transform: translateX(-50%); }
+    #pos-cb2 { bottom: 20%; left: 70%; transform: translateX(-50%); }
+    #pos-lb { bottom: 30%; left: 10%; }
+    #pos-rb { bottom: 30%; left: 80%; transform: translateX(-50%); }
+    #pos-cm1 { top: 45%; left: 30%; transform: translateX(-50%); }
+    #pos-cm2 { top: 45%; left: 70%; transform: translateX(-50%); }
+    #pos-lw { top: 25%; left: 15%; }
+    #pos-rw { top: 25%; left: 75%; transform: translateX(-50%); }
+    #pos-cam { top: 30%; left: 50%; transform: translateX(-50%); }
+    #pos-st { top: 10%; left: 50%; transform: translateX(-50%); }
+
+    /* Oyunçu Seçim Siyahısı */
+    #player-list-modal { 
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+        background: rgba(0,0,0,0.9); z-index: 100; display: none; padding: 20px; box-sizing: border-box;
+    }
+    .search-box { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 5px; border: none; }
+    .scroll-list { height: 80%; overflow-y: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .player-item { background: #1a2a3a; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 14px; border-left: 3px solid #ffd700; }
+</style>
+
+<div id="squad-builder">
+    <h2 style="text-align:center; color:#ffd700; margin:0;">STADİON.AZ - 11 QUR</h2>
+    <p style="font-size:12px; text-align:center; color:#ccc;">Pozisiyaya bas və ulduzu seç!</p>
+
+    <div class="pitch" id="football-pitch">
+        <div class="center-circle"></div>
+        <div class="slot" id="pos-gk" onclick="openMarket('pos-gk')"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>Qapıçı</span></div>
+        <div class="slot" id="pos-cb1" onclick="openMarket('pos-cb1')"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>Müdafiə</span></div>
+        <div class="slot" id="pos-cb2" onclick="openMarket('pos-cb2')"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>Müdafiə</span></div>
+        <div class="slot" id="pos-lb" onclick="openMarket('pos-lb')"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>Sol Cinah</span></div>
+        <div class="slot" id="pos-rb" onclick="openMarket('pos-rb')"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>Sağ Cinah</span></div>
+        <div class="slot" id="pos-cm1" onclick="openMarket('pos-cm1')"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>Y.Müdafiə</span></div>
+        <div class="slot" id="pos-cm2" onclick="openMarket('pos-cm2')"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>Y.Müdafiə</span></div>
+        <div class="slot" id="pos-cam" onclick="openMarket('pos-cam')"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>Hücum.Y.M</span></div>
+        <div class="slot" id="pos-lw" onclick="openMarket('pos-lw')"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>Sol Hücum</span></div>
+        <div class="slot" id="pos-rw" onclick="openMarket('pos-rw')"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>Sağ Hücum</span></div>
+        <div class="slot" id="pos-st" onclick="openMarket('pos-st')"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>M.Hücum</span></div>
+    </div>
+
+    <button onclick="window.print()" style="width:100%; margin-top:15px; padding:10px; background:#ffd700; border:none; font-weight:bold; border-radius:5px;">ŞƏKLİNİ ÇƏK (PRINT)</button>
+</div>
+
+<div id="player-list-modal">
+    <button onclick="closeMarket()" style="float:right; color:red; font-weight:bold; background:none; border:none; font-size:20px;">X</button>
+    <h3 style="color:#ffd700;">Oyunçu Seç</h3>
+    <input type="text" id="playerSearch" class="search-box" placeholder="Oyunçu adı yaz..." onkeyup="filterPlayers()">
+    <div class="scroll-list" id="global-player-list"></div>
+</div>
+
+<script>
+    // 100 OYUNÇULUQ BAZA (SƏNİN ÜÇÜN HAZIRLADIM)
+    const bigDb = [
+        "Messi", "C. Ronaldo", "Mbappe", "Haaland", "Bellingham", "Vinicius Jr", "De Bruyne", "Salah", "Kane", "Lewandowski",
+        "Neymar", "Griezmann", "Rodri", "Modric", "Kroos", "Van Dijk", "Alisson", "Courtois", "Musiala", "Wirtz",
+        "Lamine Yamal", "Saka", "Odegaard", "Rice", "Bernardo Silva", "Foden", "Ruben Dias", "Kimmich", "Sane", "Gnabry",
+        "Leao", "Theo Hernandez", "Maignan", "Lautaro Martinez", "Barella", "Bastoni", "Osimhen", "Kvaratskhelia", "Dybala", "Lukaku",
+        "Pedri", "Gavi", "Araujo", "Ter Stegen", "Valverde", "Tchouameni", "Camavinga", "Militao", "Rudiger", "Güler (Arda)",
+        "Juninho (Qarabağ)", "Zoubir (Qarabağ)", "Benzia (Qarabağ)", "Lunev (Qarabağ)", "Mustafazade (Qarabağ)", "Leandro Andrade", "Romao", "Jankovic", "Medvedev", "Mahir Emreli",
+        "Icardi (GS)", "Muslera (GS)", "Osimhen (GS)", "Torreira (GS)", "Barış Alper (GS)", "Tadic (FB)", "Dzeko (FB)", "Fred (FB)", "Szymanski (FB)", "Rafa Silva (BJK)",
+        "Immobile (BJK)", "Gedson (BJK)", "Son Heung-min", "Bruno Fernandes", "Rashford", "Casemiro", "Emi Martinez", "Watkins", "Luis Diaz", "Darwin Nunez",
+        "Pele (Legend)", "Maradona (Legend)", "Zidane (Legend)", "Ronaldinho", "Ronaldo (R9)", "Yashin (GK)", "Maldini", "Cafu", "Roberto Carlos", "Beckham",
+        "Xavi", "Iniesta", "Busquets", "Puyol", "Buffon", "Neuer", "Ibrahimovic", "Eto'o", "Henry", "Shevchenko"
+    ];
+
+    let currentSlot = null;
+
+    function openMarket(slotId) {
+        currentSlot = slotId;
+        document.getElementById('player-list-modal').style.display = 'block';
+        renderList(bigDb);
+    }
+
+    function closeMarket() {
+        document.getElementById('player-list-modal').style.display = 'none';
+    }
+
+    function renderList(list) {
+        const container = document.getElementById('global-player-list');
+        container.innerHTML = '';
+        list.forEach(name => {
+            const div = document.createElement('div');
+            div.className = 'player-item';
+            div.innerText = name;
+            div.onclick = () => selectPlayer(name);
+            container.appendChild(div);
+        });
+    }
+
+    function selectPlayer(name) {
+        const slot = document.getElementById(currentSlot);
+        slot.querySelector('span').innerText = name;
+        // Sadəlik üçün default bir şəkil qoyuruq, istəsən hər oyunçuya özəl URL qoya bilərsən
+        slot.querySelector('img').src = "https://img.freepik.com/free-icon/user_318-159711.jpg";
+        closeMarket();
+    }
+
+    function filterPlayers() {
+        const term = document.getElementById('playerSearch').value.toLowerCase();
+        const filtered = bigDb.filter(n => n.toLowerCase().includes(term));
+        renderList(filtered);
+    }
+</script>
+        
         
         
  
