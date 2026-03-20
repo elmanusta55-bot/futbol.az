@@ -9,26 +9,15 @@
     <style>
         :root { --neon-green: #00ffcc; --neon-glow: 0 0 15px rgba(0, 255, 204, 0.6); --dark-bg: #02040a; --glass-bg: rgba(22, 27, 34, 0.8); --gold-gradient: linear-gradient(135deg, #ffcc00 0%, #ff9900 100%); --text: #f0f6fc; --border: #30363d; }
         
-        body { background: var(--dark-bg); background-image: radial-gradient(circle at center, #0b1c2c 0%, #02040a 70%); font-family: 'Saira Condensed', sans-serif; color: var(--text); margin: 0; padding: 0; letter-spacing: 0.5px; transition: 1s ease-in-out; padding-bottom: 80px; }
+        body { background: var(--dark-bg); background-image: radial-gradient(circle at center, #0b1c2c 0%, #02040a 70%); font-family: 'Saira Condensed', sans-serif; color: var(--text); margin: 0; padding: 0; padding-bottom: 80px; letter-spacing: 0.5px; }
         
-        /* ALT MENYU VƏ GÖRƏVLƏR DİZAYNI */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(2, 4, 10, 0.95); border-top: 2px solid var(--neon-green); display: flex; z-index: 2000; backdrop-filter: blur(10px); }
         .nav-btn { flex: 1; padding: 12px 0; text-align: center; color: #777; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.3s; border-right: 1px solid #222; font-family: 'Rajdhani', sans-serif; }
         .nav-btn:last-child { border-right: none; }
         .nav-btn.active { color: var(--neon-green); background: rgba(0, 255, 204, 0.1); text-shadow: var(--neon-glow); }
         .nav-btn i { display: block; font-size: 20px; margin-bottom: 4px; }
 
-        /* GÖRƏVLƏR KONTEYNERİ - YENİLƏNDİ */
-        #missions-container { 
-            display: none; 
-            width: 100%; 
-            max-width: 800px; 
-            margin: 20px auto; 
-            padding: 0 15px; 
-            padding-bottom: 100px; 
-            box-sizing: border-box; 
-        }
-        
+        #missions-container { display: none; width: 100%; max-width: 800px; margin: 20px auto; padding: 0 15px; box-sizing: border-box; }
         .mission-card { background: var(--glass-bg); padding: 15px; border-radius: 12px; border: 1px dashed var(--border); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         .mission-info h4 { margin: 0; color: #fff; font-size: 16px; font-family: 'Rajdhani', sans-serif; }
         .mission-info p { margin: 5px 0 0 0; font-size: 13px; color: #aaa; }
@@ -62,7 +51,7 @@
 
 <header><div class="logo">FUTBOL.AZ</div></header>
 
-<div class="main-container">
+<div class="main-container" id="main-container">
     <div class="left-content">
         <input type="text" id="searchInput" class="search-box" style="width:100%; padding:15px; border-radius:10px; border:2px solid var(--neon-green); background:#000; color:#fff; margin-bottom:20px;" placeholder="Canlı oyunlarda axtar..." onkeyup="axtar()">
         
@@ -105,11 +94,19 @@
             </div>
         </div>
 
-        <div id="vip-zona" class="locked-content">
-            <div class="card" style="border: 2px solid #ffcc00; background: rgba(212, 175, 55, 0.1);">
-                <h2 style="color:#ffcc00; text-align:center;"><i class="fas fa-crown"></i> VİP PANEL AKTİVDİR</h2>
-                <p style="text-align:center;">Xüsusi İmarət Media xəbərləri bura yüklənəcək.</p>
+        <div class="card" style="border: 2px dashed var(--neon-green); position: relative; overflow: hidden;">
+            <div class="card-header"><i class="fas fa-clapperboard"></i> EDİT YARIŞI - QOŞUL</div>
+            <div style="margin-bottom: 15px;">
+                <p style="font-size: 14px; color: #ccc; line-height: 1.4;">Ən yaxşı futbol editini hazırla, YouTube, TikTok və ya Drive-a yüklə və linkini göndər. Qalibi 4000 nəfərlik <b>FUTBOL.AZ</b> kanalında seçəcəyik! 🏆</p>
             </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <input type="text" id="editor-name" class="promo-input" placeholder="Adın və ya Ləqəbin" style="margin: 0;">
+                <input type="text" id="video-link" class="promo-input" placeholder="Video Linki (TikTok, YT, Drive)" style="margin: 0;">
+                <button class="btn-premium" onclick="yarisaQosul()" style="background: var(--gold-gradient); color: #000;">
+                    <i class="fab fa-whatsapp"></i> YARIŞA GÖNDƏR
+                </button>
+            </div>
+            <div id="yarish-status" style="margin-top:10px; font-size:12px; text-align:center; font-weight: bold;"></div>
         </div>
     </div>
 
@@ -139,30 +136,18 @@
             <div class="card-header"><i class="fas fa-fire"></i> BOMBARDİRLƏR</div>
             <div id="scorers-box">⏳ Yüklənir...</div>
         </div>
-
-        <div class="card">
-            <div class="card-header"><i class="fas fa-clock"></i> NÖVBƏTİ OYUN</div>
-            <div class="timer-grid">
-                <div class="time-block"><span id="d">00</span><br><small>GÜN</small></div>
-                <div class="time-block"><span id="h">00</span><br><small>SAAT</small></div>
-                <div class="time-block"><span id="m">00</span><br><small>DƏQ</small></div>
-                <div class="time-block"><span id="s">00</span><br><small>SAN</small></div>
-            </div>
-        </div>
     </div>
 </div>
 
 <div id="missions-container">
     <h2 style="text-align:center; color: var(--neon-green); font-family:'Rajdhani', sans-serif;"><i class="fas fa-list-check"></i> GÜNLÜK GÖRƏVLƏR</h2>
-    
     <div class="mission-card" id="task-kanal">
         <div class="mission-info">
             <h4>📱 İmarət Media-ya Bax</h4>
             <p>Kanala daxil ol və xəbərləri oxu (+1000 XAL)</p>
         </div>
-        <button class="btn-premium btn-outline" onclick="gorevEt('task-kanal', 1000, 'https://chat.whatsapp.com/SƏNİN_LİNKİN')">ET</button>
+        <button class="btn-premium btn-outline" onclick="gorevEt('task-kanal', 1000, 'https://chat.whatsapp.com/')">ET</button>
     </div>
-
     <div class="mission-card" id="task-giris">
         <div class="mission-info">
             <h4>🎁 Gündəlik Hədiyyə</h4>
@@ -187,6 +172,7 @@
     let sans = parseInt(localStorage.getItem('sans')) || 3;
     let esyalar = JSON.parse(localStorage.getItem('inv')) || [];
     let usedPromos = JSON.parse(localStorage.getItem('promos')) || [];
+    let bitmisGorevler = JSON.parse(localStorage.getItem('gorevler')) || [];
     let liveMatches = []; 
 
     function uiYenile() {
@@ -196,23 +182,17 @@
         let card = document.getElementById('profile-card');
         
         bUI.innerText = "";
-        if(esyalar.includes('qarabag')) { bUI.innerText += " 👕"; }
-        if(esyalar.includes('vip')) { 
-            bUI.innerText += " 👑"; 
-            card.style.background = "linear-gradient(135deg, #d4af37, #ffcc00)";
-            card.style.color = "#000";
-            document.getElementById('vip-zona').style.display = "block";
-        }
-        if(esyalar.includes('ball')) { bUI.innerText += " ⚽"; }
+        if(esyalar.includes('qarabag')) bUI.innerText += " 👕";
+        if(esyalar.includes('vip')) { bUI.innerText += " 👑"; card.style.background = "linear-gradient(135deg, #d4af37, #ffcc00)"; card.style.color = "#000"; }
+        if(esyalar.includes('ball')) bUI.innerText += " ⚽";
 
         localStorage.setItem('xal', xal);
         localStorage.setItem('sans', sans);
         localStorage.setItem('inv', JSON.stringify(esyalar));
     }
 
-    // MENYU DƏYİŞMƏ FUNKSİYASI - DÜZƏLDİLDİ
     function menyuDeyis(secim) {
-        let mainSec = document.querySelector('.main-container');
+        let mainSec = document.getElementById('main-container');
         let missionSec = document.getElementById('missions-container');
         let homeBtn = document.getElementById('nav-home');
         let missionBtn = document.getElementById('nav-missions');
@@ -220,85 +200,84 @@
         if(secim === 'home') {
             homeBtn.classList.add('active');
             missionBtn.classList.remove('active');
-            mainSec.style.display = 'grid'; // Grid sistemini bərpa edirik
+            mainSec.style.display = 'grid'; 
             missionSec.style.display = 'none';
-            
-            if(window.innerWidth <= 992) {
-                mainSec.style.display = 'block';
-            }
+            if(window.innerWidth <= 992) { mainSec.style.display = 'block'; }
         } else {
             homeBtn.classList.remove('active');
             missionBtn.classList.add('active');
             mainSec.style.display = 'none';
-            missionSec.style.display = 'block'; // Görəvləri blok kimi açırıq
+            missionSec.style.display = 'block';
             gorevleriYoxla();
         }
     }
-    // YENİ: TURNİR CƏDVƏLİNİ GƏTİRƏN FUNKSİYA
-async function cədvəlCek() {
-    const box = document.getElementById('standings-box');
-    // 2026-cı ildə olduğumuz üçün bəzən 2025 mövsümü cari sayılır
-    const season = new Date().getFullYear() - 1; 
-    
-    try {
-        const res = await fetch(`https://v3.football.api-sports.io/standings?league=303&season=${season}`, {
-            "headers": { "x-rapidapi-host": "v3.football.api-sports.io", "x-rapidapi-key": API_KEY }
-        });
-        const data = await res.json();
-        
-        if (!data.response || data.response.length === 0) {
-            box.innerHTML = "Cədvəl məlumatı tapılmadı (Mövsüm yenilənir).";
-            return;
-        }
 
-        const standings = data.response[0].league.standings[0];
-        let html = `<table class="data-table"><tr><th>#</th><th>Komanda</th><th>O</th><th>X</th></tr>`;
-        standings.forEach(s => {
-            html += `<tr>
-                <td>${s.rank}</td>
-                <td><img src="${s.team.logo}" width="15"> ${s.team.name}</td>
-                <td>${s.all.played}</td>
-                <td style="color:#ffcc00; font-weight:bold;">${s.points}</td>
-            </tr>`;
-        });
-        box.innerHTML = html + "</table>";
-    } catch (e) { 
-        box.innerHTML = "Cədvəl API limiti və ya xəta."; 
+    async function apiCek() {
+        const box = document.getElementById('api-box');
+        try {
+            const res = await fetch("https://v3.football.api-sports.io/fixtures?live=all", {
+                "headers": { "x-rapidapi-host": "v3.football.api-sports.io", "x-rapidapi-key": API_KEY }
+            });
+            const data = await res.json();
+            
+            // Limit Qoruyucusu
+            if(data.errors && data.errors.requests) { box.innerHTML = "🔴 API Limiti Dolub!"; return; }
+            if(!data.response || data.response.length === 0) { box.innerHTML = "<p style='text-align:center;'>Canlı oyun yoxdur.</p>"; return; }
+            
+            box.innerHTML = "";
+            data.response.forEach(item => {
+                box.innerHTML += `<div class="live-match" onclick="toggleDetails(${item.fixture.id})">
+                    <div class="match-info">
+                        <img src="${item.teams.home.logo}" width="20"> 
+                        <span>${item.teams.home.name} <b>${item.goals.home}-${item.goals.away}</b> ${item.teams.away.name}</span>
+                        <img src="${item.teams.away.logo}" width="20">
+                        <span style="color:var(--neon-green); font-weight:bold;">${item.fixture.status.elapsed}'</span>
+                    </div><div id="details-${item.fixture.id}" class="goal-details"></div></div>`;
+            });
+        } catch (e) { box.innerHTML = "API Xətası."; }
     }
-}
 
-// YENİ: BOMBARDİRLƏRİ GƏTİRƏN FUNKSİYA
-async function bombardirCek() {
-    const box = document.getElementById('scorers-box');
-    const season = new Date().getFullYear() - 1;
-
-    try {
-        const res = await fetch(`https://v3.football.api-sports.io/players/topscorers?league=303&season=${season}`, {
-            "headers": { "x-rapidapi-host": "v3.football.api-sports.io", "x-rapidapi-key": API_KEY }
-        });
-        const data = await res.json();
-        
-        if (!data.response || data.response.length === 0) {
-            box.innerHTML = "Məlumat yoxdur.";
-            return;
-        }
-
-        let html = `<table class="data-table"><tr><th>Oyunçu</th><th>Klub</th><th>Qol</th></tr>`;
-        data.response.slice(0, 5).forEach(p => {
-            html += `<tr>
-                <td>${p.player.name}</td>
-                <td><img src="${p.statistics[0].team.logo}" width="12"></td>
-                <td style="color:var(--neon-green); font-weight:bold;">${p.statistics[0].goals.total}</td>
-            </tr>`;
-        });
-        box.innerHTML = html + "</table>";
-    } catch (e) { 
-        box.innerHTML = "Xəta."; 
+    async function cədvəlCek() {
+        const box = document.getElementById('standings-box');
+        const season = new Date().getFullYear() - 1;
+        try {
+            const res = await fetch(`https://v3.football.api-sports.io/standings?league=303&season=${season}`, {
+                "headers": { "x-rapidapi-host": "v3.football.api-sports.io", "x-rapidapi-key": API_KEY }
+            });
+            const data = await res.json();
+            
+            // Limit Qoruyucusu
+            if(data.errors && data.errors.requests) { box.innerHTML = "🔴 API Limiti Dolub!"; return; }
+            if(!data.response || data.response.length === 0) { box.innerHTML = "Cədvəl tapılmadı."; return; }
+            
+            const standings = data.response[0].league.standings[0];
+            let html = `<table class="data-table"><tr><th>#</th><th>Komanda</th><th>X</th></tr>`;
+            standings.forEach(s => { html += `<tr><td>${s.rank}</td><td><img src="${s.team.logo}" width="15"> ${s.team.name}</td><td style="color:#ffcc00;">${s.points}</td></tr>`; });
+            box.innerHTML = html + "</table>";
+        } catch (e) { box.innerHTML = "Xəta."; }
     }
-}
-    
 
-    
+    async function bombardirCek() {
+        const box = document.getElementById('scorers-box');
+        const season = new Date().getFullYear() - 1;
+        try {
+            const res = await fetch(`https://v3.football.api-sports.io/players/topscorers?league=303&season=${season}`, {
+                "headers": { "x-rapidapi-host": "v3.football.api-sports.io", "x-rapidapi-key": API_KEY }
+            });
+            const data = await res.json();
+            
+            // Limit Qoruyucusu
+            if(data.errors && data.errors.requests) { box.innerHTML = "🔴 API Limiti Dolub!"; return; }
+            if(!data.response || data.response.length === 0) { box.innerHTML = "Məlumat yoxdur."; return; }
+
+            let html = `<table class="data-table"><tr><th>Oyunçu</th><th>Klub</th><th>Qol</th></tr>`;
+            data.response.slice(0, 5).forEach(p => {
+                html += `<tr><td>${p.player.name}</td><td><img src="${p.statistics[0].team.logo}" width="12"></td><td style="color:var(--neon-green); font-weight:bold;">${p.statistics[0].goals.total}</td></tr>`;
+            });
+            box.innerHTML = html + "</table>";
+        } catch (e) { box.innerHTML = "Xəta."; }
+    }
+
     function oyna(t) {
         if(sans <= 0) { alert("Şans bitdi!"); return; }
         sans--;
@@ -322,7 +301,6 @@ async function bombardirCek() {
         } else { alert("Keçərsiz kod!"); }
     }
 
-    let bitmisGorevler = JSON.parse(localStorage.getItem('gorevler')) || [];
     function gorevEt(id, qazanc, link) {
         if(bitmisGorevler.includes(id)) return;
         if(link) window.open(link, '_blank');
@@ -335,8 +313,33 @@ async function bombardirCek() {
     function gorevleriYoxla() {
         bitmisGorevler.forEach(id => {
             let btn = document.getElementById(id)?.querySelector('button');
-            if(btn) { btn.innerText = "OK"; btn.disabled = true; btn.style.background = "#222"; }
+            if(btn) { btn.innerText = "TAMAM"; btn.disabled = true; btn.style.background = "#222"; }
         });
+    }
+
+    function yarisaQosul() {
+        const ad = document.getElementById('editor-name').value.trim();
+        const link = document.getElementById('video-link').value.trim();
+        if(ad === "" || link === "") { alert("Zəhmət olmasa adınızı və video linkini daxil edin!"); return; }
+        const mesaj = `🔥 *FUTBOL.AZ - EDİT YARIŞI* 🔥%0A%0A👤 *İştirakçı:* ${ad}%0A🔗 *Video Linki:* ${link}%0A%0A_Yarışda uğurlar!_`;
+        window.open(`https://wa.me/994555266848?text=${mesaj}`, '_blank');
+    }
+
+    const ronaldoPaket = ["👑 Cristiano Ronaldo (100)", "🔥 Karim Benzema (97)", "⚡ Gareth Bale (96)"];
+    const messiPaket = ["👑 Lionel Messi (100)", "🧛‍♂️ Luis Suarez (97)", "🕺 Neymar Jr (98)"];
+
+    function paketAc(tip, qiymet) {
+        if (xal < qiymet) { alert("Xalınız çatmır!"); return; }
+        xal -= qiymet; uiYenile(); 
+        let secilenPaket = tip === 'ronaldo' ? ronaldoPaket : messiPaket;
+        let randomOyunçu = secilenPaket[Math.floor(Math.random() * secilenPaket.length)];
+        let neticeDiv = document.getElementById('paket-netice');
+        neticeDiv.style.display = "block";
+        neticeDiv.innerHTML = `<span style='color: #fff;'>⏳ Açılır...</span>`;
+        setTimeout(() => {
+            let reng = tip === 'ronaldo' ? '#fff' : '#ffcc00';
+            neticeDiv.innerHTML = `<span style="font-size: 18px; font-weight: bold; color: ${reng};">${randomOyunçu}</span>`;
+        }, 1500);
     }
 
     function axtar() {
@@ -345,7 +348,7 @@ async function bombardirCek() {
         for (let item of list) { item.style.display = item.innerText.toLowerCase().includes(input) ? "flex" : "none"; }
     }
 
-    window.onload = () => { uiYenile(); apiCek(); cədvəlCek(); gorevleriYoxla(); };
+    window.onload = () => { uiYenile(); apiCek(); cədvəlCek(); bombardirCek(); gorevleriYoxla(); };
 </script>
 </body>
 </html>
