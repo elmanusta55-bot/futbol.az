@@ -105,36 +105,6 @@
         }
     }
 </style>
-
-<div id="versus-container" style="background: #050c16; color: white; padding: 25px; border-radius: 15px; font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: auto; border: 2px solid #ffd700; box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);">
-    
-    <h1 style="text-align: center; color: #ffd700; text-transform: uppercase; font-size: 28px; margin-bottom: 20px;">⚡️ Futbol.Az Versus ⚡️</h1>
-
-    <div class="selector-panel" style="display: flex; justify-content: space-between; gap: 15px; margin-bottom: 30px; align-items: center;">
-        <select id="p1-select" onchange="startCompare()" style="flex: 1; padding: 12px; border-radius: 8px; background: #1a2a3a; color: white; border: 1px solid #ffd700; font-weight: bold; outline: none;">
-            <option value="">1-ci Futbolçu</option>
-        </select>
-        
-        <div class="vs-text" style="font-size: 24px; font-weight: 900; color: #ffd700;">VS</div>
-
-        <select id="p2-select" onchange="startCompare()" style="flex: 1; padding: 12px; border-radius: 8px; background: #1a2a3a; color: white; border: 1px solid #ffd700; font-weight: bold; outline: none;">
-            <option value="">2-ci Futbolçu</option>
-        </select>
-    </div>
-
-    <div class="compare-grid" style="display: flex; justify-content: space-between; gap: 20px;">
-        <div id="res-p1" class="player-card" style="width: 48%; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border-top: 4px solid #ffd700; transition: 0.3s;">
-            <h2 id="name-p1" style="text-align: center; color: #fff; margin-bottom: 20px; font-size: 1.2rem;">-</h2>
-            <div id="stats-p1"></div>
-        </div>
-
-        <div id="res-p2" class="player-card" style="width: 48%; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border-top: 4px solid #ffd700; transition: 0.3s;">
-            <h2 id="name-p2" style="text-align: center; color: #fff; margin-bottom: 20px; font-size: 1.2rem;">-</h2>
-            <div id="stats-p2"></div>
-        </div>
-    </div>
-</div>
-
 <script>
     // Bura bayaqkı JavaScript kodunu (db və renderStats) olduğu kimi əlavə edirsən.
     // Sadəcə CSS hissəsindəki dəyişikliklər 360-400px üçün hər şeyi düzəldəcək.
