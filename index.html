@@ -37,14 +37,8 @@
         .live-match { background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; border-left: 3px solid var(--neon-green); display: flex; flex-direction: column; margin-bottom: 8px; font-size: 14px; cursor: pointer; transition: 0.3s; }
         .live-match:hover { background: rgba(0, 255, 204, 0.1); }
         .match-info { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; text-align: center; }
-        .time-block { background: #000; padding: 10px; border-radius: 8px; border: 1px solid #333; }
-        .locked-content { display: none; margin-top: 20px; }
         .goal-details { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #444; color: #ffcc00; font-size: 13px; animation: slideDown 0.3s ease; }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-        .data-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 5px; }
-        .data-table th { color: var(--neon-green); text-align: left; border-bottom: 1px solid #333; padding: 5px; }
-        .data-table td { padding: 8px 5px; border-bottom: 1px solid #222; }
     </style>
 </head>
 <body>
@@ -58,11 +52,6 @@
         <div class="card">
             <div class="card-header"><i class="fas fa-satellite-dish"></i> CANLI HESABLAR (API-FOOTBALL)</div>
             <div id="api-box">📡 Məlumatlar gətirilir...</div>
-        </div>
-
-        <div class="card">
-            <div class="card-header"><i class="fas fa-list-ol"></i> PREMYER LİQA CƏDVƏLİ</div>
-            <div id="standings-box" style="overflow-x: auto;">⏳ Cədvəl yüklənir...</div>
         </div>
 
         <div class="card" style="text-align:center;">
@@ -130,11 +119,6 @@
             <p style="text-align:center;color:#aaa;">Şanslar: <span id="sans-ui" style="color:red; font-weight:bold;">3</span></p>
             <input type="text" id="promo-input" class="promo-input" placeholder="PROMO KOD">
             <button class="btn-premium btn-gold" onclick="promoIslet()">KODU İŞLƏT</button>
-        </div>
-
-        <div class="card">
-            <div class="card-header"><i class="fas fa-fire"></i> BOMBARDİRLƏR</div>
-            <div id="scorers-box">⏳ Yüklənir...</div>
         </div>
     </div>
 </div>
@@ -220,62 +204,20 @@
             });
             const data = await res.json();
             
-            // Limit Qoruyucusu
             if(data.errors && data.errors.requests) { box.innerHTML = "🔴 API Limiti Dolub!"; return; }
             if(!data.response || data.response.length === 0) { box.innerHTML = "<p style='text-align:center;'>Canlı oyun yoxdur.</p>"; return; }
             
             box.innerHTML = "";
             data.response.forEach(item => {
-                box.innerHTML += `<div class="live-match" onclick="toggleDetails(${item.fixture.id})">
+                box.innerHTML += `<div class="live-match">
                     <div class="match-info">
                         <img src="${item.teams.home.logo}" width="20"> 
                         <span>${item.teams.home.name} <b>${item.goals.home}-${item.goals.away}</b> ${item.teams.away.name}</span>
                         <img src="${item.teams.away.logo}" width="20">
                         <span style="color:var(--neon-green); font-weight:bold;">${item.fixture.status.elapsed}'</span>
-                    </div><div id="details-${item.fixture.id}" class="goal-details"></div></div>`;
+                    </div></div>`;
             });
         } catch (e) { box.innerHTML = "API Xətası."; }
-    }
-
-    async function cədvəlCek() {
-        const box = document.getElementById('standings-box');
-        const season = new Date().getFullYear() - 1;
-        try {
-            const res = await fetch(`https://v3.football.api-sports.io/standings?league=303&season=${season}`, {
-                "headers": { "x-rapidapi-host": "v3.football.api-sports.io", "x-rapidapi-key": API_KEY }
-            });
-            const data = await res.json();
-            
-            // Limit Qoruyucusu
-            if(data.errors && data.errors.requests) { box.innerHTML = "🔴 API Limiti Dolub!"; return; }
-            if(!data.response || data.response.length === 0) { box.innerHTML = "Cədvəl tapılmadı."; return; }
-            
-            const standings = data.response[0].league.standings[0];
-            let html = `<table class="data-table"><tr><th>#</th><th>Komanda</th><th>X</th></tr>`;
-            standings.forEach(s => { html += `<tr><td>${s.rank}</td><td><img src="${s.team.logo}" width="15"> ${s.team.name}</td><td style="color:#ffcc00;">${s.points}</td></tr>`; });
-            box.innerHTML = html + "</table>";
-        } catch (e) { box.innerHTML = "Xəta."; }
-    }
-
-    async function bombardirCek() {
-        const box = document.getElementById('scorers-box');
-        const season = new Date().getFullYear() - 1;
-        try {
-            const res = await fetch(`https://v3.football.api-sports.io/players/topscorers?league=303&season=${season}`, {
-                "headers": { "x-rapidapi-host": "v3.football.api-sports.io", "x-rapidapi-key": API_KEY }
-            });
-            const data = await res.json();
-            
-            // Limit Qoruyucusu
-            if(data.errors && data.errors.requests) { box.innerHTML = "🔴 API Limiti Dolub!"; return; }
-            if(!data.response || data.response.length === 0) { box.innerHTML = "Məlumat yoxdur."; return; }
-
-            let html = `<table class="data-table"><tr><th>Oyunçu</th><th>Klub</th><th>Qol</th></tr>`;
-            data.response.slice(0, 5).forEach(p => {
-                html += `<tr><td>${p.player.name}</td><td><img src="${p.statistics[0].team.logo}" width="12"></td><td style="color:var(--neon-green); font-weight:bold;">${p.statistics[0].goals.total}</td></tr>`;
-            });
-            box.innerHTML = html + "</table>";
-        } catch (e) { box.innerHTML = "Xəta."; }
     }
 
     function oyna(t) {
@@ -348,7 +290,7 @@
         for (let item of list) { item.style.display = item.innerText.toLowerCase().includes(input) ? "flex" : "none"; }
     }
 
-    window.onload = () => { uiYenile(); apiCek(); cədvəlCek(); bombardirCek(); gorevleriYoxla(); };
+    window.onload = () => { uiYenile(); apiCek(); gorevleriYoxla(); };
 </script>
 </body>
 </html>
