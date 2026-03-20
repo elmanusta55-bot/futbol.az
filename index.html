@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-16Q6G2QDKR"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-16Q6G2QDKR');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Futbol.Az - API-Football Integrated</title>
@@ -46,8 +37,35 @@
         .live-match { background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; border-left: 3px solid var(--neon-green); display: flex; flex-direction: column; margin-bottom: 8px; font-size: 14px; cursor: pointer; transition: 0.3s; }
         .live-match:hover { background: rgba(0, 255, 204, 0.1); }
         .match-info { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        .goal-details { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #444; color: #ffcc00; font-size: 13px; animation: slideDown 0.3s ease; }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* === KART AÇILMA MODALI ÜÇÜN STİLLƏR (YENİ) === */
+        #card-open-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center;
+            flex-direction: column; backdrop-filter: blur(10px);
+        }
+        .efootball-card {
+            width: 260px; height: 380px; border-radius: 15px; position: relative;
+            background: linear-gradient(180deg, #1a1a1a 0%, #000 100%);
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.5); border: 2px solid #ffcc00;
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+            padding-bottom: 20px; overflow: hidden; animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popUp { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .efootball-card.epic { background: linear-gradient(135deg, #1e0000, #4a0000); border-color: #ffcc00; box-shadow: 0 0 30px rgba(255, 204, 0, 0.8); }
+        .efootball-card.highlight { background: linear-gradient(135deg, #001e15, #004a33); border-color: #00ffcc; box-shadow: 0 0 30px rgba(0, 255, 204, 0.8); }
+        .card-rating {
+            position: absolute; top: 15px; left: 15px; font-size: 36px; font-weight: 900;
+            color: #ffcc00; text-shadow: 2px 2px 4px #000; font-family: 'Rajdhani', sans-serif; z-index: 5;
+        }
+        .player-img-card { width: 100%; height: 75%; object-fit: cover; object-position: top; position: absolute; top: 0; z-index: 1; mask-image: linear-gradient(to bottom, black 60%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%); }
+        .card-info { position: relative; z-index: 2; text-align: center; width: 100%; }
+        .close-modal-btn {
+            margin-top: 25px; background: red; color: white; border: 2px solid #fff; padding: 10px 40px;
+            font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; font-family: 'Rajdhani', sans-serif;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.6); transition: 0.2s;
+        }
+        .close-modal-btn:hover { transform: scale(1.05); }
     </style>
 </head>
 <body>
@@ -113,13 +131,12 @@
             <div class="card-header"><i class="fas fa-box-open"></i> ƏFSANƏLƏR PAKETİ AÇ</div>
             <div style="display: flex; gap: 10px;">
                 <div style="flex: 1; background: #111; padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #fff;">
-                    <button class="btn-premium" onclick="paketAc('ronaldo', 2000)">CR7 AÇ</button>
+                    <button class="btn-premium" onclick="paketAc('ronaldo', 2000)">CR7 AÇ (2000)</button>
                 </div>
                 <div style="flex: 1; background: #0f1b29; padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #ffcc00;">
-                    <button class="btn-premium btn-gold" onclick="paketAc('messi', 2000)">LM10 AÇ</button>
+                    <button class="btn-premium btn-gold" onclick="paketAc('messi', 2000)">LM10 AÇ (2000)</button>
                 </div>
             </div>
-            <div id="paket-netice" style="margin-top: 15px; text-align: center; display: none;"></div>
         </div>
 
         <div class="card" id="profile-card">
@@ -159,6 +176,11 @@
     </div>
 </div>
 
+<div id="card-open-modal">
+    <div id="opened-card-container"></div>
+    <button class="close-modal-btn" onclick="document.getElementById('card-open-modal').style.display='none'">BAĞLA</button>
+</div>
+
 <script>
     const API_KEY = "fec1d6442eecf700eeba226821657bd3";
     let xal = parseInt(localStorage.getItem('xal')) || 0;
@@ -166,7 +188,43 @@
     let esyalar = JSON.parse(localStorage.getItem('inv')) || [];
     let usedPromos = JSON.parse(localStorage.getItem('promos')) || [];
     let bitmisGorevler = JSON.parse(localStorage.getItem('gorevler')) || [];
-    let liveMatches = []; 
+
+    // === 30 OYUNÇULU YENİ DATA BAZASI ===
+    const messiPaketData = [
+        { name: "Lionel Messi", rating: 100, pos: "RWF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg/420px-Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg" },
+        { name: "Luis Suarez", rating: 97, pos: "CF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Luis_Su%C3%A1rez_2018.jpg/420px-Luis_Su%C3%A1rez_2018.jpg" },
+        { name: "Neymar Jr", rating: 98, pos: "LWF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Neymar_Jr_2018.jpg/420px-Neymar_Jr_2018.jpg" },
+        { name: "Andres Iniesta", rating: 98, pos: "CMF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Andres_Iniesta.jpg/420px-Andres_Iniesta.jpg" },
+        { name: "Xavi", rating: 97, pos: "CMF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Xavi_2015.jpg/420px-Xavi_2015.jpg" },
+        { name: "Sergio Busquets", rating: 95, pos: "DMF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Sergio_Busquets.jpg" },
+        { name: "Angel Di Maria", rating: 95, pos: "RWF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/7/77/Angel_Di_Maria_2018.jpg" },
+        { name: "Jordi Alba", rating: 93, pos: "LB", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Jordi_Alba_2018.jpg" },
+        { name: "Dibu Martinez", rating: 94, pos: "GK", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/b/b5/Emiliano_Mart%C3%ADnez_2018.jpg" },
+        { name: "Julian Alvarez", rating: 93, pos: "CF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/c/c5/Juli%C3%A1n_Alvarez_2022.jpg" },
+        { name: "Gavi", rating: 92, pos: "CMF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Gavi_2022.jpg/420px-Gavi_2022.jpg" },
+        { name: "Pedri", rating: 94, pos: "AMF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Pedri_2022.jpg/420px-Pedri_2022.jpg" },
+        { name: "R. Araujo", rating: 93, pos: "CB", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Ronald_Araujo_2022.jpg/420px-Ronald_Araujo_2022.jpg" },
+        { name: "De Paul", rating: 93, pos: "CMF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Rodrigo_De_Paul_2022.jpg/420px-Rodrigo_De_Paul_2022.jpg" },
+        { name: "P. Dybala", rating: 94, pos: "SS", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Paulo_Dybala_2018.jpg/420px-Paulo_Dybala_2018.jpg" }
+    ];
+
+    const ronaldoPaketData = [
+        { name: "C. Ronaldo", rating: 100, pos: "CF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Cristiano_Ronaldo_playing_for_Al_Nassr_FC_against_Persepolis%2C_September_2023_%28cropped%29.jpg/420px-Cristiano_Ronaldo_playing_for_Al_Nassr_FC_against_Persepolis%2C_September_2023_%28cropped%29.jpg" },
+        { name: "Karim Benzema", rating: 97, pos: "CF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Karim_Benzema_2018.jpg/420px-Karim_Benzema_2018.jpg" },
+        { name: "Gareth Bale", rating: 96, pos: "RWF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Gareth_Bale_2015.jpg/420px-Gareth_Bale_2015.jpg" },
+        { name: "Luka Modric", rating: 98, pos: "CMF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Luka_Modri%C4%B7_20180626.jpg/420px-Luka_Modri%C4%B7_20180626.jpg" },
+        { name: "Toni Kroos", rating: 96, pos: "CMF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Toni_Kroos_2018.jpg/420px-Toni_Kroos_2018.jpg" },
+        { name: "Sergio Ramos", rating: 97, pos: "CB", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Sergio_Ramos_2018.jpg" },
+        { name: "Marcelo", rating: 95, pos: "LB", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/1/1b/Marcelo_2018.jpg" },
+        { name: "Pepe", rating: 94, pos: "CB", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/2/23/Pepe_2018.jpg" },
+        { name: "B. Fernandes", rating: 95, pos: "AMF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/9/91/Bruno_Fernandes_2018.jpg" },
+        { name: "B. Silva", rating: 94, pos: "RWF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Bernardo_Silva_2018.jpg" },
+        { name: "Joao Cancelo", rating: 94, pos: "RB", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Jo%C3%A3o_Cancelo_2022.jpg/420px-Jo%C3%A3o_Cancelo_2022.jpg" },
+        { name: "Ruben Dias", rating: 94, pos: "CB", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/R%C3%BAben_Dias_2022.jpg/420px-R%C3%BAben_Dias_2022.jpg" },
+        { name: "Rafael Leão", rating: 94, pos: "LWF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Rafael_Le%C3%A3o_2022.jpg/420px-Rafael_Le%C3%A3o_2022.jpg" },
+        { name: "Casemiro", rating: 95, pos: "DMF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Casemiro_2022.jpg/420px-Casemiro_2022.jpg" },
+        { name: "V. Osimhen", rating: 93, pos: "CF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Victor_Osimhen_2022.jpg/420px-Victor_Osimhen_2022.jpg" }
+    ];
 
     function uiYenile() {
         document.getElementById('score-ui').innerText = xal.toLocaleString();
@@ -276,21 +334,32 @@
         window.open(`https://wa.me/994555266848?text=${mesaj}`, '_blank');
     }
 
-    const ronaldoPaket = ["👑 Cristiano Ronaldo (100)", "🔥 Karim Benzema (97)", "⚡ Gareth Bale (96)"];
-    const messiPaket = ["👑 Lionel Messi (100)", "🧛‍♂️ Luis Suarez (97)", "🕺 Neymar Jr (98)"];
-
+    // === YENİ PAKET AÇMA FUNKSİYASI ===
     function paketAc(tip, qiymet) {
         if (xal < qiymet) { alert("Xalınız çatmır!"); return; }
-        xal -= qiymet; uiYenile(); 
-        let secilenPaket = tip === 'ronaldo' ? ronaldoPaket : messiPaket;
-        let randomOyunçu = secilenPaket[Math.floor(Math.random() * secilenPaket.length)];
-        let neticeDiv = document.getElementById('paket-netice');
-        neticeDiv.style.display = "block";
-        neticeDiv.innerHTML = `<span style='color: #fff;'>⏳ Açılır...</span>`;
-        setTimeout(() => {
-            let reng = tip === 'ronaldo' ? '#fff' : '#ffcc00';
-            neticeDiv.innerHTML = `<span style="font-size: 18px; font-weight: bold; color: ${reng};">${randomOyunçu}</span>`;
-        }, 1500);
+        xal -= qiymet; 
+        uiYenile(); 
+
+        let data = tip === 'ronaldo' ? ronaldoPaketData : messiPaketData;
+        let oyuncu = data[Math.floor(Math.random() * data.length)];
+
+        const modal = document.getElementById('card-open-modal');
+        const container = document.getElementById('opened-card-container');
+        
+        // onerror əlavə edilib ki, şəkil qırılsa alternativ fond göstərsin
+        container.innerHTML = `
+            <div class="efootball-card ${oyuncu.type}">
+                <div class="card-rating">${oyuncu.rating}</div>
+                <img src="${oyuncu.img}" 
+                     class="player-img-card" 
+                     alt="${oyuncu.name}" 
+                     onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'260\\' height=\\'280\\'><rect width=\\'100%\\' height=\\'100%\\' fill=\\'%23222\\'/><text x=\\'50%\\' y=\\'50%\\' font-size=\\'20\\' text-anchor=\\'middle\\' fill=\\'white\\'>ŞƏKİL YOXDUR</text></svg>'">
+                <div class="card-info">
+                    <h2 style="margin:0; font-size:24px; text-shadow: 2px 2px #000; color:#fff;">${oyuncu.name}</h2>
+                    <p style="margin:5px 0 0 0; font-size: 16px; color:var(--neon-green); font-weight:bold;">${oyuncu.pos} | ${oyuncu.type.toUpperCase()}</p>
+                </div>
+            </div>`;
+        modal.style.display = 'flex';
     }
 
     function axtar() {
