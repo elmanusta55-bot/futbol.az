@@ -109,6 +109,140 @@
                 </div>
             </div>
         </div>
+        <div id="kart-creator-container" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; padding: 20px; background: #111; color: #fff; border-radius: 15px;">
+    
+    <div style="width: 300px; display: flex; flex-direction: column; gap: 10px;">
+        <h3 style="color: #ffd700; text-transform: uppercase;">Kartı Özəlləşdir</h3>
+        
+        <input type="text" id="u-name" placeholder="Oyunçu Adı" oninput="updateCard()" style="padding: 10px; border-radius: 5px; border: none;">
+        <input type="number" id="u-rating" placeholder="Reytinq (Məs: 99)" oninput="updateCard()" style="padding: 10px; border-radius: 5px; border: none;">
+        <input type="text" id="u-pos" placeholder="Mövqe (Məs: CF)" oninput="updateCard()" style="padding: 10px; border-radius: 5px; border: none;">
+        
+        <select id="u-type" onchange="updateCard()" style="padding: 10px; border-radius: 5px;">
+            <option value="gold">Qızıl Kart</option>
+            <option value="epic">Epic (Qırmızı)</option>
+            <option value="legend">Efsane (Parlaq)</option>
+        </select>
+
+        <label style="font-size: 12px; color: #aaa;">Şəkil Yüklə:</label>
+        <input type="file" id="u-img" accept="image/*" onchange="previewImg(event)" style="font-size: 12px;">
+
+        <button onclick="downloadCard()" style="background: #ffd700; color: #000; padding: 12px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px;">
+            KARTI YÜKLƏ (.PNG)
+        </button>
+    </div>
+
+    <div id="card-preview" style="width: 300px; height: 430px; position: relative; border-radius: 15px; overflow: hidden; background: linear-gradient(135deg, #d4af37, #f9d423); box-shadow: 0 10px 20px rgba(0,0,0,0.5); border: 2px solid #ffd700;">
+        
+        <img id="p-img" src="" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; display: none;">
+        
+        <div style="position: absolute; top: 20px; left: 15px; text-align: center; text-shadow: 2px 2px 5px #000;">
+            <div id="p-rating" style="font-size: 50px; font-weight: 900; line-height: 1;">99</div>
+            <div id="p-pos" style="font-size: 20px; font-weight: bold;">CF</div>
+        </div>
+
+        <div style="position: absolute; bottom: 40px; width: 100%; text-align: center; background: rgba(0,0,0,0.6); padding: 10px 0;">
+            <h2 id="p-name" style="margin: 0; font-size: 24px; text-transform: uppercase; letter-spacing: 1px;">OYUNÇU ADI</h2>
+        </div>
+    </div>
+
+    <canvas id="final-canvas" width="300" height="430" style="display: none;"></canvas>
+</div>
+
+<script>
+    let currentImgData = null;
+
+    // Şəkli oxuyub göstərmək
+    function previewImg(event) {
+        const reader = new FileReader();
+        reader.onload = function(){
+            const output = document.getElementById('p-img');
+            output.src = reader.result;
+            output.style.display = 'block';
+            currentImgData = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    // Kartı canlı yeniləmək
+    function updateCard() {
+        document.getElementById('p-name').innerText = document.getElementById('u-name').value || "OYUNÇU ADI";
+        document.getElementById('p-rating').innerText = document.getElementById('u-rating').value || "99";
+        document.getElementById('p-pos').innerText = document.getElementById('u-pos').value || "CF";
+        
+        const type = document.getElementById('u-type').value;
+        const card = document.getElementById('card-preview');
+        
+        if(type === 'epic') {
+            card.style.background = "linear-gradient(135deg, #800000, #ff0000)";
+            card.style.borderColor = "#ff4d4d";
+        } else if(type === 'legend') {
+            card.style.background = "linear-gradient(135deg, #000, #444)";
+            card.style.borderColor = "#ffd700";
+        } else {
+            card.style.background = "linear-gradient(135deg, #d4af37, #f9d423)";
+            card.style.borderColor = "#ffd700";
+        }
+    }
+
+    // Kartı şəkil kimi yükləmək
+    function downloadCard() {
+        const canvas = document.getElementById('final-canvas');
+        const ctx = canvas.getContext('2d');
+        const type = document.getElementById('u-type').value;
+
+        // Arxa fonu rənglə
+        let grd = ctx.createLinearGradient(0, 0, 300, 430);
+        if(type === 'epic') { grd.addColorStop(0, "#800000"); grd.addColorStop(1, "#ff0000"); }
+        else if(type === 'legend') { grd.addColorStop(0, "#000"); grd.addColorStop(1, "#444"); }
+        else { grd.addColorStop(0, "#d4af37"); grd.addColorStop(1, "#f9d423"); }
+        
+        ctx.fillStyle = grd;
+        ctx.fillRect(0, 0, 300, 430);
+
+        // Şəkli çək (əgər varsa)
+        if(currentImgData) {
+            const img = new Image();
+            img.onload = function() {
+                ctx.drawImage(img, 0, 0, 300, 430);
+                drawText(ctx);
+                save();
+            };
+            img.src = currentImgData;
+        } else {
+            drawText(ctx);
+            save();
+        }
+
+        function drawText(ctx) {
+            ctx.fillStyle = "white";
+            ctx.shadowBlur = 7;
+            ctx.shadowColor = "black";
+            
+            ctx.font = "bold 50px sans-serif";
+            ctx.fillText(document.getElementById('p-rating').innerText, 20, 60);
+            
+            ctx.font = "bold 20px sans-serif";
+            ctx.fillText(document.getElementById('p-pos').innerText, 20, 90);
+            
+            ctx.fillStyle = "rgba(0,0,0,0.7)";
+            ctx.fillRect(0, 350, 300, 50);
+            
+            ctx.fillStyle = "white";
+            ctx.font = "bold 22px sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText(document.getElementById('p-name').innerText.toUpperCase(), 150, 385);
+        }
+
+        function save() {
+            const link = document.createElement('a');
+            link.download = 'futbol-az-kart.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    }
+</script>
+        
 
         <div class="card" style="border: 2px dashed var(--neon-green); position: relative; overflow: hidden;">
             <div class="card-header"><i class="fas fa-clapperboard"></i> EDİT YARIŞI - QOŞUL</div>
