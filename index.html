@@ -39,6 +39,36 @@
         .match-info { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         .goal-details { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #444; color: #ffcc00; font-size: 13px; animation: slideDown 0.3s ease; }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        /* EFOOTBALL KART POP-UP DİZAYNI */
+#card-open-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(5px); transition: 0.5s; }
+#card-open-modal.show { display: flex; animation: fadeIn 0.5s ease; }
+
+.efootball-card { width: 300px; height: 420px; border-radius: 15px; position: relative; overflow: hidden; box-shadow: 0 0 50px rgba(255, 255, 255, 0.2); transition: 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: rotateY(180deg) scale(0.5); opacity: 0; font-family: 'Rajdhani', sans-serif; text-transform: uppercase; }
+#card-open-modal.show .efootball-card { transform: rotateY(0) scale(1); opacity: 1; }
+
+/* Glossy və Shine effektləri */
+.card-shine { position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(135deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 70%); animation: shineLoop 3s infinite; pointer-events: none; }
+.card-glossy { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at top right, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 60%); pointer-events: none; }
+
+/* EPIC Kart Tipi (Neon Gold Glow) */
+.efootball-card.epic { border: 2px solid #ffcc00; box-shadow: 0 0 40px rgba(255, 204, 0, 0.6); background: linear-gradient(180deg, #1a1400 0%, #000 70%); }
+.epic .card-type-label { background: #ffcc00; color: #000; }
+
+/* HIGHLIGHT Kart Tipi (Neon Blue Glow) */
+.efootball-card.highlight { border: 2px solid #00ffcc; box-shadow: 0 0 40px rgba(0, 255, 204, 0.6); background: linear-gradient(180deg, #001a1a 0%, #000 70%); }
+.highlight .card-type-label { background: #00ffcc; color: #000; }
+
+/* Kart elementləri */
+.player-image { width: 100%; height: 75%; object-fit: cover; object-position: center top; margin-top: 10%; }
+.player-info-block { position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.8); border-top: 1px solid #444; padding: 15px; box-sizing: border-box; text-align: center; }
+.player-rating { font-size: 50px; font-weight: 900; line-height: 1; color: #ffcc00; position: absolute; top: 10px; left: 15px; text-shadow: 0 0 10px rgba(255, 204, 0, 0.8); }
+.player-position { font-size: 16px; position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 4px; }
+.player-name { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-type-label { position: absolute; top: 50%; left: 0; transform: translateY(-50%); font-size: 11px; font-weight: 900; padding: 3px 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; letter-spacing: 1px; }
+.close-modal-btn { position: absolute; top: 20px; right: 20px; font-size: 20px; color: #fff; cursor: pointer; background: none; border: none; z-index: 3001; }
+
+@keyframes shineLoop { 0% { left: -150%; } 100% { left: 100%; } }
+        
     </style>
 </head>
 <body>
@@ -267,22 +297,139 @@
         window.open(`https://wa.me/994555266848?text=${mesaj}`, '_blank');
     }
 
-    const ronaldoPaket = ["👑 Cristiano Ronaldo (100)", "🔥 Karim Benzema (97)", "⚡ Gareth Bale (96)"];
-    const messiPaket = ["👑 Lionel Messi (100)", "🧛‍♂️ Luis Suarez (97)", "🕺 Neymar Jr (98)"];
+    // ==========================================
+// EFOOTBALL 3.0 SİSTEMİ - OYUNÇU DATA (30-NƏFƏR)
+// ==========================================
 
-    function paketAc(tip, qiymet) {
-        if (xal < qiymet) { alert("Xalınız çatmır!"); return; }
-        xal -= qiymet; uiYenile(); 
-        let secilenPaket = tip === 'ronaldo' ? ronaldoPaket : messiPaket;
-        let randomOyunçu = secilenPaket[Math.floor(Math.random() * secilenPaket.length)];
-        let neticeDiv = document.getElementById('paket-netice');
-        neticeDiv.style.display = "block";
-        neticeDiv.innerHTML = `<span style='color: #fff;'>⏳ Açılır...</span>`;
-        setTimeout(() => {
-            let reng = tip === 'ronaldo' ? '#fff' : '#ffcc00';
-            neticeDiv.innerHTML = `<span style="font-size: 18px; font-weight: bold; color: ${reng};">${randomOyunçu}</span>`;
-        }, 1500);
+const messiPaketData = [
+    // --- EPIC (Legendary) ---
+    { name: "👑 Lionel Messi", rating: 100, pos: "RWF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Lionel_Messi_20180626.jpg/420px-Lionel_Messi_20180626.jpg" },
+    { name: "🧛‍♂️ Luis Suarez", rating: 97, pos: "CF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Luis_Su%C3%A1rez_2018.jpg/420px-Luis_Su%C3%A1rez_2018.jpg" },
+    { name: "🕺 Neymar Jr", rating: 98, pos: "LWF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Neymar_Jr_2018.jpg/420px-Neymar_Jr_2018.jpg" },
+    { name: "🧠 Andres Iniesta", rating: 98, pos: "CMF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Andres_Iniesta.jpg/420px-Andres_Iniesta.jpg" },
+    { name: "🎯 Xavi", rating: 97, pos: "CMF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Xavi_2015.jpg/420px-Xavi_2015.jpg" },
+    // --- HIGHLIGHT (POTW/Selection) ---
+    { name: "🐙 Sergio Busquets", rating: 95, pos: "DMF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Sergio_Busquets.jpg" },
+    { name: "🦅 Angel Di Maria", rating: 95, pos: "RWF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/7/77/Angel_Di_Maria_2018.jpg" },
+    { name: "🏃‍♂️ Jordi Alba", rating: 93, pos: "LB", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Jordi_Alba_2018.jpg" },
+    { name: "🧤 Dibu Martinez", rating: 94, pos: "GK", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/b/b5/Emiliano_Mart%C3%ADnez_2018.jpg" },
+    { name: "🕷️ Julian Alvarez", rating: 93, pos: "CF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/c/c5/Juli%C3%A1n_Alvarez_2022.jpg" },
+    // --- STANDARD (Placeholder - Sən dəyişə bilərsən) ---
+    { name: "Dembélé (93)", rating: 93, pos: "RWF", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "Gavi (92)", rating: 92, pos: "CMF", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "Pedri (94)", rating: 94, pos: "AMF", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "Araujo (93)", rating: 93, pos: "CB", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "M. Acuña (92)", rating: 92, pos: "LB", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "De Paul (93)", rating: 93, pos: "CMF", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "L. Paredes (92)", rating: 92, pos: "DMF", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "C. Romero (93)", rating: 93, pos: "CB", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "R. Messi (MIA) (98)", rating: 98, pos: "SS", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "Coutinho (Legacy) (94)", rating: 94, pos: "AMF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "Rakitić (Legacy) (93)", rating: 93, pos: "CMF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "Y. Umtiti (91)", rating: 91, pos: "CB", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "A. Fati (92)", rating: 92, pos: "LWF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "N. Otamendi (92)", rating: 92, pos: "CB", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "E. Palacios (91)", rating: 91, pos: "CMF", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "G. Lo Celso (92)", rating: 92, pos: "AMF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "T. Almada (POTW) (91)", rating: 91, pos: "AMF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "Montiel (WC POTW) (91)", rating: 91, pos: "RB", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "A. McAllister (92)", rating: 92, pos: "CMF", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "P. Dybala (94)", rating: 94, pos: "SS", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" }
+];
+
+const ronaldoPaketData = [
+    // --- EPIC ---
+    { name: "👑 Cristiano Ronaldo", rating: 100, pos: "CF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Cristiano_Ronaldo_20180620.jpg/420px-Cristiano_Ronaldo_20180620.jpg" },
+    { name: "🔥 Karim Benzema", rating: 97, pos: "CF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Karim_Benzema_2018.jpg/420px-Karim_Benzema_2018.jpg" },
+    { name: "⚡ Gareth Bale", rating: 96, pos: "RWF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Gareth_Bale_2015.jpg/420px-Gareth_Bale_2015.jpg" },
+    { name: "🧠 Luka Modric", rating: 98, pos: "CMF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Luka_Modri%C4%B7_20180626.jpg/420px-Luka_Modri%C4%B7_20180626.jpg" },
+    { name: "🎯 Toni Kroos", rating: 96, pos: "CMF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Toni_Kroos_2018.jpg/420px-Toni_Kroos_2018.jpg" },
+    // --- HIGHLIGHT ---
+    { name: "🧱 Sergio Ramos", rating: 97, pos: "CB", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Sergio_Ramos_2018.jpg" },
+    { name: "🪄 Marcelo", rating: 95, pos: "LB", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/1/1b/Marcelo_2018.jpg" },
+    { name: "🛡️ Pepe", rating: 94, pos: "CB", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/2/23/Pepe_2018.jpg" },
+    { name: "🚀 Bruno Fernandes", rating: 95, pos: "AMF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/9/91/Bruno_Fernandes_2018.jpg" },
+    { name: "🎩 Bernardo Silva", rating: 94, pos: "RWF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Bernardo_Silva_2018.jpg" },
+    // --- STANDARD ---
+    { name: "Diogo Jota (93)", rating: 93, pos: "CF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "Joao Cancelo (94)", rating: 94, pos: "RB", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "Ruben Dias (94)", rating: 94, pos: "CB", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "Rafa Silva (POTW) (92)", rating: 92, pos: "LWF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "Otavio (92)", rating: 92, pos: "RMF", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "Nuno Mendes (93)", rating: 93, pos: "LB", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "D. Pereira (91)", rating: 91, pos: "DMF", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "Rui Patricio (92)", rating: 92, pos: "GK", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "H. Leão (94)", rating: 94, pos: "LWF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "M. Kovacic (WC Legacy) (93)", rating: 93, pos: "CMF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "Casemiro (Epic Legacy) (95)", rating: 95, pos: "DMF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "Keylor Navas (Epic Legacy) (94)", rating: 94, pos: "GK", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "Isco (92)", rating: 92, pos: "AMF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "A. Hakimi (94)", rating: 94, pos: "RB", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "V. Osimhen (POTW) (93)", rating: 93, pos: "CF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "Dybala (POTW) (92)", rating: 92, pos: "SS", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "Chiesa (93)", rating: 93, pos: "RWF", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "Vlahović (92)", rating: 92, pos: "CF", type: "standard", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "M. Locatelli (92)", rating: 92, pos: "DMF", type: "highlight", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" },
+    { name: "P. Pogba (93)", rating: 93, pos: "CMF", type: "epic", img: "https://upload.wikimedia.org/wikipedia/commons/d/d7/Placeholder_player.svg" }
+];
+
+// ==========================================
+// YENİ PAKET AÇILIŞ FUNKSİYASI
+// ==========================================
+
+function paketAc(tip, qiymet) {
+    if (xal < qiymet) {
+        alert("Xalınız çatmır! Penalti oynayıb xal qazanın.");
+        return;
     }
+    
+    // Xalı çıxırıq
+    xal -= qiymet;
+    uiYenile(); 
+
+    let dataSiyahisi = tip === 'ronaldo' ? ronaldoPaketData : messiPaketData;
+    
+    // Təsadüfi oyunçu seçimi (Artıq daha güclü sistem - 30 nəfər içindən)
+    let oyuncu = dataSiyahisi[Math.floor(Math.random() * dataSiyahisi.length)];
+    
+    // Modal konteynerini tapırıq
+    const modal = document.getElementById('card-open-modal');
+    const container = document.getElementById('opened-card-container');
+    
+    // Köhnə kartı təmizləyirik
+    container.innerHTML = "";
+    modal.classList.add('show');
+    
+    // eFootball Stilində Kartın HTML-ini yaradırıq
+    let cardHTML = `
+        <div class="efootball-card ${oyuncu.type}">
+            <div class="card-shine"></div>
+            <div class="card-glossy"></div>
+            <div class="player-rating">${oyuncu.rating}</div>
+            <div class="player-position">${oyuncu.pos}</div>
+            
+            <img src="${oyuncu.img}" class="player-image" alt="${oyuncu.name}">
+            
+            <div class="player-info-block">
+                <div class="player-name">${oyuncu.name}</div>
+                <div style="font-size: 10px; color: #aaa;">eFOOTBALL™ UNIVERSE</div>
+            </div>
+            
+            <div class="card-type-label">${oyuncu.type.replace('standard', 'PotW').replace('highlight', 'Highlight')}</div>
+        </div>
+    `;
+    
+    // Kartı konteynerə yerləşdiririk
+    container.innerHTML = cardHTML;
+    
+    // eFootball-un o xüsusi "Səs" effektini və səsvermə gəlmiş kimi animasiyanı veririk
+    // İstəsən bura bir "Opening.mp3" də qoya bilərsən
+}
+
+function closeCardModal() {
+    document.getElementById('card-open-modal').classList.remove('show');
+}
+    
 
     function axtar() {
         let input = document.getElementById('searchInput').value.toLowerCase();
@@ -291,6 +438,11 @@
     }
 
     window.onload = () => { uiYenile(); apiCek(); gorevleriYoxla(); };
+    <div id="card-open-modal">
+    <button class="close-modal-btn" onclick="closeCardModal()"><i class="fas fa-times"></i> BAĞLA</button>
+    <div id="opened-card-container"></div>
+</div>
+    
 </script>
 </body>
 </html>
