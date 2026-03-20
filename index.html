@@ -10,7 +10,79 @@
         :root { --neon-green: #00ffcc; --neon-glow: 0 0 15px rgba(0, 255, 204, 0.6); --dark-bg: #02040a; --glass-bg: rgba(22, 27, 34, 0.8); --gold-gradient: linear-gradient(135deg, #ffcc00 0%, #ff9900 100%); --text: #f0f6fc; --border: #30363d; }
         
         body { background: var(--dark-bg); background-image: radial-gradient(circle at center, #0b1c2c 0%, #02040a 70%); font-family: 'Saira Condensed', sans-serif; color: var(--text); margin: 0; padding: 0; padding-bottom: 80px; letter-spacing: 0.5px; }
+        <style>
+    /* MOBİL ÜÇÜN ÖZƏL AYARLAR (Responsive) */
+    @media only screen and (max-width: 480px) {
+        #versus-container {
+            padding: 15px !important;
+            margin: 5px !important;
+        }
+
+        /* Seçim qutularını alt-alta qoyuruq */
+        .selector-panel {
+            flex-direction: column !important;
+            gap: 10px !important;
+        }
+
+        .selector-panel select {
+            width: 100% !important;
+        }
+
+        .vs-text {
+            margin: 5px 0 !important;
+            transform: rotate(90deg); /* "VS" yazısını döndərib maraqlı görünüş veririk */
+        }
+
+        /* Müqayisə bloklarını alt-alta düzürük */
+        .compare-grid {
+            flex-direction: column !important;
+        }
+
+        .player-card {
+            width: 100% !important;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 20px !important;
+        }
+    }
+</style>
+
+<div id="versus-container" style="background: #050c16; color: white; padding: 25px; border-radius: 15px; font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: auto; border: 2px solid #ffd700; box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);">
+    
+    <h1 style="text-align: center; color: #ffd700; text-transform: uppercase; font-size: 28px; margin-bottom: 20px;">⚡️ Futbol.Az Versus ⚡️</h1>
+
+    <div class="selector-panel" style="display: flex; justify-content: space-between; gap: 15px; margin-bottom: 30px; align-items: center;">
+        <select id="p1-select" onchange="startCompare()" style="flex: 1; padding: 12px; border-radius: 8px; background: #1a2a3a; color: white; border: 1px solid #ffd700; font-weight: bold; outline: none;">
+            <option value="">1-ci Futbolçu</option>
+        </select>
         
+        <div class="vs-text" style="font-size: 24px; font-weight: 900; color: #ffd700;">VS</div>
+
+        <select id="p2-select" onchange="startCompare()" style="flex: 1; padding: 12px; border-radius: 8px; background: #1a2a3a; color: white; border: 1px solid #ffd700; font-weight: bold; outline: none;">
+            <option value="">2-ci Futbolçu</option>
+        </select>
+    </div>
+
+    <div class="compare-grid" style="display: flex; justify-content: space-between; gap: 20px;">
+        <div id="res-p1" class="player-card" style="width: 48%; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border-top: 4px solid #ffd700; transition: 0.3s;">
+            <h2 id="name-p1" style="text-align: center; color: #fff; margin-bottom: 20px; font-size: 1.2rem;">-</h2>
+            <div id="stats-p1"></div>
+        </div>
+
+        <div id="res-p2" class="player-card" style="width: 48%; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; border-top: 4px solid #ffd700; transition: 0.3s;">
+            <h2 id="name-p2" style="text-align: center; color: #fff; margin-bottom: 20px; font-size: 1.2rem;">-</h2>
+            <div id="stats-p2"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Bura bayaqkı JavaScript kodunu (db və renderStats) olduğu kimi əlavə edirsən.
+    // Sadəcə CSS hissəsindəki dəyişikliklər 360-400px üçün hər şeyi düzəldəcək.
+</script>
+    
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(2, 4, 10, 0.95); border-top: 2px solid var(--neon-green); display: flex; z-index: 2000; backdrop-filter: blur(10px); }
         .nav-btn { flex: 1; padding: 12px 0; text-align: center; color: #777; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.3s; border-right: 1px solid #222; font-family: 'Rajdhani', sans-serif; }
         .nav-btn:last-child { border-right: none; }
