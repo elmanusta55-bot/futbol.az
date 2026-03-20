@@ -320,41 +320,6 @@
 </script>
         
         
-        
- 
-
-        
-
-        <div class="card" style="text-align:center;">
-            <div class="card-header"><i class="fas fa-gamepad"></i> PENALTİ OYUNU</div>
-            <div id="game-msg" style="font-size:20px; margin-bottom:15px; font-weight:bold;">Topu küncə vur!</div>
-            <button class="btn-premium btn-outline" onclick="oyna('SOL')">SOL</button>
-            <button class="btn-premium btn-outline" onclick="oyna('MƏRKƏZ')">MƏRKƏZ</button>
-            <button class="btn-premium btn-outline" onclick="oyna('SAĞ')">SAĞ</button>
-        </div>
-
-        <div class="card">
-            <div class="card-header"><i class="fas fa-shopping-cart"></i> MEQA MAĞAZA</div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;">
-                <div class="shop-item" style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #333;">
-                    <div style="font-size: 30px;">👕</div>
-                    <h4 style="margin: 10px 0; font-size: 14px;">Qarabağ Forması</h4>
-                    <button class="btn-premium btn-gold" id="btn-qarabag" onclick="al('qarabag', 1000)">1,000 XAL</button>
-                </div>
-                <div class="shop-item" style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #333;">
-                    <div style="font-size: 30px;">👑</div>
-                    <h4 style="margin: 10px 0; font-size: 14px;">VİP Status</h4>
-                    <button class="btn-premium btn-gold" id="btn-vip" onclick="al('vip', 500000)">500K XAL</button>
-                </div>
-                <div class="shop-item" style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #333;">
-                    <div style="font-size: 30px;">⚽</div>
-                    <h4 style="margin: 10px 0; font-size: 14px;">Efsanəvi Top</h4>
-                    <button class="btn-premium btn-gold" id="btn-ball" onclick="al('ball', 1000000)">1M XAL</button>
-                </div>
-            </div>
-        </div>
-        <div id="kart-creator-container" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; padding: 20px; background: #111; color: #fff; border-radius: 15px;">
-    
     <div style="width: 300px; display: flex; flex-direction: column; gap: 10px;">
         <h3 style="color: #ffd700; text-transform: uppercase;">Kartı Özəlləşdir</h3>
         
@@ -531,10 +496,10 @@
     <h2 style="text-align:center; color: var(--neon-green); font-family:'Rajdhani', sans-serif;"><i class="fas fa-list-check"></i> GÜNLÜK GÖRƏVLƏR</h2>
     <div class="mission-card" id="task-kanal">
         <div class="mission-info">
-            <h4>📱 İmarət Media-ya Bax</h4>
+            <h4>📱 Futbol.Az-a Bax</h4>
             <p>Kanala daxil ol və xəbərləri oxu (+1000 XAL)</p>
         </div>
-        <button class="btn-premium btn-outline" onclick="gorevEt('task-kanal', 1000, 'https://chat.whatsapp.com/')">ET</button>
+        <button class="btn-premium btn-outline" onclick="gorevEt('task-kanal', 1000, 'https://whatsapp.com/channel/0029VbB1htT6buMHDvLjz90w')">ET</button>
     </div>
     <div class="mission-card" id="task-giris">
         <div class="mission-info">
@@ -661,25 +626,7 @@
                         <img src="${item.teams.away.logo}" width="20">
                         <span style="color:var(--neon-green); font-weight:bold;">${item.fixture.status.elapsed}'</span>
                     </div></div>`;
-            });
-        } catch (e) { box.innerHTML = "API Xətası."; }
-    }
 
-    function oyna(t) {
-        if(sans <= 0) { alert("Şans bitdi!"); return; }
-        sans--;
-        let gk = ['SOL','MƏRKƏZ','SAĞ'][Math.floor(Math.random()*3)];
-        let msg = document.getElementById('game-msg');
-        if(t !== gk) { xal += 100; msg.innerText = "⚽ QOL! +100"; msg.style.color = "#00ffcc"; }
-        else { msg.innerText = "❌ TUTDU!"; msg.style.color = "#ff4757"; }
-        uiYenile();
-    }
-
-    function al(id, p) {
-        if(esyalar.includes(id)) { alert("Artıq almısan!"); return; }
-        if(xal >= p) { xal -= p; esyalar.push(id); uiYenile(); alert("Uğurla alındı!"); }
-        else { alert("Xalın çatmır!"); }
-    }
 
     function promoIslet() {
         let val = document.getElementById('promo-input').value.trim().toUpperCase();
