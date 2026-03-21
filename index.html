@@ -7,6 +7,56 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* POSTER STİLLƏRİ */
+.poster-preview {
+    width: 100%;
+    aspect-ratio: 4/5; /* Instagram story/post stili */
+    background: url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=1000&auto=format&fit=crop'); 
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    border: 2px solid var(--border-color);
+}
+
+.poster-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.9));
+}
+
+.poster-content { position: relative; z-index: 5; width: 100%; padding: 20px; }
+
+.p-tournament { font-size: 14px; font-weight: 600; color: var(--gold); letter-spacing: 3px; margin-bottom: 40px; text-transform: uppercase; }
+
+.p-teams-area { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 40px; }
+
+.p-team-name { font-family: 'Poppins'; font-size: 32px; font-weight: 800; text-transform: uppercase; text-shadow: 0 4px 10px rgba(0,0,0,0.5); line-height: 1; }
+
+.p-vs { font-family: 'Poppins'; font-size: 20px; color: var(--primary); font-weight: 900; background: white; color: black; padding: 5px 15px; border-radius: 5px; transform: rotate(-5deg); margin: 10px 0; }
+
+.p-info-box { display: flex; justify-content: center; gap: 15px; font-size: 18px; font-weight: 700; margin-bottom: 10px; background: rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 50px; backdrop-filter: blur(5px); }
+
+.p-divider { color: var(--primary); }
+
+.p-stadium-name { font-size: 13px; color: #ccc; text-transform: uppercase; letter-spacing: 1px; }
+
+.p-footer { position: absolute; bottom: 20px; font-size: 12px; font-weight: 800; opacity: 0.5; letter-spacing: 5px; z-index: 5; }
+
+/* Poster Tam Ekran Rejimi */
+.poster-fullscreen {
+    position: fixed !important;
+    top: 0; left: 0; width: 100vw !important; height: 100vh !important;
+    z-index: 9999; border-radius: 0 !important;
+}
+        
         :root { 
             --primary: #10B981; /* Premium Yaşıl */
             --primary-hover: #059669;
@@ -210,6 +260,47 @@
             <button class="btn-main btn-outline" onclick="oyna('SAĞ')">SAĞ</button>
         </div>
     </div>
+    <div id="sec-poster" class="section">
+    <div class="card">
+        <div class="card-header"><i class="fas fa-paint-brush"></i> MATÇ POSTERİ YARAT</div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+            <input type="text" id="p-team1" class="input-field" placeholder="1-ci Komanda" oninput="updatePoster()" value="QARABAĞ FK">
+            <input type="text" id="p-team2" class="input-field" placeholder="2-ci Komanda" oninput="updatePoster()" value="GALATASARAY">
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+            <input type="text" id="p-date" class="input-field" placeholder="Tarix (məs: 25 MART)" oninput="updatePoster()" value="25 MART">
+            <input type="text" id="p-time" class="input-field" placeholder="Saat (məs: 21:45)" oninput="updatePoster()" value="21:45">
+        </div>
+        
+        <input type="text" id="p-stadium" class="input-field" placeholder="Stadion Adı" oninput="updatePoster()" value="Tofiq Bəhramov Stadionu">
+
+        <div id="match-poster" class="poster-preview">
+            <div class="poster-overlay"></div>
+            <div class="poster-content">
+                <div class="p-tournament">XÜSUSİ YOLDAŞLIQ GÖRÜŞÜ</div>
+                <div class="p-teams-area">
+                    <div id="v-team1" class="p-team-name">QARABAĞ FK</div>
+                    <div class="p-vs">VS</div>
+                    <div id="v-team2" class="p-team-name">GALATASARAY</div>
+                </div>
+                <div class="p-info-box">
+                    <div id="v-date">25 MART</div>
+                    <div class="p-divider">|</div>
+                    <div id="v-time">21:45</div>
+                </div>
+                <div id="v-stadium" class="p-stadium-name">Tofiq Bəhramov Stadionu</div>
+            </div>
+            <div class="p-footer">FUTBOL.AZ</div>
+        </div>
+
+        <button class="btn-main" style="margin-top:20px;" onclick="downloadPoster()">
+            <i class="fas fa-expand"></i> POSTERİ TAM EKRAN ET (SS ÜÇÜN)
+        </button>
+    </div>
+    </div>
+    
 
     <div class="card" id="profile-card" style="text-align: center;">
         <div class="card-header" style="justify-content:center;"><i class="fas fa-user"></i> ŞƏXSİ KABİNET</div>
@@ -555,6 +646,23 @@
         document.getElementById('stats-area').innerHTML = h;
         document.getElementById('compare-result').style.display = 'block';
     }
+    function updatePoster() {
+    document.getElementById('v-team1').innerText = document.getElementById('p-team1').value.toUpperCase();
+    document.getElementById('v-team2').innerText = document.getElementById('p-team2').value.toUpperCase();
+    document.getElementById('v-date').innerText = document.getElementById('p-date').value.toUpperCase();
+    document.getElementById('v-time').innerText = document.getElementById('p-time').value;
+    document.getElementById('v-stadium').innerText = document.getElementById('p-stadium').value;
+}
+
+function downloadPoster() {
+    const poster = document.getElementById('match-poster');
+    poster.classList.toggle('poster-fullscreen');
+    
+    if(poster.classList.contains('poster-fullscreen')) {
+        alert("Tam ekran rejimi aktivdir! İndi ekran şəkli (screenshot) çəkib paylaşa bilərsiniz. Çıxmaq üçün eyni düyməyə yenidən basın.");
+    }
+}
+    
 </script>
 </body>
 </html>
