@@ -63,6 +63,43 @@
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center; flex-direction: column; backdrop-filter: blur(10px); }
         .close-modal-btn { margin-top: 15px; background: #d32f2f; color: white; border: none; padding: 10px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; font-family: 'Rajdhani', sans-serif; transition: 0.2s; width: 100%; }
         .upload-label { display: block; background: transparent; border: 2px dashed var(--neon-green); color: var(--neon-green); padding: 12px; border-radius: 8px; text-align: center; cursor: pointer; font-weight: bold; margin-bottom: 10px; transition: 0.3s; }
+        .ad-card { 
+    border: 2px dashed var(--neon-green) !important; 
+    background: rgba(0, 255, 204, 0.05) !important; 
+    animation: pulse-border 2s infinite;
+}
+
+@keyframes pulse-border {
+    0% { border-color: var(--neon-green); }
+    50% { border-color: #ffcc00; }
+    100% { border-color: var(--neon-green); }
+}
+
+.ad-placeholder { 
+    text-align: center; 
+    padding: 30px 10px; 
+    border: 1px dashed #555; 
+    margin-bottom: 15px; 
+    border-radius: 10px; 
+    background: rgba(0,0,0,0.3);
+}
+
+.ad-placeholder p { 
+    font-size: 20px; 
+    font-weight: 900; 
+    color: var(--neon-green); 
+    margin: 0; 
+    font-family: 'Rajdhani';
+    letter-spacing: 1px;
+}
+
+.ad-placeholder span { 
+    color: #888; 
+    font-size: 13px; 
+    display: block; 
+    margin-top: 5px; 
+}
+        
     </style>
 </head>
 <body>
@@ -80,6 +117,15 @@
                 <button class="btn-premium btn-outline" onclick="oyna('SAĞ')">SAĞ</button>
             </div>
         </div>
+        <div class="card ad-card">
+    <div class="card-header"><i class="fas fa-ad"></i> REKLAM BÖLMƏSİ</div>
+    <div class="ad-placeholder">
+        <p>SƏNİN REKLAMIN BURADA OLA BİLƏR!</p>
+        <span>Minlərlə futbol azarkeşinə çat!</span>
+    </div>
+    <button class="btn-premium btn-gold" onclick="reklamElaqe()">REKLAM ÜÇÜN ƏLAQƏ</button>
+        </div>
+        
 
         <div class="right-content">
             <div class="card" id="profile-card">
@@ -346,6 +392,13 @@
     }
 
     window.onload = () => { uiYenile(); initCompare(); };
+function reklamElaqe() {
+    // 994000000000 yerinə öz nömrəni yaz
+    let telefon = "994000000000"; 
+    let mesaj = encodeURIComponent("Salam! Futbol.Az saytında reklam yerləşdirmək haqqında məlumat almaq istəyirəm.");
+    window.open(`https://wa.me/${telefon}?text=${mesaj}`, "_blank");
+}
+    
 </script>
 </body>
 </html>
