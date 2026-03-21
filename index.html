@@ -406,12 +406,121 @@
 
     // Müqayisə Funksiyaları
     const db = [
-        { n: "L. Messi", o: 99, pac: 80, sho: 95, pas: 95, dri: 98, def: 35, phy: 65 },
-        { n: "C. Ronaldo", o: 98, pac: 85, sho: 98, pas: 82, dri: 88, def: 35, phy: 80 },
-        { n: "Juninho", o: 84, pac: 92, sho: 85, pas: 70, dri: 84, def: 35, phy: 80 },
-        { n: "M. Icardi", o: 90, pac: 75, sho: 92, pas: 75, dri: 82, def: 40, phy: 80 }
-    ];
+    // === DÜNYA ULDUZLARI ===
+    { n: "L. Messi", o: 90, pac: 80, sho: 87, pas: 90, dri: 94, def: 33, phy: 64 },
+    { n: "C. Ronaldo", o: 86, pac: 77, sho: 88, pas: 75, dri: 79, def: 34, phy: 74 },
+    { n: "K. Mbappé", o: 91, pac: 97, sho: 90, pas: 80, dri: 92, def: 36, phy: 78 },
+    { n: "E. Haaland", o: 91, pac: 89, sho: 93, pas: 66, dri: 80, def: 45, phy: 88 },
+    { n: "K. De Bruyne", o: 91, pac: 72, sho: 85, pas: 94, dri: 87, def: 65, phy: 78 },
+    { n: "Rodri", o: 89, pac: 58, sho: 73, pas: 86, dri: 79, def: 85, phy: 84 },
+    { n: "Neymar Jr", o: 89, pac: 86, sho: 83, pas: 85, dri: 93, def: 37, phy: 61 },
+    { n: "H. Kane", o: 90, pac: 69, sho: 93, pas: 84, dri: 83, def: 49, phy: 83 },
+    { n: "R. Lewandowski", o: 90, pac: 75, sho: 91, pas: 80, dri: 86, def: 44, phy: 83 },
+    { n: "A. Griezmann", o: 88, pac: 80, sho: 86, pas: 88, dri: 88, def: 52, phy: 73 },
 
+    // === REAL MADRID ===
+    { n: "Vini Jr.", o: 89, pac: 95, sho: 82, pas: 81, dri: 90, def: 29, phy: 68 },
+    { n: "J. Bellingham", o: 86, pac: 82, sho: 84, pas: 83, dri: 85, def: 78, phy: 82 },
+    { n: "Rodrygo", o: 85, pac: 88, sho: 81, pas: 79, dri: 86, def: 31, phy: 61 },
+    { n: "F. Valverde", o: 88, pac: 88, sho: 82, pas: 84, dri: 84, def: 80, phy: 82 },
+    { n: "T. Kroos", o: 86, pac: 51, sho: 80, pas: 90, dri: 81, def: 69, phy: 69 },
+    { n: "L. Modrić", o: 87, pac: 71, sho: 76, pas: 89, dri: 87, def: 72, phy: 66 },
+    { n: "A. Rüdiger", o: 85, pac: 82, sho: 31, pas: 65, dri: 59, def: 84, phy: 86 },
+    { n: "E. Camavinga", o: 82, pac: 81, sho: 65, pas: 79, dri: 82, def: 76, phy: 79 },
+    { n: "A. Tchouaméni", o: 84, pac: 73, sho: 70, pas: 79, dri: 78, def: 81, phy: 82 },
+    { n: "E. Militão", o: 86, pac: 85, sho: 50, pas: 70, dri: 72, def: 85, phy: 82 },
+    { n: "T. Courtois", o: 90, pac: 50, sho: 50, pas: 70, dri: 50, def: 90, phy: 85 },
+    { n: "D. Alaba", o: 85, pac: 79, sho: 71, pas: 83, dri: 80, def: 85, phy: 77 },
+    { n: "D. Carvajal", o: 82, pac: 78, sho: 54, pas: 77, dri: 78, def: 80, phy: 78 },
+    { n: "Arda Güler", o: 77, pac: 76, sho: 73, pas: 79, dri: 82, def: 40, phy: 55 },
+    { n: "Brahim", o: 82, pac: 85, sho: 74, pas: 78, dri: 86, def: 31, phy: 54 },
+
+    // === LIVERPOOL ===
+    { n: "M. Salah", o: 89, pac: 89, sho: 87, pas: 81, dri: 88, def: 45, phy: 76 },
+    { n: "V. van Dijk", o: 89, pac: 78, sho: 60, pas: 71, dri: 72, def: 89, phy: 86 },
+    { n: "Alisson", o: 89, pac: 50, sho: 50, pas: 85, dri: 50, def: 90, phy: 80 },
+    { n: "T. Alexander-Arnold", o: 86, pac: 76, sho: 71, pas: 90, dri: 80, def: 76, phy: 73 },
+    { n: "A. Robertson", o: 86, pac: 80, sho: 61, pas: 81, dri: 79, def: 81, phy: 76 },
+    { n: "D. Jota", o: 85, pac: 82, sho: 83, pas: 75, dri: 84, def: 53, phy: 74 },
+    { n: "L. Díaz", o: 84, pac: 91, sho: 77, pas: 75, dri: 87, def: 34, phy: 73 },
+    { n: "A. Mac Allister", o: 82, pac: 70, sho: 79, pas: 83, dri: 82, def: 74, phy: 75 },
+    { n: "D. Szoboszlai", o: 82, pac: 83, sho: 82, pas: 82, dri: 82, def: 60, phy: 75 },
+    { n: "D. Núñez", o: 82, pac: 90, sho: 81, pas: 71, dri: 78, def: 42, phy: 84 },
+    { n: "C. Gakpo", o: 83, pac: 85, sho: 82, pas: 78, dri: 84, def: 42, phy: 75 },
+    { n: "I. Konaté", o: 81, pac: 78, sho: 34, pas: 58, dri: 65, def: 82, phy: 82 },
+    { n: "H. Elliott", o: 77, pac: 76, sho: 70, pas: 78, dri: 81, def: 53, phy: 60 },
+    { n: "W. Endo", o: 80, pac: 66, sho: 64, pas: 77, dri: 74, def: 79, phy: 78 },
+    { n: "R. Gravenberch", o: 79, pac: 77, sho: 72, pas: 78, dri: 82, def: 68, phy: 73 },
+
+    // === GALATASARAY ===
+    { n: "M. Icardi", o: 83, pac: 74, sho: 85, pas: 74, dri: 79, def: 35, phy: 76 },
+    { n: "D. Mertens", o: 81, pac: 76, sho: 79, pas: 82, dri: 84, def: 36, phy: 54 },
+    { n: "L. Torreira", o: 82, pac: 75, sho: 68, pas: 77, dri: 79, def: 81, phy: 81 },
+    { n: "F. Muslera", o: 80, pac: 45, sho: 45, pas: 65, dri: 45, def: 82, phy: 75 },
+    { n: "H. Ziyech", o: 80, pac: 70, sho: 78, pas: 84, dri: 81, def: 45, phy: 63 },
+    { n: "W. Zaha", o: 81, pac: 88, sho: 78, pas: 73, dri: 84, def: 38, phy: 74 },
+    { n: "Barış Alper", o: 78, pac: 90, sho: 74, pas: 71, dri: 78, def: 65, phy: 82 },
+    { n: "D. Sánchez", o: 79, pac: 74, sho: 44, pas: 60, dri: 62, def: 79, phy: 82 },
+    { n: "V. Nelsson", o: 78, pac: 62, sho: 30, pas: 55, dri: 54, def: 79, phy: 80 },
+    { n: "K. Aktürkoğlu", o: 77, pac: 86, sho: 74, pas: 73, dri: 79, def: 42, phy: 62 },
+    { n: "Kaan Ayhan", o: 75, pac: 65, sho: 60, pas: 72, dri: 68, def: 75, phy: 76 },
+    { n: "K. Demirbay", o: 77, pac: 65, sho: 75, pas: 80, dri: 78, def: 68, phy: 72 },
+    { n: "A. Bardakcı", o: 77, pac: 68, sho: 45, pas: 65, dri: 62, def: 77, phy: 83 },
+    { n: "S. Aurier", o: 76, pac: 75, sho: 60, pas: 70, dri: 71, def: 74, phy: 78 },
+    { n: "N. Zaniolo", o: 79, pac: 84, sho: 79, pas: 72, dri: 81, def: 55, phy: 82 },
+
+    // === QARABAĞ FK ===
+    { n: "Juninho", o: 78, pac: 91, sho: 79, pas: 68, dri: 80, def: 35, phy: 77 },
+    { n: "A. Zoubir", o: 77, pac: 84, sho: 72, pas: 76, dri: 83, def: 40, phy: 68 },
+    { n: "Y. Benzia", o: 76, pac: 75, sho: 75, pas: 80, dri: 81, def: 50, phy: 65 },
+    { n: "J. Romao", o: 75, pac: 72, sho: 60, pas: 71, dri: 70, def: 74, phy: 82 },
+    { n: "M. Janković", o: 75, pac: 70, sho: 71, pas: 78, dri: 76, def: 68, phy: 70 },
+    { n: "L. Andrade", o: 74, pac: 86, sho: 70, pas: 72, dri: 77, def: 45, phy: 65 },
+    { n: "B. Mustafazadə", o: 73, pac: 68, sho: 35, pas: 55, dri: 52, def: 74, phy: 78 },
+    { n: "K. Medina", o: 74, pac: 70, sho: 40, pas: 60, dri: 55, def: 74, phy: 80 },
+    { n: "E. Cəfərquliyev", o: 72, pac: 85, sho: 55, pas: 68, dri: 74, def: 68, phy: 66 },
+    { n: "M. Vešović", o: 73, pac: 82, sho: 58, pas: 69, dri: 72, def: 70, phy: 72 },
+    { n: "A. Lunyov", o: 75, pac: 40, sho: 40, pas: 60, dri: 40, def: 76, phy: 70 },
+    { n: "T. Bayramov", o: 70, pac: 80, sho: 65, pas: 68, dri: 72, def: 60, phy: 65 },
+    { n: "M. Silva", o: 72, pac: 75, sho: 55, pas: 68, dri: 70, def: 71, phy: 74 },
+    { n: "N. Axundzadə", o: 68, pac: 82, sho: 68, pas: 60, dri: 70, def: 30, phy: 60 },
+    { n: "P. Andrade", o: 72, pac: 76, sho: 65, pas: 70, dri: 74, def: 65, phy: 70 },
+
+    // === DİGƏR TOP OYUNÇULAR ===
+    { n: "B. Saka", o: 86, pac: 86, sho: 82, pas: 81, dri: 87, def: 65, phy: 66 },
+    { n: "M. Ødegaard", o: 87, pac: 76, sho: 80, pas: 89, dri: 88, def: 58, phy: 65 },
+    { n: "D. Rice", o: 85, pac: 73, sho: 72, pas: 80, dri: 78, def: 83, phy: 84 },
+    { n: "P. Foden", o: 85, pac: 82, sho: 80, pas: 82, dri: 88, def: 56, phy: 60 },
+    { n: "B. Silva", o: 88, pac: 69, sho: 78, pas: 86, dri: 92, def: 61, phy: 67 },
+    { n: "Rúben Dias", o: 89, pac: 62, sho: 39, pas: 66, dri: 68, def: 89, phy: 87 },
+    { n: "Son Heung-min", o: 87, pac: 87, sho: 88, pas: 80, dri: 84, def: 42, phy: 68 },
+    { n: "J. Musiala", o: 86, pac: 85, sho: 79, pas: 81, dri: 91, def: 50, phy: 60 },
+    { n: "F. Wirtz", o: 85, pac: 80, sho: 78, pas: 86, dri: 87, def: 52, phy: 63 },
+    { n: "R. Leão", o: 86, pac: 93, sho: 78, pas: 75, dri: 87, def: 27, phy: 76 },
+    { n: "T. Hernández", o: 85, pac: 95, sho: 71, pas: 78, dri: 81, def: 78, phy: 84 },
+    { n: "L. Martínez", o: 87, pac: 81, sho: 86, pas: 73, dri: 85, def: 48, phy: 84 },
+    { n: "N. Barella", o: 86, pac: 78, sho: 75, pas: 84, dri: 85, def: 78, phy: 80 },
+    { n: "Pedri", o: 86, pac: 76, sho: 68, pas: 88, dri: 89, def: 66, phy: 65 },
+    { n: "L. Yamal", o: 80, pac: 82, sho: 72, pas: 78, dri: 84, def: 35, phy: 55 },
+    { n: "Gavi", o: 83, pac: 76, sho: 68, pas: 80, dri: 84, def: 73, phy: 75 },
+    { n: "R. Araujo", o: 86, pac: 79, sho: 43, pas: 65, dri: 62, def: 86, phy: 84 },
+    { n: "M. ter Stegen", o: 89, pac: 50, sho: 50, pas: 85, dri: 50, def: 90, phy: 80 },
+    { n: "J. Kimmich", o: 88, pac: 69, sho: 73, pas: 88, dri: 84, def: 82, phy: 79 },
+    { n: "L. Sané", o: 84, pac: 91, sho: 81, pas: 79, dri: 85, def: 38, phy: 70 },
+
+    // === ƏFSANƏLƏR (ICONS) ===
+    { n: "Pelé", o: 98, pac: 95, sho: 96, pas: 93, dri: 96, def: 60, phy: 76 },
+    { n: "D. Maradona", o: 97, pac: 88, sho: 93, pas: 92, dri: 97, def: 40, phy: 75 },
+    { n: "Z. Zidane", o: 96, pac: 81, sho: 90, pas: 96, dri: 95, def: 75, phy: 86 },
+    { n: "Ronaldinho", o: 94, pac: 91, sho: 89, pas: 90, dri: 95, def: 37, phy: 81 },
+    { n: "J. Cruyff", o: 94, pac: 90, sho: 91, pas: 90, dri: 94, def: 42, phy: 73 },
+    { n: "P. Maldini", o: 94, pac: 86, sho: 56, pas: 75, dri: 69, def: 96, phy: 83 },
+    { n: "T. Henry", o: 93, pac: 94, sho: 91, pas: 83, dri: 90, def: 53, phy: 80 },
+    { n: "Kaká", o: 91, pac: 91, sho: 86, pas: 88, dri: 92, def: 44, phy: 73 },
+    { n: "S. Ramos", o: 89, pac: 76, sho: 70, pas: 76, dri: 74, def: 88, phy: 84 },
+    { n: "L. Yashin", o: 94, pac: 60, sho: 60, pas: 70, dri: 60, def: 95, phy: 85 }
+];
+    
     function initComp() {
         let s1 = document.getElementById('p1-sel'), s2 = document.getElementById('p2-sel');
         db.forEach((p, i) => {
