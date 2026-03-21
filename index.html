@@ -194,6 +194,45 @@
         .modal-card { background: var(--card-bg); border-radius: 20px; padding: 24px; width: 100%; max-width: 340px; border: 1px solid var(--border-color); }
         .upload-label { display: block; background: rgba(255,255,255,0.03); border: 1px dashed var(--text-muted); color: var(--text-main); padding: 16px; border-radius: 12px; text-align: center; cursor: pointer; font-weight: 500; margin-bottom: 15px; transition: 0.2s; }
         .upload-label:active { background: rgba(255,255,255,0.08); }
+        /* PAKET AÇILIŞI STİLLƏRİ */
+#pack-container {
+    width: 150px; height: 200px; margin: 0 auto 20px auto;
+    background: linear-gradient(45deg, #1e3a8a, #0f172a);
+    border: 3px solid var(--gold); border-radius: 15px;
+    display: flex; justify-content: center; align-items: center;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+    transition: 0.3s;
+}
+
+/* Titrəmə və Partlama Effekti (eFootball stili) */
+.pack-animating { animation: shake 0.4s infinite, flash 2.5s forwards; }
+
+@keyframes shake {
+    0% { transform: translate(2px, 2px) rotate(0deg); }
+    25% { transform: translate(-2px, -3px) rotate(-3deg); }
+    50% { transform: translate(-4px, 0px) rotate(3deg); }
+    75% { transform: translate(4px, 3px) rotate(0deg); }
+    100% { transform: translate(2px, -2px) rotate(-1deg); }
+}
+
+@keyframes flash {
+    0% { filter: brightness(1); }
+    80% { filter: brightness(2) contrast(2) drop-shadow(0 0 50px white); }
+    100% { filter: brightness(10); opacity: 0; transform: scale(1.5); }
+}
+
+/* Çıxan Oyunçu Kartı */
+.reward-card {
+    background: linear-gradient(135deg, #0F172A, #1E293B);
+    border: 2px solid var(--gold); padding: 20px; border-radius: 10px;
+    animation: popUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popUp {
+    0% { transform: scale(0.2); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+        
     </style>
 </head>
 <body>
@@ -342,12 +381,31 @@
         </div>
     </div>
 </div>
+    <div id="sec-market" class="section">
+    <div class="card" style="text-align: center;">
+        <div class="card-header" style="justify-content: center;"><i class="fas fa-box-open"></i> OYUNÇU PAKETİ</div>
+        <div style="font-size: 18px; font-weight: bold; margin-bottom: 20px;">Balans: <span id="user-points" style="color: var(--gold);">1000</span> Xal</div>
+
+        <div id="pack-container" class="pack-closed">
+            <i class="fas fa-gift" style="font-size: 60px; color: #fff; text-shadow: 0 0 20px var(--gold);"></i>
+        </div>
+
+        <div id="pack-result" style="display: none; margin: 20px 0;">
+            <h3 style="margin: 0; color: var(--gold); text-transform: uppercase;">TƏBRİKLƏR!</h3>
+            <div id="reward-desc" style="margin-top: 15px;"></div>
+        </div>
+
+        <button class="btn-main" onclick="openPack()" id="btn-open-pack">PAKETİ AÇ (100 XAL)</button>
+    </div>
+    </div>
+    
 
 <nav class="bottom-nav">
     
     <div class="nav-btn active" onclick="menyuDeyis('home')"><i class="fas fa-home"></i>Ana Səhifə</div>
     <div class="nav-btn" onclick="menyuDeyis('squad')"><i class="fas fa-users"></i>11-lik</div>
     <div class="nav-btn" onclick="menyuDeyis('card')"><i class="fas fa-id-card"></i>Kart</div>
+    <div class="nav-btn" onclick="nav('market')"><i class="fas fa-box-open"></i>Paket</div>
     <div class="nav-btn" onclick="menyuDeyis('compare')"><i class="fas fa-balance-scale"></i>Müqayisə</div>
 </nav>
 
@@ -562,6 +620,60 @@
     { n: "S. Ramos", o: 89, pac: 76, sho: 70, pas: 76, dri: 74, def: 88, phy: 84 },
     { n: "L. Yashin", o: 94, pac: 60, sho: 60, pas: 70, dri: 60, def: 95, phy: 85 }
 ];
+    let userPoints = 1000; // Başlanğıc xal
+const packCost = 100; // 1 paketin qiyməti
+
+function openPack() {
+    if (userPoints < packCost) {
+        alert("Kifayət qədər xalınız yoxdur! Xal qazanmaq lazımdır.");
+        return;
+    }
+
+    // Xalı balansdan çıxırıq
+    userPoints -= packCost;
+    document.getElementById('user-points').innerText = userPoints;
+
+    const btn = document.getElementById('btn-open-pack');
+    const pack = document.getElementById('pack-container');
+    const resultBox = document.getElementById('pack-result');
+
+    // UI-ı bloklayırıq ki, dalbadal basmasın
+    btn.disabled = true;
+    btn.innerText = "PAKET AÇILIR...";
+    resultBox.style.display = "none";
+    
+    // Animasiyanı başladırıq
+    pack.style.display = "flex";
+    pack.classList.add('pack-animating');
+
+    // 2.5 saniyə sonra nəticəni göstəririk
+    setTimeout(() => {
+        pack.classList.remove('pack-animating');
+        pack.style.display = "none";
+
+        // Təsadüfi oyunçu və təsadüfi bonus xal (10-50 arası) veririk
+        const randomPlayer = db[Math.floor(Math.random() * db.length)];
+        const bonusPoints = Math.floor(Math.random() * 41) + 10; 
+        
+        userPoints += bonusPoints;
+        document.getElementById('user-points').innerText = userPoints;
+
+        // Ekrana çıxarırıq
+        document.getElementById('reward-desc').innerHTML = `
+            <div class="reward-card">
+                <div style="font-size: 40px; font-weight: 900; color: #FFF;">${randomPlayer.o}</div>
+                <div style="font-size: 22px; font-weight: bold; color: var(--gold); margin: 10px 0;">${randomPlayer.n}</div>
+                <div style="font-size: 14px; color: #10B981; font-weight: bold;">
+                    <i class="fas fa-coins"></i> +${bonusPoints} BONUS XAL QAZANDIN!
+                </div>
+            </div>`;
+
+        resultBox.style.display = "block";
+        btn.disabled = false;
+        btn.innerText = "YENİDƏN AÇ (100 XAL)";
+    }, 2500); // 2.5 saniyə animasiya vaxtı
+}
+    
     
     function initComp() {
         let s1 = document.getElementById('p1-sel'), s2 = document.getElementById('p2-sel');
