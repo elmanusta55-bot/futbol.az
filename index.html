@@ -36,27 +36,27 @@
         .score-val { font-size: 48px; font-weight: 900; color: #ffcc00; text-shadow: 0 0 15px rgba(255, 204, 0, 0.4); text-align: center; margin: 10px 0; }
         .promo-input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: #000; color: #fff; text-align: center; font-weight: bold; margin-bottom: 10px; outline: none; box-sizing: border-box; }
         
-        .live-match { background: rgba(0,0,0,0.4); padding: 12px; border-radius: 8px; border-left: 3px solid var(--neon-green); display: flex; flex-direction: column; margin-bottom: 8px; font-size: 14px; cursor: pointer; transition: 0.3s; }
-        .match-info { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-
         /* 11-LİK MEYDANÇA */
         .pitch { width: 100%; height: 500px; max-width: 600px; margin: 0 auto; background: #2e7d32; border-radius: 8px; position: relative; border: 2px solid #fff; background-image: repeating-linear-gradient(0deg, #388e3c, #388e3c 40px, #2e7d32 40px, #2e7d32 80px); overflow: hidden; }
-        .slot { position: absolute; width: 60px; text-align: center; cursor: pointer; z-index: 5; transform: translateX(-50%); }
-        .slot img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #ffcc00; background: #eee; object-fit: cover; }
-        .slot span { display: block; font-size: 12px; background: rgba(0,0,0,0.8); border-radius: 3px; padding: 2px; margin-top: 2px; color: #fff; font-weight: bold; }
+        .slot { position: absolute; width: 60px; text-align: center; cursor: pointer; z-index: 5; transform: translateX(-50%); transition: transform 0.2s; }
+        .slot:hover { transform: translateX(-50%) scale(1.1); }
+        .slot img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #ffcc00; background: #eee; object-fit: cover; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+        .slot span { display: block; font-size: 12px; background: rgba(0,0,0,0.8); border-radius: 3px; padding: 2px; margin-top: 2px; color: #fff; font-weight: bold; text-shadow: 1px 1px 2px #000; }
 
         /* KART YARADICI EFOOTBALL STİLİ */
         .creator-preview { width: 260px; height: 380px; margin: 15px auto; border-radius: 15px; border: 2px solid #ffcc00; background: linear-gradient(135deg, #1e0000, #4a0000); position: relative; box-shadow: 0 0 20px rgba(255, 204, 0, 0.5); overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 20px; }
         .creator-img { width: 100%; height: 75%; object-fit: cover; object-position: top; position: absolute; top: 0; z-index: 1; mask-image: linear-gradient(to bottom, black 60%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%); }
-        .creator-rating { position: absolute; top: 15px; left: 15px; font-size: 36px; font-weight: 900; color: #ffcc00; z-index: 5; font-family: 'Rajdhani', sans-serif; }
-        .creator-pos { position: absolute; top: 60px; left: 15px; font-weight: bold; color: #fff; z-index: 5; }
+        .creator-rating { position: absolute; top: 15px; left: 15px; font-size: 36px; font-weight: 900; color: #ffcc00; z-index: 5; font-family: 'Rajdhani', sans-serif; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
+        .creator-pos { position: absolute; top: 60px; left: 15px; font-weight: bold; color: #fff; z-index: 5; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
         .creator-info { position: relative; z-index: 2; text-align: center; width: 100%; }
-        .creator-name { font-size: 22px; font-weight: 900; color: #fff; text-transform: uppercase; margin-bottom: 5px; font-family: 'Rajdhani', sans-serif; }
+        .creator-name { font-size: 22px; font-weight: 900; color: #fff; text-transform: uppercase; margin-bottom: 5px; font-family: 'Rajdhani', sans-serif; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
         .creator-type { font-size: 14px; color: #ffcc00; font-weight: bold; letter-spacing: 2px; }
 
-        /* MODAL */
-        #card-open-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center; flex-direction: column; backdrop-filter: blur(10px); }
-        .close-modal-btn { margin-top: 25px; background: red; color: white; border: 2px solid #fff; padding: 10px 40px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; font-family: 'Rajdhani', sans-serif; transition: 0.2s; }
+        /* MODALLAR */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; justify-content: center; align-items: center; flex-direction: column; backdrop-filter: blur(10px); }
+        .close-modal-btn { margin-top: 15px; background: #d32f2f; color: white; border: none; padding: 10px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; font-family: 'Rajdhani', sans-serif; transition: 0.2s; width: 100%; }
+        .upload-label { display: block; background: transparent; border: 2px dashed var(--neon-green); color: var(--neon-green); padding: 12px; border-radius: 8px; text-align: center; cursor: pointer; font-weight: bold; margin-bottom: 10px; transition: 0.3s; }
+        .upload-label:hover { background: rgba(0, 255, 204, 0.1); }
     </style>
 </head>
 <body>
@@ -66,13 +66,6 @@
 <div id="sec-home" class="section active">
     <div class="grid-layout">
         <div class="left-content">
-            <input type="text" id="searchInput" class="promo-input" placeholder="Canlı oyunlarda axtar..." onkeyup="axtar()" style="border-color: var(--neon-green);">
-            
-            <div class="card">
-                <div class="card-header"><i class="fas fa-satellite-dish"></i> CANLI HESABLAR</div>
-                <div id="api-box">📡 Məlumatlar gətirilir...</div>
-            </div>
-
             <div class="card" style="text-align:center;">
                 <div class="card-header"><i class="fas fa-gamepad"></i> PENALTİ OYUNU</div>
                 <div id="game-msg" style="font-size:20px; margin-bottom:15px; font-weight:bold;">Topu küncə vur!</div>
@@ -86,7 +79,7 @@
                 <input type="text" id="editor-name" class="promo-input" placeholder="Adın və ya Ləqəbin">
                 <input type="text" id="video-link" class="promo-input" placeholder="Video Linki">
                 <button class="btn-premium btn-gold" onclick="yarisaQosul()">YARIŞA GÖNDƏR</button>
-                <div id="yarish-status" style="margin-top:10px; font-weight: bold;"></div>
+                <div id="yarish-status" style="margin-top:10px; font-weight: bold; text-align: center;"></div>
             </div>
         </div>
 
@@ -111,21 +104,21 @@
 <div id="sec-squad" class="section">
     <div class="card">
         <div class="card-header"><i class="fas fa-users"></i> XƏYALİ 11-LİK QUR</div>
-        <p style="text-align:center; color:#aaa; font-size:14px;">Oyunçuların üzərinə klikləyərək adlarını dəyiş.</p>
+        <p style="text-align:center; color:#aaa; font-size:14px;">Oyunçuların üzərinə klikləyərək şəkil və ad əlavə et.</p>
         <div class="pitch">
-            <div class="slot" style="bottom:5%; left:50%;" onclick="setPlayer(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>GK</span></div>
-            <div class="slot" style="bottom:22%; left:20%;" onclick="setPlayer(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>LB</span></div>
-            <div class="slot" style="bottom:20%; left:40%;" onclick="setPlayer(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>CB</span></div>
-            <div class="slot" style="bottom:20%; left:60%;" onclick="setPlayer(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>CB</span></div>
-            <div class="slot" style="bottom:22%; left:80%;" onclick="setPlayer(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>RB</span></div>
-            <div class="slot" style="top:45%; left:30%;" onclick="setPlayer(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>CM</span></div>
-            <div class="slot" style="top:45%; left:70%;" onclick="setPlayer(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>CM</span></div>
-            <div class="slot" style="top:35%; left:50%;" onclick="setPlayer(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>AMF</span></div>
-            <div class="slot" style="top:15%; left:25%;" onclick="setPlayer(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>LWF</span></div>
-            <div class="slot" style="top:10%; left:50%;" onclick="setPlayer(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>ST</span></div>
-            <div class="slot" style="top:15%; left:75%;" onclick="setPlayer(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>RWF</span></div>
+            <div class="slot" style="bottom:5%; left:50%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>GK</span></div>
+            <div class="slot" style="bottom:22%; left:20%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>LB</span></div>
+            <div class="slot" style="bottom:20%; left:40%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>CB</span></div>
+            <div class="slot" style="bottom:20%; left:60%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>CB</span></div>
+            <div class="slot" style="bottom:22%; left:80%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>RB</span></div>
+            <div class="slot" style="top:45%; left:30%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>CM</span></div>
+            <div class="slot" style="top:45%; left:70%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>CM</span></div>
+            <div class="slot" style="top:35%; left:50%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>AMF</span></div>
+            <div class="slot" style="top:15%; left:25%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>LWF</span></div>
+            <div class="slot" style="top:10%; left:50%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>ST</span></div>
+            <div class="slot" style="top:15%; left:75%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>RWF</span></div>
         </div>
-        <button class="btn-premium" style="margin-top:20px;" onclick="window.print()">MEYDANÇANI YÜKLƏ (PRINT)</button>
+        <button class="btn-premium" style="margin-top:20px;" onclick="window.print()"><i class="fas fa-download"></i> HEYƏTİ YÜKLƏ (PRINT)</button>
     </div>
 </div>
 
@@ -136,8 +129,12 @@
             <input type="text" id="in-name" class="promo-input" placeholder="Oyunçu Adı" oninput="createCard()" style="flex:1;">
             <input type="number" id="in-rat" class="promo-input" placeholder="Reytinq" oninput="createCard()" style="flex:1;">
             <input type="text" id="in-pos" class="promo-input" placeholder="Mövqe (CF, CMF...)" oninput="createCard()" style="flex:1;">
-            <input type="text" id="in-img" class="promo-input" placeholder="Şəkil URL (İstəyə bağlı)" oninput="createCard()" style="flex:1; min-width:100%;">
         </div>
+        
+        <label class="upload-label">
+            <i class="fas fa-image"></i> QALEREYADAN ŞƏKİL YÜKLƏ
+            <input type="file" id="in-img-file" accept="image/*" style="display:none;" onchange="uploadCardImg()">
+        </label>
         
         <div class="creator-preview" id="final-card">
             <div class="creator-rating" id="out-rat">99</div>
@@ -172,24 +169,38 @@
     <div class="nav-btn" onclick="menyuDeyis('missions')"><i class="fas fa-tasks"></i>GÖRƏV</div>
 </nav>
 
-<div id="card-open-modal">
+<div id="card-open-modal" class="modal-overlay">
     <div id="opened-card-container"></div>
-    <button class="close-modal-btn" onclick="document.getElementById('card-open-modal').style.display='none'">BAĞLA</button>
+    <button class="close-modal-btn" style="width: auto; padding: 10px 40px;" onclick="document.getElementById('card-open-modal').style.display='none'">BAĞLA</button>
+</div>
+
+<div id="player-edit-modal" class="modal-overlay">
+    <div class="card" style="width: 80%; max-width: 320px; text-align: center;">
+        <div class="card-header" style="justify-content: center;"><i class="fas fa-user-edit"></i> OYUNÇU SEÇ</div>
+        <input type="text" id="slot-name-input" class="promo-input" placeholder="Oyunçu Adını Yaz">
+        
+        <label class="upload-label">
+            <i class="fas fa-camera"></i> ŞƏKİL YÜKLƏ
+            <input type="file" id="slot-img-input" accept="image/*" style="display: none;">
+        </label>
+        
+        <button class="btn-premium btn-gold" onclick="saveSlotPlayer()">TƏSDİQLƏ</button>
+        <button class="close-modal-btn" onclick="document.getElementById('player-edit-modal').style.display='none'">LƏĞV ET</button>
+    </div>
 </div>
 
 <script>
-    const API_KEY = "fec1d6442eecf700eeba226821657bd3";
     let xal = parseInt(localStorage.getItem('xal')) || 0;
     let sans = parseInt(localStorage.getItem('sans')) || 3;
     let esyalar = JSON.parse(localStorage.getItem('inv')) || [];
     let usedPromos = JSON.parse(localStorage.getItem('promos')) || [];
     let bitmisGorevler = JSON.parse(localStorage.getItem('gorevler')) || [];
+    let currentSlot = null;
 
-    // Təməl UI Yeniləmə Funksiyası
     function uiYenile() {
         document.getElementById('score-ui').innerText = xal.toLocaleString();
         document.getElementById('sans-ui').innerText = sans;
-        let b = ""; // XƏTA BURDA İDİ, DÜZƏLTİLDİ!
+        let b = ""; 
         if(esyalar.includes('vip')) b += "👑";
         document.getElementById('badge-ui').innerText = b;
 
@@ -199,7 +210,6 @@
         });
     }
 
-    // Naviqasiya Funksiyası
     function menyuDeyis(menyId) {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -207,22 +217,48 @@
         event.currentTarget.classList.add('active');
     }
 
-    // 11-lik Oyunçu Dəyişmə
-    function setPlayer(el) {
-        let n = prompt("Oyunçu adı:");
-        if(n) el.querySelector('span').innerText = n;
+    // 11-LİK ÜÇÜN MODAL FUNKSİYALARI
+    function openPlayerModal(slotEl) {
+        currentSlot = slotEl;
+        document.getElementById('slot-name-input').value = ""; // Əvvəlki yazını təmizlə
+        document.getElementById('slot-img-input').value = ""; // Əvvəlki şəkli təmizlə
+        document.getElementById('player-edit-modal').style.display = 'flex';
     }
 
-    // Kart Yaradıcı Funksiyası
+    function saveSlotPlayer() {
+        let name = document.getElementById('slot-name-input').value;
+        let fileInput = document.getElementById('slot-img-input');
+        
+        if(name) currentSlot.querySelector('span').innerText = name.toUpperCase();
+
+        if(fileInput.files && fileInput.files[0]) {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                currentSlot.querySelector('img').src = e.target.result;
+            }
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+        document.getElementById('player-edit-modal').style.display = 'none';
+    }
+
+    // KART YARADICI ÜÇÜN ŞƏKİL YÜKLƏMƏ FUNKSİYASI
+    function uploadCardImg() {
+        let fileInput = document.getElementById('in-img-file');
+        if(fileInput.files && fileInput.files[0]) {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('out-img').src = e.target.result;
+            }
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+
     function createCard() {
         document.getElementById('out-name').innerText = document.getElementById('in-name').value || "OYUNÇU";
         document.getElementById('out-rat').innerText = document.getElementById('in-rat').value || "99";
         document.getElementById('out-pos').innerText = document.getElementById('in-pos').value || "CF";
-        let imgVal = document.getElementById('in-img').value;
-        document.getElementById('out-img').src = imgVal ? imgVal : "https://cdn-icons-png.flaticon.com/512/166/166344.png";
     }
 
-    // Görevlər Funksiyası
     function gorevEt(id, qazanc) {
         if(bitmisGorevler.includes(id)) return;
         xal += qazanc;
@@ -233,7 +269,6 @@
         alert(`Təbriklər! ${qazanc} XAL qazandınız!`);
     }
 
-    // Promo Kod
     function promoIslet() {
         let kod = document.getElementById('promo-input').value.trim().toUpperCase();
         if(usedPromos.includes(kod)) return alert("Bu kodu artıq istifadə etmisiniz!");
@@ -247,7 +282,6 @@
         alert(`UĞURLU! ${qazanc} XAL qazandınız!`);
     }
 
-    // Yarış
     function yarisaQosul() {
         let ad = document.getElementById('editor-name').value;
         if(ad.length > 2) {
@@ -255,7 +289,6 @@
         }
     }
 
-    // Penalti
     function oyna(istiqamet) {
         if(sans <= 0) return alert("Şansınız bitib!");
         let qapici = ["SOL", "MƏRKƏZ", "SAĞ"][Math.floor(Math.random() * 3)];
@@ -272,16 +305,13 @@
         uiYenile();
     }
 
-    // Paket Açılışı
     function paketAc(tip, qiymet) {
         if(xal < qiymet) return alert("Xalınız çatmır!");
         xal -= qiymet; localStorage.setItem('xal', xal); uiYenile();
         
-        // Bəsit oyunçu qaytarma
         let isEpic = Math.random() > 0.5;
         let pName = tip === 'messi' ? (isEpic ? "LIONEL MESSI" : "PEDRI") : (isEpic ? "C. RONALDO" : "PEPE");
         let rat = isEpic ? 100 : 94;
-        let cl = isEpic ? "epic" : "highlight";
         let ty = isEpic ? "EPIC PLAYER" : "HIGHLIGHT";
         
         document.getElementById('opened-card-container').innerHTML = `
@@ -297,29 +327,7 @@
         document.getElementById('card-open-modal').style.display = "flex";
     }
 
-    // API Oyunlar
-    async function canliGetir() {
-        let box = document.getElementById('api-box');
-        let matclar = [
-            { league: {name: "Azərbaycan Premyer Liqası"}, teams: {home:{name:"Qarabağ FK"}, away:{name:"Neftçi"}}, goals: {home:2, away:0}, fixture: {status: {short: "HT", elapsed: 45}} },
-            { league: {name: "Trendyol Süper Lig"}, teams: {home:{name:"Galatasaray"}, away:{name:"Fenerbahçe"}}, goals: {home:0, away:0}, fixture: {status: {short: "1H", elapsed: 15}} },
-            { league: {name: "UEFA Champions League"}, teams: {home:{name:"Real Madrid"}, away:{name:"Man City"}}, goals: {home:1, away:1}, fixture: {status: {short: "2H", elapsed: 75}} }
-        ];
-        box.innerHTML = '';
-        matclar.forEach(m => {
-            box.innerHTML += `
-                <div class="live-match">
-                    <div style="font-size:11px; color:#aaa; margin-bottom:5px;">${m.league.name}</div>
-                    <div class="match-info">
-                        <span style="flex:1; text-align:right;">${m.teams.home.name}</span>
-                        <span style="padding:0 10px; font-weight:bold; color:#00ffcc; font-size:16px;">${m.goals.home} - ${m.goals.away}</span>
-                        <span style="flex:1;">${m.teams.away.name}</span>
-                    </div>
-                </div>`;
-        });
-    }
-
-    window.onload = () => { uiYenile(); canliGetir(); };
+    window.onload = () => { uiYenile(); };
 </script>
 </body>
 </html>
