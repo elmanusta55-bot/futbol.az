@@ -236,6 +236,24 @@
         </button>
     </div>
     </div>
+    <div class="card" id="trivia-card" style="border: 2px solid #0055ff;">
+    <div class="card-header" style="color: #0088ff;"><i class="fas fa-question-circle"></i> GÜNÜN SUALI</div>
+    
+    <div id="trivia-content">
+        <p style="font-size: 15px; margin-bottom: 15px; line-height: 1.4;">
+            <b>Sual:</b> Qarabağ FK tarixində ilk dəfə Çempionlar Liqasının qrup mərhələsinə hansı ildə vəsiqə qazanıb?
+        </p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <button class="btn-premium btn-outline" onclick="cavabla(2014)">2014</button>
+            <button class="btn-premium btn-outline" onclick="cavabla(2015)">2015</button>
+            <button class="btn-premium btn-outline" onclick="cavabla(2017)">2017</button>
+            <button class="btn-premium btn-outline" onclick="cavabla(2018)">2018</button>
+        </div>
+    </div>
+    
+    <div id="trivia-msg" style="margin-top: 15px; font-weight: bold; text-align: center; font-size: 14px;"></div>
+    </div>
+    
     
 
     <div class="card" id="profile-card" style="text-align: center;">
@@ -605,6 +623,46 @@
         // Poster funksiyasını saxlamışam (Amma sən əvvəlki HTML-də div-lərə 'v-team1' kimi id-lər qoymalısan)
     }
     function downloadPoster() {}
+    function cavabla(il) {
+    let msg = document.getElementById('trivia-msg');
+    let content = document.getElementById('trivia-content');
+    
+    // Yoxlayırıq bəlkə istifadəçi bu gün artıq oynayıb
+    if(localStorage.getItem('gununSuali') === 'true') {
+        msg.innerText = "Siz artıq bugünkü suala cavab vermisiniz!";
+        msg.style.color = "#ffcc00";
+        return;
+    }
+
+    // Doğru cavab: 2017
+    if(il === 2017) {
+        xal += 500;
+        msg.innerText = "✅ Doğru cavab! +500 XAL qazandınız.";
+        msg.style.color = "var(--neon-green)";
+    } else {
+        msg.innerText = "❌ Yanlış cavab! Doğru cavab 2017 idi.";
+        msg.style.color = "#ff4757";
+    }
+    
+    // Sistemi yaddaşa vururuq ki, adam təkrar-təkrar basıb xal yığmasın
+    localStorage.setItem('gununSuali', 'true');
+    uiYenile(); // Xalı dərhal ekranda yeniləyir
+    
+    // 2 saniyə sonra sualı gizlədirik ki, səliqəli qalsın
+    setTimeout(() => {
+        content.style.display = "none";
+    }, 2000);
+}
+
+// Sayt açılanda yoxlayır ki, əgər oynayıbsa sual bir də çıxmasın
+window.addEventListener('load', () => {
+    if(localStorage.getItem('gununSuali') === 'true') {
+        document.getElementById('trivia-content').style.display = "none";
+        document.getElementById('trivia-msg').innerText = "✅ Günün sualına artıq cavab vermisiniz. Sabah yenidən cəhd edin!";
+        document.getElementById('trivia-msg').style.color = "#aaa";
+    }
+});
+    
 </script>
 </body>
 </html>
