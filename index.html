@@ -299,6 +299,21 @@
         <div class="ticker-item">🏆 Penalti oyununda həftənin lideri: ElmanUsta</div>
     </div>
 </div>
+    <div class="card" style="text-align:center; border: 2px solid #ff00ff; box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);">
+    <div class="card-header" style="color: #ff00ff; border-bottom: 1px solid #ff00ff;">
+        <i class="fas fa-sync-alt fa-spin"></i> GÜNDƏLİK ŞANS ÇARXI
+    </div>
+    <p style="font-size: 14px; color: #ccc;">Hər gün 1 dəfə şansını sına və pulsuz xal qazan!</p>
+    
+    <div id="spin-box" style="font-size: 36px; font-weight: 900; color: #fff; background: #000; padding: 15px; border-radius: 10px; margin: 15px 0; border: 2px dashed #ff00ff; text-shadow: 0 0 10px #ff00ff;">
+        ???
+    </div>
+    
+    <button id="btn-spin" class="btn-premium" onclick="carxiCevir()" style="background: linear-gradient(90deg, #ff00ff, #8a2be2); color: white; box-shadow: 0 0 15px rgba(255, 0, 255, 0.6);">
+        ŞANSI YOXLA
+    </button>
+    <div id="spin-msg" style="margin-top:10px; font-size:13px; font-weight:bold;"></div>
+</div>
 
 <div id="sec-squad" class="section">
     <div class="card">
@@ -614,6 +629,79 @@
             btn.innerText = "YENİDƏN AÇ (100 XAL)";
         }, 2000); 
     }
+    function carxiCevir() {
+    let msg = document.getElementById('spin-msg');
+    let box = document.getElementById('spin-box');
+    let btn = document.getElementById('btn-spin');
+    
+    // Bugünkü tarixi alırıq
+    let bugun = new Date().toDateString();
+    let sonOyun = localStorage.getItem('sonSansCarxi');
+
+    // Əgər istifadəçi bu gün artıq fırladıbsa:
+    if(sonOyun === bugun) {
+        msg.innerText = "Siz bu gün şans çarxından istifadə etmisiniz. Sabah yenidən gəlin!";
+        msg.style.color = "#ff4757";
+        return;
+    }
+
+    // Düyməni deaktiv edirik ki, eyni anda 2 dəfə basılmasın
+    btn.disabled = true;
+    btn.style.opacity = "0.5";
+    msg.innerText = "Düşünür... 🎲";
+    msg.style.color = "#fff";
+
+    // Ehtimal olunan mükafatlar (Xallar)
+    const mukafatlar = [50, 100, 200, 500, 1000, 0, 300, 250, 5000];
+    
+    let suret = 50; // Rəqəmlərin dəyişmə sürəti
+    let firlanmaSayi = 0;
+    let maxFirlanma = 30; // 30 dəfə fərqli rəqəm göstərib dayanacaq
+
+    // Slot maşını effekti (Sürətli rəqəm dəyişimi)
+    let interval = setInterval(() => {
+        let randomReqem = mukafatlar[Math.floor(Math.random() * mukafatlar.length)];
+        box.innerText = randomReqem === 0 ? "BOŞ" : randomReqem;
+        firlanmaSayi++;
+
+        if(firlanmaSayi >= maxFirlanma) {
+            clearInterval(interval);
+            
+            // Yekun nəticəni seçirik
+            let yekunQazanc = mukafatlar[Math.floor(Math.random() * mukafatlar.length)];
+            box.innerText = yekunQazanc === 0 ? "BOŞ 😢" : "+" + yekunQazanc;
+            
+            if(yekunQazanc > 0) {
+                xal += yekunQazanc;
+                msg.innerText = `Təbriklər! ${yekunQazanc} XAL qazandınız! 🎉`;
+                msg.style.color = "var(--neon-green)";
+                box.style.color = "var(--neon-green)";
+                box.style.textShadow = "0 0 15px var(--neon-green)";
+                uiYenile(); // Xalı yuxarıda yeniləyir
+            } else {
+                msg.innerText = "Təəssüf, bu dəfə boş çıxdı. Sabah yenə yoxla!";
+                msg.style.color = "#ff4757";
+                box.style.color = "#ff4757";
+            }
+
+            // Bugünkü tarixi yaddaşa yazırıq ki, sabahadək bloka düşsün
+            localStorage.setItem('sonSansCarxi', bugun);
+        }
+    }, suret);
+}
+
+// Sayt açılanda yoxlayaq ki, bu gün fırladıbsa, bilsin
+window.addEventListener('load', () => {
+    let bugun = new Date().toDateString();
+    if(localStorage.getItem('sonSansCarxi') === bugun) {
+        document.getElementById('btn-spin').disabled = true;
+        document.getElementById('btn-spin').style.opacity = "0.5";
+        document.getElementById('spin-msg').innerText = "✅ Bu gün şansını sınamısan. Sabah gəl!";
+        document.getElementById('spin-msg').style.color = "#aaa";
+        document.getElementById('spin-box').innerText = "🔒";
+        document.getElementById('spin-box').style.borderColor = "#333";
+    }
+});
     
     // Müqayisə Funksiyaları
     function initComp() {
