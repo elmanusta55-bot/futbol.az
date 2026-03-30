@@ -140,7 +140,28 @@
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.9); z-index: 3000; justify-content: center; align-items: center; padding: 20px; }
         .modal-card { background: var(--card-bg); border-radius: 20px; padding: 24px; width: 100%; max-width: 340px; border: 1px solid var(--border-color); }
         .upload-label { display: block; background: rgba(255,255,255,0.03); border: 1px dashed var(--text-muted); color: var(--text-main); padding: 16px; border-radius: 12px; text-align: center; cursor: pointer; font-weight: 500; margin-bottom: 15px; }
-
+.news-ticker {
+    background: #111;
+    color: var(--neon-green);
+    padding: 10px 0;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+.ticker-wrap {
+    display: flex;
+    white-space: nowrap;
+    animation: ticker 25s linear infinite;
+}
+.ticker-item {
+    padding: 0 40px;
+}
+@keyframes ticker {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
         /* =========================================
            YENİ eFOOTBALL PAKET AÇILIŞI STİLLƏRİ 
            ========================================= */
@@ -268,6 +289,14 @@
         
         <input type="text" id="promo-input" class="input-field" placeholder="Promo kodu daxil edin">
         <button class="btn-main btn-gold" onclick="promoIslet()">KODU TƏSDİQLƏ</button>
+    </div>
+</div>
+    <div class="news-ticker">
+    <div class="ticker-wrap">
+        <div class="ticker-item">🔥 Levent Mercan ata oldu!</div>
+        <div class="ticker-item">⚽ Qarabağ FK-nın növbəti oyunu yaxınlaşır...</div>
+        <div class="ticker-item">💎 Galatasaray Fenere qoydu!</div>
+        <div class="ticker-item">🏆 Penalti oyununda həftənin lideri: ElmanUsta</div>
     </div>
 </div>
 
