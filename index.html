@@ -336,6 +336,18 @@
         </div>
     </div>
 </div>
+    <div class="card" id="guess-player-card" style="border: 2px dashed #ff9900; background: rgba(255, 153, 0, 0.05);">
+    <div class="card-header" style="color: #ff9900;"><i class="fas fa-user-secret"></i> GİZLİ FUTBOLÇUNU TAP 🧠</div>
+    <p style="font-size: 13px; color: #ccc;">Aşağıdakı klublarda ardıcıllıqla oynamış futbolçu kimdir? (Orta çətinlik)</p>
+    
+    <div id="player-hints" style="background: #000; padding: 15px; border-radius: 8px; font-weight: bold; margin-bottom: 15px; color: var(--neon-green); text-align: center; font-size: 14px; border: 1px solid #333; line-height: 1.6;">
+        </div>
+    
+    <input type="text" id="player-guess-input" class="promo-input" placeholder="Futbolçunun adını yaz (məs: Arda Turan)">
+    <button class="btn-premium btn-gold" onclick="futbolcuTap()">CAVABI YOXLAYIN</button>
+    <div id="guess-msg" style="margin-top: 10px; font-weight: bold; text-align: center; font-size: 13px;"></div>
+    </div>
+    
 
 <div id="sec-card" class="section">
     <div class="card">
@@ -779,6 +791,75 @@ window.addEventListener('load', () => {
         document.getElementById('trivia-msg').style.color = "#aaa";
     }
 });
+    // Orta çətinlikdə olan futbolçular bazası (İstədiyin qədər artıra bilərsən)
+const futbolcular = [
+    { hints: "Sporting CP ➡️ Man Utd ➡️ Fenerbahçe ➡️ Valencia", answer: ["nani", "luis nani"] },
+    { hints: "Palermo ➡️ Napoli ➡️ PSG ➡️ Man Utd ➡️ Boca Juniors", answer: ["edinson cavani", "cavani"] },
+    { hints: "Benfica ➡️ Real Madrid ➡️ Man Utd ➡️ PSG ➡️ Juventus", answer: ["angel di maria", "di maria"] },
+    { hints: "Schalke 04 ➡️ Werder Bremen ➡️ Real Madrid ➡️ Arsenal", answer: ["mesut ozil", "mesut özil", "özil", "ozil"] },
+    { hints: "Porto ➡️ Atletico Madrid ➡️ Monaco ➡️ Galatasaray", answer: ["radamel falcao", "falcao"] },
+    { hints: "Basel ➡️ Chelsea ➡️ AS Roma ➡️ Liverpool", answer: ["mohamed salah", "salah", "m. salah", "məhəmməd salah"] },
+    { hints: "Lille ➡️ Napoli ➡️ Galatasaray", answer: ["victor osimhen", "osimhen"] },
+    { hints: "Qarabağ ➡️ Dinamo Zaqreb ➡️ Nürnberg", answer: ["mahir emreli", "emreli", "mahir"] } // Yerli azarkeşlər üçün :)
+];
+
+let secilenFutbolcu = {};
+
+function gizliFutbolcuYarat() {
+    let bugun = new Date().toDateString();
+    
+    // Əgər istifadəçi bu gün artıq tapıbsa, kartı gizlət
+    if (localStorage.getItem('sonFutbolcuTapildi') === bugun) {
+        document.getElementById('guess-player-card').style.display = 'none';
+        return;
+    }
+    
+    // Təsadüfi bir futbolçu seçirik
+    let randomIndex = Math.floor(Math.random() * futbolcular.length);
+    secilenFutbolcu = futbolcular[randomIndex];
+    document.getElementById('player-hints').innerHTML = secilenFutbolcu.hints;
+}
+
+function futbolcuTap() {
+    // İstifadəçinin yazdığı cavabı kiçik hərflərə çeviririk ki, yoxlamaq asan olsun
+    let texmin = document.getElementById('player-guess-input').value.trim().toLowerCase();
+    let msg = document.getElementById('guess-msg');
+    
+    if (texmin === "") {
+        msg.innerText = "Zəhmət olmasa bir ad daxil edin!"; 
+        msg.style.color = "#ff4757"; 
+        return;
+    }
+    
+    // Əgər cavab doğrudursa
+    if (secilenFutbolcu.answer.includes(texmin)) {
+        xal += 1000;
+        msg.innerText = "✅ Halaldır! Doğru tapdın: +1000 XAL";
+        msg.style.color = "var(--neon-green)";
+        uiYenile(); // Xalı dərhal yenilə
+        
+        // Bu gün tapdığını yaddaşa yazırıq
+        let bugun = new Date().toDateString();
+        localStorage.setItem('sonFutbolcuTapildi', bugun);
+        
+        // 2 saniyə sonra oyunu ekrandan yığışdırırıq
+        setTimeout(() => {
+            document.getElementById('guess-player-card').style.display = 'none';
+        }, 2000);
+    } else {
+        msg.innerText = "❌ Səhvdir! Bir daha düşün, bəlkə başqa oyunçudur?";
+        msg.style.color = "#ff4757";
+    }
+}
+    window.onload = () => { 
+    uiYenile(); 
+    apiCek(); 
+    cədvəlCek(); 
+    gizliFutbolcuYarat(); // YENİ ƏLAVƏ EDİLƏN KOD
+    
+    // ... (qalan şans çarxı kodların olduğu kimi qalır)
+};
+    
     
 </script>
 </body>
