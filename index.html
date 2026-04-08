@@ -425,9 +425,17 @@
         </button>
     </div>
 </div>
+    <div id="sec-search" class="section">
+    <div class="card">
+        <div class="card-header"><i class="fas fa-search"></i> 🔍 AXTARIŞ</div>
+        <input type="text" id="search-input" class="input-field" placeholder="Oyunçu, komanda yaz..." oninput="liveSearch()">
+        <div id="search-results" style="margin-top:20px;"></div>
+    </div>
+    </div>
 
 <nav class="bottom-nav">
     <div class="nav-btn active" onclick="menyuDeyis('home')"><i class="fas fa-home"></i>Əsas</div>
+        <div class="nav-btn" onclick="menyuDeyis('search')"><i class="fas fa-search"></i>Axtarış</div>
     <div class="nav-btn" onclick="menyuDeyis('squad')"><i class="fas fa-users"></i>11-lik</div>
     <div class="nav-btn" onclick="menyuDeyis('card')"><i class="fas fa-id-card"></i>Kart</div>
     <div class="nav-btn" onclick="menyuDeyis('market')"><i class="fas fa-box-open"></i>Paket</div>
@@ -725,7 +733,7 @@
         setTimeout(() => {
             pack.classList.remove('opening-active'); pack.classList.add('pack-idle');
             const randomPlayer = db[Math.floor(Math.random() * db.length)];
-            
+            function liveSearch(){let q=document.getElementById('search-input').value.toLowerCase();let r=document.getElementById('search-results');if(q.length<2){r.innerHTML='';return;}let h='';['Juninho','Pelé','B.Saka','B.Silva','Galatasaray','Qarabağ FK'].filter(x=>x.toLowerCase().includes(q)).forEach(x=>{h+=`<div style="background:rgba(0,255,204,0.1);padding:10px;border-radius:8px;margin:8px 0;border-left:3px solid var(--primary)"><b style="color:#fff">${x}</b></div>`});r.innerHTML=h||'<p style="color:var(--text-muted)">❌ Nəticə tapılmadı</p>'}
             document.getElementById('reward-desc').innerHTML = `
                 <div class="pack-player-card">
                     <div style="font-size: 50px; font-weight: 900; font-family:'Rajdhani';">${randomPlayer.o}</div>
