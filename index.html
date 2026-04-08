@@ -425,6 +425,122 @@
         </button>
     </div>
 </div>
+
+    <div id="sec-profile" class="section">
+    <!-- PROFIL KARTASI -->
+    <div class="card" style="text-align: center; border-top: 4px solid var(--primary);">
+        <div class="card-header" style="justify-content:center; border:none;">
+            <i class="fas fa-user-circle"></i> ŞƏXSI PROFİL
+        </div>
+        
+        <div style="width: 120px; height: 120px; margin: 0 auto 15px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), #0099ff); display: flex; align-items: center; justify-content: center; font-size: 60px; box-shadow: 0 0 20px rgba(0,255,204,0.3);">
+            <i class="fas fa-user" style="color: #fff;"></i>
+        </div>
+        
+        <div style="font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 5px;" id="profile-name">ElmanUsta55</div>
+        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px; letter-spacing: 1px;">ID: #12345</div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+            <div style="background: rgba(0,255,204,0.1); padding: 12px; border-radius: 10px; border: 1px solid var(--primary);">
+                <div style="font-size: 24px; font-weight: 900; color: var(--gold);" id="profile-level">5</div>
+                <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">SEVİYƏ</div>
+            </div>
+            <div style="background: rgba(255,215,0,0.1); padding: 12px; border-radius: 10px; border: 1px solid var(--gold);">
+                <div style="font-size: 24px; font-weight: 900; color: var(--gold);" id="profile-rank">12</div>
+                <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">REYTINQ</div>
+            </div>
+        </div>
+        
+        <button class="btn-main" onclick="editProfile()" style="width: 100%; margin-bottom: 10px;">
+            <i class="fas fa-edit"></i> PROFİLİ DÜZƏLDİ
+        </button>
+    </div>
+
+    <!-- STATİSTİKA -->
+    <div class="card">
+        <div class="card-header"><i class="fas fa-chart-bar"></i> STATİSTİKA</div>
+        <div class="stat-row">
+            <span style="flex:1; text-align:left; color: var(--text-main);">Oynanan Oyunlar</span>
+            <span style="flex:1; text-align:right; color: var(--primary); font-weight: 900;" id="stat-games">42</span>
+        </div>
+        <div class="stat-row">
+            <span style="flex:1; text-align:left; color: var(--text-main);">Qazanılmış Oyunlar</span>
+            <span style="flex:1; text-align:right; color: var(--primary); font-weight: 900;" id="stat-wins">28</span>
+        </div>
+        <div class="stat-row">
+            <span style="flex:1; text-align:left; color: var(--text-main);">Win Ratio</span>
+            <span style="flex:1; text-align:right; color: var(--gold); font-weight: 900;" id="stat-ratio">66%</span>
+        </div>
+        <div class="stat-row">
+            <span style="flex:1; text-align:left; color: var(--text-main);">Toplam Xal</span>
+            <span style="flex:1; text-align:right; color: var(--primary); font-weight: 900;" id="stat-points">15,500</span>
+        </div>
+    </div>
+
+    <!-- BADGES/TİTULLAR -->
+    <div class="card">
+        <div class="card-header"><i class="fas fa-trophy"></i> TİTUL VƏ BADGE-LƏR</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div style="background: rgba(255,215,0,0.1); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid var(--gold);">
+                <div style="font-size: 30px; margin-bottom: 5px;">🏆</div>
+                <div style="font-size: 12px; color: #fff; font-weight: 700;">Çempion</div>
+                <div style="font-size: 10px; color: var(--text-muted);">5 qalibiyyət</div>
+            </div>
+            <div style="background: rgba(0,255,204,0.1); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid var(--primary);">
+                <div style="font-size: 30px; margin-bottom: 5px;">⭐</div>
+                <div style="font-size: 12px; color: #fff; font-weight: 700;">Ulduz Oyunçu</div>
+                <div style="font-size: 10px; color: var(--text-muted);">10K xal</div>
+            </div>
+            <div style="background: rgba(0,153,255,0.1); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #0099ff;">
+                <div style="font-size: 30px; margin-bottom: 5px;">🎯</div>
+                <div style="font-size: 12px; color: #fff; font-weight: 700;">Məsul Oyunçu</div>
+                <div style="font-size: 10px; color: var(--text-muted);">30 gün aktiv</div>
+            </div>
+            <div style="background: rgba(255,0,255,0.1); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #ff00ff; opacity: 0.5;">
+                <div style="font-size: 30px; margin-bottom: 5px; filter: grayscale(100%);">👑</div>
+                <div style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Kral</div>
+                <div style="font-size: 10px; color: var(--text-muted);">Kilidli</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEVİMLİ OYUNÇULAR -->
+    <div class="card">
+        <div class="card-header"><i class="fas fa-heart"></i> SEVİMLİ OYUNÇULAR</div>
+        <div id="favorite-players" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div style="background: rgba(0,255,204,0.1); padding: 12px; border-radius: 10px; border: 1px solid var(--primary);">
+                <div style="font-weight: 800; color: #fff;">Pelé</div>
+                <div style="font-size: 12px; color: var(--text-muted);">OVR: 98</div>
+            </div>
+            <div style="background: rgba(0,255,204,0.1); padding: 12px; border-radius: 10px; border: 1px solid var(--primary);">
+                <div style="font-weight: 800; color: #fff;">B. Silva</div>
+                <div style="font-size: 12px; color: var(--text-muted);">OVR: 88</div>
+            </div>
+        </div>
+        <button class="btn-main btn-outline" style="width: 100%; margin-top: 10px; padding: 10px;">
+            <i class="fas fa-plus"></i> OYUNÇU ƏLAVƏ ET
+        </button>
+    </div>
+
+    <!-- AKTİVLİK TARİXİ -->
+    <div class="card">
+        <div class="card-header"><i class="fas fa-history"></i> AKTİVLİK TARİXİ</div>
+        <div style="font-size: 12px; color: var(--text-muted); line-height: 1.8;">
+            <div style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <span style="color: var(--primary);">✓</span> Dəqiq Zərbə Oyunu Oynadı - <span style="color: var(--gold);">+500 XAL</span>
+            </div>
+            <div style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <span style="color: var(--primary);">✓</span> Günün Sualını Cavabladı - <span style="color: var(--gold);">+500 XAL</span>
+            </div>
+            <div style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <span style="color: var(--primary);">✓</span> Şans Çarxını Çevirdi - <span style="color: var(--gold);">+1000 XAL</span>
+            </div>
+            <div style="padding: 8px;">
+                <span style="color: var(--primary);">✓</span> Profili Yaratdı - <span style="color: var(--gold);">Tamamlandı</span>
+            </div>
+        </div>
+    </div>
+    </div>
     <div id="sec-search" class="section">
     <div class="card">
         <div class="card-header"><i class="fas fa-search"></i> 🔍 AXTARIŞ</div>
@@ -436,6 +552,7 @@
 <nav class="bottom-nav">
     <div class="nav-btn active" onclick="menyuDeyis('home')"><i class="fas fa-home"></i>Əsas</div>
         <div class="nav-btn" onclick="menyuDeyis('search')"><i class="fas fa-search"></i>Axtarış</div>
+    <div class="nav-btn" onclick="menyuDeyis('profile')"><i class="fas fa-user-circle"></i>Profil</div>
     <div class="nav-btn" onclick="menyuDeyis('squad')"><i class="fas fa-users"></i>11-lik</div>
     <div class="nav-btn" onclick="menyuDeyis('card')"><i class="fas fa-id-card"></i>Kart</div>
     <div class="nav-btn" onclick="menyuDeyis('market')"><i class="fas fa-box-open"></i>Paket</div>
@@ -614,6 +731,24 @@
             }
         }, 50);
     }
+    // PROFIL SİSTEMİ
+function editProfile() {
+    let name = prompt("Yeni adınızı daxil edin:", "ElmanUsta55");
+    if(name) {
+        document.getElementById('profile-name').innerText = name;
+        localStorage.setItem('profile-name', name);
+        alert("✅ Profil yeniləndi!");
+    }
+}
+
+function loadProfile() {
+    let savedName = localStorage.getItem('profile-name');
+    if(savedName) {
+        document.getElementById('profile-name').innerText = savedName;
+    }
+}
+
+window.addEventListener('load', loadProfile);
 
     // GÜNÜN SUALI (DÜZƏLDİLMİŞDİR)
     function cavabla(il) {
