@@ -3,17 +3,185 @@
    ═══════════════════════════════════════════════════════════════════ */
 "use strict";
 
-// ── Game Tab Switching ────────────────────────────────────────────────────────
-function selectGame(gameKey) {
-  document.querySelectorAll(".game-tab").forEach(t => {
-    t.classList.toggle("active", t.dataset.game === gameKey);
-  });
+// ── Security: HTML escaping ───────────────────────────────────────────────────
+function escapeHTML(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// UI / NAVIGATION
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const GAME_TITLES = {
+  trivia:  "🧠 Futbol Viktorinası",
+  penalty: "⚽ Penalti Atışları",
+  predict: "📊 Hesab Proqnozu",
+  speed:   "⚡ Sürət Turu",
+};
+
+function openGame(gameKey) {
+  // Show the correct panel inside modal
   document.querySelectorAll(".game-panel").forEach(p => {
     const isTarget = p.id === `game-${gameKey}`;
     p.hidden = !isTarget;
     p.classList.toggle("active", isTarget);
   });
+
+  // Update modal title
+  const titleEl = document.getElementById("game-modal-title");
+  if (titleEl) titleEl.textContent = GAME_TITLES[gameKey] || "Oyun";
+
+  // Show modal
+  const modal = document.getElementById("game-modal");
+  if (modal) {
+    modal.hidden = false;
+    document.body.style.overflow = "hidden";
+  }
 }
+
+function closeGame() {
+  const modal = document.getElementById("game-modal");
+  if (modal) {
+    modal.hidden = true;
+    document.body.style.overflow = "";
+  }
+}
+
+// Close modal on overlay click
+document.addEventListener("DOMContentLoaded", () => {
+  const overlay = document.getElementById("game-modal");
+  if (overlay) {
+    overlay.addEventListener("click", e => {
+      if (e.target === overlay) closeGame();
+    });
+  }
+});
+
+// Close modal on Escape key
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeGame();
+});
+
+// ── Category & Search filtering ───────────────────────────────────────────────
+let _currentCat = "all";
+let _currentSearch = "";
+
+function filterCategory(cat) {
+  _currentCat = cat;
+
+  // Update button states
+  document.querySelectorAll(".cat-btn").forEach(b => {
+    b.classList.toggle("active", b.dataset.cat === cat);
+    b.setAttribute("aria-selected", b.dataset.cat === cat ? "true" : "false");
+  });
+
+  applyFilters();
+}
+
+function filterGames(query) {
+  _currentSearch = (query || "").toLowerCase().trim();
+  applyFilters();
+}
+
+function applyFilters() {
+  const cards = document.querySelectorAll("#games-grid .game-card");
+  let visible = 0;
+
+  cards.forEach(card => {
+    const cardCat  = card.dataset.cat  || "";
+    const cardName = card.dataset.name || "";
+    const titleEl  = card.querySelector(".game-card-title");
+    const descEl   = card.querySelector(".game-card-desc");
+    const titleText = (titleEl ? titleEl.textContent : "").toLowerCase();
+    const descText  = (descEl  ? descEl.textContent  : "").toLowerCase();
+
+    const catMatch    = _currentCat === "all" || cardCat === _currentCat;
+    const searchMatch = !_currentSearch ||
+      cardName.includes(_currentSearch) ||
+      titleText.includes(_currentSearch) ||
+      descText.includes(_currentSearch);
+
+    const show = catMatch && searchMatch;
+    card.style.display = show ? "" : "none";
+    if (show) visible++;
+  });
+
+  const noResults = document.getElementById("no-results");
+  if (noResults) noResults.hidden = visible > 0;
+}
+
+// ── Theme toggle ──────────────────────────────────────────────────────────────
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute("data-theme") !== "light";
+  const next = isDark ? "light" : "dark";
+  html.setAttribute("data-theme", next);
+  localStorage.setItem("faz_theme", next);
+
+  const icon = document.getElementById("theme-icon");
+  if (icon) icon.textContent = next === "dark" ? "🌙" : "☀️";
+}
+
+// ── Search dropdown toggle ────────────────────────────────────────────────────
+function toggleSearch() {
+  const dd = document.getElementById("search-dropdown");
+  if (!dd) return;
+  dd.hidden = !dd.hidden;
+  if (!dd.hidden) {
+    const inp = dd.querySelector("input");
+    if (inp) inp.focus();
+  }
+}
+
+// Close search dropdown when clicking outside
+document.addEventListener("click", e => {
+  const wrap = document.getElementById("search-wrap");
+  if (wrap && !wrap.contains(e.target)) {
+    const dd = document.getElementById("search-dropdown");
+    if (dd) dd.hidden = true;
+  }
+});
+
+// ── Mobile menu ───────────────────────────────────────────────────────────────
+function toggleMobileMenu() {
+  const menu = document.getElementById("mobile-menu");
+  const btn  = document.getElementById("hamburger");
+  if (!menu) return;
+  const open = menu.hidden;
+  menu.hidden = !open;
+  if (btn) btn.setAttribute("aria-expanded", String(open));
+}
+
+function closeMobileMenu() {
+  const menu = document.getElementById("mobile-menu");
+  const btn  = document.getElementById("hamburger");
+  if (menu) menu.hidden = true;
+  if (btn)  btn.setAttribute("aria-expanded", "false");
+}
+
+// ── Scroll helpers ────────────────────────────────────────────────────────────
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function showHome() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// ── Sticky navbar shadow on scroll ───────────────────────────────────────────
+window.addEventListener("scroll", () => {
+  const navbar = document.getElementById("navbar");
+  if (navbar) navbar.classList.toggle("scrolled", window.scrollY > 20);
+}, { passive: true });
+
+// ── Legacy tab switching (kept for compatibility) ─────────────────────────────
+function selectGame(gameKey) { openGame(gameKey); }
 
 // ── LocalStorage helpers ──────────────────────────────────────────────────────
 function getHighScore(key) {
@@ -67,6 +235,7 @@ const triviaState = {
 };
 
 function startTrivia() {
+  incrementPlayCount("trivia");
   // Shuffle and pick 10
   const shuffled = [...TRIVIA_QUESTIONS].sort(() => Math.random() - 0.5);
   triviaState.questions = shuffled.slice(0, 10);
@@ -175,6 +344,7 @@ function endTrivia() {
   setHTML("trivia-result-icon", icon);
   setHTML("trivia-result-msg", escapeHTML(msg));
   renderHighScore("trivia-highscore", "trivia", "xal");
+  updateCardHighScore("trivia-card-hs", "trivia", "xal");
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -196,6 +366,7 @@ const predictState = {
 };
 
 function startPredict() {
+  incrementPlayCount("predict");
   const shuffled = [...SAMPLE_MATCHES].sort(() => Math.random() - 0.5);
   predictState.matches     = shuffled.slice(0, 5);
   predictState.current     = 0;
@@ -314,6 +485,7 @@ function endPredict() {
 
   setHTML("predict-result-breakdown", breakdown);
   renderHighScore("predict-highscore", "predict", "xal");
+  updateCardHighScore("predict-card-hs", "predict", "xal");
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -336,6 +508,7 @@ const penaltyState = {
 };
 
 function startPenalty() {
+  incrementPlayCount("penalty");
   Object.assign(penaltyState, { kicksTaken: 0, goals: 0, selected: null, shooting: false, history: [] });
 
   showEl("penalty-play");
@@ -596,6 +769,7 @@ function endPenalty() {
   setHTML("penalty-result-icon", icon);
   setHTML("penalty-result-msg", escapeHTML(msg));
   renderHighScore("penalty-highscore", "penalty", "qol");
+  updateCardHighScore("penalty-card-hs", "penalty", "qol");
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -634,6 +808,7 @@ const speedState = {
 };
 
 function startSpeed() {
+  incrementPlayCount("speed");
   const shuffled = [...SPEED_QUESTIONS].sort(() => Math.random() - 0.5);
   Object.assign(speedState, {
     questions:    shuffled,
@@ -730,6 +905,7 @@ function endSpeed() {
 
   setHTML("speed-result-msg", escapeHTML(msg));
   renderHighScore("speed-highscore", "speed", "cavab");
+  updateCardHighScore("speed-card-hs", "speed", "cavab");
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -750,8 +926,59 @@ function setHTML(id, html) {
 
 // ── Init: show high scores on page load ──────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
+  // Restore saved theme
+  const savedTheme = localStorage.getItem("faz_theme");
+  if (savedTheme) {
+    document.documentElement.setAttribute("data-theme", savedTheme);
+    const icon = document.getElementById("theme-icon");
+    if (icon) icon.textContent = savedTheme === "dark" ? "🌙" : "☀️";
+  }
+
+  // Render high scores inside game modal
   renderHighScore("trivia-highscore",  "trivia",  "xal");
   renderHighScore("predict-highscore", "predict", "xal");
   renderHighScore("penalty-highscore", "penalty", "qol");
   renderHighScore("speed-highscore",   "speed",   "cavab");
+
+  // Render high scores on game cards
+  updateCardHighScore("trivia-card-hs",  "trivia",  "xal");
+  updateCardHighScore("penalty-card-hs", "penalty", "qol");
+  updateCardHighScore("predict-card-hs", "predict", "xal");
+  updateCardHighScore("speed-card-hs",   "speed",   "cavab");
+
+  // Show best hero stat
+  const best = Math.max(
+    getHighScore("trivia"), getHighScore("predict"),
+    getHighScore("penalty"), getHighScore("speed")
+  );
+  const statEl = document.getElementById("stat-highscore");
+  if (statEl) statEl.textContent = best > 0 ? String(best) : "—";
+
+  // Load play counts
+  updatePlayCounts();
 });
+
+function updateCardHighScore(elId, key, label) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  const hs = getHighScore(key);
+  el.textContent = hs > 0 ? `🏆 ${hs} ${label}` : "";
+}
+
+function updatePlayCounts() {
+  const games = ["trivia", "penalty", "predict", "speed"];
+  games.forEach(g => {
+    const key = `plays_${g}`;
+    const count = parseInt(localStorage.getItem(key) || "0", 10);
+    const el = document.getElementById(`${g}-plays`);
+    if (el) el.textContent = count > 0 ? `${count} oyun` : "İlk oynayan siz olun!";
+  });
+}
+
+function incrementPlayCount(key) {
+  const storageKey = `plays_${key}`;
+  const count = parseInt(localStorage.getItem(storageKey) || "0", 10);
+  localStorage.setItem(storageKey, String(count + 1));
+  const el = document.getElementById(`${key}-plays`);
+  if (el) el.textContent = `${count + 1} oyun`;
+}
