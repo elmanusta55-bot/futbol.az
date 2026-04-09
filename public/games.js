@@ -14,6 +14,9 @@ function escapeHTML(str) {
     .replace(/'/g, "&#39;");
 }
 
+// ─────────────────────────────── Constants ───────────────────────────────────
+const SITE_URL = window.location.origin || "https://futbol.az";
+
 // ─────────────────────────────── GAMES DATA ──────────────────────────────────
 const GAMES_DATA = [
   {
@@ -717,7 +720,7 @@ function handleCommentSubmit(event) {
 function shareGame(gameId, platform) {
   const game = GAMES_DATA.find(g => g.id === gameId);
   if (!game) return;
-  const url  = encodeURIComponent("https://futbol.az");
+  const url  = encodeURIComponent(SITE_URL);
   const text = encodeURIComponent(`${game.emoji} ${game.title} oynunu Futbol.az-da oynamağa çalışın!`);
   let shareUrl = "";
   switch (platform) {
@@ -853,10 +856,6 @@ function playGame(gameId) {
   const game = GAMES_DATA.find(g => g.id === gameId);
   if (!game) return;
   showToast(`🎮 ${game.title} başlanır…`);
-  // Increment play count (local only)
-  game.playCount++;
-  const el = document.getElementById("modal-play-count");
-  if (el) el.textContent = formatPlayCount(game.playCount);
   setTimeout(() => {
     showToast(`▶️ ${game.title} oynanır!`);
   }, 1000);
