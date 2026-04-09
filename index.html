@@ -3,180 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Futbol.Az | Canlı Hesablar</title>
+    <title>Futbol.Az | Canlı Hesablar Pro</title>
     <style>
-        /* Səhifə Stili */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background-color: #121212;
             color: white;
             margin: 0;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
-        /* Widget Konteyneri */
         #live-football-widget {
             width: 100%;
-            max-width: 550px;
+            max-width: 600px;
+            margin: auto;
             background: #1e1e1e;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
             border: 1px solid #333;
         }
 
-        /* Başlıq */
         .widget-header {
-            background: linear-gradient(90deg, #d32f2f, #b71c1c);
+            background: linear-gradient(90deg, #1b5e20, #2e7d32);
             padding: 15px;
             text-align: center;
             font-weight: bold;
-            font-size: 18px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            border-bottom: 2px solid #ff5252;
         }
 
-        /* Oyunların siyahısı */
-        #live-scores-content {
-            padding: 10px;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        /* Hər bir oyun sətri */
         .match-card {
+            background: #262626;
+            margin: 10px;
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 5px solid #4caf50;
+        }
+
+        .match-info {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: #262626;
-            margin-bottom: 12px;
-            padding: 15px;
-            border-radius: 10px;
-            transition: transform 0.2s;
         }
 
-        .match-card:hover {
-            transform: scale(1.02);
-            background: #2d2d2d;
-        }
+        .team { flex: 1; font-weight: bold; font-size: 15px; }
+        .home { text-align: right; margin-right: 10px; }
+        .away { text-align: left; margin-left: 10px; }
 
-        .team-name {
-            flex: 1;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .home-team { text-align: right; padding-right: 10px; }
-        .away-team { text-align: left; padding-left: 10px; }
-
-        .score-box {
-            flex: 0 0 100px;
+        .score-area {
             text-align: center;
+            min-width: 80px;
         }
 
         .score {
+            font-size: 22px;
             background: #000;
-            color: #4caf50;
-            font-size: 20px;
-            font-weight: bold;
             padding: 5px 10px;
-            border-radius: 5px;
-            border: 1px solid #444;
-            display: inline-block;
-            min-width: 60px;
+            border-radius: 8px;
+            color: #4caf50;
+            display: block;
         }
 
-        .match-time {
-            color: #f44336;
+        /* Qol vuranların siyahısı */
+        .scorers {
             font-size: 12px;
-            margin-top: 5px;
+            color: #bbb;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #3d3d3d;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .scorer-list { width: 45%; }
+
+        /* Canlı Bax Düyməsi */
+        .live-btn {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+            padding: 8px;
+            background: #d32f2f;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 13px;
             font-weight: bold;
-            animation: blink 1.5s infinite;
+            transition: 0.3s;
         }
 
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+        .live-btn:hover { background: #ff5252; }
+
+        .time-badge {
+            font-size: 11px;
+            color: #ff5252;
+            font-weight: bold;
+            animation: blink 1s infinite;
         }
 
-        /* Scrollbar stili */
-        #live-scores-content::-webkit-scrollbar { width: 6px; }
-        #live-scores-content::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+        @keyframes blink { 50% { opacity: 0.5; } }
     </style>
 </head>
 <body>
 
-    <div id="live-football-widget">
-        <div class="widget-header">
-            🔴 Canlı Qarşılaşmalar
-        </div>
-        <div id="live-scores-content">
-            <p style="text-align: center; color: #888; padding: 20px;">Yüklənir...</p>
-        </div>
+<div id="live-football-widget">
+    <div class="widget-header">🏆 Canlı Oyunlar & Qolçular</div>
+    <div id="live-scores-content">
+        <p style="text-align:center; padding: 20px;">Yüklənir...</p>
     </div>
+</div>
 
-    <script>
-        // Sənin API Key-in
-        const API_KEY = "5b40dc94de05e9a55e848b0c16da8e8c";
-        const scoresContainer = document.getElementById('live-scores-content');
+<script>
+    const API_KEY = "5b40dc94de05e9a55e848b0c16da8e8c";
 
-        async function fetchLiveScores() {
-            const url = 'https://v3.football.api-sports.io/fixtures?live=all';
-            
-            try {
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'x-apisports-key': API_KEY
-                    }
-                });
+    async function updateScores() {
+        try {
+            const response = await fetch('https://v3.football.api-sports.io/fixtures?live=all', {
+                method: 'GET',
+                headers: { 'x-apisports-key': API_KEY }
+            });
+            const data = await response.json();
+            const matches = data.response || [];
 
-                const data = await response.json();
-                const matches = data.response || [];
+            if (matches.length === 0) {
+                document.getElementById('live-scores-content').innerHTML = "<p style='text-align:center; padding:20px;'>Hazırda canlı oyun yoxdur.</p>";
+                return;
+            }
 
-                if (matches.length === 0) {
-                    scoresContainer.innerHTML = "<p style='text-align:center; color: #aaa; padding: 30px;'>Hazırda canlı oyun yoxdur.</p>";
-                    return;
+            let html = '';
+            matches.forEach(match => {
+                // Qol vuranları ayırırıq
+                let homeScorers = [];
+                let awayScorers = [];
+                
+                if (match.events) {
+                    match.events.forEach(event => {
+                        if (event.type === "Goal") {
+                            let goalInfo = `${event.player.name} (${event.time.elapsed}')`;
+                            if (event.team.id === match.teams.home.id) homeScorers.push(goalInfo);
+                            else awayScorers.push(goalInfo);
+                        }
+                    });
                 }
 
-                let html = '';
-                matches.forEach(match => {
-                    const home = match.teams.home;
-                    const away = match.teams.away;
-                    const goalsHome = match.goals.home ?? 0;
-                    const goalsAway = match.goals.away ?? 0;
-                    const elapsed = match.fixture.status.elapsed;
+                const watchUrl = `https://www.google.com/search?q=${encodeURIComponent(match.teams.home.name + ' vs ' + match.teams.away.name + ' canlı izlə')}`;
 
-                    html += `
-                        <div class="match-card">
-                            <div class="team-name home-team">${home.name}</div>
-                            <div class="score-box">
-                                <div class="score">${goalsHome} - ${goalsAway}</div>
-                                <div class="match-time">${elapsed}'</div>
+                html += `
+                    <div class="match-card">
+                        <div class="match-info">
+                            <div class="team home">${match.teams.home.name}</div>
+                            <div class="score-area">
+                                <span class="score">${match.goals.home} - ${match.goals.away}</span>
+                                <span class="time-badge">${match.fixture.status.elapsed}'</span>
                             </div>
-                            <div class="team-name away-team">${away.name}</div>
+                            <div class="team away">${match.teams.away.name}</div>
                         </div>
-                    `;
-                });
 
-                scoresContainer.innerHTML = html;
+                        <div class="scorers">
+                            <div class="scorer-list" style="text-align: right;">${homeScorers.join(', ')}</div>
+                            <div style="color:#555">⚽</div>
+                            <div class="scorer-list">${awayScorers.join(', ')}</div>
+                        </div>
 
-            } catch (error) {
-                console.error("Xəta:", error);
-                scoresContainer.innerHTML = "<p style='text-align:center; color:#f44336; padding: 20px;'>Xəta baş verdi. İnterneti və ya API limitini yoxlayın.</p>";
-            }
+                        <a href="${watchUrl}" target="_blank" class="live-btn">📺 CANLI BAX</a>
+                    </div>
+                `;
+            });
+
+            document.getElementById('live-scores-content').innerHTML = html;
+        } catch (e) {
+            console.error(e);
         }
+    }
 
-        // İlk yükləmə
-        fetchLiveScores();
+    updateScores();
+    setInterval(updateScores, 60000); // 1 dəqiqədən bir yenilə
+</script>
 
-        // 1 dəqiqədən bir yenilə
-        setInterval(fetchLiveScores, 60000);
-    </script>
 </body>
 </html>
