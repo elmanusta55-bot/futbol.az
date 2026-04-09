@@ -836,6 +836,7 @@ function openGameDetail(gameId) {
   // Show modal
   const modal = document.getElementById("game-modal");
   if (modal) {
+    modal.classList.remove("is-closing");
     modal.hidden = false;
     document.body.style.overflow = "hidden";
     // Scroll modal to top
@@ -846,10 +847,13 @@ function openGameDetail(gameId) {
 
 function closeModal() {
   const modal = document.getElementById("game-modal");
-  if (modal) {
+  if (!modal || modal.hidden) return;
+  modal.classList.add("is-closing");
+  setTimeout(() => {
+    modal.classList.remove("is-closing");
     modal.hidden = true;
     document.body.style.overflow = "";
-  }
+  }, 250);
 }
 
 function playGame(gameId) {
