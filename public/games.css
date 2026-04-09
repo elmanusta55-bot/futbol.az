@@ -1,0 +1,494 @@
+/* ═══════════════════════════════════════════════════════════════════
+   FUTBOL.AZ – Games Stylesheet
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Game Tabs ────────────────────────────────────────────────────── */
+.game-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.game-tab {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 9px 20px;
+  font-size: .875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  font-family: var(--font);
+}
+.game-tab:hover { color: var(--text); border-color: var(--accent); }
+.game-tab.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ── Game Panel ───────────────────────────────────────────────────── */
+.game-panel { display: none; }
+.game-panel.active { display: block; }
+.game-panel[hidden] { display: none !important; }
+
+/* ── Game Card ────────────────────────────────────────────────────── */
+.game-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 680px;
+  margin: 0 auto;
+  transition: background 0.2s ease;
+}
+
+/* ── Game Intro ───────────────────────────────────────────────────── */
+.game-intro {
+  text-align: center;
+  padding: 16px 0;
+}
+.game-icon {
+  font-size: 4rem;
+  margin-bottom: 16px;
+  line-height: 1;
+}
+.game-intro h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-strong);
+  margin-bottom: 10px;
+}
+.game-intro p {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  line-height: 1.6;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── High Score Display ───────────────────────────────────────────── */
+.highscore-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--accent-glow);
+  color: var(--accent);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: .85rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  min-height: 34px;
+}
+.highscore-display:empty { display: none; }
+
+/* ── Quiz Header ──────────────────────────────────────────────────── */
+.quiz-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.quiz-progress {
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  min-width: 80px;
+  white-space: nowrap;
+}
+.quiz-timer-wrap {
+  flex: 1;
+  height: 6px;
+  background: var(--surface-2);
+  border-radius: 3px;
+  overflow: hidden;
+  min-width: 80px;
+}
+.quiz-timer-bar {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: width 0.1s linear, background 0.3s ease;
+  width: 100%;
+}
+.quiz-timer-bar.warning { background: #f59e0b; }
+.quiz-timer-bar.danger  { background: #ef4444; }
+.quiz-score-display {
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+/* ── Quiz Question ────────────────────────────────────────────────── */
+.quiz-question {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin-bottom: 20px;
+  line-height: 1.5;
+  min-height: 52px;
+}
+
+/* ── Quiz Options ─────────────────────────────────────────────────── */
+.quiz-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.quiz-option {
+  background: var(--surface-2);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-family: var(--font);
+  font-size: .9rem;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  line-height: 1.4;
+  transition: all 0.15s ease;
+}
+.quiz-option:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+}
+.quiz-option.correct {
+  background: rgba(0, 200, 83, .15);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.quiz-option.wrong {
+  background: rgba(239, 68, 68, .12);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+.quiz-option:disabled { cursor: default; }
+
+/* ── Speed Timer ──────────────────────────────────────────────────── */
+.speed-timer-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+.speed-timer-val {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-strong);
+  line-height: 1;
+}
+
+/* ── Game Result ──────────────────────────────────────────────────── */
+.game-result {
+  text-align: center;
+  padding: 16px 0;
+  animation: fadeSlideIn 0.3s ease;
+}
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.result-icon { font-size: 3.5rem; margin-bottom: 12px; line-height: 1; }
+.game-result h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.result-score {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.result-message {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  font-size: .95rem;
+}
+
+/* ── Predict Game ─────────────────────────────────────────────────── */
+.predict-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.predict-match {
+  background: var(--surface-2);
+  border-radius: 12px;
+  padding: 24px;
+  animation: fadeSlideIn 0.2s ease;
+}
+.predict-teams-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.predict-team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  text-align: center;
+}
+.predict-team-logo {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+.predict-team-name {
+  font-weight: 700;
+  font-size: .95rem;
+}
+.predict-vs {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.predict-score-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.predict-score-label {
+  font-size: .8rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 4px;
+}
+.predict-score-input-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.predict-score-input {
+  width: 60px;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-strong);
+  font-family: var(--font);
+  padding: 6px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.predict-score-input:focus { border-color: var(--accent); }
+.predict-dash {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+
+.predict-result-row {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 8px;
+  font-size: .85rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.predict-pts-badge {
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: .8rem;
+}
+.predict-pts-badge.exact { background: rgba(0,200,83,.2); color: var(--accent); }
+.predict-pts-badge.result { background: rgba(245,158,11,.2); color: #f59e0b; }
+.predict-pts-badge.miss { background: rgba(239,68,68,.15); color: #ef4444; }
+
+.predict-breakdown {
+  margin-top: 16px;
+  text-align: left;
+}
+.predict-breakdown .breakdown-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: .85rem;
+}
+.predict-breakdown .breakdown-item:last-child { border-bottom: none; }
+
+/* ── Penalty Game ─────────────────────────────────────────────────── */
+.penalty-game-card { max-width: 560px; }
+
+.penalty-scoreboard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.penalty-canvas-wrap {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #2d5a1b;
+  margin-bottom: 16px;
+  border: 2px solid var(--border);
+}
+#penalty-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 220px;
+  cursor: crosshair;
+}
+.penalty-instruction {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,.65);
+  color: #fff;
+  font-size: .75rem;
+  padding: 4px 12px;
+  border-radius: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  font-family: var(--font);
+}
+
+/* 3x3 goal selection grid */
+.goal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: 12px;
+  background: var(--surface-2);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 10px;
+}
+.goal-cell {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  height: 48px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.goal-cell:hover { border-color: var(--accent); background: var(--accent-glow); }
+.goal-cell.selected {
+  background: var(--accent-glow);
+  border-color: var(--accent);
+}
+
+.penalty-controls {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.penalty-controls .goal-grid { flex: 1; margin-bottom: 0; }
+
+.btn-shoot {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 14px 20px;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 80px;
+  align-self: center;
+}
+.btn-shoot:hover:not(:disabled) {
+  background: var(--accent-dark);
+  transform: scale(1.05);
+}
+.btn-shoot:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.penalty-history {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  min-height: 28px;
+}
+.penalty-kick-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  border: 2px solid transparent;
+  transition: transform 0.2s ease;
+}
+.penalty-kick-icon.goal { background: rgba(0,200,83,.2); border-color: var(--accent); }
+.penalty-kick-icon.miss { background: rgba(239,68,68,.15); border-color: #ef4444; }
+
+/* Penalty canvas animation overlay */
+.penalty-result-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0,0,0,.8);
+  pointer-events: none;
+  animation: popIn 0.4s ease;
+}
+@keyframes popIn {
+  0%   { transform: scale(0.3); opacity: 0; }
+  70%  { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .game-card { padding: 20px 16px; }
+  .quiz-options { grid-template-columns: 1fr; }
+  .predict-teams-row { flex-direction: column; }
+  .penalty-controls { flex-direction: column; }
+  .btn-shoot { width: 100%; }
+  .game-tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .game-tabs::-webkit-scrollbar { display: none; }
+}

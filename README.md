@@ -1,6 +1,6 @@
 # Futbol.az ⚽
 
-Professional football portal for Azerbaijan and world leagues, powered by [API-Football](https://rapidapi.com/api-sports/api/api-football).
+Professional football portal for Azerbaijan and world leagues – **2026 Season Redesign**.
 
 ## Features
 
@@ -13,16 +13,50 @@ Professional football portal for Azerbaijan and world leagues, powered by [API-F
 - 📊 Real-time standings (2025-26 season)
 - ⚽ Top scorers per league
 - 🔍 Team & player search
-- 🌙 Dark mode
+- 🌙 Dark / Light mode
+- 🎮 Interactive games (trivia, prediction, penalty shootout)
+- 📱 Mobile-first responsive layout
+- 🔒 Secure API proxy (key never exposed to browser)
 
 ## Tech Stack
 
-| Layer    | Technology                         |
-| -------- | ---------------------------------- |
-| Backend  | Node.js 18+, Express 4, node-fetch |
-| Security | express-rate-limit, CORS, dotenv   |
-| Frontend | Vanilla HTML / CSS / JS            |
-| API      | RapidAPI – API-Football v3         |
+| Layer    | Technology                                     |
+| -------- | ---------------------------------------------- |
+| Backend  | Node.js 18+, Express 4, node-fetch             |
+| Security | express-rate-limit, CORS, dotenv, input validation |
+| Frontend | Vanilla HTML / CSS / JS (no framework)         |
+| API      | API-Football v3 (api-sports.io)                |
+| Deployment | Vercel                                       |
+
+## File Structure
+
+```
+futbol.az/
+├── backend/
+│   ├── server.js           ← Express entry point
+│   ├── routes/
+│   │   ├── standings.js    ← GET /api/standings/:leagueId
+│   │   ├── matches.js      ← GET /api/matches, /api/live
+│   │   ├── players.js      ← GET /api/top-scorers/:leagueId
+│   │   └── teams.js        ← GET /api/search?q=
+│   ├── middleware/
+│   │   ├── apiProxy.js     ← Proxy + cache helper
+│   │   └── errorHandler.js ← Global error handler
+│   └── utils/
+│       ├── cache.js        ← In-memory TTL cache
+│       └── validators.js   ← Input validation helpers
+├── public/
+│   ├── index.html          ← Single-page application
+│   ├── app.js              ← Frontend logic
+│   ├── styles.css          ← Dark/light theme
+│   ├── games.js            ← Interactive games
+│   └── games.css           ← Game styles
+├── .env.example
+├── .gitignore
+├── package.json
+├── vercel.json
+└── README.md
+```
 
 ---
 
@@ -42,11 +76,10 @@ npm install
 cp .env.example .env
 ```
 
-Edit `.env` and fill in your `RAPIDAPI_KEY`:
+Edit `.env`:
 
 ```
-RAPIDAPI_KEY=your_rapidapi_key_here
-RAPIDAPI_HOST=api-football-v3.p.rapidapi.com
+APISPORTS_KEY=your_api_football_key_here
 PORT=3000
 NODE_ENV=production
 ```
@@ -66,18 +99,16 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## API Endpoints
 
-All proxy endpoints are served by the Express server. They forward requests to
-[API-Football v3](https://api-football-v3.p.rapidapi.com/v3) and cache responses
-for **5 minutes** to conserve API quota.
+All proxy endpoints forward requests to `v3.football.api-sports.io` and cache
+responses for **5 minutes** to conserve API quota.
 
-| Method | Path                       | Description                        |
-| ------ | -------------------------- | ---------------------------------- |
-| GET    | `/standings/:leagueId`     | League table for the current season |
-| GET    | `/live`                    | All currently live matches          |
-| GET    | `/matches`                 | All fixtures scheduled for today    |
-| GET    | `/today`                   | Alias for `/matches`                |
-| GET    | `/top-scorers/:leagueId`   | Top scorers for the current season  |
-| GET    | `/search?q=<term>`         | Search teams by name                |
+| Method | Path                          | Description                         |
+| ------ | ----------------------------- | ----------------------------------- |
+| GET    | `/api/standings/:leagueId`    | League table for the current season |
+| GET    | `/api/live`                   | All currently live matches          |
+| GET    | `/api/matches`                | Fixtures scheduled for today        |
+| GET    | `/api/top-scorers/:leagueId`  | Top scorers for the current season  |
+| GET    | `/api/search?q=<term>`        | Search teams by name                |
 
 ### League IDs
 
@@ -99,12 +130,11 @@ Only these IDs are accepted; any other value returns `400 Bad Request`.
 
 ## Environment Variables
 
-| Variable        | Required | Default                              | Description                   |
-| --------------- | -------- | ------------------------------------ | ----------------------------- |
-| `RAPIDAPI_KEY`  | ✅       | —                                    | Your RapidAPI secret key      |
-| `RAPIDAPI_HOST` | ❌       | `api-football-v3.p.rapidapi.com`     | RapidAPI host header          |
-| `PORT`          | ❌       | `3000`                               | TCP port the server listens on |
-| `NODE_ENV`      | ❌       | `development`                        | `production` disables verbose logs |
+| Variable        | Required | Default       | Description                          |
+| --------------- | -------- | ------------- | ------------------------------------ |
+| `APISPORTS_KEY` | ✅       | —             | Your api-sports.io API key           |
+| `PORT`          | ❌       | `3000`        | TCP port the server listens on       |
+| `NODE_ENV`      | ❌       | `development` | `production` for production mode     |
 
 ---
 
@@ -115,21 +145,9 @@ Only these IDs are accepted; any other value returns `400 Bad Request`.
 1. Push the repo to GitHub.
 2. Import the project in [Vercel](https://vercel.com).
 3. Add environment variables under **Settings → Environment Variables**:
-   - `RAPIDAPI_KEY`
-   - `RAPIDAPI_HOST` = `api-football-v3.p.rapidapi.com`
+   - `APISPORTS_KEY` = your key
    - `NODE_ENV` = `production`
-4. Set **Build Command** to `npm install` and **Output Directory** to `/` (root).
-5. Add a `vercel.json` (already present) or configure the `start` script.
-
-### Heroku
-
-```bash
-heroku create futbol-az-portal
-heroku config:set RAPIDAPI_KEY=<your_key>
-heroku config:set RAPIDAPI_HOST=api-football-v3.p.rapidapi.com
-heroku config:set NODE_ENV=production
-git push heroku main
-```
+4. Vercel will use `vercel.json` automatically.
 
 ### Railway / Render
 
@@ -139,16 +157,16 @@ Set the same environment variables and point the start command to `npm start`.
 
 ## Security Notes
 
-- The RapidAPI key is **never** sent to the browser. The frontend calls `/standings/39`
-  (the local proxy), not the RapidAPI endpoint directly.
-- `.env` is listed in `.gitignore` and excluded from every static file route.
-- All `leagueId` path parameters are validated against an allowlist before
-  being forwarded to the upstream API.
-- CORS is enabled for all origins by default; restrict it in production by
-  replacing `app.use(cors())` with `app.use(cors({ origin: "https://futbol.az" }))`.
+- The API key is **never** sent to the browser. The frontend calls `/api/standings/39`
+  (the local proxy), not the api-sports.io endpoint directly.
+- `.env` is listed in `.gitignore`.
+- All `leagueId` path parameters are validated against an allowlist.
+- CORS is enabled; restrict it in production with:  
+  `app.use(cors({ origin: "https://futbol.az" }))`.
 
 ---
 
 ## License
 
 MIT © 2026 Futbol.az
+
