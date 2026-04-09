@@ -308,31 +308,31 @@ function showNoLive(container) {
 }
 
 function renderMatchCard(f) {
-  const home = f.teams.home;
-  const away = f.teams.away;
-  const goals = f.goals;
-  const elapsed = f.fixture.status.elapsed;
-  const statusShort = f.fixture.status.short;
+  const home = f.teams?.home ?? {};
+  const away = f.teams?.away ?? {};
+  const goals = f.goals ?? { home: null, away: null };
+  const elapsed = f.fixture?.status?.elapsed;
+  const statusShort = f.fixture?.status?.short ?? "";
   const isLive = ["1H", "HT", "2H", "ET", "BT", "P"].includes(statusShort);
 
   return `
     <div class="match-card">
       <div class="match-card-header">
-        <span class="match-league">${f.league.name}</span>
+        <span class="match-league">${escapeHTML(f.league?.name ?? "")}</span>
         <span class="${isLive ? "match-live" : "match-time"}">
-          ${isLive ? "🔴 " + (elapsed ?? "") + "'" : f.fixture.date.slice(11, 16)}
+          ${isLive ? "🔴 " + escapeHTML(String(elapsed ?? "")) + "'" : escapeHTML((f.fixture?.date ?? "").slice(11, 16))}
         </span>
       </div>
       <div class="match-teams">
         <div class="match-team">
-          <div class="match-team-name">${home.name}</div>
+          <div class="match-team-name">${escapeHTML(home.name ?? "")}</div>
         </div>
         <div class="match-score">${goals.home ?? 0} – ${goals.away ?? 0}</div>
         <div class="match-team">
-          <div class="match-team-name">${away.name}</div>
+          <div class="match-team-name">${escapeHTML(away.name ?? "")}</div>
         </div>
       </div>
-      <div class="match-status">${f.fixture.status.long}</div>
+      <div class="match-status">${escapeHTML(f.fixture?.status?.long ?? "")}</div>
     </div>`;
 }
 
@@ -436,11 +436,13 @@ function renderProfileModal() {
 
   if (currentUser) {
     // Show profile – escape all user-controlled values to prevent XSS
-    let joined;
-    try {
-      joined = new Date(currentUser.joinedAt).toLocaleDateString("az-AZ");
-    } catch {
-      joined = new Date(currentUser.joinedAt).toLocaleDateString();
+    let joined = "—";
+    if (currentUser.joinedAt) {
+      const d = new Date(currentUser.joinedAt);
+      if (!isNaN(d.getTime())) {
+        try { joined = d.toLocaleDateString("az-AZ"); }
+        catch { joined = d.toLocaleDateString(); }
+      }
     }
     const name      = escapeHTML(currentUser.name);
     const email     = escapeHTML(currentUser.email);

@@ -14,16 +14,22 @@ const API_BASE = `https://${API_HOST}/v3`;
 
 app.use(cors());
 
-// Serve only whitelisted frontend assets – prevents accidental exposure of
-// sensitive files like .env, server.js, package.json, etc.
-const ALLOWED = ["/", "/index.html", "/styles.css", "/app.js", "/logo.png", "/manifest.json", "/sw.js"];
-app.use((req, res, next) => {
-  if (ALLOWED.includes(req.path)) return next();
-  // API routes are handled by explicit GET handlers below
-  if (/^\/(standings|live|today|top-scorers)/.test(req.path)) return next();
-  res.status(404).send("Not found");
-});
-app.use(express.static(__dirname, { dotfiles: "deny" }));
+// Serve static frontend files explicitly (no express.static to avoid exposing
+// sensitive files like .env, server.js, package.json, etc.)
+const STATIC_FILES = {
+  "/":             "index.html",
+  "/index.html":   "index.html",
+  "/styles.css":   "styles.css",
+  "/app.js":       "app.js",
+  "/logo.png":     "logo.png",
+  "/manifest.json":"manifest.json",
+  "/sw.js":        "sw.js",
+};
+
+for (const [route, file] of Object.entries(STATIC_FILES)) {
+  const filePath = path.join(__dirname, file);
+  app.get(route, (req, res) => res.sendFile(filePath));
+}
 
 // Helper – forward RapidAPI request
 async function apiFetch(apiPath, res) {
@@ -48,10 +54,10 @@ async function apiFetch(apiPath, res) {
   }
 }
 
-// Football seasons typically run Aug–May, so from Jan–June use the previous year.
+// Football seasons run Aug–May. Months 0–6 (Jan–Jul) belong to the previous season year.
 function footballSeason() {
   const now = new Date();
-  return now.getMonth() < 6 ? now.getFullYear() - 1 : now.getFullYear();
+  return now.getMonth() < 7 ? now.getFullYear() - 1 : now.getFullYear();
 }
 
 // League IDs: AZE=683, PL=39, LaLiga=140, SerieA=135, Bundesliga=78
