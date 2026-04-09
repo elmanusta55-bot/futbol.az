@@ -448,7 +448,10 @@ function renderProfileModal() {
     const email     = escapeHTML(currentUser.email);
     const initial   = escapeHTML(currentUser.name.charAt(0).toUpperCase());
     const favTeam   = escapeHTML(currentUser.favTeam || "—");
-    const yearsAgo  = (new Date().getFullYear() - new Date(currentUser.joinedAt).getFullYear()) || "<1";
+    // Use elapsed months to accurately determine if < 1 year has passed
+    const joinDate   = new Date(currentUser.joinedAt);
+    const msPerYear  = 1000 * 60 * 60 * 24 * 365.25;
+    const yearsAgo   = Math.floor((Date.now() - joinDate.getTime()) / msPerYear) || "<1";
     const leagueFlag = currentUser.favLeague ? (LEAGUES[currentUser.favLeague]?.flag ?? "—") : "—";
 
     body.innerHTML = `
