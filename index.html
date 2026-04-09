@@ -157,6 +157,60 @@
         .stat-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; font-weight: 600; padding: 5px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .stat-win { color: var(--primary); font-weight: 800; text-shadow: 0 0 5px rgba(0,255,204,0.5); }
         .stat-lose { color: #EF4444; }
+
+        /* TURNİR SİSTEMİ */
+        .tournament-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .tournament-table th { color: var(--text-muted); font-weight: 700; padding: 8px 6px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 11px; letter-spacing: 1px; }
+        .tournament-table td { padding: 10px 6px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); font-weight: 600; }
+        .tournament-table tr:last-child td { border-bottom: none; }
+        .t-rank { font-weight: 900; font-size: 15px; }
+        .t-rank.gold { color: var(--gold); }
+        .t-rank.silver { color: #aaa; }
+        .t-rank.bronze { color: #cd7f32; }
+        .t-team-name { text-align: left !important; color: #fff; font-weight: 800; }
+        .t-pts { color: var(--primary); font-weight: 900; font-size: 15px; }
+        .match-card { background: rgba(0,0,0,0.3); border-radius: 12px; padding: 14px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.07); display: flex; align-items: center; justify-content: space-between; }
+        .match-team { font-weight: 800; color: #fff; font-size: 13px; flex: 1; }
+        .match-team.right { text-align: right; }
+        .match-score { background: rgba(0,255,204,0.15); border: 1px solid var(--primary); border-radius: 8px; padding: 6px 14px; font-weight: 900; color: var(--primary); font-family: 'Rajdhani', sans-serif; font-size: 18px; margin: 0 10px; }
+        .match-score.upcoming { background: rgba(255,215,0,0.1); border-color: var(--gold); color: var(--gold); font-size: 13px; padding: 6px 8px; }
+        .tab-group { display: flex; gap: 8px; margin-bottom: 16px; }
+        .tab-btn { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--border-color); background: rgba(255,255,255,0.05); color: var(--text-muted); font-weight: 700; font-size: 12px; cursor: pointer; transition: 0.3s; text-align: center; }
+        .tab-btn.active { background: rgba(0,255,204,0.15); border-color: var(--primary); color: var(--primary); }
+
+        /* MAĞAZA SİSTEMİ */
+        .shop-currency { background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(0,0,0,0.3)); border: 1px solid var(--gold); border-radius: 14px; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .shop-item { background: rgba(20,30,48,0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 16px; text-align: center; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden; }
+        .shop-item:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,255,204,0.15); }
+        .shop-item.limited { border-color: var(--gold); }
+        .shop-item.limited::before { content: '🔥 LİMİTLİ'; position: absolute; top: 0; left: 0; right: 0; background: linear-gradient(90deg, #FFD700, #FFA500); color: #000; font-size: 10px; font-weight: 800; padding: 3px; letter-spacing: 1px; }
+        .shop-item-icon { font-size: 40px; margin: 8px 0 6px; }
+        .shop-item-name { font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+        .shop-item-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+        .shop-item-price { font-size: 14px; font-weight: 900; color: var(--gold); }
+        .shop-category-label { font-size: 11px; font-weight: 700; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; margin: 16px 0 8px; }
+        .owned-badge { position: absolute; top: 8px; right: 8px; background: var(--primary); color: #000; font-size: 9px; font-weight: 900; padding: 2px 6px; border-radius: 6px; }
+        .inventory-item { background: rgba(0,255,204,0.07); border: 1px solid rgba(0,255,204,0.2); border-radius: 10px; padding: 12px; display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+
+        /* LİDERLİK CƏDVƏLI */
+        .lb-row { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; margin-bottom: 8px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
+        .lb-row:hover { background: rgba(0,255,204,0.05); }
+        .lb-row.top1 { background: linear-gradient(90deg, rgba(255,215,0,0.15), rgba(0,0,0,0)); border-color: var(--gold); }
+        .lb-row.top2 { background: linear-gradient(90deg, rgba(192,192,192,0.12), rgba(0,0,0,0)); border-color: #aaa; }
+        .lb-row.top3 { background: linear-gradient(90deg, rgba(205,127,50,0.12), rgba(0,0,0,0)); border-color: #cd7f32; }
+        .lb-row.me { background: linear-gradient(90deg, rgba(0,153,255,0.15), rgba(0,0,0,0)); border-color: #0099ff; }
+        .lb-rank-num { font-size: 18px; font-weight: 900; min-width: 36px; text-align: center; font-family: 'Rajdhani', sans-serif; }
+        .lb-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+        .lb-info { flex: 1; }
+        .lb-name { font-size: 14px; font-weight: 800; color: #fff; }
+        .lb-badges { font-size: 12px; margin-top: 2px; }
+        .lb-points { font-size: 16px; font-weight: 900; color: var(--primary); text-align: right; }
+        .lb-wins { font-size: 11px; color: var(--text-muted); text-align: right; }
+        .lb-filter { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+        .lb-filter-btn { padding: 7px 14px; border-radius: 20px; border: 1px solid var(--border-color); background: rgba(255,255,255,0.05); color: var(--text-muted); font-weight: 700; font-size: 11px; cursor: pointer; transition: 0.3s; }
+        .lb-filter-btn.active { background: rgba(0,255,204,0.15); border-color: var(--primary); color: var(--primary); }
+        .my-rank-banner { background: linear-gradient(90deg, rgba(0,153,255,0.2), rgba(0,0,0,0.3)); border: 1px solid #0099ff; border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
     </style>
 </head>
 <body>
@@ -549,6 +603,116 @@
     </div>
     </div>
 
+<!-- TURNİR SİSTEMİ -->
+<div id="sec-tournament" class="section">
+    <div class="card" style="border-top: 4px solid var(--gold);">
+        <div class="card-header" style="color: var(--gold);"><i class="fas fa-trophy" style="color: var(--gold);"></i> TURNİR SİSTEMİ</div>
+        <div style="background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(0,0,0,0.3)); border: 1px solid rgba(255,215,0,0.3); border-radius: 12px; padding: 14px; margin-bottom: 16px; text-align: center;">
+            <div style="font-size: 11px; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 4px;">AKTİV TURNİR</div>
+            <div style="font-size: 20px; font-weight: 900; color: #fff;">⚽ Premyer Liqa 2025</div>
+            <div style="font-size: 12px; color: var(--gold); margin-top: 4px;">Həftə 28 / 38</div>
+        </div>
+        <div class="tab-group">
+            <div class="tab-btn active" onclick="tournamentTab('standings', this)"><i class="fas fa-list-ol"></i> CƏDVƏl</div>
+            <div class="tab-btn" onclick="tournamentTab('matches', this)"><i class="fas fa-calendar-alt"></i> OYUNLAR</div>
+            <div class="tab-btn" onclick="tournamentTab('stats', this)"><i class="fas fa-chart-bar"></i> STATİSTİKA</div>
+        </div>
+
+        <!-- STANDINGS TAB -->
+        <div id="t-tab-standings">
+            <table class="tournament-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th style="text-align:left;">KOMANDAl</th>
+                        <th>O</th>
+                        <th>Q</th>
+                        <th>B</th>
+                        <th>U</th>
+                        <th>XAL</th>
+                    </tr>
+                </thead>
+                <tbody id="standings-body"></tbody>
+            </table>
+        </div>
+
+        <!-- MATCHES TAB -->
+        <div id="t-tab-matches" style="display:none;">
+            <div style="font-size: 11px; color: var(--primary); letter-spacing: 2px; font-weight: 700; margin-bottom: 10px;">SON OYUNLAR</div>
+            <div id="recent-matches"></div>
+            <div style="font-size: 11px; color: var(--gold); letter-spacing: 2px; font-weight: 700; margin: 14px 0 10px;">GƏLƏCƏk OYUNLAR</div>
+            <div id="upcoming-matches"></div>
+        </div>
+
+        <!-- STATS TAB -->
+        <div id="t-tab-stats" style="display:none;">
+            <div id="tournament-stats-list"></div>
+        </div>
+    </div>
+</div>
+
+<!-- MAĞAZA SİSTEMİ -->
+<div id="sec-shop" class="section">
+    <div class="card" style="border-top: 4px solid #0099ff;">
+        <div class="card-header" style="color: #0099ff;"><i class="fas fa-store" style="color: #0099ff;"></i> MAĞAZA</div>
+        <div class="shop-currency">
+            <div>
+                <div style="font-size: 11px; color: var(--text-muted); letter-spacing: 1px;">BALANSİNIZ</div>
+                <div style="font-size: 28px; font-weight: 900; color: var(--gold);" id="shop-balance">0</div>
+            </div>
+            <div style="font-size: 12px; color: var(--gold); font-weight: 700;">XAL</div>
+        </div>
+
+        <div id="shop-tab-group" class="tab-group">
+            <div class="tab-btn active" onclick="shopTab('players', this)">⚽ Oyunçular</div>
+            <div class="tab-btn" onclick="shopTab('packs', this)">📦 Paketlər</div>
+            <div class="tab-btn" onclick="shopTab('boosters', this)">⚡ Gücləndiricilər</div>
+            <div class="tab-btn" onclick="shopTab('inventory', this)">🎒 İnventar</div>
+        </div>
+
+        <div id="shop-players-tab">
+            <div class="shop-category-label">⭐ Premium Oyunçular</div>
+            <div class="shop-grid" id="shop-players-grid"></div>
+        </div>
+        <div id="shop-packs-tab" style="display:none;">
+            <div class="shop-category-label">📦 Paket Növləri</div>
+            <div class="shop-grid" id="shop-packs-grid"></div>
+        </div>
+        <div id="shop-boosters-tab" style="display:none;">
+            <div class="shop-category-label">⚡ Gücləndiricilər</div>
+            <div class="shop-grid" id="shop-boosters-grid"></div>
+        </div>
+        <div id="shop-inventory-tab" style="display:none;">
+            <div class="shop-category-label">🎒 Sahib Olduqlarınız</div>
+            <div id="shop-inventory-list"></div>
+        </div>
+    </div>
+</div>
+
+<!-- LİDERLİK CƏDVƏLİ -->
+<div id="sec-leaderboard" class="section">
+    <div class="card" style="border-top: 4px solid var(--primary);">
+        <div class="card-header"><i class="fas fa-medal"></i> LİDERLİK CƏDVƏLİ</div>
+        <div class="my-rank-banner" id="my-rank-banner">
+            <div style="font-size: 28px;">👤</div>
+            <div style="flex:1;">
+                <div style="font-size: 12px; color: var(--text-muted);">SİZİN MÖVQE</div>
+                <div style="font-size: 18px; font-weight: 900; color: #fff;" id="lb-my-name">ElmanUsta55</div>
+            </div>
+            <div style="text-align:right;">
+                <div style="font-size: 22px; font-weight: 900; color: #0099ff;" id="lb-my-rank">#–</div>
+                <div style="font-size: 12px; color: var(--text-muted);" id="lb-my-pts">0 XAL</div>
+            </div>
+        </div>
+        <div class="lb-filter" id="lb-filter">
+            <div class="lb-filter-btn active" onclick="lbFilter('points', this)">🏅 XAL</div>
+            <div class="lb-filter-btn" onclick="lbFilter('wins', this)">🏆 QALİBİYYƏT</div>
+            <div class="lb-filter-btn" onclick="lbFilter('rating', this)">⭐ REYTİNQ</div>
+        </div>
+        <div id="leaderboard-list"></div>
+    </div>
+</div>
+
 <nav class="bottom-nav">
     <div class="nav-btn active" onclick="menyuDeyis('home')"><i class="fas fa-home"></i>Əsas</div>
         <div class="nav-btn" onclick="menyuDeyis('search')"><i class="fas fa-search"></i>Axtarış</div>
@@ -557,6 +721,9 @@
     <div class="nav-btn" onclick="menyuDeyis('card')"><i class="fas fa-id-card"></i>Kart</div>
     <div class="nav-btn" onclick="menyuDeyis('market')"><i class="fas fa-box-open"></i>Paket</div>
     <div class="nav-btn" onclick="menyuDeyis('compare')"><i class="fas fa-balance-scale"></i>Müqayisə</div>
+    <div class="nav-btn" onclick="menyuDeyis('tournament')"><i class="fas fa-trophy"></i>Turnir</div>
+    <div class="nav-btn" onclick="menyuDeyis('shop')"><i class="fas fa-store"></i>Mağaza</div>
+    <div class="nav-btn" onclick="menyuDeyis('leaderboard')"><i class="fas fa-medal"></i>Liderlik</div>
 </nav>
 
 <div id="player-edit-modal" class="modal-overlay">
@@ -748,7 +915,6 @@ function loadProfile() {
     }
 }
 
-window.addEventListener('load', loadProfile);
 
     // GÜNÜN SUALI (DÜZƏLDİLMİŞDİR)
     function cavabla(il) {
@@ -851,8 +1017,6 @@ window.addEventListener('load', loadProfile);
         document.getElementById('v-date').innerText = document.getElementById('p-date').value || "TARİX";
         document.getElementById('v-time').innerText = document.getElementById('p-time').value || "SAAT";
     }
-
-    // PAKET AÇMA
     function openPack() {
         if (xal < 100) return alert("Kifayət qədər xalınız yoxdur! (100 XAL lazımdır)");
         
@@ -878,6 +1042,278 @@ window.addEventListener('load', loadProfile);
             btn.disabled = false; btn.innerText = "YENİDƏN AÇ (100 XAL)";
         }, 2000); 
     }
+
+    // ===== TURNİR SİSTEMİ =====
+    const tournamentTeams = [
+        { name: "Qarabağ FK",   played: 27, wins: 20, draws: 4, losses: 3,  pts: 64 },
+        { name: "Neftçi PFK",   played: 27, wins: 17, draws: 5, losses: 5,  pts: 56 },
+        { name: "Sabah FK",     played: 27, wins: 15, draws: 6, losses: 6,  pts: 51 },
+        { name: "Zirə FK",      played: 27, wins: 14, draws: 4, losses: 9,  pts: 46 },
+        { name: "Sumqayıt FK",  played: 27, wins: 12, draws: 7, losses: 8,  pts: 43 },
+        { name: "Turan Tovuz",  played: 27, wins: 10, draws: 6, losses: 11, pts: 36 },
+        { name: "Şamaxı FK",    played: 27, wins: 9,  draws: 5, losses: 13, pts: 32 },
+        { name: "Keşlə FK",     played: 27, wins: 7,  draws: 8, losses: 12, pts: 29 },
+        { name: "Sabail FK",    played: 27, wins: 5,  draws: 6, losses: 16, pts: 21 },
+        { name: "AZAL FK",      played: 27, wins: 3,  draws: 5, losses: 19, pts: 14 }
+    ];
+    const recentMatches = [
+        { home: "Qarabağ FK",  away: "Neftçi PFK",  score: "3-1" },
+        { home: "Sabah FK",    away: "Zirə FK",     score: "2-2" },
+        { home: "Sumqayıt FK", away: "Keşlə FK",    score: "1-0" },
+        { home: "Şamaxı FK",   away: "Turan Tovuz", score: "0-2" }
+    ];
+    const upcomingMatches = [
+        { home: "Neftçi PFK", away: "Sabah FK",  time: "20:00" },
+        { home: "Qarabağ FK", away: "Zirə FK",   time: "18:30" },
+        { home: "Keşlə FK",   away: "AZAL FK",   time: "17:00" }
+    ];
+
+    function initTournament() {
+        let tbody = document.getElementById('standings-body');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+        tournamentTeams.forEach(function(t, i) {
+            let rankIcon = i === 0 ? '🥇' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : (i + 1)));
+            let rankStyle = i === 0 ? 'color:var(--gold)' : (i === 1 ? 'color:#aaa' : (i === 2 ? 'color:#cd7f32' : 'color:var(--text-muted)'));
+            tbody.innerHTML += '<tr>' +
+                '<td><span style="font-weight:900;font-size:15px;' + rankStyle + '">' + rankIcon + '</span></td>' +
+                '<td style="text-align:left;color:#fff;font-weight:800;">' + t.name + '</td>' +
+                '<td>' + t.played + '</td>' +
+                '<td style="color:var(--primary)">' + t.wins + '</td>' +
+                '<td style="color:var(--text-muted)">' + t.draws + '</td>' +
+                '<td style="color:#EF4444">' + t.losses + '</td>' +
+                '<td style="color:var(--primary);font-weight:900;font-size:15px;">' + t.pts + '</td>' +
+                '</tr>';
+        });
+        let rm = document.getElementById('recent-matches');
+        if (rm) {
+            rm.innerHTML = '';
+            recentMatches.forEach(function(m) {
+                rm.innerHTML += '<div class="match-card">' +
+                    '<div class="match-team">' + m.home + '</div>' +
+                    '<div class="match-score">' + m.score + '</div>' +
+                    '<div class="match-team right">' + m.away + '</div>' +
+                    '</div>';
+            });
+        }
+        let um = document.getElementById('upcoming-matches');
+        if (um) {
+            um.innerHTML = '';
+            upcomingMatches.forEach(function(m) {
+                um.innerHTML += '<div class="match-card">' +
+                    '<div class="match-team">' + m.home + '</div>' +
+                    '<div class="match-score upcoming">' + m.time + '</div>' +
+                    '<div class="match-team right">' + m.away + '</div>' +
+                    '</div>';
+            });
+        }
+        let sl = document.getElementById('tournament-stats-list');
+        if (sl) {
+            sl.innerHTML = '';
+            tournamentTeams.slice(0, 5).forEach(function(t, i) {
+                let pct = Math.round((t.wins / t.played) * 100);
+                sl.innerHTML += '<div style="margin-bottom:14px;">' +
+                    '<div style="display:flex;justify-content:space-between;margin-bottom:4px;">' +
+                    '<span style="font-weight:800;color:#fff;">' + t.name + '</span>' +
+                    '<span style="color:var(--primary);font-weight:900;">' + pct + '% Qalibiyyət</span>' +
+                    '</div>' +
+                    '<div style="background:rgba(255,255,255,0.1);border-radius:20px;height:8px;overflow:hidden;">' +
+                    '<div style="width:' + pct + '%;height:100%;background:linear-gradient(90deg,var(--primary),#0099ff);border-radius:20px;transition:0.8s;"></div>' +
+                    '</div></div>';
+            });
+        }
+    }
+
+    function tournamentTab(tab, el) {
+        document.querySelectorAll('#sec-tournament .tab-btn').forEach(function(b) { b.classList.remove('active'); });
+        el.classList.add('active');
+        document.getElementById('t-tab-standings').style.display = tab === 'standings' ? '' : 'none';
+        document.getElementById('t-tab-matches').style.display   = tab === 'matches'   ? '' : 'none';
+        document.getElementById('t-tab-stats').style.display     = tab === 'stats'     ? '' : 'none';
+    }
+
+    // ===== MAĞAZA SİSTEMİ =====
+    const shopItems = {
+        players: [
+            { id: 'p1', icon: '⭐', name: 'Pelé',        desc: 'OVR 98 Efsane',       price: 5000,  limited: false },
+            { id: 'p2', icon: '🌟', name: 'Maradona',    desc: 'OVR 97 Efsane',       price: 4500,  limited: true  },
+            { id: 'p3', icon: '🔵', name: 'B. Silva',    desc: 'OVR 88 Premium',      price: 2000,  limited: false },
+            { id: 'p4', icon: '🟢', name: 'V. Osimhen',  desc: 'OVR 88 Premium',      price: 2000,  limited: false }
+        ],
+        packs: [
+            { id: 'pk1', icon: '📦', name: 'Başlanğıc Paketi', desc: '3 Oyunçu',       price: 200,   limited: false },
+            { id: 'pk2', icon: '💎', name: 'Premium Paket',    desc: '5 Oyunçu',       price: 500,   limited: false },
+            { id: 'pk3', icon: '👑', name: 'Xüsusi Paket',     desc: '8 Oyunçu + Bonus', price: 900, limited: true  }
+        ],
+        boosters: [
+            { id: 'b1', icon: '⚡', name: 'Şans x2',      desc: '1 Gün ərzində',    price: 300,   limited: false },
+            { id: 'b2', icon: '🔥', name: 'XAL x3',       desc: '3 Saat ərzində',   price: 500,   limited: false },
+            { id: 'b3', icon: '🛡️', name: 'Qoruyucu',     desc: 'Xal itkisini önlə', price: 400,  limited: true  }
+        ]
+    };
+
+    function initShop() {
+        updateShopBalance();
+        renderShopItems('players');
+        renderShopItems('packs');
+        renderShopItems('boosters');
+        renderInventory();
+    }
+
+    function updateShopBalance() {
+        let el = document.getElementById('shop-balance');
+        if (el) el.innerText = xal.toLocaleString();
+    }
+
+    function renderShopItems(category) {
+        let grid = document.getElementById('shop-' + category + '-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        let owned = JSON.parse(localStorage.getItem('shop-owned') || '[]');
+        shopItems[category].forEach(function(item) {
+            let isOwned = owned.includes(item.id);
+            grid.innerHTML += '<div class="shop-item' + (item.limited ? ' limited' : '') + '" onclick="buyItem(\'' + item.id + '\',\'' + category + '\')" style="' + (item.limited ? 'padding-top:22px;' : '') + '">' +
+                (isOwned ? '<div class="owned-badge">SAHİBİSİNİZ</div>' : '') +
+                '<div class="shop-item-icon">' + item.icon + '</div>' +
+                '<div class="shop-item-name">' + item.name + '</div>' +
+                '<div class="shop-item-desc">' + item.desc + '</div>' +
+                '<div class="shop-item-price">💰 ' + item.price.toLocaleString() + ' XAL</div>' +
+                '</div>';
+        });
+    }
+
+    function buyItem(itemId, category) {
+        let allItems = [].concat(shopItems.players, shopItems.packs, shopItems.boosters);
+        let item = allItems.find(function(i) { return i.id === itemId; });
+        if (!item) return;
+        let owned = JSON.parse(localStorage.getItem('shop-owned') || '[]');
+        if (owned.includes(itemId)) { alert('Bu elementin artıq sahibisiniz!'); return; }
+        if (xal < item.price) { alert('Kifayət qədər xalınız yoxdur! Lazım: ' + item.price + ' XAL'); return; }
+        if (!confirm('🛒 ' + item.name + ' almaq istəyirsiniz?\nQiymət: ' + item.price + ' XAL')) return;
+        xal -= item.price;
+        localStorage.setItem('xal', xal);
+        owned.push(itemId);
+        localStorage.setItem('shop-owned', JSON.stringify(owned));
+        uiYenile();
+        updateShopBalance();
+        renderShopItems(category);
+        renderInventory();
+        alert('✅ ' + item.name + ' uğurla alındı!');
+    }
+
+    function renderInventory() {
+        let list = document.getElementById('shop-inventory-list');
+        if (!list) return;
+        let owned = JSON.parse(localStorage.getItem('shop-owned') || '[]');
+        if (owned.length === 0) {
+            list.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:30px;font-size:14px;">Hələ heç nə almamısınız.<br>Mağazadan alış-veriş edin! 🛒</div>';
+            return;
+        }
+        let allItems = [].concat(shopItems.players, shopItems.packs, shopItems.boosters);
+        list.innerHTML = '';
+        owned.forEach(function(id) {
+            let item = allItems.find(function(i) { return i.id === id; });
+            if (!item) return;
+            list.innerHTML += '<div class="inventory-item">' +
+                '<div style="font-size:30px;">' + item.icon + '</div>' +
+                '<div style="flex:1;"><div style="font-weight:800;color:#fff;">' + item.name + '</div>' +
+                '<div style="font-size:12px;color:var(--text-muted);">' + item.desc + '</div></div>' +
+                '<div style="font-size:11px;background:rgba(0,255,204,0.15);color:var(--primary);padding:4px 10px;border-radius:8px;font-weight:700;">SAHİBİSİNİZ</div>' +
+                '</div>';
+        });
+    }
+
+    function shopTab(tab, el) {
+        document.querySelectorAll('#shop-tab-group .tab-btn').forEach(function(b) { b.classList.remove('active'); });
+        el.classList.add('active');
+        ['players','packs','boosters','inventory'].forEach(function(t) {
+            let el2 = document.getElementById('shop-' + t + '-tab');
+            if (el2) el2.style.display = t === tab ? '' : 'none';
+        });
+        if (tab === 'inventory') renderInventory();
+    }
+
+    // ===== LİDERLİK SİSTEMİ =====
+    const lbPlayers = [
+        { name: "ElmanUsta55",   points: 15500, wins: 28, rating: 94, avatar: "👑", badges: "🏆⭐" },
+        { name: "QarabağFan",    points: 14200, wins: 25, rating: 91, avatar: "🦅", badges: "🏆🎯" },
+        { name: "NeftchiKing",   points: 13800, wins: 23, rating: 89, avatar: "🔵", badges: "⭐🎯" },
+        { name: "BakuPro99",     points: 12500, wins: 22, rating: 87, avatar: "🏙️", badges: "🎯"  },
+        { name: "AzFootball",    points: 11900, wins: 20, rating: 85, avatar: "🇦🇿", badges: "⭐"   },
+        { name: "SummitPlayer",  points: 11200, wins: 19, rating: 83, avatar: "⛰️", badges: ""    },
+        { name: "GoalMaster",    points: 10800, wins: 18, rating: 82, avatar: "⚽", badges: ""    },
+        { name: "PremierFan",    points: 10100, wins: 17, rating: 80, avatar: "🌟", badges: ""    },
+        { name: "ZiraLegend",    points: 9500,  wins: 16, rating: 78, avatar: "🌿", badges: ""    },
+        { name: "SabahStar",     points: 8900,  wins: 15, rating: 76, avatar: "☀️", badges: ""    },
+        { name: "FootballGuru",  points: 8200,  wins: 14, rating: 74, avatar: "🎓", badges: ""    },
+        { name: "AZChamp",       points: 7800,  wins: 13, rating: 72, avatar: "🥇", badges: ""    },
+        { name: "BakuKicker",    points: 7100,  wins: 12, rating: 70, avatar: "👟", badges: ""    },
+        { name: "NightOwl77",    points: 6500,  wins: 11, rating: 68, avatar: "🦉", badges: ""    },
+        { name: "TopScorer",     points: 6000,  wins: 10, rating: 66, avatar: "🎯", badges: ""    }
+    ];
+    let lbSortKey = 'points';
+
+    function initLeaderboard() {
+        renderLeaderboard();
+        updateMyRank();
+    }
+
+    function lbFilter(key, el) {
+        lbSortKey = key;
+        document.querySelectorAll('.lb-filter-btn').forEach(function(b) { b.classList.remove('active'); });
+        el.classList.add('active');
+        renderLeaderboard();
+    }
+
+    function renderLeaderboard() {
+        let list = document.getElementById('leaderboard-list');
+        if (!list) return;
+        let sorted = lbPlayers.slice().sort(function(a, b) { return b[lbSortKey] - a[lbSortKey]; });
+        let myName = localStorage.getItem('profile-name') || 'ElmanUsta55';
+        list.innerHTML = '';
+        sorted.forEach(function(p, i) {
+            let isMe = p.name === myName || (myName === 'ElmanUsta55' && i === 0);
+            let rowClass = 'lb-row' + (i === 0 ? ' top1' : (i === 1 ? ' top2' : (i === 2 ? ' top3' : (isMe ? ' me' : ''))));
+            let rankLabel = i === 0 ? '🥇' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : '#' + (i + 1)));
+            let rankColor = i === 0 ? 'var(--gold)' : (i === 1 ? '#aaa' : (i === 2 ? '#cd7f32' : (isMe ? '#0099ff' : 'var(--text-muted)')));
+            let valLabel = lbSortKey === 'points' ? p.points.toLocaleString() + ' XAL'
+                         : lbSortKey === 'wins'   ? p.wins + ' Qalibiyyət'
+                         :                          p.rating + ' REYTİNQ';
+            list.innerHTML += '<div class="' + rowClass + '">' +
+                '<div class="lb-rank-num" style="color:' + rankColor + ';">' + rankLabel + '</div>' +
+                '<div class="lb-avatar" style="background:rgba(255,255,255,0.08);">' + p.avatar + '</div>' +
+                '<div class="lb-info">' +
+                '<div class="lb-name">' + p.name + (isMe ? ' <span style="font-size:10px;background:#0099ff;color:#fff;padding:2px 6px;border-radius:6px;">SİZ</span>' : '') + '</div>' +
+                '<div class="lb-badges">' + (p.badges || '<span style="color:var(--text-muted);font-size:11px;">Badge yoxdur</span>') + '</div>' +
+                '</div>' +
+                '<div><div class="lb-points">' + valLabel + '</div>' +
+                '<div class="lb-wins">' + p.wins + ' Qalibiyyət</div></div>' +
+                '</div>';
+        });
+    }
+
+    function updateMyRank() {
+        let myName = localStorage.getItem('profile-name') || 'ElmanUsta55';
+        let sorted = lbPlayers.slice().sort(function(a, b) { return b.points - a.points; });
+        let idx = sorted.findIndex(function(p) { return p.name === myName; });
+        if (idx === -1) idx = 0;
+        let me = sorted[idx];
+        let rankEl = document.getElementById('lb-my-rank');
+        let nameEl = document.getElementById('lb-my-name');
+        let ptsEl  = document.getElementById('lb-my-pts');
+        if (rankEl) rankEl.innerText = '#' + (idx + 1);
+        if (nameEl) nameEl.innerText = myName;
+        if (ptsEl)  ptsEl.innerText  = me ? me.points.toLocaleString() + ' XAL' : xal.toLocaleString() + ' XAL';
+    }
+
+    // Yüklənmə zamanı yeni sistemləri başlat
+    window.addEventListener('load', function() {
+        loadProfile();
+        initTournament();
+        initShop();
+        initLeaderboard();
+    });
 </script>
+
 </body>
 </html>
