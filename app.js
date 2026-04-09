@@ -4,6 +4,16 @@
 
 "use strict";
 
+// ── Security: HTML escaping ────────────────────────────────────────────────────
+function escapeHTML(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 // ── Static League Data ────────────────────────────────────────────────────────
 const LEAGUES = {
   aze: {
@@ -360,13 +370,13 @@ function setupSearch() {
       .map((m) => {
         if (m.player) {
           return `<div class="search-result-item">
-            <strong>${m.player}</strong>
-            <span class="text-muted"> – ${m.team} (${m.flag} ${m.league}) – ${m.goals} qol</span>
+            <strong>${escapeHTML(m.player)}</strong>
+            <span class="text-muted"> – ${escapeHTML(m.team)} (${escapeHTML(m.flag)} ${escapeHTML(m.league)}) – ${escapeHTML(String(m.goals))} qol</span>
           </div>`;
         }
         return `<div class="search-result-item">
-          <strong>${m.team}</strong>
-          <span class="text-muted"> – ${m.flag} ${m.league} – ${m.pts} xal</span>
+          <strong>${escapeHTML(m.team)}</strong>
+          <span class="text-muted"> – ${escapeHTML(m.flag)} ${escapeHTML(m.league)} – ${escapeHTML(String(m.pts))} xal</span>
         </div>`;
       })
       .join("");
@@ -399,7 +409,9 @@ function updateProfileBtn() {
   const btn = $("#btn-profile");
   if (!btn) return;
   if (currentUser) {
-    btn.innerHTML = `<span>${currentUser.name.charAt(0).toUpperCase()}</span><span>${currentUser.name.split(" ")[0]}</span>`;
+    const initial = escapeHTML(currentUser.name.charAt(0).toUpperCase());
+    const firstName = escapeHTML(currentUser.name.split(" ")[0]);
+    btn.innerHTML = `<span>${initial}</span><span>${firstName}</span>`;
   } else {
     btn.innerHTML = `<span>👤</span><span>Giriş</span>`;
   }
@@ -423,26 +435,38 @@ function renderProfileModal() {
   if (!body) return;
 
   if (currentUser) {
-    // Show profile
-    const joined = new Date(currentUser.joinedAt).toLocaleDateString("az-AZ");
+    // Show profile – escape all user-controlled values to prevent XSS
+    let joined;
+    try {
+      joined = new Date(currentUser.joinedAt).toLocaleDateString("az-AZ");
+    } catch {
+      joined = new Date(currentUser.joinedAt).toLocaleDateString();
+    }
+    const name      = escapeHTML(currentUser.name);
+    const email     = escapeHTML(currentUser.email);
+    const initial   = escapeHTML(currentUser.name.charAt(0).toUpperCase());
+    const favTeam   = escapeHTML(currentUser.favTeam || "—");
+    const yearsAgo  = (new Date().getFullYear() - new Date(currentUser.joinedAt).getFullYear()) || "<1";
+    const leagueFlag = currentUser.favLeague ? (LEAGUES[currentUser.favLeague]?.flag ?? "—") : "—";
+
     body.innerHTML = `
-      <div class="profile-avatar">${currentUser.name.charAt(0).toUpperCase()}</div>
+      <div class="profile-avatar">${initial}</div>
       <div class="profile-info">
-        <h3>${currentUser.name}</h3>
-        <p>${currentUser.email}</p>
-        <p class="text-muted mt-4" style="font-size:.75rem;">Qoşulub: ${joined}</p>
+        <h3>${name}</h3>
+        <p>${email}</p>
+        <p class="text-muted mt-4" style="font-size:.75rem;">Qoşulub: ${escapeHTML(joined)}</p>
       </div>
       <div class="profile-stats">
         <div class="profile-stat">
-          <div class="profile-stat-value">${currentUser.favLeague ? LEAGUES[currentUser.favLeague]?.flag ?? "—" : "—"}</div>
+          <div class="profile-stat-value">${leagueFlag}</div>
           <div class="profile-stat-label">Sevimli liqa</div>
         </div>
         <div class="profile-stat">
-          <div class="profile-stat-value">${currentUser.favTeam || "—"}</div>
+          <div class="profile-stat-value">${favTeam}</div>
           <div class="profile-stat-label">Komanda</div>
         </div>
         <div class="profile-stat">
-          <div class="profile-stat-value">${new Date().getFullYear() - new Date(currentUser.joinedAt).getFullYear() || "<1"}</div>
+          <div class="profile-stat-value">${escapeHTML(String(yearsAgo))}</div>
           <div class="profile-stat-label">İl</div>
         </div>
       </div>

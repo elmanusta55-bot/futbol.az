@@ -624,7 +624,7 @@ button { cursor: pointer; font-family: inherit; }
 
 .scorer-rank.top { background: var(--primary); color: #fff; }
 
-.scorer-info { flex: 1 }
+.scorer-info { flex: 1; }
 .scorer-name  { font-weight: 700; font-size: .9rem; }
 .scorer-team  { font-size: .75rem; color: var(--text-muted); }
 
