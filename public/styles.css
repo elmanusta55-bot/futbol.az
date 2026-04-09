@@ -895,6 +895,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 
 /* ══════════════════════ MODAL ══════════════════════ */
+.modal-overlay[hidden] { display: none !important; }
 .modal-overlay {
   position: fixed; inset: 0; z-index: 2000;
   background: rgba(0,0,0,0.75);
@@ -905,6 +906,20 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   padding: 20px;
   overflow-y: auto;
   animation: fadeIn 0.2s ease;
+}
+.modal-overlay.is-closing {
+  animation: fadeOut 0.25s ease forwards;
+}
+.modal-overlay.is-closing .modal-box {
+  animation: slideDown 0.25s cubic-bezier(0.55, 0, 0.45, 1) forwards;
+}
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+@keyframes slideDown {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to   { opacity: 0; transform: translateY(24px) scale(0.97); }
 }
 .modal-box {
   width: 100%;
@@ -933,19 +948,22 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .modal-emoji { font-size: 5rem; line-height: 1; }
 .modal-close {
-  position: absolute; top: 14px; right: 14px;
-  width: 36px; height: 36px;
+  position: absolute; top: 12px; right: 12px;
+  width: 44px; height: 44px;
   display: flex; align-items: center; justify-content: center;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.55);
   backdrop-filter: blur(8px);
   border-radius: 50%;
   color: #fff;
-  font-size: 1rem;
-  border: none;
+  font-size: 1.3rem;
+  font-weight: 700;
+  border: 2px solid rgba(255,255,255,0.25);
   cursor: pointer;
   transition: all 0.2s;
+  line-height: 1;
 }
-.modal-close:hover { background: rgba(206,17,38,0.7); transform: scale(1.1); }
+.modal-close:hover { background: rgba(206,17,38,0.8); border-color: rgba(206,17,38,0.6); transform: scale(1.1); }
+.modal-close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 
 .modal-body { padding: 24px; }
 
