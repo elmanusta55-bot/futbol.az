@@ -602,7 +602,7 @@ function endPenalty() {
 // SPEED TRIVIA GAME
 // ═══════════════════════════════════════════════════════════════════════════════
 const SPEED_QUESTIONS = [
-  { q: "Hansı ölkə 5 Dünya Çempionluğu qazanıb?",     opts:["Almaniya","Fransa","Braziliya","Argentna"],     ans:2 },
+  { q: "Hansı ölkə 5 Dünya Çempionluğu qazanıb?",     opts:["Almaniya","Fransa","Braziliya","Argentina"],    ans:2 },
   { q: "Premier League-in kubokunun rəngi?",            opts:["Qızılı","Gümüşü","Bənövşəyi","Göy"],           ans:0 },
   { q: "UEFA Çempionlar Liqasının himnini kim yazdı?",  opts:["Handel","Beethoven","Tony Britten","Bach"],     ans:2 },
   { q: "Maradonanın Tanrının Əli golu neçənci ildə?",  opts:["1982","1984","1986","1990"],                    ans:2 },
@@ -615,7 +615,7 @@ const SPEED_QUESTIONS = [
   { q: "Real Madridin ləqəbi nədir?",                   opts:["Blaugrana","Galácticos","Los Blancos","Los Rojiblancos"], ans:2 },
   { q: "Qarabağ FK hansı şəhərə məxsusdur?",           opts:["Bakı","Gəncə","Ağdam","Sumqayıt"],              ans:2 },
   { q: "\"Hattrick\" nə deməkdir?",                    opts:["3 pas","3 gol","3 uduzmaq","3 kart"],           ans:1 },
-  { q: "İlk Dünya Çempionatını qazanan ölkə?",         opts:["Braziliya","Argentna","Uruqvay","İtaliya"],     ans:2 },
+  { q: "İlk Dünya Çempionatını qazanan ölkə?",         opts:["Braziliya","Argentina","Uruqvay","İtaliya"],    ans:2 },
   { q: "Beşbucaq sahəsinin radiusu nə qədərdir?",       opts:["9.15 m","10 m","7 m","5 m"],                   ans:0 },
   { q: "Standart futbol qapısının eni nə qədərdir?",    opts:["6 m","7.32 m","8 m","9 m"],                    ans:1 },
   { q: "Futbol matçında ən uzun oyun vaxtı neçə dəqiqədir?", opts:["90","120","180","240"],                   ans:1 },
