@@ -3,463 +3,442 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Futbol.az – Azərbaycan Futbol Oyunları Platforması. Viktorina, Penalti, Proqnoz oyunları ilə biliklərinizi sınayın!">
-  <title>Futbol.az | Futbol Oyunları</title>
+  <meta name="description" content="Futbol.az – Azərbaycanın ən böyük futbol oyunları platforması. Aksiya, Strateji, Spor və Viktorina oyunları ilə biliklərinizi sınayın!">
+  <meta name="keywords" content="futbol, oyun, azerbaycan, football, game, penalty, viktorina, strateji, aksiya, spor">
+  <meta name="author" content="Futbol.az">
+  <meta property="og:title" content="Futbol.az | Futbol Oyunları Platforması">
+  <meta property="og:description" content="Azərbaycanın ən yaxşı futbol oyunları platforması. 14+ oyun, reytinq, şərhlər.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://futbol.az">
+  <meta property="og:image" content="/logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Futbol.az | Futbol Oyunları">
+  <meta name="twitter:description" content="Azərbaycanın ən yaxşı futbol oyunları platforması">
+  <meta name="theme-color" content="#003DA5">
+  <title>Futbol.az | Futbol Oyunları Platforması</title>
   <link rel="icon" href="logo.png" type="image/png">
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="/manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<!-- ══════════════════════ HEADER / NAVBAR ══════════════════════ -->
+<!-- ══════════════════ NAVBAR ══════════════════ -->
 <header class="navbar" id="navbar">
   <div class="navbar-inner">
-    <a class="navbar-logo" href="#" onclick="showHome()" aria-label="Futbol.az ana səhifə">
+    <a class="navbar-logo" href="#" onclick="scrollToTop(); return false;" aria-label="Futbol.az ana səhifə">
       <div class="logo-icon">⚽</div>
       <span class="logo-text">Futbol<span class="logo-accent">.az</span></span>
     </a>
+
     <nav class="navbar-nav" id="main-nav" aria-label="Əsas naviqasiya">
-      <a class="nav-link active" href="#" onclick="showHome(); return false;" data-section="home">Ana Səhifə</a>
-      <a class="nav-link" href="#games-section" onclick="scrollToSection('games-section'); return false;" data-section="games">Oyunlar</a>
-      <a class="nav-link" href="#trending-section" onclick="scrollToSection('trending-section'); return false;" data-section="trending">Top Oyunlar</a>
-      <a class="nav-link" href="#contact-section" onclick="scrollToSection('contact-section'); return false;" data-section="contact">Əlaqə</a>
+      <a class="nav-link active" href="#hero" onclick="scrollToSection('hero'); return false;">Ana Səhifə</a>
+      <a class="nav-link" href="#games-section" onclick="scrollToSection('games-section'); return false;">Oyunlar</a>
+      <a class="nav-link" href="#top-games-section" onclick="scrollToSection('top-games-section'); return false;">Top 10</a>
+      <a class="nav-link" href="#categories-section" onclick="scrollToSection('categories-section'); return false;">Kateqoriyalar</a>
+      <a class="nav-link" href="#about-section" onclick="scrollToSection('about-section'); return false;">Haqqında</a>
+      <a class="nav-link" href="#contact-section" onclick="scrollToSection('contact-section'); return false;">Əlaqə</a>
     </nav>
+
     <div class="navbar-actions">
       <div class="search-wrap" id="search-wrap">
-        <button class="search-toggle-btn" onclick="toggleSearch()" aria-label="Axtarış">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <button class="icon-btn" onclick="toggleSearch()" aria-label="Axtarış aç/bağla" title="Axtarış">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         </button>
         <div class="search-dropdown" id="search-dropdown" hidden>
-          <input class="search-input" id="game-search" type="search" placeholder="Oyun axtar…" autocomplete="off" oninput="filterGames(this.value)" aria-label="Oyun axtarışı" maxlength="60">
+          <input class="search-input" id="game-search" type="search" placeholder="Oyun axtar…" autocomplete="off"
+            oninput="filterGames(this.value)" aria-label="Oyun axtarışı" maxlength="60">
+          <div class="search-results" id="search-results"></div>
         </div>
       </div>
-      <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" aria-label="Modu dəyiş" title="Gecə/Gündüz">
+      <button class="icon-btn" id="theme-btn" onclick="toggleTheme()" aria-label="Modu dəyiş" title="Gecə/Gündüz modu">
         <span id="theme-icon">🌙</span>
       </button>
-      <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menyu" aria-expanded="false">
+      <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Mobil menyu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
   </div>
+
   <div class="mobile-menu" id="mobile-menu" hidden>
-    <a href="#" onclick="showHome(); closeMobileMenu(); return false;">🏠 Ana Səhifə</a>
+    <a href="#hero" onclick="scrollToSection('hero'); closeMobileMenu(); return false;">🏠 Ana Səhifə</a>
     <a href="#games-section" onclick="scrollToSection('games-section'); closeMobileMenu(); return false;">🎮 Oyunlar</a>
-    <a href="#trending-section" onclick="scrollToSection('trending-section'); closeMobileMenu(); return false;">🔥 Top Oyunlar</a>
+    <a href="#top-games-section" onclick="scrollToSection('top-games-section'); closeMobileMenu(); return false;">🔥 Top 10</a>
+    <a href="#categories-section" onclick="scrollToSection('categories-section'); closeMobileMenu(); return false;">📂 Kateqoriyalar</a>
+    <a href="#about-section" onclick="scrollToSection('about-section'); closeMobileMenu(); return false;">ℹ️ Haqqında</a>
     <a href="#contact-section" onclick="scrollToSection('contact-section'); closeMobileMenu(); return false;">📬 Əlaqə</a>
     <div class="mobile-search">
-      <input class="search-input" type="search" placeholder="Oyun axtar…" oninput="filterGames(this.value)" maxlength="60">
+      <input type="search" placeholder="Oyun axtar…" oninput="filterGames(this.value); scrollToSection('games-section');" maxlength="60">
     </div>
   </div>
 </header>
 
-<!-- ══════════════════════ HERO SECTION ══════════════════════ -->
-<section class="hero" id="hero">
-  <div class="hero-bg">
-    <div class="hero-ball ball-1">⚽</div>
-    <div class="hero-ball ball-2">⚽</div>
-    <div class="hero-ball ball-3">⚽</div>
-  </div>
-  <div class="hero-content">
-    <div class="hero-badge">🇦🇿 Azərbaycan Futbol Oyunları</div>
-    <h1 class="hero-title">Futbol Dünyasına<br><span class="hero-title-accent">Qoşul!</span></h1>
-    <p class="hero-subtitle">Viktorina, Penalti, Proqnoz oyunları ilə biliklərinizi sınayın.<br>Rekordlar qoyun, dostlarınızla rəqabət edin!</p>
-    <div class="hero-cta">
-      <button class="btn-primary btn-lg" onclick="scrollToSection('games-section')">🎮 Oynamağa Başla</button>
-      <button class="btn-outline btn-lg" onclick="scrollToSection('trending-section')">🔥 Top Oyunlar</button>
-    </div>
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <span class="hero-stat-num">4</span>
-        <span class="hero-stat-lbl">Oyun</span>
+<!-- ══════════════════ MAIN ══════════════════ -->
+<main>
+
+  <!-- ── HERO ── -->
+  <section id="hero" class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-badge">🏆 #1 Futbol Platforması</div>
+      <h1 class="hero-title">
+        <span class="hero-title-main">Futbol</span><span class="hero-title-accent">.az</span>
+      </h1>
+      <p class="hero-subtitle">Azərbaycanın ən böyük futbol oyunları platforması. Oynayın, reytinq verin, rəqiblərinizi keçin!</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="scrollToSection('games-section')">
+          🎮 İndi Oyna
+        </button>
+        <button class="btn-secondary" onclick="scrollToSection('top-games-section')">
+          🔥 Top Oyunlar
+        </button>
       </div>
-      <div class="hero-stat-divider"></div>
-      <div class="hero-stat">
-        <span class="hero-stat-num">1.2K+</span>
-        <span class="hero-stat-lbl">Oyunçu</span>
+      <div class="hero-stats" id="hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-num" id="stat-games">14</span>
+          <span class="hero-stat-label">Oyun</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num" id="stat-players">50K+</span>
+          <span class="hero-stat-label">Oyunçu</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num" id="stat-ratings">3K+</span>
+          <span class="hero-stat-label">Reytinq</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num" id="stat-favs">0</span>
+          <span class="hero-stat-label">Favoritiniz</span>
+        </div>
       </div>
-      <div class="hero-stat-divider"></div>
-      <div class="hero-stat">
-        <span class="hero-stat-num" id="stat-highscore">—</span>
-        <span class="hero-stat-lbl">Rekordunuz</span>
+    </div>
+    <div class="hero-scroll-hint" onclick="scrollToSection('games-section')">
+      <span>Aşağı Diyirla</span>
+      <div class="scroll-arrow">↓</div>
+    </div>
+  </section>
+
+  <!-- ── GAMES SECTION ── -->
+  <section id="games-section" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">🎮 Bütün Oyunlar</h2>
+        <p class="section-subtitle">Seçdiyiniz kateqoriyada oyun tapın</p>
+      </div>
+
+      <div class="games-toolbar">
+        <div class="category-filters" id="category-filters" role="tablist" aria-label="Kateqoriya filtrləri">
+          <button class="cat-btn active" data-cat="all" onclick="filterCategory('all')" role="tab" aria-selected="true">Hamısı</button>
+          <button class="cat-btn" data-cat="Aksiya" onclick="filterCategory('Aksiya')" role="tab" aria-selected="false">🎯 Aksiya</button>
+          <button class="cat-btn" data-cat="Strateji" onclick="filterCategory('Strateji')" role="tab" aria-selected="false">♟️ Strateji</button>
+          <button class="cat-btn" data-cat="Spor" onclick="filterCategory('Spor')" role="tab" aria-selected="false">⚽ Spor</button>
+          <button class="cat-btn" data-cat="Viktorina" onclick="filterCategory('Viktorina')" role="tab" aria-selected="false">🧠 Viktorina</button>
+          <button class="cat-btn fav-btn" data-cat="favorites" onclick="filterCategory('favorites')" role="tab" aria-selected="false">❤️ Favorilər</button>
+        </div>
+        <div class="games-controls">
+          <select id="sort-select" onchange="sortGames(this.value)" aria-label="Sıralama">
+            <option value="popular">🔥 Populyar</option>
+            <option value="rating">⭐ Reytinq</option>
+            <option value="newest">🆕 Ən Yeni</option>
+            <option value="oldest">📅 Ən Köhnə</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="games-info-bar">
+        <span id="games-count">14 oyun göstərilir</span>
+      </div>
+
+      <div class="games-grid" id="games-grid" role="list">
+        <!-- Cards rendered by JS -->
+      </div>
+
+      <div class="no-results" id="no-results" hidden>
+        <div class="no-results-icon">🔍</div>
+        <p>Heç bir oyun tapılmadı</p>
+        <button class="btn-secondary" onclick="filterCategory('all')">Hamısını Göstər</button>
       </div>
     </div>
-  </div>
-  <div class="hero-scroll-hint" onclick="scrollToSection('games-section')">
-    <span>Aşağı bax</span>
-    <div class="scroll-arrow">↓</div>
-  </div>
-</section>
+  </section>
 
-<!-- ══════════════════════ GAMES SECTION ══════════════════════ -->
-<section class="section" id="games-section">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-label">🎮 Oyunlar</div>
-      <h2 class="section-title">Bütün Futbol Oyunları</h2>
-      <p class="section-desc">Biliklərinizi sınayın, rekord qoyun!</p>
+  <!-- ── TOP 10 SECTION ── -->
+  <section id="top-games-section" class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">🔥 Top 10 Oyun</h2>
+        <p class="section-subtitle">Ən çox oynanan oyunlar</p>
+      </div>
+      <div class="top-games-list" id="top-games-list">
+        <!-- Rendered by JS -->
+      </div>
     </div>
-    <div class="category-filter" role="tablist" aria-label="Oyun kateqoriyaları" id="category-filter">
-      <button class="cat-btn active" data-cat="all" onclick="filterCategory('all')" role="tab" aria-selected="true">🎮 Hamısı</button>
-      <button class="cat-btn" data-cat="viktorina" onclick="filterCategory('viktorina')" role="tab" aria-selected="false">🧠 Viktorina</button>
-      <button class="cat-btn" data-cat="penalti" onclick="filterCategory('penalti')" role="tab" aria-selected="false">⚽ Penalti</button>
-      <button class="cat-btn" data-cat="proqnoz" onclick="filterCategory('proqnoz')" role="tab" aria-selected="false">📊 Proqnoz</button>
-      <button class="cat-btn" data-cat="surat" onclick="filterCategory('surat')" role="tab" aria-selected="false">⚡ Sürət</button>
+  </section>
+
+  <!-- ── NEW GAMES SECTION ── -->
+  <section id="new-games-section" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">🆕 Yeni Oyunlar</h2>
+        <p class="section-subtitle">Son əlavə edilən oyunlar</p>
+      </div>
+      <div class="games-grid games-grid-sm" id="new-games-grid">
+        <!-- Rendered by JS -->
+      </div>
     </div>
-    <div class="no-results" id="no-results" hidden>
-      <span>🔍</span>
-      <p>Heç bir oyun tapılmadı.</p>
+  </section>
+
+  <!-- ── CATEGORIES SECTION ── -->
+  <section id="categories-section" class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">📂 Kateqoriyalar</h2>
+        <p class="section-subtitle">Oyun növünü seçin</p>
+      </div>
+      <div class="categories-grid" id="categories-grid">
+        <!-- Rendered by JS -->
+      </div>
     </div>
-    <div class="games-grid" id="games-grid">
+  </section>
 
-      <article class="game-card" data-cat="viktorina" data-name="viktorina futbol bilik sual">
-        <div class="game-card-bg bg-blue"></div>
-        <div class="game-card-badge">🔥 Populyar</div>
-        <div class="game-card-icon">🧠</div>
-        <div class="game-card-body">
-          <div class="game-card-cat">Viktorina</div>
-          <h3 class="game-card-title">Futbol Viktorinası</h3>
-          <p class="game-card-desc">10 sual, hər biri 15 saniyə. Azərbaycan və dünya futbolu haqqında biliklərinizi sınayın!</p>
-          <div class="game-card-meta">
-            <span class="game-difficulty diff-medium">⭐⭐ Orta</span>
-            <span class="game-plays" id="trivia-plays">0 oyun</span>
-          </div>
-        </div>
-        <div class="game-card-footer">
-          <div class="game-highscore" id="trivia-card-hs"></div>
-          <button class="btn-play" onclick="openGame('trivia')">▶ Oyna</button>
-        </div>
-      </article>
-
-      <article class="game-card" data-cat="penalti" data-name="penalti atis topla vur qolkiper">
-        <div class="game-card-bg bg-red"></div>
-        <div class="game-card-badge badge-red">⚽ Klassik</div>
-        <div class="game-card-icon">⚽</div>
-        <div class="game-card-body">
-          <div class="game-card-cat">Penalti</div>
-          <h3 class="game-card-title">Penalti Atışları</h3>
-          <p class="game-card-desc">5 penalti atışı. Hədəfi seçin, vurun! Qolkeeperi aldadaraq bütün penaltiləri qola çevirin.</p>
-          <div class="game-card-meta">
-            <span class="game-difficulty diff-easy">⭐ Asan</span>
-            <span class="game-plays" id="penalty-plays">0 oyun</span>
-          </div>
-        </div>
-        <div class="game-card-footer">
-          <div class="game-highscore" id="penalty-card-hs"></div>
-          <button class="btn-play btn-play-red" onclick="openGame('penalty')">▶ Oyna</button>
-        </div>
-      </article>
-
-      <article class="game-card" data-cat="proqnoz" data-name="proqnoz hesab matc netice tahmin">
-        <div class="game-card-bg bg-green"></div>
-        <div class="game-card-badge badge-green">📊 Analitik</div>
-        <div class="game-card-icon">📊</div>
-        <div class="game-card-body">
-          <div class="game-card-cat">Proqnoz</div>
-          <h3 class="game-card-title">Hesab Proqnozu</h3>
-          <p class="game-card-desc">Matç nəticələrini əvvəlcədən təxmin edin. Dəqiq nəticə = 3 xal, doğru proqnoz = 1 xal!</p>
-          <div class="game-card-meta">
-            <span class="game-difficulty diff-hard">⭐⭐⭐ Çətin</span>
-            <span class="game-plays" id="predict-plays">0 oyun</span>
-          </div>
-        </div>
-        <div class="game-card-footer">
-          <div class="game-highscore" id="predict-card-hs"></div>
-          <button class="btn-play btn-play-green" onclick="openGame('predict')">▶ Oyna</button>
-        </div>
-      </article>
-
-      <article class="game-card" data-cat="surat" data-name="surat turu tez cavab saniye">
-        <div class="game-card-bg bg-orange"></div>
-        <div class="game-card-badge badge-orange">⚡ Sürətli</div>
-        <div class="game-card-icon">⚡</div>
-        <div class="game-card-body">
-          <div class="game-card-cat">Sürət</div>
-          <h3 class="game-card-title">Sürət Turu</h3>
-          <p class="game-card-desc">30 saniyə içinde mümkün qədər çox sual cavablandırın! Sürət + bilik = rekord!</p>
-          <div class="game-card-meta">
-            <span class="game-difficulty diff-hard">⭐⭐⭐ Çətin</span>
-            <span class="game-plays" id="speed-plays">0 oyun</span>
-          </div>
-        </div>
-        <div class="game-card-footer">
-          <div class="game-highscore" id="speed-card-hs"></div>
-          <button class="btn-play btn-play-orange" onclick="openGame('speed')">▶ Oyna</button>
-        </div>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════ GAME PLAY MODAL ══════════════════════ -->
-<div class="game-modal-overlay" id="game-modal" hidden role="dialog" aria-modal="true" aria-label="Oyun pəncərəsi">
-  <div class="game-modal-box" id="game-modal-box">
-    <div class="game-modal-header" id="game-modal-header">
-      <div class="game-modal-title" id="game-modal-title">Oyun</div>
-      <button class="game-modal-close" onclick="closeGame()" aria-label="Bağla">✕</button>
-    </div>
-
-    <!-- TRIVIA GAME -->
-    <div id="game-trivia" class="game-panel active">
-      <div class="game-card-inner" id="trivia-card">
-        <div class="game-intro" id="trivia-intro">
-          <div class="game-icon-big">🧠</div>
-          <h3>Futbol Viktorinası</h3>
-          <p>10 sual, hər biri 15 saniyə. Nə qədər bilirsən?</p>
-          <div class="highscore-display" id="trivia-highscore"></div>
-          <button class="btn-primary" onclick="startTrivia()">▶ Oyunu Başlat</button>
-        </div>
-        <div class="game-play" id="trivia-play" hidden>
-          <div class="quiz-header">
-            <span class="quiz-progress" id="trivia-progress">Sual 1/10</span>
-            <div class="quiz-timer-wrap">
-              <div class="quiz-timer-bar" id="trivia-timer-bar"></div>
+  <!-- ── ABOUT SECTION ── -->
+  <section id="about-section" class="section">
+    <div class="container">
+      <div class="about-layout">
+        <div class="about-content">
+          <h2 class="section-title">⚽ Futbol.az Haqqında</h2>
+          <p class="about-desc">Futbol.az Azərbaycanın ən böyük futbol oyunları platformasıdır. Biz futbol sevənlərə ən maraqlı oyunları, reytinq sistemini, oyun şərhlərini və daha çoxunu təqdim edirik.</p>
+          <div class="about-features">
+            <div class="about-feature">
+              <span class="about-feature-icon">🎮</span>
+              <div>
+                <h3>14+ Oyun</h3>
+                <p>Müxtəlif kateqoriyalarda oyunlar</p>
+              </div>
             </div>
-            <span class="quiz-score-display" id="trivia-score-display">0 xal</span>
-          </div>
-          <div class="quiz-question" id="trivia-question"></div>
-          <div class="quiz-options" id="trivia-options"></div>
-        </div>
-        <div class="game-result" id="trivia-result" hidden>
-          <div class="result-icon" id="trivia-result-icon">🏆</div>
-          <h3>Oyun Bitdi!</h3>
-          <p class="result-score" id="trivia-result-score"></p>
-          <p class="result-message" id="trivia-result-msg"></p>
-          <button class="btn-primary" onclick="startTrivia()">🔄 Yenidən Oyna</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PENALTY GAME -->
-    <div id="game-penalty" class="game-panel" hidden>
-      <div class="game-card-inner penalty-game-card">
-        <div class="game-intro" id="penalty-intro">
-          <div class="game-icon-big">⚽</div>
-          <h3>Penalti Atışları</h3>
-          <p>5 penalti atışı. Hədəfə basın, vurun!</p>
-          <div class="highscore-display" id="penalty-highscore"></div>
-          <button class="btn-primary" onclick="startPenalty()">▶ Penaltiyə Başla</button>
-        </div>
-        <div class="game-play" id="penalty-play" hidden>
-          <div class="penalty-scoreboard">
-            <span id="penalty-kicks-label">1/5 atış</span>
-            <span class="quiz-score-display" id="penalty-score-label">0 qol</span>
-          </div>
-          <div class="penalty-canvas-wrap">
-            <canvas id="penalty-canvas" width="480" height="300" aria-label="Penalti oyun sahəsi"></canvas>
-            <div class="penalty-instruction" id="penalty-instruction">Hədəfi seçin, sonra ⚽ düyməsini basın</div>
-          </div>
-          <div class="penalty-controls">
-            <div class="goal-grid" id="goal-grid" aria-label="Hədəf seçimi">
-              <button class="goal-cell" data-zone="tl" onclick="aimPenalty('tl')" aria-label="Sol üst"></button>
-              <button class="goal-cell" data-zone="tc" onclick="aimPenalty('tc')" aria-label="Orta üst"></button>
-              <button class="goal-cell" data-zone="tr" onclick="aimPenalty('tr')" aria-label="Sağ üst"></button>
-              <button class="goal-cell" data-zone="ml" onclick="aimPenalty('ml')" aria-label="Sol orta"></button>
-              <button class="goal-cell" data-zone="mc" onclick="aimPenalty('mc')" aria-label="Orta"></button>
-              <button class="goal-cell" data-zone="mr" onclick="aimPenalty('mr')" aria-label="Sağ orta"></button>
-              <button class="goal-cell" data-zone="bl" onclick="aimPenalty('bl')" aria-label="Sol alt"></button>
-              <button class="goal-cell" data-zone="bc" onclick="aimPenalty('bc')" aria-label="Orta alt"></button>
-              <button class="goal-cell" data-zone="br" onclick="aimPenalty('br')" aria-label="Sağ alt"></button>
+            <div class="about-feature">
+              <span class="about-feature-icon">⭐</span>
+              <div>
+                <h3>Reytinq Sistemi</h3>
+                <p>5 ulduzlu reytinq sistemi</p>
+              </div>
             </div>
-            <button class="btn-shoot" id="btn-shoot" onclick="shootPenalty()" disabled aria-label="Penaltini vur">⚽ Vur!</button>
-          </div>
-          <div class="penalty-history" id="penalty-history"></div>
-        </div>
-        <div class="game-result" id="penalty-result" hidden>
-          <div class="result-icon" id="penalty-result-icon">⚽</div>
-          <h3>Penalti Serisi Bitdi!</h3>
-          <p class="result-score" id="penalty-result-score"></p>
-          <p class="result-message" id="penalty-result-msg"></p>
-          <button class="btn-primary" onclick="startPenalty()">🔄 Yenidən Oyna</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PREDICT GAME -->
-    <div id="game-predict" class="game-panel" hidden>
-      <div class="game-card-inner">
-        <div class="game-intro" id="predict-intro">
-          <div class="game-icon-big">📊</div>
-          <h3>Hesab Proqnozu</h3>
-          <p>Matç nəticələrini əvvəlcədən təxmin edin. Dəqiq nəticə = 3 xal, doğru nəticə = 1 xal.</p>
-          <div class="highscore-display" id="predict-highscore"></div>
-          <button class="btn-primary" onclick="startPredict()">▶ Proqnozu Başlat</button>
-        </div>
-        <div class="game-play" id="predict-play" hidden>
-          <div class="predict-header">
-            <span id="predict-round-label">Tur 1/5</span>
-            <span class="quiz-score-display" id="predict-score-display">0 xal</span>
-          </div>
-          <div id="predict-match-card" class="predict-match"></div>
-        </div>
-        <div class="game-result" id="predict-result" hidden>
-          <div class="result-icon">📊</div>
-          <h3>Proqnoz Bitdi!</h3>
-          <p class="result-score" id="predict-result-score"></p>
-          <div id="predict-result-breakdown" class="predict-breakdown"></div>
-          <button class="btn-primary" onclick="startPredict()">🔄 Yenidən Oyna</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- SPEED TRIVIA -->
-    <div id="game-speed" class="game-panel" hidden>
-      <div class="game-card-inner">
-        <div class="game-intro" id="speed-intro">
-          <div class="game-icon-big">⚡</div>
-          <h3>Sürət Turu</h3>
-          <p>30 saniyə içinde mümkün qədər çox sual cavablandırın!</p>
-          <div class="highscore-display" id="speed-highscore"></div>
-          <button class="btn-primary" onclick="startSpeed()">▶ Başlat!</button>
-        </div>
-        <div class="game-play" id="speed-play" hidden>
-          <div class="quiz-header">
-            <div class="speed-timer-wrap">
-              <span class="speed-timer-val" id="speed-timer-val">30</span>
-              <div class="quiz-timer-bar" id="speed-timer-bar" style="width:100%"></div>
+            <div class="about-feature">
+              <span class="about-feature-icon">❤️</span>
+              <div>
+                <h3>Favorilər</h3>
+                <p>Sevdiyiniz oyunları saxlayın</p>
+              </div>
             </div>
-            <span class="quiz-score-display" id="speed-score-display">0 xal</span>
+            <div class="about-feature">
+              <span class="about-feature-icon">💬</span>
+              <div>
+                <h3>Şərhlər</h3>
+                <p>Oyunlar haqqında rəy bildirin</p>
+              </div>
+            </div>
           </div>
-          <div class="quiz-question" id="speed-question"></div>
-          <div class="quiz-options" id="speed-options"></div>
         </div>
-        <div class="game-result" id="speed-result" hidden>
-          <div class="result-icon">⚡</div>
-          <h3>Sürət Turu Bitdi!</h3>
-          <p class="result-score" id="speed-result-score"></p>
-          <p class="result-message" id="speed-result-msg"></p>
-          <button class="btn-primary" onclick="startSpeed()">🔄 Yenidən Başlat</button>
+        <div class="about-visual">
+          <div class="about-emoji-grid">
+            <span>⚽</span><span>🏆</span><span>🎯</span>
+            <span>♟️</span><span>🧠</span><span>🔥</span>
+            <span>⭐</span><span>🏟️</span><span>🎮</span>
+          </div>
         </div>
       </div>
     </div>
+  </section>
 
-  </div>
-</div>
+  <!-- ── CONTACT / NEWSLETTER ── -->
+  <section id="contact-section" class="section section-alt">
+    <div class="container">
+      <div class="contact-layout">
+        <div class="newsletter-box">
+          <h2 class="section-title">📬 Xəbər Bülleteni</h2>
+          <p>Yeni oyunlardan xəbərdar olun. Email ünvanınızı daxil edin:</p>
+          <form class="newsletter-form" id="newsletter-form" onsubmit="handleNewsletterSubmit(event)" novalidate>
+            <div class="newsletter-input-wrap">
+              <input type="email" id="newsletter-email" placeholder="email@example.com"
+                required aria-label="Email ünvanı" maxlength="100">
+              <button type="submit" class="btn-primary">Abunə Ol</button>
+            </div>
+            <p class="newsletter-note" id="newsletter-msg"></p>
+          </form>
+          <div class="subscribers-count" id="subscribers-count"></div>
+        </div>
 
-<!-- ══════════════════════ TRENDING SECTION ══════════════════════ -->
-<section class="section section-alt" id="trending-section">
+        <div class="contact-info">
+          <h2 class="section-title">📞 Əlaqə</h2>
+          <div class="contact-items">
+            <div class="contact-item">
+              <span>📧</span>
+              <a href="mailto:info@futbol.az">info@futbol.az</a>
+            </div>
+            <div class="contact-item">
+              <span>🌐</span>
+              <span>futbol.az</span>
+            </div>
+            <div class="contact-item">
+              <span>📍</span>
+              <span>Bakı, Azərbaycan</span>
+            </div>
+          </div>
+          <div class="social-links">
+            <a href="https://facebook.com" target="_blank" rel="noopener" class="social-btn" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener" class="social-btn" aria-label="Twitter/X">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener" class="social-btn" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noopener" class="social-btn" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.4 19.54C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer id="footer" class="footer">
   <div class="container">
-    <div class="section-header">
-      <div class="section-label">🔥 Trendlər</div>
-      <h2 class="section-title">Populyar Oyunlar</h2>
-      <p class="section-desc">Bu həftə ən çox oynanılan oyunlar</p>
-    </div>
-    <div class="trending-grid">
-      <div class="trending-card" onclick="openGame('trivia')">
-        <div class="trending-rank rank-1">1</div>
-        <div class="trending-icon">🧠</div>
-        <div class="trending-info">
-          <div class="trending-name">Futbol Viktorinası</div>
-          <div class="trending-meta">Viktorina · Orta çətinlik</div>
-        </div>
-        <div class="trending-badge">🔥 Top</div>
-      </div>
-      <div class="trending-card" onclick="openGame('penalty')">
-        <div class="trending-rank rank-2">2</div>
-        <div class="trending-icon">⚽</div>
-        <div class="trending-info">
-          <div class="trending-name">Penalti Atışları</div>
-          <div class="trending-meta">Penalti · Asan</div>
-        </div>
-        <div class="trending-badge trending-badge-silver">⭐ İkinci</div>
-      </div>
-      <div class="trending-card" onclick="openGame('speed')">
-        <div class="trending-rank rank-3">3</div>
-        <div class="trending-icon">⚡</div>
-        <div class="trending-info">
-          <div class="trending-name">Sürət Turu</div>
-          <div class="trending-meta">Sürət · Çətin</div>
-        </div>
-        <div class="trending-badge trending-badge-bronze">🏅 Üçüncü</div>
-      </div>
-      <div class="trending-card" onclick="openGame('predict')">
-        <div class="trending-rank rank-4">4</div>
-        <div class="trending-icon">📊</div>
-        <div class="trending-info">
-          <div class="trending-name">Hesab Proqnozu</div>
-          <div class="trending-meta">Proqnoz · Çətin</div>
-        </div>
-        <div class="trending-badge trending-badge-gray">📈 Yüksəliş</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════ HOW TO PLAY ══════════════════════ -->
-<section class="section" id="how-section">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-label">📖 Necə Oynamalı</div>
-      <h2 class="section-title">3 Addımda Başla</h2>
-    </div>
-    <div class="how-grid">
-      <div class="how-card">
-        <div class="how-step">1</div>
-        <div class="how-icon">🎮</div>
-        <h3>Oyun Seç</h3>
-        <p>Viktorina, Penalti, Proqnoz və ya Sürət Turu — birini seçin</p>
-      </div>
-      <div class="how-card">
-        <div class="how-step">2</div>
-        <div class="how-icon">⚽</div>
-        <h3>Oyna</h3>
-        <p>Biliklərinizi sınayın, sualları cavablandırın, rekord qoyun</p>
-      </div>
-      <div class="how-card">
-        <div class="how-step">3</div>
-        <div class="how-icon">🏆</div>
-        <h3>Rekord Qoy</h3>
-        <p>Yüksək bal toplayın, rekordunuzu yeniləyin!</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════ FOOTER ══════════════════════ -->
-<footer class="site-footer" id="contact-section">
-  <div class="footer-inner">
     <div class="footer-grid">
       <div class="footer-brand">
-        <div class="footer-logo">
-          <span class="logo-icon-sm">⚽</span>
-          <span>Futbol<span class="logo-accent">.az</span></span>
+        <div class="navbar-logo">
+          <div class="logo-icon">⚽</div>
+          <span class="logo-text">Futbol<span class="logo-accent">.az</span></span>
         </div>
-        <p class="footer-desc">Azərbaycanın Futbol Oyunları Platforması. Biliklərinizi sınayın, rekord qoyun!</p>
-        <div class="footer-socials">
-          <a href="#" class="social-link" aria-label="Instagram">📸</a>
-          <a href="#" class="social-link" aria-label="Twitter">🐦</a>
-          <a href="#" class="social-link" aria-label="YouTube">▶️</a>
-        </div>
+        <p>Azərbaycanın ən böyük futbol oyunları platforması.</p>
       </div>
       <div class="footer-links">
         <h4>Oyunlar</h4>
-        <ul>
-          <li><a href="#" onclick="openGame('trivia'); return false;">🧠 Futbol Viktorinası</a></li>
-          <li><a href="#" onclick="openGame('penalty'); return false;">⚽ Penalti Atışları</a></li>
-          <li><a href="#" onclick="openGame('predict'); return false;">📊 Hesab Proqnozu</a></li>
-          <li><a href="#" onclick="openGame('speed'); return false;">⚡ Sürət Turu</a></li>
-        </ul>
+        <a href="#" onclick="filterCategory('Spor'); scrollToSection('games-section'); return false;">⚽ Spor</a>
+        <a href="#" onclick="filterCategory('Aksiya'); scrollToSection('games-section'); return false;">🎯 Aksiya</a>
+        <a href="#" onclick="filterCategory('Strateji'); scrollToSection('games-section'); return false;">♟️ Strateji</a>
+        <a href="#" onclick="filterCategory('Viktorina'); scrollToSection('games-section'); return false;">🧠 Viktorina</a>
       </div>
-      <div class="footer-contact">
-        <h4>Əlaqə</h4>
-        <ul class="contact-list">
-          <li><span class="contact-icon">📧</span><a href="mailto:info@futbol.az">info@futbol.az</a></li>
-          <li><span class="contact-icon">📍</span><span>Bakı, Azərbaycan</span></li>
-          <li><span class="contact-icon">🕐</span><span>7/24 aktiv</span></li>
-        </ul>
+      <div class="footer-links">
+        <h4>Platforma</h4>
+        <a href="#about-section" onclick="scrollToSection('about-section'); return false;">Haqqında</a>
+        <a href="#top-games-section" onclick="scrollToSection('top-games-section'); return false;">Top 10</a>
+        <a href="#new-games-section" onclick="scrollToSection('new-games-section'); return false;">Yeni Oyunlar</a>
+        <a href="#contact-section" onclick="scrollToSection('contact-section'); return false;">Əlaqə</a>
+      </div>
+      <div class="footer-links">
+        <h4>Sosial</h4>
+        <a href="https://facebook.com" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://twitter.com" target="_blank" rel="noopener">Twitter</a>
+        <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://youtube.com" target="_blank" rel="noopener">YouTube</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 <strong>Futbol.az</strong> · Bütün hüquqlar qorunur · 🇦🇿 Azərbaycanda hazırlandı</p>
+      <p>© 2024 Futbol.az. Bütün hüquqlar qorunur.</p>
+      <p>🇦🇿 Azərbaycan</p>
     </div>
   </div>
 </footer>
 
-<!-- ══════════════════════ SCRIPTS ══════════════════════ -->
-<script src="games.js"></script>
+<!-- ══════════════════ GAME DETAIL MODAL ══════════════════ -->
+<div id="game-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-game-title" hidden>
+  <div class="modal-box" id="modal-box">
+    <div class="modal-banner" id="modal-banner">
+      <span class="modal-emoji" id="modal-emoji">⚽</span>
+      <button class="modal-close" onclick="closeModal()" aria-label="Bağla">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta">
+        <div>
+          <h2 class="modal-title" id="modal-game-title">Oyun Adı</h2>
+          <span class="badge" id="modal-category">Kateqoriya</span>
+          <span class="badge badge-new" id="modal-new-badge" hidden>🆕 Yeni</span>
+        </div>
+        <button class="fav-toggle-btn" id="modal-fav-btn" onclick="toggleFavorite(currentGameId)" aria-label="Favorilərə əlavə et">
+          <span id="modal-fav-icon">♡</span>
+        </button>
+      </div>
 
+      <p class="modal-desc" id="modal-game-description">Təsvir yüklənir...</p>
+
+      <div class="modal-stats-row">
+        <div class="modal-stat">
+          <span class="modal-stat-icon">▶️</span>
+          <span id="modal-play-count">0</span>
+          <span>oyun</span>
+        </div>
+        <div class="modal-stat">
+          <span class="modal-stat-icon">⭐</span>
+          <span id="modal-avg-rating">0</span>
+          <span>ortalama</span>
+        </div>
+        <div class="modal-stat">
+          <span class="modal-stat-icon">👥</span>
+          <span id="modal-ratings-count">0</span>
+          <span>reytinq</span>
+        </div>
+      </div>
+
+      <div class="modal-tags" id="modal-tags"></div>
+
+      <!-- Rating -->
+      <div class="rating-section">
+        <h3>⭐ Reytinq Verin</h3>
+        <div class="stars-interactive" id="modal-stars" role="group" aria-label="Ulduz reytinqi"></div>
+        <p class="rating-hint" id="rating-hint">Bir ulduz seçin</p>
+      </div>
+
+      <!-- Share -->
+      <div class="share-section">
+        <h3>📤 Paylaş</h3>
+        <div class="share-buttons">
+          <button class="share-btn share-fb" onclick="shareGame(currentGameId, 'facebook')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            Facebook
+          </button>
+          <button class="share-btn share-tw" onclick="shareGame(currentGameId, 'twitter')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+            Twitter
+          </button>
+          <button class="share-btn share-wa" onclick="shareGame(currentGameId, 'whatsapp')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+            WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Comments -->
+      <div class="comments-section">
+        <h3>💬 Şərhlər <span class="comments-count" id="comments-count">(0)</span></h3>
+        <div class="comments-list" id="comments-list">
+          <p class="no-comments" id="no-comments">Hələ şərh yoxdur. İlk şərhi siz yazın!</p>
+        </div>
+        <form class="comment-form" id="comment-form" onsubmit="handleCommentSubmit(event)" novalidate>
+          <input type="text" id="comment-author" placeholder="Adınız *" required maxlength="50" aria-label="Adınız">
+          <textarea id="comment-text" placeholder="Şərhinizi yazın… *" required maxlength="500" rows="3" aria-label="Şərh mətni"></textarea>
+          <button type="submit" class="btn-primary">💬 Göndər</button>
+        </form>
+      </div>
+
+      <!-- Play Button -->
+      <div class="modal-play-section">
+        <button class="btn-play-big" id="modal-play-btn" onclick="playGame(currentGameId)">
+          ▶️ Oyna
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ TOAST ══════════════════ -->
+<div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+<script src="games.js"></script>
 </body>
 </html>
