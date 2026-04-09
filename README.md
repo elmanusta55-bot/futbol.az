@@ -74,8 +74,10 @@ for **5 minutes** to conserve API quota.
 | ------ | -------------------------- | ---------------------------------- |
 | GET    | `/standings/:leagueId`     | League table for the current season |
 | GET    | `/live`                    | All currently live matches          |
-| GET    | `/today`                   | All fixtures scheduled for today    |
+| GET    | `/matches`                 | All fixtures scheduled for today    |
+| GET    | `/today`                   | Alias for `/matches`                |
 | GET    | `/top-scorers/:leagueId`   | Top scorers for the current season  |
+| GET    | `/search?q=<term>`         | Search teams by name                |
 
 ### League IDs
 

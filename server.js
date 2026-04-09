@@ -119,4 +119,19 @@ app.get("/top-scorers/:leagueId", (req, res) => {
   apiFetch(`/players/topscorers?league=${id}&season=${footballSeason()}`, res);
 });
 
+app.get("/matches", (req, res) => {
+  const date = new Date().toISOString().slice(0, 10);
+  apiFetch(`/fixtures?date=${date}`, res);
+});
+
+app.get("/search", (req, res) => {
+  const q = req.query.q;
+  if (!q || q.trim().length < 2) {
+    return res.status(400).json({ error: "Query must be at least 2 characters." });
+  }
+  // Limit query length and encode for safe inclusion in the upstream URL query string.
+  const safe = encodeURIComponent(q.trim().slice(0, 100));
+  apiFetch(`/teams?search=${safe}`, res);
+});
+
 app.listen(PORT, () => console.log(`Futbol.az proxy running on port ${PORT}`));
