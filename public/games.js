@@ -673,7 +673,7 @@ function addComment(gameId, text, author) {
     id: Date.now(),
     author: author.trim().slice(0, 50),
     text: text.trim().slice(0, 500),
-    date: new Date().toLocaleDateString("az-AZ")
+    date: new Date().toLocaleDateString("az-AZ", { year: "numeric", month: "2-digit", day: "2-digit" }) || new Date().toLocaleDateString()
   };
   state.comments[gameId].unshift(comment);
   lsSet("comments", state.comments);
@@ -741,7 +741,7 @@ function shareGame(gameId, platform) {
 // ─────────────────────────────── Newsletter ──────────────────────────────────
 function subscribeNewsletter(email) {
   const msgEl = document.getElementById("newsletter-msg");
-  if (!email || !email.includes("@") || !email.includes(".")) {
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim())) {
     if (msgEl) { msgEl.textContent = "⚠️ Düzgün email ünvanı daxil edin"; msgEl.className = "newsletter-note error"; }
     return false;
   }
