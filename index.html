@@ -1,199 +1,182 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Futbol.az – Azərbaycan və Dünya Futbol Portalı. Canlı nəticələr, liqa cədvəlləri, komandalar.">
-  <title>Futbol.az | Professional Football Portal</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futbol.Az | Canlı Hesablar</title>
+    <style>
+        /* Səhifə Stili */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: white;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Widget Konteyneri */
+        #live-football-widget {
+            width: 100%;
+            max-width: 550px;
+            background: #1e1e1e;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            border: 1px solid #333;
+        }
+
+        /* Başlıq */
+        .widget-header {
+            background: linear-gradient(90deg, #d32f2f, #b71c1c);
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #ff5252;
+        }
+
+        /* Oyunların siyahısı */
+        #live-scores-content {
+            padding: 10px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        /* Hər bir oyun sətri */
+        .match-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #262626;
+            margin-bottom: 12px;
+            padding: 15px;
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+
+        .match-card:hover {
+            transform: scale(1.02);
+            background: #2d2d2d;
+        }
+
+        .team-name {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .home-team { text-align: right; padding-right: 10px; }
+        .away-team { text-align: left; padding-left: 10px; }
+
+        .score-box {
+            flex: 0 0 100px;
+            text-align: center;
+        }
+
+        .score {
+            background: #000;
+            color: #4caf50;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            display: inline-block;
+            min-width: 60px;
+        }
+
+        .match-time {
+            color: #f44336;
+            font-size: 12px;
+            margin-top: 5px;
+            font-weight: bold;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* Scrollbar stili */
+        #live-scores-content::-webkit-scrollbar { width: 6px; }
+        #live-scores-content::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+    </style>
 </head>
 <body>
 
-<!-- ===================== HEADER ===================== -->
-<header class="site-header">
-  <div class="header-inner">
-    <a class="header-logo" href="#">
-      <img src="logo.png" alt="Futbol.az logo">
-      Futbol.az
-    </a>
-
-    <nav class="header-nav" aria-label="Əsas naviqasiya">
-      <a href="#leagues-section" class="active">Liqalar</a>
-      <a href="#standings-section">Cədvəl</a>
-      <a href="#live-section">Canlı</a>
-      <a href="#search-section">Axtarış</a>
-    </nav>
-
-    <div class="header-actions">
-      <button class="btn-icon" id="btn-dark" onclick="toggleDark()" aria-label="Gecə modu">🌙</button>
-      <button class="btn-profile" id="btn-profile" onclick="openModal('profile-modal')" aria-label="Profil">
-        <span>👤</span><span>Giriş</span>
-      </button>
-      <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menyu">☰</button>
-    </div>
-  </div>
-
-  <!-- Mobile navigation -->
-  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobil naviqasiya">
-    <a href="#leagues-section" onclick="toggleMobileNav()">⚽ Liqalar</a>
-    <a href="#standings-section" onclick="toggleMobileNav()">📊 Cədvəl</a>
-    <a href="#live-section" onclick="toggleMobileNav()">🔴 Canlı</a>
-    <a href="#search-section" onclick="toggleMobileNav()">🔍 Axtarış</a>
-    <a href="#" onclick="openModal('profile-modal'); toggleMobileNav()">👤 Profil</a>
-  </nav>
-</header>
-
-<!-- ===================== HERO ===================== -->
-<section class="hero">
-  <h1>⚽ Futbol.az</h1>
-  <p>Azərbaycan və Dünya Futbolunun Rəsmi Portalı</p>
-</section>
-
-<!-- ===================== MAIN ===================== -->
-<main>
-
-  <!-- ── LEAGUES SECTION ── -->
-  <section id="leagues-section" class="section">
-    <div class="container">
-      <h2 class="section-title"><span class="dot"></span> Liqalar</h2>
-
-      <!-- League tabs -->
-      <div class="league-tabs" role="tablist" aria-label="Futbol liqaları">
-        <button class="league-tab active" role="tab" data-league="aze"
-                onclick="switchLeague('aze')" aria-selected="true">
-          🇦🇿 Azərbaycan
-        </button>
-        <button class="league-tab" role="tab" data-league="pl"
-                onclick="switchLeague('pl')" aria-selected="false">
-          🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League
-        </button>
-        <button class="league-tab" role="tab" data-league="laliga"
-                onclick="switchLeague('laliga')" aria-selected="false">
-          🇪🇸 La Liga
-        </button>
-        <button class="league-tab" role="tab" data-league="seriea"
-                onclick="switchLeague('seriea')" aria-selected="false">
-          🇮🇹 Serie A
-        </button>
-        <button class="league-tab" role="tab" data-league="bundesliga"
-                onclick="switchLeague('bundesliga')" aria-selected="false">
-          🇩🇪 Bundesliga
-        </button>
-      </div>
-
-      <!-- Layout: standings + top scorers -->
-      <div class="league-layout">
-
-        <!-- Standings table -->
-        <section id="standings-section" aria-label="Liqa cədvəli">
-          <h3 class="section-title" style="margin-bottom:12px;">
-            <span class="dot"></span>
-            <span id="standings-heading">🇦🇿 Azərbaycan Premyer Liqası – Cədvəl</span>
-          </h3>
-          <div class="card standings-card">
-            <table class="standings-table" aria-label="Liqa cədvəli">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th style="text-align:left;">Komanda</th>
-                  <th title="Oyunlar">O</th>
-                  <th title="Qalibiyyət">Q</th>
-                  <th title="Bərabərlik">B</th>
-                  <th title="Uduzmaq">U</th>
-                  <th title="Vurduğu qollar">VQ</th>
-                  <th title="Buraxdığı qollar">BQ</th>
-                  <th title="Qol fərqi">QF</th>
-                  <th title="Xal">XAL</th>
-                </tr>
-              </thead>
-              <tbody id="standings-body">
-                <!-- Dynamic content -->
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Legend -->
-          <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:.75rem;color:var(--text-muted);">
-            <span><span class="rank-badge cl" style="display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:middle;"></span> Çempionlar Liqası</span>
-            <span><span class="rank-badge el" style="display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:middle;"></span> Avropa Liqası</span>
-            <span><span class="rank-badge rel" style="display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:middle;"></span> Düşmə</span>
-          </div>
-        </section>
-
-        <!-- Top scorers sidebar -->
-        <aside aria-label="Topçular">
-          <h3 class="section-title" style="margin-bottom:12px;">
-            <span class="dot"></span> Topçular
-          </h3>
-          <div class="card" style="padding:16px;">
-            <ul class="scorers-list" id="scorers-list">
-              <!-- Dynamic content -->
-            </ul>
-          </div>
-        </aside>
-      </div>
-
-      <!-- Responsive override for small screens -->
-    </div>
-  </section>
-
-  <!-- ── LIVE SCORES ── -->
-  <section id="live-section" class="section live-section">
-    <div class="container">
-      <h2 class="section-title">
-        <span class="dot"></span>
-        <span class="live-badge"><span class="live-dot"></span> CANLI</span>
-        &nbsp;Canlı Nəticələr
-      </h2>
-      <div id="live-scores-container">
-        <div class="no-matches">
-          <div class="loading-spinner"></div>
+    <div id="live-football-widget">
+        <div class="widget-header">
+            🔴 Canlı Qarşılaşmalar
         </div>
-      </div>
+        <div id="live-scores-content">
+            <p style="text-align: center; color: #888; padding: 20px;">Yüklənir...</p>
+        </div>
     </div>
-  </section>
 
-  <!-- ── SEARCH ── -->
-  <section id="search-section" class="section">
-    <div class="container">
-      <h2 class="section-title"><span class="dot"></span> Axtarış</h2>
-      <div class="search-bar">
-        <input
-          class="search-input"
-          id="search-input"
-          type="search"
-          placeholder="Komanda və ya oyunçu axtarın…"
-          autocomplete="off"
-          aria-label="Axtarış">
-        <button class="search-btn" onclick="document.getElementById('search-input').dispatchEvent(new Event('input'))">🔍</button>
-      </div>
-      <div class="card" id="search-results" style="padding:0;overflow:hidden;"></div>
-    </div>
-  </section>
+    <script>
+        // Sənin API Key-in
+        const API_KEY = "5b40dc94de05e9a55e848b0c16da8e8c";
+        const scoresContainer = document.getElementById('live-scores-content');
 
-</main>
+        async function fetchLiveScores() {
+            const url = 'https://v3.football.api-sports.io/fixtures?live=all';
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'x-apisports-key': API_KEY
+                    }
+                });
 
-<!-- ===================== FOOTER ===================== -->
-<footer class="site-footer">
-  <p>© 2025 <strong>Futbol.az</strong> · Bütün hüquqlar qorunur · Azərbaycan Futbol Portalı</p>
-</footer>
+                const data = await response.json();
+                const matches = data.response || [];
 
-<!-- ===================== PROFILE MODAL ===================== -->
-<div class="modal-overlay" id="profile-modal" role="dialog" aria-modal="true" aria-label="İstifadəçi profili">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal('profile-modal')" aria-label="Bağla">✕</button>
-    <h2 class="modal-title">👤 Profil</h2>
-    <div id="profile-modal-body">
-      <!-- Dynamic content -->
-    </div>
-  </div>
-</div>
+                if (matches.length === 0) {
+                    scoresContainer.innerHTML = "<p style='text-align:center; color: #aaa; padding: 30px;'>Hazırda canlı oyun yoxdur.</p>";
+                    return;
+                }
 
-<!-- ===================== SCRIPTS ===================== -->
-<script src="app.js"></script>
+                let html = '';
+                matches.forEach(match => {
+                    const home = match.teams.home;
+                    const away = match.teams.away;
+                    const goalsHome = match.goals.home ?? 0;
+                    const goalsAway = match.goals.away ?? 0;
+                    const elapsed = match.fixture.status.elapsed;
 
+                    html += `
+                        <div class="match-card">
+                            <div class="team-name home-team">${home.name}</div>
+                            <div class="score-box">
+                                <div class="score">${goalsHome} - ${goalsAway}</div>
+                                <div class="match-time">${elapsed}'</div>
+                            </div>
+                            <div class="team-name away-team">${away.name}</div>
+                        </div>
+                    `;
+                });
+
+                scoresContainer.innerHTML = html;
+
+            } catch (error) {
+                console.error("Xəta:", error);
+                scoresContainer.innerHTML = "<p style='text-align:center; color:#f44336; padding: 20px;'>Xəta baş verdi. İnterneti və ya API limitini yoxlayın.</p>";
+            }
+        }
+
+        // İlk yükləmə
+        fetchLiveScores();
+
+        // 1 dəqiqədən bir yenilə
+        setInterval(fetchLiveScores, 60000);
+    </script>
 </body>
 </html>
