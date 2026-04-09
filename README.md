@@ -45,7 +45,7 @@ cp .env.example .env
 Edit `.env` and fill in your `RAPIDAPI_KEY`:
 
 ```
-RAPIDAPI_KEY=fb5f9b54e1mshf35d20a59e752c1p15341ajsn57bc3d21de94
+RAPIDAPI_KEY=your_rapidapi_key_here
 RAPIDAPI_HOST=api-football-v3.p.rapidapi.com
 PORT=3000
 NODE_ENV=production
