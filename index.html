@@ -1,1319 +1,199 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Futbol.Az | Premium Platforma</title>
-    
-    <meta name="description" content="Ən son futbol xəbərləri, canlı nəticələr və transfer mərkəzi.">
-    <meta property="og:title" content="Futbol.Az - Futbol Dünyasından Xəbərlər">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8330893952904159" crossorigin="anonymous"></script>
-
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <style>    
-        :root { 
-            --primary: #00ffcc; /* Yeni Neon Yaşıl/Mavi */
-            --primary-hover: #00ccaa;
-            --gold: #FFD700;
-            --bg-dark: #070b19; /* Daha tünd, modern arxa fon */
-            --card-bg: rgba(20, 30, 48, 0.7); /* Glassmorphism üçün şəffaf */
-            --text-main: #F8FAFC;
-            --text-muted: #8c9bb4;
-            --border-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        * { box-sizing: border-box; }
-        
-        /* --- YENİ ARXA FON --- */
-        body { 
-            background-color: var(--bg-dark); 
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(0, 255, 204, 0.08), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(255, 215, 0, 0.05), transparent 25%);
-            background-attachment: fixed;
-            font-family: 'Montserrat', sans-serif; 
-            color: var(--text-main); 
-            margin: 0; 
-            padding: 0; 
-            padding-bottom: 90px; 
-            -webkit-font-smoothing: antialiased;
-        }
-
-        h1, h2, h3, h4, h5, h6, .logo, .score-val, .btn-main {
-            font-family: 'Rajdhani', sans-serif;
-            text-transform: uppercase;
-        }
-        
-        /* HEADER */
-        header { 
-            background: rgba(7, 11, 25, 0.85); 
-            backdrop-filter: blur(15px); 
-            padding: 18px 20px; 
-            border-bottom: 1px solid var(--border-color); 
-            text-align: center; 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-        }
-        .logo { font-size: 32px; font-weight: 900; color: #fff; letter-spacing: 2px; margin: 0; text-shadow: 0 0 10px rgba(0,255,204,0.3); }
-        .logo span { color: var(--primary); }
-        
-        /* ALT NAVİQASİYA */
-        .bottom-nav { 
-            position: fixed; bottom: 0; left: 0; width: 100%; 
-            background: rgba(15, 20, 35, 0.95); 
-            border-top: 1px solid var(--border-color); 
-            display: flex; z-index: 2000; 
-            backdrop-filter: blur(15px); 
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-        .nav-btn { 
-            flex: 1; padding: 12px 0; text-align: center; 
-            color: var(--text-muted); font-size: 11px; font-weight: 600; 
-            cursor: pointer; transition: all 0.3s ease; 
-        }
-        .nav-btn.active { color: var(--primary); text-shadow: 0 0 8px rgba(0,255,204,0.5); }
-        .nav-btn i { display: block; font-size: 22px; margin-bottom: 6px; transition: transform 0.2s; }
-        .nav-btn.active i { transform: translateY(-4px) scale(1.1); }
-
-        /* ÜMUMİ DİZAYN & GLASSMORPHISM KARTLAR */
-        .section { display: none; max-width: 800px; margin: 20px auto; padding: 0 15px; animation: fadeIn 0.4s ease; }
-        .section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .card { 
-            background: var(--card-bg); 
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 24px; 
-            border-radius: 20px; 
-            border: 1px solid rgba(255,255,255,0.05); 
-            margin-bottom: 20px; 
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
-        }
-        .card-header { font-family: 'Rajdhani', sans-serif; font-size: 22px; color: #fff; margin-bottom: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;}
-        .card-header i { color: var(--primary); }
-        
-        .btn-main { background: linear-gradient(45deg, var(--primary), #0099ff); color: #000; border: none; padding: 14px; border-radius: 12px; font-weight: 800; font-size: 16px; cursor: pointer; width: 100%; transition: 0.3s; display: inline-flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(0, 255, 204, 0.3); letter-spacing: 1px;}
-        .btn-main:active { transform: scale(0.96); }
-        .btn-gold { background: linear-gradient(45deg, #FFD700, #FFA500); box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3); }
-        .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); box-shadow: none; width: auto; flex: 1; }
-        .btn-outline:hover { background: rgba(0,255,204,0.1); }
-        
-        .score-val { font-size: 54px; font-weight: 900; color: var(--gold); text-align: center; margin: 10px 0; text-shadow: 0 0 15px rgba(255,215,0,0.4); }
-        
-        .input-field { width: 100%; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border-color); background: rgba(0, 0, 0, 0.3); color: #fff; font-family: 'Montserrat', sans-serif; font-size: 14px; margin-bottom: 12px; outline: none; transition: 0.3s; }
-        .input-field:focus { border-color: var(--primary); background: rgba(0,0,0,0.5); box-shadow: 0 0 10px rgba(0,255,204,0.2); }
-        
-        /* 11-LİK MEYDANÇA */
-        .pitch { width: 100%; height: 500px; max-width: 500px; margin: 0 auto; background: linear-gradient(180deg, #064E3B, #166534); border-radius: 15px; position: relative; border: 3px solid rgba(255,255,255,0.1); overflow: hidden; box-shadow: inset 0 0 30px rgba(0,0,0,0.5); }
-        .pitch::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(255,255,255,0.03) 50px, rgba(255,255,255,0.03) 100px); }
-        .pitch::after { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: rgba(255,255,255,0.4); transform: translateY(-50%); }
-        .center-circle { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90px; height: 90px; border: 2px solid rgba(255,255,255,0.4); border-radius: 50%; }
-        .slot { position: absolute; width: 65px; text-align: center; cursor: pointer; z-index: 5; transform: translateX(-50%); transition: 0.2s; }
-        .slot:hover { transform: translateX(-50%) scale(1.1); }
-        .slot img { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--primary); background: #CBD5E1; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .slot span { display: block; font-size: 10px; background: rgba(0, 0, 0, 0.8); border-radius: 4px; padding: 4px; margin-top: 5px; color: #fff; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border: 1px solid rgba(255,255,255,0.2); }
-
-        /* POSTER */
-        .poster-preview { background: #000; border-radius: 10px; overflow: hidden; position: relative; height: 200px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; border: 1px solid var(--border-color); }
-        .poster-content { position: relative; z-index: 2; text-align: center; width: 100%; }
-        .p-team-name { font-size: 18px; font-weight: 900; color: #fff; margin: 5px 0; }
-        .p-vs { font-size: 24px; color: var(--gold); font-weight: 900; font-family: 'Rajdhani'; }
-
-        /* KART YARADICI */
-        .creator-preview { width: 260px; height: 380px; margin: 20px auto; border-radius: 16px; background: linear-gradient(135deg, #1E293B, #020617); position: relative; border: 2px solid var(--gold); display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 20px; box-shadow: 0 10px 25px rgba(255,215,0,0.2); }
-        .creator-img { width: 100%; height: 80%; object-fit: cover; object-position: top; position: absolute; top: 0; z-index: 1; -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%); }
-        .creator-rating { position: absolute; top: 15px; left: 15px; font-size: 42px; font-weight: 900; color: var(--gold); z-index: 5; font-family: 'Rajdhani'; text-shadow: 2px 2px 5px #000; }
-        .creator-pos { position: absolute; top: 65px; left: 15px; font-weight: 800; color: #fff; z-index: 5; font-size: 16px; text-shadow: 1px 1px 3px #000; }
-        .creator-info { position: relative; z-index: 2; text-align: center; width: 100%; padding-top: 20px; }
-        .creator-name { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 2px; font-family: 'Rajdhani'; text-transform: uppercase; }
-
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 3000; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(5px); }
-        .modal-card { background: var(--bg-dark); border-radius: 20px; padding: 24px; width: 100%; max-width: 350px; border: 1px solid var(--primary); box-shadow: 0 0 30px rgba(0,255,204,0.2); }
-        
-        .upload-label { display: block; background: rgba(255,255,255,0.05); border: 2px dashed var(--primary); color: #fff; padding: 16px; border-radius: 12px; text-align: center; cursor: pointer; font-weight: 600; margin-bottom: 15px; transition: 0.3s; }
-        .upload-label:hover { background: rgba(0,255,204,0.1); }
-
-        .news-ticker { background: #000; color: var(--primary); padding: 12px 0; overflow: hidden; border-bottom: 1px solid rgba(0,255,204,0.2); font-weight: 700; font-size: 14px; letter-spacing: 1px; }
-        .ticker-wrap { display: flex; white-space: nowrap; animation: ticker 25s linear infinite; }
-        .ticker-item { padding: 0 40px; }
-        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-
-        /* PAKET STİLLƏRİ */
-        #efootball-pack { width: 180px; height: 260px; margin: 20px auto; background: linear-gradient(135deg, #0f172a 0%, #000 100%); border: 3px solid var(--gold); border-radius: 15px; position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-direction: column; color: #fff; transition: 0.3s; box-shadow: 0 0 40px rgba(212, 175, 55, 0.4); }
-        .pack-idle { animation: float 3s ease-in-out infinite; }
-        .opening-active { animation: shake 0.4s infinite, flash 2s forwards !important; pointer-events: none; }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-        @keyframes shake { 0% { transform: translate(2px, 2px) rotate(0deg); } 25% { transform: translate(-2px, -3px) rotate(-2deg); } 50% { transform: translate(-4px, 0px) rotate(2deg); } 75% { transform: translate(4px, 3px) rotate(0deg); } 100% { transform: translate(2px, -2px) rotate(-2deg); } }
-        @keyframes flash { 0% { filter: brightness(1); } 70% { filter: brightness(4); transform: scale(1.1); opacity: 1; } 100% { filter: brightness(10); opacity: 0; transform: scale(1.5); } }
-        .pack-player-card { background: linear-gradient(135deg, rgba(0,255,204,0.2), rgba(0,0,0,0.8)); padding: 30px 20px; border-radius: 15px; border: 2px solid var(--primary); color: white; animation: cardPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); margin: 0 auto; backdrop-filter: blur(10px); }
-        @keyframes cardPop { 0% { transform: scale(0.2); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-
-        /* Müqayisə cədvəli */
-        .stat-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; font-weight: 600; padding: 5px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .stat-win { color: var(--primary); font-weight: 800; text-shadow: 0 0 5px rgba(0,255,204,0.5); }
-        .stat-lose { color: #EF4444; }
-
-        /* TURNİR SİSTEMİ */
-        .tournament-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        .tournament-table th { color: var(--text-muted); font-weight: 700; padding: 8px 6px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 11px; letter-spacing: 1px; }
-        .tournament-table td { padding: 10px 6px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); font-weight: 600; }
-        .tournament-table tr:last-child td { border-bottom: none; }
-        .t-rank { font-weight: 900; font-size: 15px; }
-        .t-rank.gold { color: var(--gold); }
-        .t-rank.silver { color: #aaa; }
-        .t-rank.bronze { color: #cd7f32; }
-        .t-team-name { text-align: left !important; color: #fff; font-weight: 800; }
-        .t-pts { color: var(--primary); font-weight: 900; font-size: 15px; }
-        .match-card { background: rgba(0,0,0,0.3); border-radius: 12px; padding: 14px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.07); display: flex; align-items: center; justify-content: space-between; }
-        .match-team { font-weight: 800; color: #fff; font-size: 13px; flex: 1; }
-        .match-team.right { text-align: right; }
-        .match-score { background: rgba(0,255,204,0.15); border: 1px solid var(--primary); border-radius: 8px; padding: 6px 14px; font-weight: 900; color: var(--primary); font-family: 'Rajdhani', sans-serif; font-size: 18px; margin: 0 10px; }
-        .match-score.upcoming { background: rgba(255,215,0,0.1); border-color: var(--gold); color: var(--gold); font-size: 13px; padding: 6px 8px; }
-        .tab-group { display: flex; gap: 8px; margin-bottom: 16px; }
-        .tab-btn { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--border-color); background: rgba(255,255,255,0.05); color: var(--text-muted); font-weight: 700; font-size: 12px; cursor: pointer; transition: 0.3s; text-align: center; }
-        .tab-btn.active { background: rgba(0,255,204,0.15); border-color: var(--primary); color: var(--primary); }
-
-        /* MAĞAZA SİSTEMİ */
-        .shop-currency { background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(0,0,0,0.3)); border: 1px solid var(--gold); border-radius: 14px; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-        .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .shop-item { background: rgba(20,30,48,0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 16px; text-align: center; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden; }
-        .shop-item:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,255,204,0.15); }
-        .shop-item.limited { border-color: var(--gold); }
-        .shop-item.limited::before { content: '🔥 LİMİTLİ'; position: absolute; top: 0; left: 0; right: 0; background: linear-gradient(90deg, #FFD700, #FFA500); color: #000; font-size: 10px; font-weight: 800; padding: 3px; letter-spacing: 1px; }
-        .shop-item-icon { font-size: 40px; margin: 8px 0 6px; }
-        .shop-item-name { font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 4px; }
-        .shop-item-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
-        .shop-item-price { font-size: 14px; font-weight: 900; color: var(--gold); }
-        .shop-category-label { font-size: 11px; font-weight: 700; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; margin: 16px 0 8px; }
-        .owned-badge { position: absolute; top: 8px; right: 8px; background: var(--primary); color: #000; font-size: 9px; font-weight: 900; padding: 2px 6px; border-radius: 6px; }
-        .inventory-item { background: rgba(0,255,204,0.07); border: 1px solid rgba(0,255,204,0.2); border-radius: 10px; padding: 12px; display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
-
-        /* LİDERLİK CƏDVƏLI */
-        .lb-row { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; margin-bottom: 8px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
-        .lb-row:hover { background: rgba(0,255,204,0.05); }
-        .lb-row.top1 { background: linear-gradient(90deg, rgba(255,215,0,0.15), rgba(0,0,0,0)); border-color: var(--gold); }
-        .lb-row.top2 { background: linear-gradient(90deg, rgba(192,192,192,0.12), rgba(0,0,0,0)); border-color: #aaa; }
-        .lb-row.top3 { background: linear-gradient(90deg, rgba(205,127,50,0.12), rgba(0,0,0,0)); border-color: #cd7f32; }
-        .lb-row.me { background: linear-gradient(90deg, rgba(0,153,255,0.15), rgba(0,0,0,0)); border-color: #0099ff; }
-        .lb-rank-num { font-size: 18px; font-weight: 900; min-width: 36px; text-align: center; font-family: 'Rajdhani', sans-serif; }
-        .lb-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-        .lb-info { flex: 1; }
-        .lb-name { font-size: 14px; font-weight: 800; color: #fff; }
-        .lb-badges { font-size: 12px; margin-top: 2px; }
-        .lb-points { font-size: 16px; font-weight: 900; color: var(--primary); text-align: right; }
-        .lb-wins { font-size: 11px; color: var(--text-muted); text-align: right; }
-        .lb-filter { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
-        .lb-filter-btn { padding: 7px 14px; border-radius: 20px; border: 1px solid var(--border-color); background: rgba(255,255,255,0.05); color: var(--text-muted); font-weight: 700; font-size: 11px; cursor: pointer; transition: 0.3s; }
-        .lb-filter-btn.active { background: rgba(0,255,204,0.15); border-color: var(--primary); color: var(--primary); }
-        .my-rank-banner { background: linear-gradient(90deg, rgba(0,153,255,0.2), rgba(0,0,0,0.3)); border: 1px solid #0099ff; border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Futbol.az – Azərbaycan və Dünya Futbol Portalı. Canlı nəticələr, liqa cədvəlləri, komandalar.">
+  <title>Futbol.az | Professional Football Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<header><h1 class="logo">FUTBOL<span>.AZ</span></h1></header>
+<!-- ===================== HEADER ===================== -->
+<header class="site-header">
+  <div class="header-inner">
+    <a class="header-logo" href="#">
+      <img src="logo.png" alt="Futbol.az logo">
+      Futbol.az
+    </a>
 
-<div class="news-ticker">
-    <div class="ticker-wrap">
-        <div class="ticker-item">🔥 Levent Mercan ata oldu!</div>
-        <div class="ticker-item">⚽ Qarabağ FK-nın növbəti oyunu yaxınlaşır...</div>
-        <div class="ticker-item">💎 Galatasaray derbiyə hazırlaşır!</div>
-        <div class="ticker-item">🏆 Bu həftənin lideri: ElmanUsta</div>
+    <nav class="header-nav" aria-label="Əsas naviqasiya">
+      <a href="#leagues-section" class="active">Liqalar</a>
+      <a href="#standings-section">Cədvəl</a>
+      <a href="#live-section">Canlı</a>
+      <a href="#search-section">Axtarış</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="btn-icon" id="btn-dark" onclick="toggleDark()" aria-label="Gecə modu">🌙</button>
+      <button class="btn-profile" id="btn-profile" onclick="openModal('profile-modal')" aria-label="Profil">
+        <span>👤</span><span>Giriş</span>
+      </button>
+      <button class="hamburger" onclick="toggleMobileNav()" aria-label="Menyu">☰</button>
     </div>
-</div>
-     
+  </div>
 
+  <!-- Mobile navigation -->
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobil naviqasiya">
+    <a href="#leagues-section" onclick="toggleMobileNav()">⚽ Liqalar</a>
+    <a href="#standings-section" onclick="toggleMobileNav()">📊 Cədvəl</a>
+    <a href="#live-section" onclick="toggleMobileNav()">🔴 Canlı</a>
+    <a href="#search-section" onclick="toggleMobileNav()">🔍 Axtarış</a>
+    <a href="#" onclick="openModal('profile-modal'); toggleMobileNav()">👤 Profil</a>
+  </nav>
+</header>
 
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <h1>⚽ Futbol.az</h1>
+  <p>Azərbaycan və Dünya Futbolunun Rəsmi Portalı</p>
+</section>
 
-<div id="sec-home" class="section active">
-    
-    <div class="card" id="profile-card" style="text-align: center; border-top: 4px solid var(--primary);">
-        <div class="card-header" style="justify-content:center; border:none;"><i class="fas fa-user-astronaut"></i> ŞƏXSİ KABİNET</div>
-        <div class="score-val" id="score-ui">0</div>
-        <p style="color:var(--text-muted); font-size: 13px; font-weight:bold; letter-spacing:1px; margin-top: 0;">TOPLAM XAL</p>
-        
-        <div style="background: rgba(0,0,0,0.5); padding: 12px; border-radius: 12px; margin-bottom: 20px; display: inline-block; border: 1px solid rgba(255,255,255,0.1);">
-            <span style="color: var(--text-muted); font-size: 14px; font-weight:600;">Oyun Şansı:</span> 
-            <span id="sans-ui" style="color: var(--primary); font-weight: 800; font-size: 18px; margin-left: 5px;">3</span>
-        </div>
-        
-        <input type="text" id="promo-input" class="input-field" placeholder="Promo kodu bura yaz (məs: QARABAG100)">
-        <button class="btn-main" onclick="promoIslet()"><i class="fas fa-check-circle"></i> KODU TƏSDİQLƏ</button>
-    </div>
+<!-- ===================== MAIN ===================== -->
+<main>
 
-    <div class="card" style="text-align:center;">
-        <div class="card-header" style="justify-content:center;"><i class="fas fa-futbol"></i> DƏQİQ ZƏRBƏ OYUNU</div>
-        <div id="game-msg" style="font-size:16px; margin: 15px 0 25px 0; font-weight:600; color: var(--text-main);">Topu küncə göndər və xal qazan!</div>
-        <div style="display: flex; gap: 10px;">
-            <button class="btn-main btn-outline" onclick="oyna('SOL')">SOL</button>
-            <button class="btn-main btn-outline" onclick="oyna('MƏRKƏZ')">MƏRKƏZ</button>
-            <button class="btn-main btn-outline" onclick="oyna('SAĞ')">SAĞ</button>
-        </div>
-    </div>
-    <div id="live-scores-widget" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 500px; margin: 20px auto; background: #1e1e1e; color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-    <div style="background: #e74c3c; padding: 15px; text-align: center; font-weight: bold; letter-spacing: 1px;">
-        CANLI HESABLAR (LIVE)
-    </div>
-    <div id="scores-content" style="padding: 10px; min-height: 100px;">
-        <p style="text-align: center; color: #aaa;">Məlumatlar yenilənir...</p>
-    </div>
-</div>
+  <!-- ── LEAGUES SECTION ── -->
+  <section id="leagues-section" class="section">
+    <div class="container">
+      <h2 class="section-title"><span class="dot"></span> Liqalar</h2>
 
-<script>
-    const MY_API_KEY = "fb5f9b54e1mshf35d20a59e752c1p15341ajsn57bc3d21de94";
-    const contentArea = document.getElementById('scores-content');
-
-    async function fetchFootballData() {
-        const url = 'https://free-api-live-football-data.p.rapidapi.com/football-current-live';
-        const options = {
-            method: 'GET',
-            headers: {
-                'x-rapidapi-key': MY_API_KEY,
-                'x-rapidapi-host': 'free-api-live-football-data.p.rapidapi.com'
-            }
-        };
-
-        try {
-            const response = await fetch(url, options);
-            const result = await response.json();
-            
-            // API-dən gələn datanın strukturuna görə (adətən result.status və ya result.data olur)
-            const matches = result.data || []; 
-
-            if (matches.length === 0) {
-                contentArea.innerHTML = "<p style='text-align:center; padding: 20px; color: #888;'>Hazırda canlı oyun tapılmadı.</p>";
-                return;
-            }
-
-            let html = '';
-            matches.forEach(match => {
-                html += `
-                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 15px; border-bottom: 1px solid #333; transition: background 0.3s;" onmouseover="this.style.background='#2a2a2a'" onmouseout="this.style.background='transparent'">
-                        <div style="flex: 2; font-size: 14px; font-weight: 500;">
-                            ${match.match_name}
-                        </div>
-                        <div style="flex: 1; text-align: center;">
-                            <span style="background: #2ecc71; color: black; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-family: monospace; font-size: 16px;">
-                                ${match.score}
-                            </span>
-                        </div>
-                        <div style="flex: 1; text-align: right; color: #f1c40f; font-size: 12px; font-weight: bold;">
-                            ${match.time || 'Davam edir'}
-                        </div>
-                    </div>
-                `;
-            });
-            contentArea.innerHTML = html;
-
-        } catch (error) {
-            console.error(error);
-            contentArea.innerHTML = "<p style='text-align:center; color:#e74c3c; padding: 20px;'>Məlumat alınarkən xəta baş verdi.</p>";
-        }
-    }
-
-    // İlk işə salma
-    fetchFootballData();
-
-    // Hər 60 saniyədən bir avtomatik yenilənmə
-    setInterval(fetchFootballData, 60000);
-</script>
-
-    <div class="card" style="text-align:center; border-top: 3px solid #ff00ff;">
-        <div class="card-header" style="color: #ff00ff; justify-content:center;">
-            <i class="fas fa-sync-alt fa-spin"></i> GÜNDƏLİK ŞANS ÇARXI
-        </div>
-        <p style="font-size: 13px; color: var(--text-muted); font-weight:600;">Hər gün 1 dəfə fırlat və sürpriz xal qazan!</p>
-        
-        <div id="spin-box" style="font-size: 42px; font-family:'Rajdhani'; font-weight: 900; color: #fff; background: rgba(0,0,0,0.6); padding: 20px; border-radius: 15px; margin: 20px 0; border: 2px dashed #ff00ff; text-shadow: 0 0 15px #ff00ff;">
-            ???
-        </div>
-        
-        <button id="btn-spin" class="btn-main" onclick="carxiCevir()" style="background: linear-gradient(90deg, #ff00ff, #8a2be2); color: white; border:none;">
-            <i class="fas fa-dice"></i> ŞANSI YOXLA
+      <!-- League tabs -->
+      <div class="league-tabs" role="tablist" aria-label="Futbol liqaları">
+        <button class="league-tab active" role="tab" data-league="aze"
+                onclick="switchLeague('aze')" aria-selected="true">
+          🇦🇿 Azərbaycan
         </button>
-        <div id="spin-msg" style="margin-top:15px; font-size:14px; font-weight:bold;"></div>
-    </div>
-
-    <div class="card" id="trivia-card" style="border-top: 3px solid #0088ff;">
-        <div class="card-header" style="color: #00bbff;"><i class="fas fa-brain"></i> GÜNÜN SUALI</div>
-        <div id="trivia-content">
-            <p style="font-size: 15px; margin-bottom: 20px; line-height: 1.6; font-weight:600;">
-                <b style="color:var(--gold);">Sual:</b> Qarabağ FK tarixində ilk dəfə Çempionlar Liqasının qrup mərhələsinə hansı ildə vəsiqə qazanıb?
-            </p>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <button class="btn-main btn-outline" style="border-color:#0088ff; color:#0088ff;" onclick="cavabla(2014)">2014</button>
-                <button class="btn-main btn-outline" style="border-color:#0088ff; color:#0088ff;" onclick="cavabla(2015)">2015</button>
-                <button class="btn-main btn-outline" style="border-color:#0088ff; color:#0088ff;" onclick="cavabla(2017)">2017</button>
-                <button class="btn-main btn-outline" style="border-color:#0088ff; color:#0088ff;" onclick="cavabla(2018)">2018</button>
-            </div>
-        </div>
-        <div id="trivia-msg" style="margin-top: 15px; font-weight: bold; text-align: center; font-size: 14px;"></div>
-    </div>
-
-    <div class="card" id="guess-player-card" style="border-top: 3px solid #ff9900;">
-        <div class="card-header" style="color: #ffaa00;"><i class="fas fa-user-secret"></i> GİZLİ FUTBOLÇUNU TAP 🧠</div>
-        <p style="font-size: 13px; color: var(--text-muted); font-weight:600;">Aşağıdakı klublarda ardıcıllıqla oynamış futbolçu kimdir?</p>
-        
-        <div id="player-hints" style="background: rgba(0,0,0,0.6); padding: 15px; border-radius: 8px; margin-bottom: 15px; color: var(--primary); text-align: center; font-size: 14px; font-weight:700; border: 1px solid rgba(255,153,0,0.3); line-height: 1.6;">
-            </div>
-        
-        <input type="text" id="player-guess-input" class="input-field" placeholder="Məsələn: Arda Turan">
-        <button class="btn-main btn-gold" onclick="futbolcuTap()">CAVABI YOXLAYIN</button>
-        <div id="guess-msg" style="margin-top: 10px; font-weight: bold; text-align: center; font-size: 14px;"></div>
-    </div>
-</div>
-
-<div id="sec-compare" class="section">
-    <div class="card">
-        <div class="card-header"><i class="fas fa-balance-scale"></i> MÜQAYİSƏ ETMƏK</div>
-        <p style="color:var(--text-muted); font-size:13px; margin-bottom: 20px; font-weight:600;">İki oyunçunu seçin və statlarını qarşılaşdırın.</p>
-        
-        <div style="display: flex; gap: 10px; margin-bottom: 20px; align-items:center;">
-            <select id="p1-sel" class="input-field" style="margin:0; flex:1;"></select>
-            <div style="font-weight:900; color:var(--gold); font-size:20px; font-family:'Rajdhani';">VS</div>
-            <select id="p2-sel" class="input-field" style="margin:0; flex:1;"></select>
-        </div>
-        <button class="btn-main" onclick="startCompare()"><i class="fas fa-bolt"></i> QARŞILAŞDIR</button>
-
-        <div id="compare-result" style="margin-top: 25px; display: none; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 15px; border:1px solid rgba(255,255,255,0.1);">
-            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 15px; font-weight: 800; color:var(--gold);">
-                <span id="p1-title" style="flex:1; text-align:left;">Oyunçu 1</span>
-                <span style="color:#fff; font-size:12px;">STAT</span>
-                <span id="p2-title" style="flex:1; text-align:right;">Oyunçu 2</span>
-            </div>
-            <div id="stats-area"></div>
-        </div>
-    </div>
-    
-    <div class="card">
-        <div class="card-header"><i class="fas fa-paint-brush"></i> MATÇ POSTERİ</div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
-            <input type="text" id="p-team1" class="input-field" placeholder="1-ci Komanda" oninput="updatePoster()" value="QARABAĞ FK">
-            <input type="text" id="p-team2" class="input-field" placeholder="2-ci Komanda" oninput="updatePoster()" value="GALATASARAY">
-            <input type="text" id="p-date" class="input-field" placeholder="Tarix" oninput="updatePoster()" value="25 MART">
-            <input type="text" id="p-time" class="input-field" placeholder="Saat" oninput="updatePoster()" value="21:45">
-        </div>
-        <div class="poster-preview">
-            <div class="poster-content">
-                <div style="font-size:10px; color:var(--primary); letter-spacing:2px; margin-bottom:5px;">YOLDAŞLIQ GÖRÜŞÜ</div>
-                <div id="v-team1" class="p-team-name">QARABAĞ FK</div>
-                <div class="p-vs">VS</div>
-                <div id="v-team2" class="p-team-name">GALATASARAY</div>
-                <div style="margin-top:10px; font-size:14px; color:#aaa; font-weight:bold;">
-                    <span id="v-date">25 MART</span> | <span id="v-time">21:45</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="sec-squad" class="section">
-    <div class="card">
-        <div class="card-header"><i class="fas fa-users"></i> HEYƏTİNİ QUR</div>
-        <p style="color:var(--text-muted); font-size:13px; margin-bottom: 20px; font-weight:600;">Mövqelərə klikləyərək oyunçularını təyin et.</p>
-        
-        <div class="pitch">
-            <div class="center-circle"></div>
-            <div class="slot" style="bottom:5%; left:50%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>QAPIÇI</span></div>
-            <div class="slot" style="bottom:22%; left:20%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>MÜDAFİƏ</span></div>
-            <div class="slot" style="bottom:20%; left:40%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>MÜDAFİƏ</span></div>
-            <div class="slot" style="bottom:20%; left:60%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>MÜDAFİƏ</span></div>
-            <div class="slot" style="bottom:22%; left:80%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>MÜDAFİƏ</span></div>
-            <div class="slot" style="top:48%; left:30%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>Y.MÜDAFİƏ</span></div>
-            <div class="slot" style="top:48%; left:70%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>Y.MÜDAFİƏ</span></div>
-            <div class="slot" style="top:38%; left:50%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>Y.MÜDAFİƏ</span></div>
-            <div class="slot" style="top:18%; left:25%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>HÜCUMÇU</span></div>
-            <div class="slot" style="top:12%; left:50%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>HÜCUMÇU</span></div>
-            <div class="slot" style="top:18%; left:75%;" onclick="openPlayerModal(this)"><img src="https://cdn-icons-png.flaticon.com/512/166/166344.png"><span>HÜCUMÇU</span></div>
-        </div>
-    </div>
-</div>
-
-<div id="sec-card" class="section">
-    <div class="card">
-        <div class="card-header"><i class="fas fa-id-card"></i> KART YARADICI</div>
-        <div style="display: flex; gap:10px; flex-wrap: wrap; margin-bottom: 15px;">
-            <input type="text" id="in-name" class="input-field" placeholder="Oyunçu Adı" oninput="createCard()" style="flex:1; margin:0;">
-            <input type="number" id="in-rat" class="input-field" placeholder="Güc (0-99)" oninput="createCard()" style="flex:1; margin:0;">
-        </div>
-        
-        <label class="upload-label">
-            <i class="fas fa-cloud-upload-alt fa-lg"></i><br><br>QALEREYADAN ŞƏKİL SEÇ
-            <input type="file" id="in-img-file" accept="image/*" style="display:none;" onchange="uploadCardImg()">
-        </label>
-        
-        <div class="creator-preview">
-            <div class="creator-rating" id="out-rat">99</div>
-            <div class="creator-pos" id="out-pos">CF</div>
-            <img src="https://cdn-icons-png.flaticon.com/512/166/166344.png" id="out-img" class="creator-img">
-            <div class="creator-info">
-                <div class="creator-name" id="out-name">OYUNÇU</div>
-                <div style="font-size: 11px; color: var(--gold); letter-spacing: 2px; font-weight:bold;">PREMIUM CARD</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="sec-market" class="section">
-    <div class="card" style="text-align: center; border-top: 4px solid var(--gold);">
-        <div class="card-header" style="justify-content: center; border:none; color: var(--gold);"><i class="fas fa-star"></i> PREMİUM PAKET</div>
-        <div style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color:#fff;">
-            Balans: <span id="pack-user-points" style="color: var(--gold); font-size:24px;">0</span> Xal
-        </div>
-
-        <div id="efootball-pack" class="pack-idle" onclick="openPack()">
-            <i class="fas fa-bolt" style="font-size: 60px; color: #D4AF37; margin-bottom:10px;"></i>
-            <div style="font-weight: 900; letter-spacing: 2px; font-family:'Rajdhani';">AÇMAQ ÜÇÜN BAS</div>
-        </div>
-
-        <div id="pack-result" style="display: none; margin: 20px 0;">
-            <div id="reward-desc"></div>
-        </div>
-
-        <button class="btn-main btn-gold" onclick="openPack()" id="btn-open-pack" style="margin-top: 15px;">
-            PAKETİ AÇ (100 XAL)
+        <button class="league-tab" role="tab" data-league="pl"
+                onclick="switchLeague('pl')" aria-selected="false">
+          🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League
         </button>
-    </div>
-</div>
-
-    <div id="sec-profile" class="section">
-    <!-- PROFIL KARTASI -->
-    <div class="card" style="text-align: center; border-top: 4px solid var(--primary);">
-        <div class="card-header" style="justify-content:center; border:none;">
-            <i class="fas fa-user-circle"></i> ŞƏXSI PROFİL
-        </div>
-        
-        <div style="width: 120px; height: 120px; margin: 0 auto 15px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), #0099ff); display: flex; align-items: center; justify-content: center; font-size: 60px; box-shadow: 0 0 20px rgba(0,255,204,0.3);">
-            <i class="fas fa-user" style="color: #fff;"></i>
-        </div>
-        
-        <div style="font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 5px;" id="profile-name">ElmanUsta55</div>
-        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px; letter-spacing: 1px;">ID: #12345</div>
-        
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
-            <div style="background: rgba(0,255,204,0.1); padding: 12px; border-radius: 10px; border: 1px solid var(--primary);">
-                <div style="font-size: 24px; font-weight: 900; color: var(--gold);" id="profile-level">5</div>
-                <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">SEVİYƏ</div>
-            </div>
-            <div style="background: rgba(255,215,0,0.1); padding: 12px; border-radius: 10px; border: 1px solid var(--gold);">
-                <div style="font-size: 24px; font-weight: 900; color: var(--gold);" id="profile-rank">12</div>
-                <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">REYTINQ</div>
-            </div>
-        </div>
-        
-        <button class="btn-main" onclick="editProfile()" style="width: 100%; margin-bottom: 10px;">
-            <i class="fas fa-edit"></i> PROFİLİ DÜZƏLDİ
+        <button class="league-tab" role="tab" data-league="laliga"
+                onclick="switchLeague('laliga')" aria-selected="false">
+          🇪🇸 La Liga
         </button>
-    </div>
-
-    <!-- STATİSTİKA -->
-    <div class="card">
-        <div class="card-header"><i class="fas fa-chart-bar"></i> STATİSTİKA</div>
-        <div class="stat-row">
-            <span style="flex:1; text-align:left; color: var(--text-main);">Oynanan Oyunlar</span>
-            <span style="flex:1; text-align:right; color: var(--primary); font-weight: 900;" id="stat-games">42</span>
-        </div>
-        <div class="stat-row">
-            <span style="flex:1; text-align:left; color: var(--text-main);">Qazanılmış Oyunlar</span>
-            <span style="flex:1; text-align:right; color: var(--primary); font-weight: 900;" id="stat-wins">28</span>
-        </div>
-        <div class="stat-row">
-            <span style="flex:1; text-align:left; color: var(--text-main);">Win Ratio</span>
-            <span style="flex:1; text-align:right; color: var(--gold); font-weight: 900;" id="stat-ratio">66%</span>
-        </div>
-        <div class="stat-row">
-            <span style="flex:1; text-align:left; color: var(--text-main);">Toplam Xal</span>
-            <span style="flex:1; text-align:right; color: var(--primary); font-weight: 900;" id="stat-points">15,500</span>
-        </div>
-    </div>
-
-    <!-- BADGES/TİTULLAR -->
-    <div class="card">
-        <div class="card-header"><i class="fas fa-trophy"></i> TİTUL VƏ BADGE-LƏR</div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <div style="background: rgba(255,215,0,0.1); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid var(--gold);">
-                <div style="font-size: 30px; margin-bottom: 5px;">🏆</div>
-                <div style="font-size: 12px; color: #fff; font-weight: 700;">Çempion</div>
-                <div style="font-size: 10px; color: var(--text-muted);">5 qalibiyyət</div>
-            </div>
-            <div style="background: rgba(0,255,204,0.1); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid var(--primary);">
-                <div style="font-size: 30px; margin-bottom: 5px;">⭐</div>
-                <div style="font-size: 12px; color: #fff; font-weight: 700;">Ulduz Oyunçu</div>
-                <div style="font-size: 10px; color: var(--text-muted);">10K xal</div>
-            </div>
-            <div style="background: rgba(0,153,255,0.1); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #0099ff;">
-                <div style="font-size: 30px; margin-bottom: 5px;">🎯</div>
-                <div style="font-size: 12px; color: #fff; font-weight: 700;">Məsul Oyunçu</div>
-                <div style="font-size: 10px; color: var(--text-muted);">30 gün aktiv</div>
-            </div>
-            <div style="background: rgba(255,0,255,0.1); padding: 15px; border-radius: 10px; text-align: center; border: 1px solid #ff00ff; opacity: 0.5;">
-                <div style="font-size: 30px; margin-bottom: 5px; filter: grayscale(100%);">👑</div>
-                <div style="font-size: 12px; color: var(--text-muted); font-weight: 700;">Kral</div>
-                <div style="font-size: 10px; color: var(--text-muted);">Kilidli</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SEVİMLİ OYUNÇULAR -->
-    <div class="card">
-        <div class="card-header"><i class="fas fa-heart"></i> SEVİMLİ OYUNÇULAR</div>
-        <div id="favorite-players" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <div style="background: rgba(0,255,204,0.1); padding: 12px; border-radius: 10px; border: 1px solid var(--primary);">
-                <div style="font-weight: 800; color: #fff;">Pelé</div>
-                <div style="font-size: 12px; color: var(--text-muted);">OVR: 98</div>
-            </div>
-            <div style="background: rgba(0,255,204,0.1); padding: 12px; border-radius: 10px; border: 1px solid var(--primary);">
-                <div style="font-weight: 800; color: #fff;">B. Silva</div>
-                <div style="font-size: 12px; color: var(--text-muted);">OVR: 88</div>
-            </div>
-        </div>
-        <button class="btn-main btn-outline" style="width: 100%; margin-top: 10px; padding: 10px;">
-            <i class="fas fa-plus"></i> OYUNÇU ƏLAVƏ ET
+        <button class="league-tab" role="tab" data-league="seriea"
+                onclick="switchLeague('seriea')" aria-selected="false">
+          🇮🇹 Serie A
         </button>
-    </div>
+        <button class="league-tab" role="tab" data-league="bundesliga"
+                onclick="switchLeague('bundesliga')" aria-selected="false">
+          🇩🇪 Bundesliga
+        </button>
+      </div>
 
-    <!-- AKTİVLİK TARİXİ -->
-    <div class="card">
-        <div class="card-header"><i class="fas fa-history"></i> AKTİVLİK TARİXİ</div>
-        <div style="font-size: 12px; color: var(--text-muted); line-height: 1.8;">
-            <div style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                <span style="color: var(--primary);">✓</span> Dəqiq Zərbə Oyunu Oynadı - <span style="color: var(--gold);">+500 XAL</span>
-            </div>
-            <div style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                <span style="color: var(--primary);">✓</span> Günün Sualını Cavabladı - <span style="color: var(--gold);">+500 XAL</span>
-            </div>
-            <div style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                <span style="color: var(--primary);">✓</span> Şans Çarxını Çevirdi - <span style="color: var(--gold);">+1000 XAL</span>
-            </div>
-            <div style="padding: 8px;">
-                <span style="color: var(--primary);">✓</span> Profili Yaratdı - <span style="color: var(--gold);">Tamamlandı</span>
-            </div>
-        </div>
-    </div>
-    </div>
-    <div id="sec-search" class="section">
-    <div class="card">
-        <div class="card-header"><i class="fas fa-search"></i> 🔍 AXTARIŞ</div>
-        <input type="text" id="search-input" class="input-field" placeholder="Oyunçu, komanda yaz..." oninput="liveSearch()">
-        <div id="search-results" style="margin-top:20px;"></div>
-    </div>
-    </div>
+      <!-- Layout: standings + top scorers -->
+      <div class="league-layout">
 
-<!-- TURNİR SİSTEMİ -->
-<div id="sec-tournament" class="section">
-    <div class="card" style="border-top: 4px solid var(--gold);">
-        <div class="card-header" style="color: var(--gold);"><i class="fas fa-trophy" style="color: var(--gold);"></i> TURNİR SİSTEMİ</div>
-        <div style="background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(0,0,0,0.3)); border: 1px solid rgba(255,215,0,0.3); border-radius: 12px; padding: 14px; margin-bottom: 16px; text-align: center;">
-            <div style="font-size: 11px; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 4px;">AKTİV TURNİR</div>
-            <div style="font-size: 20px; font-weight: 900; color: #fff;">⚽ Premyer Liqa 2025</div>
-            <div style="font-size: 12px; color: var(--gold); margin-top: 4px;">Həftə 28 / 38</div>
-        </div>
-        <div class="tab-group">
-            <div class="tab-btn active" onclick="tournamentTab('standings', this)"><i class="fas fa-list-ol"></i> CƏDVƏl</div>
-            <div class="tab-btn" onclick="tournamentTab('matches', this)"><i class="fas fa-calendar-alt"></i> OYUNLAR</div>
-            <div class="tab-btn" onclick="tournamentTab('stats', this)"><i class="fas fa-chart-bar"></i> STATİSTİKA</div>
-        </div>
-
-        <!-- STANDINGS TAB -->
-        <div id="t-tab-standings">
-            <table class="tournament-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th style="text-align:left;">KOMANDAl</th>
-                        <th>O</th>
-                        <th>Q</th>
-                        <th>B</th>
-                        <th>U</th>
-                        <th>XAL</th>
-                    </tr>
-                </thead>
-                <tbody id="standings-body"></tbody>
+        <!-- Standings table -->
+        <section id="standings-section" aria-label="Liqa cədvəli">
+          <h3 class="section-title" style="margin-bottom:12px;">
+            <span class="dot"></span>
+            <span id="standings-heading">🇦🇿 Azərbaycan Premyer Liqası – Cədvəl</span>
+          </h3>
+          <div class="card standings-card">
+            <table class="standings-table" aria-label="Liqa cədvəli">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th style="text-align:left;">Komanda</th>
+                  <th title="Oyunlar">O</th>
+                  <th title="Qalibiyyət">Q</th>
+                  <th title="Bərabərlik">B</th>
+                  <th title="Uduzmaq">U</th>
+                  <th title="Vurduğu qollar">VQ</th>
+                  <th title="Buraxdığı qollar">BQ</th>
+                  <th title="Qol fərqi">QF</th>
+                  <th title="Xal">XAL</th>
+                </tr>
+              </thead>
+              <tbody id="standings-body">
+                <!-- Dynamic content -->
+              </tbody>
             </table>
-        </div>
+          </div>
 
-        <!-- MATCHES TAB -->
-        <div id="t-tab-matches" style="display:none;">
-            <div style="font-size: 11px; color: var(--primary); letter-spacing: 2px; font-weight: 700; margin-bottom: 10px;">SON OYUNLAR</div>
-            <div id="recent-matches"></div>
-            <div style="font-size: 11px; color: var(--gold); letter-spacing: 2px; font-weight: 700; margin: 14px 0 10px;">GƏLƏCƏk OYUNLAR</div>
-            <div id="upcoming-matches"></div>
-        </div>
+          <!-- Legend -->
+          <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:.75rem;color:var(--text-muted);">
+            <span><span class="rank-badge cl" style="display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:middle;"></span> Çempionlar Liqası</span>
+            <span><span class="rank-badge el" style="display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:middle;"></span> Avropa Liqası</span>
+            <span><span class="rank-badge rel" style="display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:middle;"></span> Düşmə</span>
+          </div>
+        </section>
 
-        <!-- STATS TAB -->
-        <div id="t-tab-stats" style="display:none;">
-            <div id="tournament-stats-list"></div>
-        </div>
+        <!-- Top scorers sidebar -->
+        <aside aria-label="Topçular">
+          <h3 class="section-title" style="margin-bottom:12px;">
+            <span class="dot"></span> Topçular
+          </h3>
+          <div class="card" style="padding:16px;">
+            <ul class="scorers-list" id="scorers-list">
+              <!-- Dynamic content -->
+            </ul>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Responsive override for small screens -->
     </div>
+  </section>
+
+  <!-- ── LIVE SCORES ── -->
+  <section id="live-section" class="section live-section">
+    <div class="container">
+      <h2 class="section-title">
+        <span class="dot"></span>
+        <span class="live-badge"><span class="live-dot"></span> CANLI</span>
+        &nbsp;Canlı Nəticələr
+      </h2>
+      <div id="live-scores-container">
+        <div class="no-matches">
+          <div class="loading-spinner"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SEARCH ── -->
+  <section id="search-section" class="section">
+    <div class="container">
+      <h2 class="section-title"><span class="dot"></span> Axtarış</h2>
+      <div class="search-bar">
+        <input
+          class="search-input"
+          id="search-input"
+          type="search"
+          placeholder="Komanda və ya oyunçu axtarın…"
+          autocomplete="off"
+          aria-label="Axtarış">
+        <button class="search-btn" onclick="document.getElementById('search-input').dispatchEvent(new Event('input'))">🔍</button>
+      </div>
+      <div class="card" id="search-results" style="padding:0;overflow:hidden;"></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site-footer">
+  <p>© 2025 <strong>Futbol.az</strong> · Bütün hüquqlar qorunur · Azərbaycan Futbol Portalı</p>
+</footer>
+
+<!-- ===================== PROFILE MODAL ===================== -->
+<div class="modal-overlay" id="profile-modal" role="dialog" aria-modal="true" aria-label="İstifadəçi profili">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('profile-modal')" aria-label="Bağla">✕</button>
+    <h2 class="modal-title">👤 Profil</h2>
+    <div id="profile-modal-body">
+      <!-- Dynamic content -->
+    </div>
+  </div>
 </div>
 
-<!-- MAĞAZA SİSTEMİ -->
-<div id="sec-shop" class="section">
-    <div class="card" style="border-top: 4px solid #0099ff;">
-        <div class="card-header" style="color: #0099ff;"><i class="fas fa-store" style="color: #0099ff;"></i> MAĞAZA</div>
-        <div class="shop-currency">
-            <div>
-                <div style="font-size: 11px; color: var(--text-muted); letter-spacing: 1px;">BALANSİNIZ</div>
-                <div style="font-size: 28px; font-weight: 900; color: var(--gold);" id="shop-balance">0</div>
-            </div>
-            <div style="font-size: 12px; color: var(--gold); font-weight: 700;">XAL</div>
-        </div>
-
-        <div id="shop-tab-group" class="tab-group">
-            <div class="tab-btn active" onclick="shopTab('players', this)">⚽ Oyunçular</div>
-            <div class="tab-btn" onclick="shopTab('packs', this)">📦 Paketlər</div>
-            <div class="tab-btn" onclick="shopTab('boosters', this)">⚡ Gücləndiricilər</div>
-            <div class="tab-btn" onclick="shopTab('inventory', this)">🎒 İnventar</div>
-        </div>
-
-        <div id="shop-players-tab">
-            <div class="shop-category-label">⭐ Premium Oyunçular</div>
-            <div class="shop-grid" id="shop-players-grid"></div>
-        </div>
-        <div id="shop-packs-tab" style="display:none;">
-            <div class="shop-category-label">📦 Paket Növləri</div>
-            <div class="shop-grid" id="shop-packs-grid"></div>
-        </div>
-        <div id="shop-boosters-tab" style="display:none;">
-            <div class="shop-category-label">⚡ Gücləndiricilər</div>
-            <div class="shop-grid" id="shop-boosters-grid"></div>
-        </div>
-        <div id="shop-inventory-tab" style="display:none;">
-            <div class="shop-category-label">🎒 Sahib Olduqlarınız</div>
-            <div id="shop-inventory-list"></div>
-        </div>
-    </div>
-</div>
-
-<!-- LİDERLİK CƏDVƏLİ -->
-<div id="sec-leaderboard" class="section">
-    <div class="card" style="border-top: 4px solid var(--primary);">
-        <div class="card-header"><i class="fas fa-medal"></i> LİDERLİK CƏDVƏLİ</div>
-        <div class="my-rank-banner" id="my-rank-banner">
-            <div style="font-size: 28px;">👤</div>
-            <div style="flex:1;">
-                <div style="font-size: 12px; color: var(--text-muted);">SİZİN MÖVQE</div>
-                <div style="font-size: 18px; font-weight: 900; color: #fff;" id="lb-my-name">ElmanUsta55</div>
-            </div>
-            <div style="text-align:right;">
-                <div style="font-size: 22px; font-weight: 900; color: #0099ff;" id="lb-my-rank">#–</div>
-                <div style="font-size: 12px; color: var(--text-muted);" id="lb-my-pts">0 XAL</div>
-            </div>
-        </div>
-        <div class="lb-filter" id="lb-filter">
-            <div class="lb-filter-btn active" onclick="lbFilter('points', this)">🏅 XAL</div>
-            <div class="lb-filter-btn" onclick="lbFilter('wins', this)">🏆 QALİBİYYƏT</div>
-            <div class="lb-filter-btn" onclick="lbFilter('rating', this)">⭐ REYTİNQ</div>
-        </div>
-        <div id="leaderboard-list"></div>
-    </div>
-</div>
-
-<nav class="bottom-nav">
-    <div class="nav-btn active" onclick="menyuDeyis('home')"><i class="fas fa-home"></i>Əsas</div>
-        <div class="nav-btn" onclick="menyuDeyis('search')"><i class="fas fa-search"></i>Axtarış</div>
-    <div class="nav-btn" onclick="menyuDeyis('profile')"><i class="fas fa-user-circle"></i>Profil</div>
-    <div class="nav-btn" onclick="menyuDeyis('squad')"><i class="fas fa-users"></i>11-lik</div>
-    <div class="nav-btn" onclick="menyuDeyis('card')"><i class="fas fa-id-card"></i>Kart</div>
-    <div class="nav-btn" onclick="menyuDeyis('market')"><i class="fas fa-box-open"></i>Paket</div>
-    <div class="nav-btn" onclick="menyuDeyis('compare')"><i class="fas fa-balance-scale"></i>Müqayisə</div>
-    <div class="nav-btn" onclick="menyuDeyis('tournament')"><i class="fas fa-trophy"></i>Turnir</div>
-    <div class="nav-btn" onclick="menyuDeyis('shop')"><i class="fas fa-store"></i>Mağaza</div>
-    <div class="nav-btn" onclick="menyuDeyis('leaderboard')"><i class="fas fa-medal"></i>Liderlik</div>
-</nav>
-
-<div id="player-edit-modal" class="modal-overlay">
-    <div class="modal-card">
-        <div class="card-header" style="justify-content: center;"><i class="fas fa-pen"></i> OYUNÇU MƏLUMATI</div>
-        <input type="text" id="slot-name-input" class="input-field" placeholder="Oyunçunun Adı">
-        <label class="upload-label" style="padding:10px;">
-            <i class="fas fa-camera"></i> ŞƏKİL SEÇ
-            <input type="file" id="slot-img-input" accept="image/*" style="display: none;">
-        </label>
-        <div style="display: flex; gap: 10px; margin-top: 10px;">
-            <button class="btn-main" style="flex: 1; padding:10px;" onclick="saveSlotPlayer()">TƏSDİQLƏ</button>
-            <button class="btn-main btn-outline" style="flex: 1; padding:10px;" onclick="document.getElementById('player-edit-modal').style.display='none'">LƏĞV ET</button>
-        </div>
-    </div>
-</div>
-
-<script>
-    let xal = parseInt(localStorage.getItem('xal')) || 0;
-    let sans = parseInt(localStorage.getItem('sans')) || 3;
-    let currentSlot = null;
-
-    // === OYUNÇU BAZASI ===
-    const db = [
-        { n: "Juninho", o: 78, pac: 91, sho: 79, pas: 68, dri: 80, def: 35, phy: 77 },
-        { n: "A. Zoubir", o: 77, pac: 84, sho: 72, pas: 76, dri: 83, def: 40, phy: 68 },
-        { n: "J. Romao", o: 75, pac: 72, sho: 60, pas: 71, dri: 70, def: 74, phy: 82 },
-        { n: "M. Janković", o: 75, pac: 70, sho: 71, pas: 78, dri: 76, def: 68, phy: 70 },
-        { n: "B. Saka", o: 86, pac: 86, sho: 82, pas: 81, dri: 87, def: 65, phy: 66 },
-        { n: "B. Silva", o: 88, pac: 69, sho: 78, pas: 86, dri: 92, def: 61, phy: 67 },
-        { n: "V. Osimhen", o: 88, pac: 90, sho: 85, pas: 65, dri: 78, def: 40, phy: 86 },
-        { n: "M. Icardi", o: 85, pac: 72, sho: 86, pas: 70, dri: 76, def: 42, phy: 75 },
-        { n: "Pelé", o: 98, pac: 95, sho: 96, pas: 93, dri: 96, def: 60, phy: 76 }
-    ];
-
-    const futbolcular = [
-        { hints: "Sporting CP ➡️ Man Utd ➡️ Fenerbahçe", answer: ["nani", "luis nani"] },
-        { hints: "Lille ➡️ Napoli ➡️ Galatasaray", answer: ["victor osimhen", "osimhen"] },
-        { hints: "Qarabağ ➡️ Dinamo Zaqreb ➡️ Nürnberg", answer: ["mahir emreli", "emreli"] }
-    ];
-    let secilenFutbolcu = {};
-
-    window.onload = function() { 
-        uiYenile(); 
-        initComp(); 
-        gizliFutbolcuYarat();
-        checkDailies();
-    };
-
-    function checkDailies() {
-        let bugun = new Date().toDateString();
-        // Sual yoxlanışı
-        if(localStorage.getItem('gununSualiTarix') !== bugun) {
-            localStorage.setItem('gununSuali', 'false'); // Yeni gün, yeni şans
-        }
-    }
-
-    function uiYenile() {
-        document.getElementById('score-ui').innerText = xal.toLocaleString();
-        document.getElementById('sans-ui').innerText = sans;
-        let packPoints = document.getElementById('pack-user-points');
-        if(packPoints) packPoints.innerText = xal.toLocaleString();
-    }
-
-    function menyuDeyis(id) {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('sec-' + id).classList.add('active');
-        event.currentTarget.classList.add('active');
-    }
-
-    // Modal və Kart funksiyaları
-    function openPlayerModal(el) {
-        currentSlot = el;
-        document.getElementById('slot-name-input').value = "";
-        document.getElementById('player-edit-modal').style.display = 'flex';
-    }
-    function saveSlotPlayer() {
-        let name = document.getElementById('slot-name-input').value.trim();
-        let file = document.getElementById('slot-img-input').files[0];
-        if(name) currentSlot.querySelector('span').innerText = name.toUpperCase();
-        if(file) {
-            let reader = new FileReader();
-            reader.onload = e => currentSlot.querySelector('img').src = e.target.result;
-            reader.readAsDataURL(file);
-        }
-        document.getElementById('player-edit-modal').style.display = 'none';
-    }
-    function uploadCardImg() {
-        let file = document.getElementById('in-img-file').files[0];
-        if(file) {
-            let reader = new FileReader();
-            reader.onload = e => document.getElementById('out-img').src = e.target.result;
-            reader.readAsDataURL(file);
-        }
-    }
-    function createCard() {
-        document.getElementById('out-name').innerText = document.getElementById('in-name').value || "OYUNÇU";
-        document.getElementById('out-rat').innerText = document.getElementById('in-rat').value || "99";
-    }
-
-    // Mini Oyunlar
-    function oyna(secim) {
-        if(sans <= 0) return alert("Bu günlük şansınız bitib!");
-        let qapici = ["SOL", "MƏRKƏZ", "SAĞ"][Math.floor(Math.random() * 3)];
-        sans--; localStorage.setItem('sans', sans);
-        
-        let msg = document.getElementById('game-msg');
-        if(secim !== qapici) {
-            xal += 500; localStorage.setItem('xal', xal);
-            msg.innerHTML = `<span style="color:var(--primary)"><i class="fas fa-futbol"></i> QOL! Qapıçı ${qapici} atıldı. +500 XAL</span>`;
-        } else {
-            msg.innerHTML = `<span style="color:#EF4444"><i class="fas fa-times-circle"></i> Qurtarış! Qapıçı topu tutdu.</span>`;
-        }
-        uiYenile();
-    }
-
-    function promoIslet() {
-        let kod = document.getElementById('promo-input').value.trim().toUpperCase();
-        if(kod === "QARABAG100") {
-            xal += 10000; localStorage.setItem('xal', xal); uiYenile(); 
-            alert("✅ Təbriklər! 10000 XAL qazandınız!");
-        } else { alert("❌ Səhv və ya istifadə edilmiş kod!"); }
-    }
-
-    // ŞANS ÇARXI (DÜZƏLDİLMİŞDİR)
-    function carxiCevir() {
-        let msg = document.getElementById('spin-msg');
-        let box = document.getElementById('spin-box');
-        let btn = document.getElementById('btn-spin');
-        let bugun = new Date().toDateString();
-        let sonOyun = localStorage.getItem('sonSansCarxi');
-
-        if(sonOyun === bugun) {
-            msg.innerText = "Siz bu gün artıq fırlatdınız. Sabah gəlin!";
-            msg.style.color = "#EF4444";
-            return;
-        }
-
-        btn.disabled = true;
-        btn.style.opacity = "0.5";
-        msg.innerText = "Düşünür... 🎲";
-        msg.style.color = "#fff";
-
-        const mukafatlar = [50, 100, 200, 500, 1000, 0, 300, 250, 5000];
-        let firlanmaSayi = 0;
-        let maxFirlanma = 30;
-
-        let interval = setInterval(() => {
-            let randomReqem = mukafatlar[Math.floor(Math.random() * mukafatlar.length)];
-            box.innerText = randomReqem === 0 ? "BOŞ" : randomReqem;
-            firlanmaSayi++;
-
-            if(firlanmaSayi >= maxFirlanma) {
-                clearInterval(interval);
-                let yekunQazanc = mukafatlar[Math.floor(Math.random() * mukafatlar.length)];
-                box.innerText = yekunQazanc === 0 ? "BOŞ 😢" : "+" + yekunQazanc;
-                
-                if(yekunQazanc > 0) {
-                    xal += yekunQazanc; localStorage.setItem('xal', xal);
-                    msg.innerText = `Təbriklər! ${yekunQazanc} XAL qazandınız! 🎉`;
-                    msg.style.color = "var(--primary)";
-                    box.style.color = "var(--primary)";
-                    box.style.textShadow = "0 0 15px var(--primary)";
-                } else {
-                    msg.innerText = "Təəssüf, boş çıxdı. Sabah yenə yoxla!";
-                    msg.style.color = "#EF4444";
-                    box.style.color = "#EF4444";
-                }
-                localStorage.setItem('sonSansCarxi', bugun);
-                uiYenile();
-            }
-        }, 50);
-    }
-    // PROFIL SİSTEMİ
-function editProfile() {
-    let name = prompt("Yeni adınızı daxil edin:", "ElmanUsta55");
-    if(name) {
-        document.getElementById('profile-name').innerText = name;
-        localStorage.setItem('profile-name', name);
-        alert("✅ Profil yeniləndi!");
-    }
-}
-
-function loadProfile() {
-    let savedName = localStorage.getItem('profile-name');
-    if(savedName) {
-        document.getElementById('profile-name').innerText = savedName;
-    }
-}
-
-
-    // GÜNÜN SUALI (DÜZƏLDİLMİŞDİR)
-    function cavabla(il) {
-        let msg = document.getElementById('trivia-msg');
-        let bugun = new Date().toDateString();
-        
-        if(localStorage.getItem('gununSuali') === 'true' && localStorage.getItem('gununSualiTarix') === bugun) {
-            msg.innerText = "Siz artıq bugünkü suala cavab vermisiniz!";
-            msg.style.color = "var(--gold)";
-            return;
-        }
-
-        if(il === 2017) {
-            xal += 500; localStorage.setItem('xal', xal);
-            msg.innerText = "✅ Doğru cavab! Qruplara 2017-ci ildə düşmüşük. +500 XAL";
-            msg.style.color = "var(--primary)";
-        } else {
-            msg.innerText = "❌ Yanlış cavab! Doğru cavab 2017 idi.";
-            msg.style.color = "#EF4444";
-        }
-        
-        localStorage.setItem('gununSuali', 'true');
-        localStorage.setItem('gununSualiTarix', bugun);
-        uiYenile();
-    }
-
-    // GİZLİ FUTBOLÇU
-    function gizliFutbolcuYarat() {
-        let bugun = new Date().toDateString();
-        if (localStorage.getItem('sonFutbolcuTapildi') === bugun) {
-            document.getElementById('guess-player-card').style.display = 'none';
-            return;
-        }
-        let randomIndex = Math.floor(Math.random() * futbolcular.length);
-        secilenFutbolcu = futbolcular[randomIndex];
-        document.getElementById('player-hints').innerHTML = secilenFutbolcu.hints;
-    }
-
-    function futbolcuTap() {
-        let texmin = document.getElementById('player-guess-input').value.trim().toLowerCase();
-        let msg = document.getElementById('guess-msg');
-        
-        if (texmin === "") return (msg.innerText = "Bir ad daxil edin!", msg.style.color = "#EF4444");
-        
-        if (secilenFutbolcu.answer.includes(texmin)) {
-            xal += 1000; localStorage.setItem('xal', xal);
-            msg.innerText = "✅ Halaldır! Doğru tapdın: +1000 XAL";
-            msg.style.color = "var(--primary)";
-            uiYenile();
-            localStorage.setItem('sonFutbolcuTapildi', new Date().toDateString());
-            setTimeout(() => document.getElementById('guess-player-card').style.display = 'none', 2000);
-        } else {
-            msg.innerText = "❌ Səhvdir! Bir daha düşün.";
-            msg.style.color = "#EF4444";
-        }
-    }
-
-    // MÜQAYİSƏ SİSTEMİ (YENİ)
-    function initComp() {
-        let s1 = document.getElementById('p1-sel');
-        let s2 = document.getElementById('p2-sel');
-        db.forEach((p, i) => {
-            s1.options.add(new Option(p.n, i));
-            s2.options.add(new Option(p.n, i));
-        });
-        s2.selectedIndex = 1; // İkinci select fərqli oyunçu olsun
-    }
-
-    function startCompare() {
-        let p1 = db[document.getElementById('p1-sel').value];
-        let p2 = db[document.getElementById('p2-sel').value];
-        
-        document.getElementById('p1-title').innerText = p1.n;
-        document.getElementById('p2-title').innerText = p2.n;
-        
-        let stats = ['o', 'pac', 'sho', 'pas', 'dri', 'def', 'phy'];
-        let labels = ['OVR', 'SÜRT', 'ŞUT', 'PAS', 'DRB', 'MÜD', 'FİZ'];
-        let html = '';
-
-        stats.forEach((s, i) => {
-            let v1 = p1[s], v2 = p2[s];
-            let c1 = v1 > v2 ? 'stat-win' : (v1 < v2 ? 'stat-lose' : '');
-            let c2 = v2 > v1 ? 'stat-win' : (v2 < v1 ? 'stat-lose' : '');
-            
-            html += `
-            <div class="stat-row">
-                <span class="${c1}" style="flex:1; text-align:left;">${v1}</span>
-                <span style="color:#aaa; font-size:11px; flex:1; text-align:center;">${labels[i]}</span>
-                <span class="${c2}" style="flex:1; text-align:right;">${v2}</span>
-            </div>`;
-        });
-        document.getElementById('stats-area').innerHTML = html;
-        document.getElementById('compare-result').style.display = 'block';
-    }
-
-    // POSTER YENİLƏMƏ
-    function updatePoster() {
-        document.getElementById('v-team1').innerText = document.getElementById('p-team1').value || "KOMANDA 1";
-        document.getElementById('v-team2').innerText = document.getElementById('p-team2').value || "KOMANDA 2";
-        document.getElementById('v-date').innerText = document.getElementById('p-date').value || "TARİX";
-        document.getElementById('v-time').innerText = document.getElementById('p-time').value || "SAAT";
-    }
-    function openPack() {
-        if (xal < 100) return alert("Kifayət qədər xalınız yoxdur! (100 XAL lazımdır)");
-        
-        xal -= 100; localStorage.setItem('xal', xal); uiYenile();
-        const btn = document.getElementById('btn-open-pack');
-        const pack = document.getElementById('efootball-pack');
-        const resultBox = document.getElementById('pack-result');
-
-        btn.disabled = true; btn.innerText = "PAKET AÇILIR...";
-        resultBox.style.display = "none";
-        pack.classList.remove('pack-idle'); pack.classList.add('opening-active');
-
-        setTimeout(() => {
-            pack.classList.remove('opening-active'); pack.classList.add('pack-idle');
-            const randomPlayer = db[Math.floor(Math.random() * db.length)];
-            function liveSearch(){let q=document.getElementById('search-input').value.toLowerCase();let r=document.getElementById('search-results');if(q.length<2){r.innerHTML='';return;}let h='';['Juninho','Pelé','B.Saka','B.Silva','Galatasaray','Qarabağ FK'].filter(x=>x.toLowerCase().includes(q)).forEach(x=>{h+=`<div style="background:rgba(0,255,204,0.1);padding:10px;border-radius:8px;margin:8px 0;border-left:3px solid var(--primary)"><b style="color:#fff">${x}</b></div>`});r.innerHTML=h||'<p style="color:var(--text-muted)">❌ Nəticə tapılmadı</p>'}
-            document.getElementById('reward-desc').innerHTML = `
-                <div class="pack-player-card">
-                    <div style="font-size: 50px; font-weight: 900; font-family:'Rajdhani';">${randomPlayer.o}</div>
-                    <div style="font-size: 22px; font-weight: 900; margin: 10px 0;">${randomPlayer.n}</div>
-                </div>`;
-            resultBox.style.display = "block";
-            btn.disabled = false; btn.innerText = "YENİDƏN AÇ (100 XAL)";
-        }, 2000); 
-    }
-
-    // ===== TURNİR SİSTEMİ =====
-    const tournamentTeams = [
-        { name: "Qarabağ FK",   played: 27, wins: 20, draws: 4, losses: 3,  pts: 64 },
-        { name: "Neftçi PFK",   played: 27, wins: 17, draws: 5, losses: 5,  pts: 56 },
-        { name: "Sabah FK",     played: 27, wins: 15, draws: 6, losses: 6,  pts: 51 },
-        { name: "Zirə FK",      played: 27, wins: 14, draws: 4, losses: 9,  pts: 46 },
-        { name: "Sumqayıt FK",  played: 27, wins: 12, draws: 7, losses: 8,  pts: 43 },
-        { name: "Turan Tovuz",  played: 27, wins: 10, draws: 6, losses: 11, pts: 36 },
-        { name: "Şamaxı FK",    played: 27, wins: 9,  draws: 5, losses: 13, pts: 32 },
-        { name: "Keşlə FK",     played: 27, wins: 7,  draws: 8, losses: 12, pts: 29 },
-        { name: "Sabail FK",    played: 27, wins: 5,  draws: 6, losses: 16, pts: 21 },
-        { name: "AZAL FK",      played: 27, wins: 3,  draws: 5, losses: 19, pts: 14 }
-    ];
-    const recentMatches = [
-        { home: "Qarabağ FK",  away: "Neftçi PFK",  score: "3-1" },
-        { home: "Sabah FK",    away: "Zirə FK",     score: "2-2" },
-        { home: "Sumqayıt FK", away: "Keşlə FK",    score: "1-0" },
-        { home: "Şamaxı FK",   away: "Turan Tovuz", score: "0-2" }
-    ];
-    const upcomingMatches = [
-        { home: "Neftçi PFK", away: "Sabah FK",  time: "20:00" },
-        { home: "Qarabağ FK", away: "Zirə FK",   time: "18:30" },
-        { home: "Keşlə FK",   away: "AZAL FK",   time: "17:00" }
-    ];
-
-    function initTournament() {
-        let tbody = document.getElementById('standings-body');
-        if (!tbody) return;
-        tbody.innerHTML = '';
-        tournamentTeams.forEach(function(t, i) {
-            let rankIcon = i === 0 ? '🥇' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : (i + 1)));
-            let rankStyle = i === 0 ? 'color:var(--gold)' : (i === 1 ? 'color:#aaa' : (i === 2 ? 'color:#cd7f32' : 'color:var(--text-muted)'));
-            tbody.innerHTML += '<tr>' +
-                '<td><span style="font-weight:900;font-size:15px;' + rankStyle + '">' + rankIcon + '</span></td>' +
-                '<td style="text-align:left;color:#fff;font-weight:800;">' + t.name + '</td>' +
-                '<td>' + t.played + '</td>' +
-                '<td style="color:var(--primary)">' + t.wins + '</td>' +
-                '<td style="color:var(--text-muted)">' + t.draws + '</td>' +
-                '<td style="color:#EF4444">' + t.losses + '</td>' +
-                '<td style="color:var(--primary);font-weight:900;font-size:15px;">' + t.pts + '</td>' +
-                '</tr>';
-        });
-        let rm = document.getElementById('recent-matches');
-        if (rm) {
-            rm.innerHTML = '';
-            recentMatches.forEach(function(m) {
-                rm.innerHTML += '<div class="match-card">' +
-                    '<div class="match-team">' + m.home + '</div>' +
-                    '<div class="match-score">' + m.score + '</div>' +
-                    '<div class="match-team right">' + m.away + '</div>' +
-                    '</div>';
-            });
-        }
-        let um = document.getElementById('upcoming-matches');
-        if (um) {
-            um.innerHTML = '';
-            upcomingMatches.forEach(function(m) {
-                um.innerHTML += '<div class="match-card">' +
-                    '<div class="match-team">' + m.home + '</div>' +
-                    '<div class="match-score upcoming">' + m.time + '</div>' +
-                    '<div class="match-team right">' + m.away + '</div>' +
-                    '</div>';
-            });
-        }
-        let sl = document.getElementById('tournament-stats-list');
-        if (sl) {
-            sl.innerHTML = '';
-            tournamentTeams.slice(0, 5).forEach(function(t, i) {
-                let pct = Math.round((t.wins / t.played) * 100);
-                sl.innerHTML += '<div style="margin-bottom:14px;">' +
-                    '<div style="display:flex;justify-content:space-between;margin-bottom:4px;">' +
-                    '<span style="font-weight:800;color:#fff;">' + t.name + '</span>' +
-                    '<span style="color:var(--primary);font-weight:900;">' + pct + '% Qalibiyyət</span>' +
-                    '</div>' +
-                    '<div style="background:rgba(255,255,255,0.1);border-radius:20px;height:8px;overflow:hidden;">' +
-                    '<div style="width:' + pct + '%;height:100%;background:linear-gradient(90deg,var(--primary),#0099ff);border-radius:20px;transition:0.8s;"></div>' +
-                    '</div></div>';
-            });
-        }
-    }
-
-    function tournamentTab(tab, el) {
-        document.querySelectorAll('#sec-tournament .tab-btn').forEach(function(b) { b.classList.remove('active'); });
-        el.classList.add('active');
-        document.getElementById('t-tab-standings').style.display = tab === 'standings' ? '' : 'none';
-        document.getElementById('t-tab-matches').style.display   = tab === 'matches'   ? '' : 'none';
-        document.getElementById('t-tab-stats').style.display     = tab === 'stats'     ? '' : 'none';
-    }
-
-    // ===== MAĞAZA SİSTEMİ =====
-    const shopItems = {
-        players: [
-            { id: 'p1', icon: '⭐', name: 'Pelé',        desc: 'OVR 98 Efsane',       price: 5000,  limited: false },
-            { id: 'p2', icon: '🌟', name: 'Maradona',    desc: 'OVR 97 Efsane',       price: 4500,  limited: true  },
-            { id: 'p3', icon: '🔵', name: 'B. Silva',    desc: 'OVR 88 Premium',      price: 2000,  limited: false },
-            { id: 'p4', icon: '🟢', name: 'V. Osimhen',  desc: 'OVR 88 Premium',      price: 2000,  limited: false }
-        ],
-        packs: [
-            { id: 'pk1', icon: '📦', name: 'Başlanğıc Paketi', desc: '3 Oyunçu',       price: 200,   limited: false },
-            { id: 'pk2', icon: '💎', name: 'Premium Paket',    desc: '5 Oyunçu',       price: 500,   limited: false },
-            { id: 'pk3', icon: '👑', name: 'Xüsusi Paket',     desc: '8 Oyunçu + Bonus', price: 900, limited: true  }
-        ],
-        boosters: [
-            { id: 'b1', icon: '⚡', name: 'Şans x2',      desc: '1 Gün ərzində',    price: 300,   limited: false },
-            { id: 'b2', icon: '🔥', name: 'XAL x3',       desc: '3 Saat ərzində',   price: 500,   limited: false },
-            { id: 'b3', icon: '🛡️', name: 'Qoruyucu',     desc: 'Xal itkisini önlə', price: 400,  limited: true  }
-        ]
-    };
-
-    function initShop() {
-        updateShopBalance();
-        renderShopItems('players');
-        renderShopItems('packs');
-        renderShopItems('boosters');
-        renderInventory();
-    }
-
-    function updateShopBalance() {
-        let el = document.getElementById('shop-balance');
-        if (el) el.innerText = xal.toLocaleString();
-    }
-
-    function renderShopItems(category) {
-        let grid = document.getElementById('shop-' + category + '-grid');
-        if (!grid) return;
-        grid.innerHTML = '';
-        let owned = JSON.parse(localStorage.getItem('shop-owned') || '[]');
-        shopItems[category].forEach(function(item) {
-            let isOwned = owned.includes(item.id);
-            grid.innerHTML += '<div class="shop-item' + (item.limited ? ' limited' : '') + '" onclick="buyItem(\'' + item.id + '\',\'' + category + '\')" style="' + (item.limited ? 'padding-top:22px;' : '') + '">' +
-                (isOwned ? '<div class="owned-badge">SAHİBİSİNİZ</div>' : '') +
-                '<div class="shop-item-icon">' + item.icon + '</div>' +
-                '<div class="shop-item-name">' + item.name + '</div>' +
-                '<div class="shop-item-desc">' + item.desc + '</div>' +
-                '<div class="shop-item-price">💰 ' + item.price.toLocaleString() + ' XAL</div>' +
-                '</div>';
-        });
-    }
-
-    function buyItem(itemId, category) {
-        let allItems = [].concat(shopItems.players, shopItems.packs, shopItems.boosters);
-        let item = allItems.find(function(i) { return i.id === itemId; });
-        if (!item) return;
-        let owned = JSON.parse(localStorage.getItem('shop-owned') || '[]');
-        if (owned.includes(itemId)) { alert('Bu elementin artıq sahibisiniz!'); return; }
-        if (xal < item.price) { alert('Kifayət qədər xalınız yoxdur! Lazım: ' + item.price + ' XAL'); return; }
-        if (!confirm('🛒 ' + item.name + ' almaq istəyirsiniz?\nQiymət: ' + item.price + ' XAL')) return;
-        xal -= item.price;
-        localStorage.setItem('xal', xal);
-        owned.push(itemId);
-        localStorage.setItem('shop-owned', JSON.stringify(owned));
-        uiYenile();
-        updateShopBalance();
-        renderShopItems(category);
-        renderInventory();
-        alert('✅ ' + item.name + ' uğurla alındı!');
-    }
-
-    function renderInventory() {
-        let list = document.getElementById('shop-inventory-list');
-        if (!list) return;
-        let owned = JSON.parse(localStorage.getItem('shop-owned') || '[]');
-        if (owned.length === 0) {
-            list.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:30px;font-size:14px;">Hələ heç nə almamısınız.<br>Mağazadan alış-veriş edin! 🛒</div>';
-            return;
-        }
-        let allItems = [].concat(shopItems.players, shopItems.packs, shopItems.boosters);
-        list.innerHTML = '';
-        owned.forEach(function(id) {
-            let item = allItems.find(function(i) { return i.id === id; });
-            if (!item) return;
-            list.innerHTML += '<div class="inventory-item">' +
-                '<div style="font-size:30px;">' + item.icon + '</div>' +
-                '<div style="flex:1;"><div style="font-weight:800;color:#fff;">' + item.name + '</div>' +
-                '<div style="font-size:12px;color:var(--text-muted);">' + item.desc + '</div></div>' +
-                '<div style="font-size:11px;background:rgba(0,255,204,0.15);color:var(--primary);padding:4px 10px;border-radius:8px;font-weight:700;">SAHİBİSİNİZ</div>' +
-                '</div>';
-        });
-    }
-
-    function shopTab(tab, el) {
-        document.querySelectorAll('#shop-tab-group .tab-btn').forEach(function(b) { b.classList.remove('active'); });
-        el.classList.add('active');
-        ['players','packs','boosters','inventory'].forEach(function(t) {
-            let el2 = document.getElementById('shop-' + t + '-tab');
-            if (el2) el2.style.display = t === tab ? '' : 'none';
-        });
-        if (tab === 'inventory') renderInventory();
-    }
-
-    // ===== LİDERLİK SİSTEMİ =====
-    const lbPlayers = [
-        { name: "ElmanUsta55",   points: 15500, wins: 28, rating: 94, avatar: "👑", badges: "🏆⭐" },
-        { name: "QarabağFan",    points: 14200, wins: 25, rating: 91, avatar: "🦅", badges: "🏆🎯" },
-        { name: "NeftchiKing",   points: 13800, wins: 23, rating: 89, avatar: "🔵", badges: "⭐🎯" },
-        { name: "BakuPro99",     points: 12500, wins: 22, rating: 87, avatar: "🏙️", badges: "🎯"  },
-        { name: "AzFootball",    points: 11900, wins: 20, rating: 85, avatar: "🇦🇿", badges: "⭐"   },
-        { name: "SummitPlayer",  points: 11200, wins: 19, rating: 83, avatar: "⛰️", badges: ""    },
-        { name: "GoalMaster",    points: 10800, wins: 18, rating: 82, avatar: "⚽", badges: ""    },
-        { name: "PremierFan",    points: 10100, wins: 17, rating: 80, avatar: "🌟", badges: ""    },
-        { name: "ZiraLegend",    points: 9500,  wins: 16, rating: 78, avatar: "🌿", badges: ""    },
-        { name: "SabahStar",     points: 8900,  wins: 15, rating: 76, avatar: "☀️", badges: ""    },
-        { name: "FootballGuru",  points: 8200,  wins: 14, rating: 74, avatar: "🎓", badges: ""    },
-        { name: "AZChamp",       points: 7800,  wins: 13, rating: 72, avatar: "🥇", badges: ""    },
-        { name: "BakuKicker",    points: 7100,  wins: 12, rating: 70, avatar: "👟", badges: ""    },
-        { name: "NightOwl77",    points: 6500,  wins: 11, rating: 68, avatar: "🦉", badges: ""    },
-        { name: "TopScorer",     points: 6000,  wins: 10, rating: 66, avatar: "🎯", badges: ""    }
-    ];
-    let lbSortKey = 'points';
-
-    function initLeaderboard() {
-        renderLeaderboard();
-        updateMyRank();
-    }
-
-    function lbFilter(key, el) {
-        lbSortKey = key;
-        document.querySelectorAll('.lb-filter-btn').forEach(function(b) { b.classList.remove('active'); });
-        el.classList.add('active');
-        renderLeaderboard();
-    }
-
-    function renderLeaderboard() {
-        let list = document.getElementById('leaderboard-list');
-        if (!list) return;
-        let sorted = lbPlayers.slice().sort(function(a, b) { return b[lbSortKey] - a[lbSortKey]; });
-        let myName = localStorage.getItem('profile-name') || 'ElmanUsta55';
-        list.innerHTML = '';
-        sorted.forEach(function(p, i) {
-            let isMe = p.name === myName || (myName === 'ElmanUsta55' && i === 0);
-            let rowClass = 'lb-row' + (i === 0 ? ' top1' : (i === 1 ? ' top2' : (i === 2 ? ' top3' : (isMe ? ' me' : ''))));
-            let rankLabel = i === 0 ? '🥇' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : '#' + (i + 1)));
-            let rankColor = i === 0 ? 'var(--gold)' : (i === 1 ? '#aaa' : (i === 2 ? '#cd7f32' : (isMe ? '#0099ff' : 'var(--text-muted)')));
-            let valLabel = lbSortKey === 'points' ? p.points.toLocaleString() + ' XAL'
-                         : lbSortKey === 'wins'   ? p.wins + ' Qalibiyyət'
-                         :                          p.rating + ' REYTİNQ';
-            list.innerHTML += '<div class="' + rowClass + '">' +
-                '<div class="lb-rank-num" style="color:' + rankColor + ';">' + rankLabel + '</div>' +
-                '<div class="lb-avatar" style="background:rgba(255,255,255,0.08);">' + p.avatar + '</div>' +
-                '<div class="lb-info">' +
-                '<div class="lb-name">' + p.name + (isMe ? ' <span style="font-size:10px;background:#0099ff;color:#fff;padding:2px 6px;border-radius:6px;">SİZ</span>' : '') + '</div>' +
-                '<div class="lb-badges">' + (p.badges || '<span style="color:var(--text-muted);font-size:11px;">Badge yoxdur</span>') + '</div>' +
-                '</div>' +
-                '<div><div class="lb-points">' + valLabel + '</div>' +
-                '<div class="lb-wins">' + p.wins + ' Qalibiyyət</div></div>' +
-                '</div>';
-        });
-    }
-
-    function updateMyRank() {
-        let myName = localStorage.getItem('profile-name') || 'ElmanUsta55';
-        let sorted = lbPlayers.slice().sort(function(a, b) { return b.points - a.points; });
-        let idx = sorted.findIndex(function(p) { return p.name === myName; });
-        if (idx === -1) idx = 0;
-        let me = sorted[idx];
-        let rankEl = document.getElementById('lb-my-rank');
-        let nameEl = document.getElementById('lb-my-name');
-        let ptsEl  = document.getElementById('lb-my-pts');
-        if (rankEl) rankEl.innerText = '#' + (idx + 1);
-        if (nameEl) nameEl.innerText = myName;
-        if (ptsEl)  ptsEl.innerText  = me ? me.points.toLocaleString() + ' XAL' : xal.toLocaleString() + ' XAL';
-    }
-
-    // Yüklənmə zamanı yeni sistemləri başlat
-    window.addEventListener('load', function() {
-        loadProfile();
-        initTournament();
-        initShop();
-        initLeaderboard();
-    });
-</script>
+<!-- ===================== SCRIPTS ===================== -->
+<script src="app.js"></script>
 
 </body>
 </html>
