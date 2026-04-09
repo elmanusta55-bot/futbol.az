@@ -1,12 +1,12 @@
 {
   "name": "futbol-az",
-  "version": "1.0.0",
-  "description": "Professional football portal for Azerbaijan and world leagues",
+  "version": "2.0.0",
+  "description": "Professional football portal for Azerbaijan and world leagues – 2026 Season",
   "type": "module",
-  "main": "server.js",
+  "main": "backend/server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
