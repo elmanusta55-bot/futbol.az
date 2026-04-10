@@ -215,10 +215,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .logo-accent { color: var(--red); }
 
 .navbar-nav {
-  display: flex; align-items: center; gap: 4px;
-  margin-left: auto;
-  flex: 1;
-  justify-content: center;
+  display: none;
 }
 .nav-link {
   padding: 8px 14px;
@@ -238,6 +235,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .navbar-actions {
   display: flex; align-items: center; gap: 8px;
   flex-shrink: 0;
+  margin-left: auto;
 }
 
 /* Search */
@@ -285,7 +283,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* Hamburger */
 .hamburger {
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -1165,8 +1163,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* ══════════════════════ RESPONSIVE ══════════════════════ */
 @media (max-width: 1024px) {
-  .navbar-nav { display: none; }
-  .hamburger { display: flex; }
   .about-layout { grid-template-columns: 1fr; }
   .about-visual { display: none; }
   .footer-grid { grid-template-columns: 1fr 1fr; }

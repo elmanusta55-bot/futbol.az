@@ -614,6 +614,57 @@
 
 .settings-close-btn:hover { background: var(--blue-lt); }
 
+/* ── Competition filter bar ──────────────────────────────────────── */
+.comp-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.comp-filter-label {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.comp-filter-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 2px;
+}
+
+.comp-filter-chip {
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: .78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.comp-filter-chip:hover {
+  border-color: var(--border-h);
+  color: var(--text);
+}
+
+.comp-filter-chip.active {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+}
+
 /* ── Responsive ──────────────────────────────────────────────────── */
 @media (max-width: 600px) {
   .live-matches-grid {
@@ -671,5 +722,13 @@
     right: 8px;
     left: 8px;
     width: auto;
+  }
+
+  .comp-filter-bar {
+    gap: 8px;
+  }
+
+  .comp-filter-chips {
+    flex-wrap: nowrap;
   }
 }

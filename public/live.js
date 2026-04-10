@@ -252,6 +252,8 @@ function spawnCelebrationParticles() {
 // ── Polling ─────────────────────────────────────────────────────────────────────
 let _pollTimer = null;
 let _activeTab = "today";
+let _activeCompFilter = "all";
+let _lastMatches = [];
 
 function startPolling() {
   stopPolling();
@@ -303,11 +305,13 @@ async function pollNow() {
     }
 
     const matches = data.matches || [];
+    _lastMatches = matches;
 
     // Detect goals only when polling live tab (or today with live matches inside)
     const goalEvents = detectGoals(matches);
     goalEvents.forEach(ev => showGoalToast(ev.match, ev.homeGoals, ev.awayGoals));
 
+    updateCompFilterBar(matches);
     renderMatchGrid(matches);
     updateRefreshInfo(formatTimestamp());
     updateLiveIndicator(matches);
@@ -342,12 +346,60 @@ function updateLiveIndicator(matches) {
   }
 }
 
+// ── Competition filter ─────────────────────────────────────────────────────────
+function updateCompFilterBar(matches) {
+  const bar   = document.getElementById("comp-filter-bar");
+  const chips = document.getElementById("comp-filter-chips");
+  if (!bar || !chips) return;
+
+  // Collect unique competitions
+  const seen = new Map();
+  for (const m of matches) {
+    if (m.competition?.code && !seen.has(m.competition.code)) {
+      seen.set(m.competition.code, m.competition.name || m.competition.code);
+    }
+  }
+
+  // Only show filter bar when there are multiple competitions
+  if (seen.size <= 1) {
+    bar.hidden = true;
+    _activeCompFilter = "all";
+    return;
+  }
+
+  bar.hidden = false;
+
+  // Keep active chip valid
+  if (_activeCompFilter !== "all" && !seen.has(_activeCompFilter)) {
+    _activeCompFilter = "all";
+  }
+
+  // Rebuild chips
+  let html = `<button class="comp-filter-chip${_activeCompFilter === "all" ? " active" : ""}" data-comp="all" onclick="setCompFilter('all')">Hamısı</button>`;
+  for (const [code, name] of seen) {
+    const active = _activeCompFilter === code ? " active" : "";
+    html += `<button class="comp-filter-chip${active}" data-comp="${escapeHTML(code)}" onclick="setCompFilter('${escapeHTML(code)}')">${escapeHTML(name)}</button>`;
+  }
+  chips.innerHTML = html;
+}
+
+function setCompFilter(code) {
+  _activeCompFilter = code;
+  renderMatchGrid(_lastMatches);
+  updateCompFilterBar(_lastMatches);
+}
+
 // ── Rendering ──────────────────────────────────────────────────────────────────
 function renderMatchGrid(matches) {
   const grid = document.getElementById("matches-grid");
   if (!grid) return;
 
-  if (!matches.length) {
+  // Apply competition filter
+  const filtered = _activeCompFilter === "all"
+    ? matches
+    : matches.filter(m => m.competition?.code === _activeCompFilter);
+
+  if (!filtered.length) {
     grid.innerHTML = `
       <div class="live-empty">
         <div class="live-empty-icon">${_activeTab === "live" ? "📡" : "📅"}</div>
@@ -358,7 +410,7 @@ function renderMatchGrid(matches) {
   }
 
   // Sort: live first, then by time
-  const sorted = [...matches].sort((a, b) => {
+  const sorted = [...filtered].sort((a, b) => {
     const liveA = STATUS_LIVE.has(a.status) ? 0 : 1;
     const liveB = STATUS_LIVE.has(b.status) ? 0 : 1;
     if (liveA !== liveB) return liveA - liveB;
@@ -591,6 +643,12 @@ function getStatusLabel(status, minute) {
 // ── Tabs ───────────────────────────────────────────────────────────────────────
 function switchLiveTab(tab) {
   _activeTab = tab;
+  _activeCompFilter = "all";
+  _lastMatches = [];
+
+  // Hide filter bar while new data loads
+  const bar = document.getElementById("comp-filter-bar");
+  if (bar) bar.hidden = true;
 
   document.querySelectorAll(".live-tab-btn").forEach(btn => {
     const active = btn.dataset.tab === tab;
