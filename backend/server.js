@@ -5,10 +5,11 @@ import express from 'express';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 
-import standingsRouter from './routes/standings.js';
-import matchesRouter   from './routes/matches.js';
-import playersRouter   from './routes/players.js';
-import teamsRouter     from './routes/teams.js';
+import standingsRouter      from './routes/standings.js';
+import matchesRouter        from './routes/matches.js';
+import playersRouter        from './routes/players.js';
+import teamsRouter          from './routes/teams.js';
+import footballDataRouter   from './routes/footballDataRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -43,9 +44,10 @@ for (const asset of ROOT_ASSETS) {
 
 // ── API routes ────────────────────────────────────────────────────────────────
 app.use('/api/standings',   standingsRouter);
-app.use('/api',             matchesRouter);   // exposes /api/matches and /api/live
-app.use('/api',             playersRouter);   // exposes /api/top-scorers/:leagueId
-app.use('/api',             teamsRouter);     // exposes /api/search
+app.use('/api',             matchesRouter);         // exposes /api/matches and /api/live
+app.use('/api',             playersRouter);         // exposes /api/top-scorers/:leagueId
+app.use('/api',             teamsRouter);           // exposes /api/search
+app.use('/api/fd',          footballDataRouter);    // exposes /api/fd/live, /api/fd/today, etc.
 
 // ── Catch-all: send index.html for unknown routes (SPA fallback) ──────────────
 app.get('*', (req, res) => {
