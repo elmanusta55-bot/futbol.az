@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="az" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Futbol.az – Canlı matçlar, qol bildirişləri, real-time nəticələr">
+  <title>Futbol.az | Canlı Matçlar</title>
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="live-matches.css">
+</head>
+<body>
+
+<!-- ══════════════════ NAVBAR ══════════════════ -->
+<header class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a class="navbar-logo" href="/" aria-label="Futbol.az ana səhifə">
+      <div class="logo-icon">⚽</div>
+      <span class="logo-text">Futbol<span class="logo-accent">.az</span></span>
+    </a>
+
+    <nav class="navbar-nav" aria-label="Əsas naviqasiya">
+      <a class="nav-link" href="/">🏠 Ana Səhifə</a>
+      <a class="nav-link active" href="/live.html">🔴 Canlı Matçlar</a>
+    </nav>
+
+    <div class="navbar-actions">
+      <button class="icon-btn" id="theme-btn" onclick="toggleLiveTheme()" aria-label="Modu dəyiş" title="Gecə/Gündüz modu">
+        <span id="theme-icon">🌙</span>
+      </button>
+      <button class="hamburger" id="hamburger" onclick="toggleLiveMobileMenu()" aria-label="Mobil menyu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <a href="/">🏠 Ana Səhifə</a>
+    <a href="/live.html">🔴 Canlı Matçlar</a>
+  </div>
+</header>
+
+<!-- ══════════════════ MAIN ══════════════════ -->
+<main>
+  <section id="live-section" class="container" style="padding: 32px 16px 64px;">
+
+    <!-- Section header -->
+    <div class="live-section-header">
+      <h1 class="live-section-title">
+        <span class="live-pulse-dot" id="live-pulse-dot" hidden></span>
+        🔴 Canlı Matçlar
+      </h1>
+      <div class="live-tabs" role="tablist" aria-label="Matç növü">
+        <button class="live-tab-btn active" data-tab="today" onclick="switchLiveTab('today')" role="tab" aria-selected="true">📅 Bu Gün</button>
+        <button class="live-tab-btn" data-tab="live" onclick="switchLiveTab('live')" role="tab" aria-selected="false">🔴 Canlı</button>
+        <button class="live-tab-btn" data-tab="upcoming" onclick="switchLiveTab('upcoming')" role="tab" aria-selected="false">⏰ Yaxın</button>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="live-toolbar">
+      <div class="live-toolbar-left">
+        <span class="live-badge muted" id="match-count-badge">– matç</span>
+        <span class="live-refresh-info" id="refresh-info">Yenilənir…</span>
+      </div>
+      <div class="live-toolbar-right">
+        <button class="icon-toggle-btn" id="notif-toggle-btn" onclick="toggleLiveNotifications()" title="Bildirişlər">🔔 Bildiriş</button>
+        <button class="icon-toggle-btn" id="sound-toggle-btn" onclick="toggleLiveSound()" title="Səs">🔊 Səs</button>
+        <button class="icon-toggle-btn" onclick="openLiveSettings()" title="Ayarlar">⚙️ Ayarlar</button>
+      </div>
+    </div>
+
+    <!-- Matches container -->
+    <div id="matches-grid">
+      <div class="live-loading">
+        <div class="spinner"></div>
+        <span>Matçlar yüklənir…</span>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<!-- ══════════════════ GOAL TOAST CONTAINER ══════════════════ -->
+<div id="goal-toast-container" aria-live="polite" aria-label="Qol bildirişləri"></div>
+
+<!-- ══════════════════ MATCH DETAILS MODAL ══════════════════ -->
+<div id="match-details-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="match-details-title" hidden>
+  <div class="modal-box" style="max-width: 540px;">
+    <div class="modal-banner" style="padding: 20px 24px 16px; border-bottom: 1px solid var(--border);">
+      <span style="font-size: 1.3rem; font-weight: 800;" id="match-details-title">Matç Detalları</span>
+      <button class="modal-close" onclick="closeMatchDetails()" aria-label="Bağla">✕</button>
+    </div>
+    <div class="modal-body" id="match-details-body" style="padding: 20px 24px 28px; overflow-y: auto; max-height: 75vh;">
+      <div class="live-loading"><div class="spinner"></div><span>Yüklənir…</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ SETTINGS PANEL ══════════════════ -->
+<div id="live-settings-panel" role="dialog" aria-modal="true" aria-label="Bildiriş Ayarları">
+  <div class="settings-backdrop" onclick="closeLiveSettings()"></div>
+  <div class="settings-sheet">
+    <div class="settings-handle"></div>
+    <h2 class="settings-title">⚙️ Ayarlar</h2>
+
+    <!-- Notifications toggle -->
+    <div class="settings-row">
+      <label class="settings-label" for="sett-notif-toggle">
+        <span class="settings-label-icon">🔔</span>
+        Bildirişlər (Qol)
+      </label>
+      <label class="toggle-switch">
+        <input type="checkbox" id="sett-notif-toggle" onchange="onSettingChange('notifOn', this.checked)">
+        <span class="toggle-track"></span>
+      </label>
+    </div>
+
+    <!-- Sound toggle -->
+    <div class="settings-row">
+      <label class="settings-label" for="sett-sound-toggle">
+        <span class="settings-label-icon">🔊</span>
+        Səs effektləri
+      </label>
+      <label class="toggle-switch">
+        <input type="checkbox" id="sett-sound-toggle" onchange="onSettingChange('soundOn', this.checked)">
+        <span class="toggle-track"></span>
+      </label>
+    </div>
+
+    <!-- Browser notifications toggle -->
+    <div class="settings-row">
+      <label class="settings-label" for="sett-browser-notif">
+        <span class="settings-label-icon">🖥️</span>
+        Brauzer Bildirişi
+      </label>
+      <label class="toggle-switch">
+        <input type="checkbox" id="sett-browser-notif" onchange="onSettingChange('browserNotifOn', this.checked)">
+        <span class="toggle-track"></span>
+      </label>
+    </div>
+
+    <!-- Favorite team -->
+    <div class="settings-row">
+      <label class="settings-label" for="sett-fav-team">
+        <span class="settings-label-icon">⭐</span>
+        Sevimli Komanda
+      </label>
+      <input
+        class="settings-select"
+        type="text"
+        id="sett-fav-team"
+        placeholder="Komanda adı…"
+        maxlength="60"
+        oninput="onSettingChange('favoriteTeam', this.value)"
+        style="padding: 6px 10px; font-size: .85rem; background: var(--bg2); border: 1.5px solid var(--border); border-radius: 8px; color: var(--text); max-width: 160px;"
+      >
+    </div>
+
+    <!-- Poll interval -->
+    <div class="settings-row">
+      <label class="settings-label" for="sett-interval">
+        <span class="settings-label-icon">⏱️</span>
+        Yeniləmə intervalı
+      </label>
+      <select class="settings-select" id="sett-interval" onchange="onSettingChange('pollIntervalSecs', parseInt(this.value, 10))">
+        <option value="15">15 san</option>
+        <option value="30">30 san</option>
+        <option value="60">60 san</option>
+        <option value="120">2 dəq</option>
+      </select>
+    </div>
+
+    <button class="settings-close-btn" onclick="closeLiveSettings()">✓ Bağla</button>
+  </div>
+</div>
+
+<script src="live.js"></script>
+</body>
+</html>

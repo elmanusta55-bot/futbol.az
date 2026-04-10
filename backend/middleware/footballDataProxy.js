@@ -8,7 +8,7 @@ const API_BASE = 'https://api.football-data.org/v4';
  * TTL values for different endpoint types.
  * Live-match data refreshes much faster than static fixtures.
  */
-const TTL = {
+const DEFAULT_RETRY_AFTER_SECONDS = 60;
   live:     30_000,  // 30 seconds
   today:    60_000,  // 1 minute
   match:    30_000,  // 30 seconds (during live play)
@@ -37,9 +37,33 @@ export async function fdFetch(apiPath, res, ttlMs = TTL.today) {
   }
 
   try {
-    const response = await fetch(`${API_BASE}${apiPath}`, {
-      headers: { 'X-Auth-Token': API_KEY },
-    });
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10_000);
+
+    let response;
+    try {
+      response = await fetch(`${API_BASE}${apiPath}`, {
+        headers: { 'X-Auth-Token': API_KEY },
+        signal: controller.signal,
+      });
+    } finally {
+      clearTimeout(timeout);
+    }
+
+    if (response.status === 401 || response.status === 403) {
+      return res.status(response.status).json({
+        error: 'Football-Data API key is invalid or lacks permission. Check FOOTBALL_DATA_KEY in .env',
+      });
+    }
+
+    if (response.status === 429) {
+      const retryAfter = response.headers.get('X-RequestCounter-Reset') || response.headers.get('Retry-After') || String(DEFAULT_RETRY_AFTER_SECONDS);
+      res.set('Retry-After', retryAfter);
+      return res.status(429).json({
+        error: 'Football-Data API rate limit reached. Please wait before retrying.',
+        retryAfterSeconds: parseInt(retryAfter, 10) || DEFAULT_RETRY_AFTER_SECONDS,
+      });
+    }
 
     if (!response.ok) {
       return res
@@ -52,6 +76,10 @@ export async function fdFetch(apiPath, res, ttlMs = TTL.today) {
     res.set('X-Cache', 'MISS');
     return res.json(data);
   } catch (err) {
+    if (err.name === 'AbortError') {
+      console.error('footballDataProxy timeout:', apiPath);
+      return res.status(504).json({ error: 'Football-Data API request timed out' });
+    }
     console.error('footballDataProxy error:', err.message);
     return res.status(500).json({ error: 'Failed to reach Football-Data API' });
   }
