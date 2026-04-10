@@ -732,3 +732,27 @@
     flex-wrap: nowrap;
   }
 }
+
+/* ── Show all / collapse toggle button ──────────────────────────────── */
+.show-toggle-btn {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  padding: 11px 20px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: .85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  text-align: center;
+  font-family: inherit;
+}
+
+.show-toggle-btn:hover {
+  border-color: var(--blue);
+  color: var(--blue-lt);
+  background: rgba(0,61,165,.07);
+}
