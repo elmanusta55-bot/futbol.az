@@ -36,29 +36,7 @@
       <span class="logo-text">Futbol<span class="logo-accent">.az</span></span>
     </a>
 
-    <nav class="navbar-nav" id="main-nav" aria-label="Əsas naviqasiya">
-      <a class="nav-link active" href="#hero" onclick="scrollToSection('hero'); return false;">Ana Səhifə</a>
-      <a class="nav-link" href="#top-games-section" onclick="scrollToSection('top-games-section'); return false;">Top 10</a>
-      <a class="nav-link" href="#categories-section" onclick="scrollToSection('categories-section'); return false;">Kateqoriyalar</a>
-      <a class="nav-link" href="/live.html" style="color:#e74c3c;font-weight:700;">🔴 Canlı</a>
-    </nav>
-
     <div class="navbar-actions">
-      <div class="search-wrap" id="search-wrap">
-        <button class="icon-btn" onclick="toggleSearch()" aria-label="Axtarış aç/bağla" title="Axtarış">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        </button>
-        <div class="search-dropdown" id="search-dropdown" hidden>
-          <input class="search-input" id="game-search" type="search" placeholder="Oyun axtar…" autocomplete="off"
-            oninput="filterGames(this.value)" aria-label="Oyun axtarışı" maxlength="60">
-          <div class="search-results" id="search-results"></div>
-        </div>
-      </div>
-      <span id="coins-display" hidden>🪙 0</span>
-      <button id="daily-nav-btn" onclick="openDailyModal()" title="Günlük Tapşırıq">📅 Günlük</button>
-      <button id="leaderboard-nav-btn" onclick="openLeaderboardModal()" title="Liderlik Cədvəli">🏆 Liderlik</button>
-      <button id="store-nav-btn" onclick="openStoreModal()" title="Mağaza">🛍️ Mağaza</button>
-      <button id="profile-nav-btn" onclick="openProfileModal()" title="Profil">👤 Giriş</button>
       <button class="icon-btn" id="theme-btn" onclick="toggleTheme()" aria-label="Modu dəyiş" title="Gecə/Gündüz modu">
         <span id="theme-icon">🌙</span>
       </button>
@@ -73,6 +51,7 @@
     <a href="#top-games-section" onclick="scrollToSection('top-games-section'); closeMobileMenu(); return false;">🔥 Top 10</a>
     <a href="#categories-section" onclick="scrollToSection('categories-section'); closeMobileMenu(); return false;">📂 Kateqoriyalar</a>
     <a href="/live.html" style="color:#e74c3c;font-weight:700;">🔴 Canlı Matçlar</a>
+    <a href="/who-are-ya.html">🕵️ Who Are Ya?</a>
     <a href="#" onclick="openDailyModal(); closeMobileMenu(); return false;">📅 Günlük Tapşırıq</a>
     <a href="#" onclick="openLeaderboardModal(); closeMobileMenu(); return false;">🏆 Liderlik</a>
     <a href="#" onclick="openStoreModal(); closeMobileMenu(); return false;">🛍️ Mağaza</a>
@@ -346,10 +325,10 @@
       </div>
       <div class="footer-links">
         <h4>Platforma</h4>
-        <a href="#about-section" onclick="scrollToSection('about-section'); return false;">Haqqında</a>
         <a href="#top-games-section" onclick="scrollToSection('top-games-section'); return false;">Top 10</a>
         <a href="#new-games-section" onclick="scrollToSection('new-games-section'); return false;">Yeni Oyunlar</a>
-        <a href="#contact-section" onclick="scrollToSection('contact-section'); return false;">Əlaqə</a>
+        <a href="/live.html">🔴 Canlı Matçlar</a>
+        <a href="/who-are-ya.html">🕵️ Who Are Ya?</a>
       </div>
       <div class="footer-links">
         <h4>Sosial</h4>

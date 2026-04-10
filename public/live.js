@@ -254,6 +254,8 @@ let _pollTimer = null;
 let _activeTab = "today";
 let _activeCompFilter = "all";
 let _lastMatches = [];
+let _showAllMatches = false;
+const MATCHES_DEFAULT_LIMIT = 10;
 
 function startPolling() {
   stopPolling();
@@ -389,6 +391,11 @@ function setCompFilter(code) {
   updateCompFilterBar(_lastMatches);
 }
 
+function toggleShowAllMatches() {
+  _showAllMatches = !_showAllMatches;
+  renderMatchGrid(_lastMatches);
+}
+
 // ── Rendering ──────────────────────────────────────────────────────────────────
 function renderMatchGrid(matches) {
   const grid = document.getElementById("matches-grid");
@@ -426,6 +433,11 @@ function renderMatchGrid(matches) {
   ) : [];
   const otherMatches = fav ? sorted.filter(m => !favMatches.includes(m)) : sorted;
 
+  const visibleOther = _showAllMatches
+    ? otherMatches
+    : otherMatches.slice(0, MATCHES_DEFAULT_LIMIT);
+  const hiddenCount = otherMatches.length - visibleOther.length;
+
   let html = "";
   if (favMatches.length) {
     html += `<div style="margin-bottom:8px;font-size:.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">⭐ Sevimli Komanda</div>`;
@@ -434,7 +446,13 @@ function renderMatchGrid(matches) {
       html += `<div style="margin-bottom:8px;font-size:.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">📋 Bütün Matçlar</div>`;
     }
   }
-  html += `<div class="live-matches-grid">${otherMatches.map(renderMatchCard).join("")}</div>`;
+  html += `<div class="live-matches-grid">${visibleOther.map(renderMatchCard).join("")}</div>`;
+
+  if (otherMatches.length > MATCHES_DEFAULT_LIMIT) {
+    html += _showAllMatches
+      ? `<button class="show-toggle-btn" onclick="toggleShowAllMatches()">⬆️ Daha az göstər</button>`
+      : `<button class="show-toggle-btn" onclick="toggleShowAllMatches()">⬇️ Hamısını göstər (${hiddenCount} daha)</button>`;
+  }
 
   grid.innerHTML = html;
 }
@@ -645,6 +663,7 @@ function switchLiveTab(tab) {
   _activeTab = tab;
   _activeCompFilter = "all";
   _lastMatches = [];
+  _showAllMatches = false;
 
   // Hide filter bar while new data loads
   const bar = document.getElementById("comp-filter-bar");
