@@ -38,6 +38,8 @@
     <a href="/">🏠 Ana Səhifə</a>
     <a href="/live.html">🔴 Canlı Matçlar</a>
     <a href="/who-are-ya.html">🕵️ Who Are Ya?</a>
+    <a href="/privacy.html">🔒 Məxfilik Siyasəti</a>
+    <a href="/terms.html">📄 İstifadə Şərtləri</a>
   </div>
 </header>
 
@@ -86,6 +88,9 @@
         <span>Matçlar yüklənir…</span>
       </div>
     </div>
+
+    <!-- Reserved ad slot – stabilises CLS when Auto Ads injects here -->
+    <div class="live-ad-slot" aria-hidden="true"></div>
 
   </section>
 </main>
@@ -184,6 +189,20 @@
   </div>
 </div>
 
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer class="footer" style="padding: 20px 0;">
+  <div class="container">
+    <div class="footer-bottom" style="padding-top:0; border-top:none; flex-direction:column; gap:8px; text-align:center;">
+      <p>© 2025 Futbol.az. Bütün hüquqlar qorunur.</p>
+      <p>
+        <a href="/privacy.html" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">🔒 Məxfilik Siyasəti</a>
+        <a href="/terms.html" style="color:var(--text-muted);text-decoration:none;margin:0 8px;">📄 İstifadə Şərtləri</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
 <script src="live.js"></script>
+<script src="consent.js"></script>
 </body>
 </html>

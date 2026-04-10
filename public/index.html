@@ -57,6 +57,8 @@
     <a href="#" onclick="openStoreModal(); closeMobileMenu(); return false;">🛍️ Mağaza</a>
     <a href="#" onclick="openProfileModal(); closeMobileMenu(); return false;">👤 Profil</a>
     <a href="#" onclick="openAchievementsModal(); closeMobileMenu(); return false;">🏅 Nişanlar</a>
+    <a href="/privacy.html">🔒 Məxfilik Siyasəti</a>
+    <a href="/terms.html">📄 İstifadə Şərtləri</a>
     <div class="mobile-search">
       <input type="search" placeholder="Oyun axtar…" oninput="filterGames(this.value); scrollToSection('games-section');" maxlength="60">
     </div>
@@ -339,8 +341,12 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2024 Futbol.az. Bütün hüquqlar qorunur.</p>
-      <p>🇦🇿 Azərbaycan</p>
+      <p>© 2025 Futbol.az. Bütün hüquqlar qorunur.</p>
+      <p>
+        <a href="/privacy.html" style="color:var(--text-muted);text-decoration:none;margin:0 6px;">🔒 Məxfilik</a>
+        <a href="/terms.html" style="color:var(--text-muted);text-decoration:none;margin:0 6px;">📄 Şərtlər</a>
+        <span style="margin-left:6px;">🇦🇿 Azərbaycan</span>
+      </p>
     </div>
   </div>
 </footer>
@@ -605,5 +611,6 @@
 
 <script src="games.js"></script>
 <script src="platform.js"></script>
+<script src="consent.js"></script>
 </body>
 </html>
