@@ -228,6 +228,21 @@ const GAMES_DATA = [
     isNew: false,
     tags: ["avropa", "liqa", "turnir"],
     addedDate: "2024-02-25"
+  },
+  {
+    id: 15,
+    title: "Who Are Ya?",
+    category: "Viktorina",
+    emoji: "🕵️",
+    gameType: "whoarya",
+    gradient: "linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)",
+    description: "Bulanıq futbolçu şəklinə baxın, ipuçlarını istifadə edin və futbolçunun adını tapın! Hər düzgün cavab sizi liderlik cədvəlinə yaxınlaşdırır.",
+    playCount: 3200,
+    rating: 4.9,
+    ratingsCount: 87,
+    isNew: true,
+    tags: ["futbolçu", "tahmin", "viktorina", "who are ya"],
+    addedDate: "2024-04-01"
   }
 ];
 
