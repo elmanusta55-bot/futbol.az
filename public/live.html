@@ -22,11 +22,6 @@
       <span class="logo-text">Futbol<span class="logo-accent">.az</span></span>
     </a>
 
-    <nav class="navbar-nav" aria-label="Əsas naviqasiya">
-      <a class="nav-link" href="/">🏠 Ana Səhifə</a>
-      <a class="nav-link active" href="/live.html">🔴 Canlı Matçlar</a>
-    </nav>
-
     <div class="navbar-actions">
       <button class="icon-btn" id="theme-btn" onclick="toggleLiveTheme()" aria-label="Modu dəyiş" title="Gecə/Gündüz modu">
         <span id="theme-icon">🌙</span>
@@ -70,6 +65,14 @@
         <button class="icon-toggle-btn" id="notif-toggle-btn" onclick="toggleLiveNotifications()" title="Bildirişlər">🔔 Bildiriş</button>
         <button class="icon-toggle-btn" id="sound-toggle-btn" onclick="toggleLiveSound()" title="Səs">🔊 Səs</button>
         <button class="icon-toggle-btn" onclick="openLiveSettings()" title="Ayarlar">⚙️ Ayarlar</button>
+      </div>
+    </div>
+
+    <!-- Competition Filter -->
+    <div class="comp-filter-bar" id="comp-filter-bar" hidden>
+      <span class="comp-filter-label">🏆 Liga:</span>
+      <div class="comp-filter-chips" id="comp-filter-chips">
+        <button class="comp-filter-chip active" data-comp="all" onclick="setCompFilter('all')">Hamısı</button>
       </div>
     </div>
 
