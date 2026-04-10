@@ -22,6 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="platform.css">
 </head>
 <body>
 
@@ -53,6 +54,11 @@
           <div class="search-results" id="search-results"></div>
         </div>
       </div>
+      <span id="coins-display" hidden>🪙 0</span>
+      <button id="daily-nav-btn" onclick="openDailyModal()" title="Günlük Tapşırıq">📅 Günlük</button>
+      <button id="leaderboard-nav-btn" onclick="openLeaderboardModal()" title="Liderlik Cədvəli">🏆 Liderlik</button>
+      <button id="store-nav-btn" onclick="openStoreModal()" title="Mağaza">🛍️ Mağaza</button>
+      <button id="profile-nav-btn" onclick="openProfileModal()" title="Profil">👤 Giriş</button>
       <button class="icon-btn" id="theme-btn" onclick="toggleTheme()" aria-label="Modu dəyiş" title="Gecə/Gündüz modu">
         <span id="theme-icon">🌙</span>
       </button>
@@ -69,6 +75,11 @@
     <a href="#categories-section" onclick="scrollToSection('categories-section'); closeMobileMenu(); return false;">📂 Kateqoriyalar</a>
     <a href="#about-section" onclick="scrollToSection('about-section'); closeMobileMenu(); return false;">ℹ️ Haqqında</a>
     <a href="#contact-section" onclick="scrollToSection('contact-section'); closeMobileMenu(); return false;">📬 Əlaqə</a>
+    <a href="#" onclick="openDailyModal(); closeMobileMenu(); return false;">📅 Günlük Tapşırıq</a>
+    <a href="#" onclick="openLeaderboardModal(); closeMobileMenu(); return false;">🏆 Liderlik</a>
+    <a href="#" onclick="openStoreModal(); closeMobileMenu(); return false;">🛍️ Mağaza</a>
+    <a href="#" onclick="openProfileModal(); closeMobileMenu(); return false;">👤 Profil</a>
+    <a href="#" onclick="openAchievementsModal(); closeMobileMenu(); return false;">🏅 Nişanlar</a>
     <div class="mobile-search">
       <input type="search" placeholder="Oyun axtar…" oninput="filterGames(this.value); scrollToSection('games-section');" maxlength="60">
     </div>
@@ -97,7 +108,7 @@
       </div>
       <div class="hero-stats" id="hero-stats">
         <div class="hero-stat">
-          <span class="hero-stat-num" id="stat-games">14</span>
+          <span class="hero-stat-num" id="stat-games">15</span>
           <span class="hero-stat-label">Oyun</span>
         </div>
         <div class="hero-stat">
@@ -247,6 +258,17 @@
             <span>⭐</span><span>🏟️</span><span>🎮</span>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── WHO ARE YA SECTION ── -->
+  <section id="whoarya-section" class="section section-alt">
+    <div class="container">
+      <div class="whoarya-section-banner">
+        <h2>🕵️ Who Are Ya?</h2>
+        <p>Bulanıq futbolçu şəklindən kimi olduğunu tap! İpuçlarından istifadə et.</p>
+        <button class="btn-primary" onclick="pfStartWhoAreYaSection()">▶️ Oynamağa Başla</button>
       </div>
     </div>
   </section>
@@ -464,6 +486,11 @@
         <h2 class="gos-title" id="gos-title">Oyun Adı</h2>
         <p class="gos-desc" id="gos-desc">Oyun açıklaması</p>
         <div class="gos-controls-hint" id="gos-controls-hint"></div>
+        <div class="diff-selector" role="group" aria-label="Çətinlik səviyyəsi">
+          <button class="diff-btn" data-diff="easy"   onclick="pfSetDifficulty('easy')">😊 Asan</button>
+          <button class="diff-btn active" data-diff="normal" onclick="pfSetDifficulty('normal')">😐 Orta</button>
+          <button class="diff-btn" data-diff="hard"   onclick="pfSetDifficulty('hard')">😤 Çətin</button>
+        </div>
         <button class="btn-play-big gos-start-btn" onclick="startGame()">▶️ Başla</button>
         <div class="gos-highscore">
           <span>🏆 Ən yüksək skor: </span><strong id="gos-highscore">0</strong>
@@ -524,9 +551,82 @@
   </div>
 </div>
 
+<!-- ══════════════════ AUDIO BAR ══════════════════ -->
+<div class="audio-bar on" id="audio-bar" aria-label="Səs kontrolu">
+  <button id="audio-toggle-btn" onclick="togglePlatformSound()" aria-label="Səsi aç/bağla" title="Səs">🔊</button>
+  <input type="range" id="audio-volume" min="0" max="1" step="0.05" value="0.5"
+    oninput="setPlatformVolume(this.value)" aria-label="Səs səviyyəsi" title="Səs səviyyəsi">
+</div>
+
+<!-- ══════════════════ PROFILE MODAL ══════════════════ -->
+<div id="profile-modal" class="pf-modal-overlay" role="dialog" aria-modal="true" aria-label="Profil" hidden>
+  <div class="pf-modal-box">
+    <div class="pf-modal-header">
+      <h2 class="pf-modal-title">👤 Profil</h2>
+      <button class="pf-modal-close" onclick="closeProfileModal()" aria-label="Bağla">✕</button>
+    </div>
+    <div class="pf-modal-body" id="profile-modal-body">
+      <!-- rendered by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ STORE MODAL ══════════════════ -->
+<div id="store-modal" class="pf-modal-overlay" role="dialog" aria-modal="true" aria-label="Mağaza" hidden>
+  <div class="pf-modal-box">
+    <div class="pf-modal-header">
+      <h2 class="pf-modal-title">🛍️ Mağaza</h2>
+      <button class="pf-modal-close" onclick="closeStoreModal()" aria-label="Bağla">✕</button>
+    </div>
+    <div class="pf-modal-body" id="store-modal-body">
+      <!-- rendered by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ LEADERBOARD MODAL ══════════════════ -->
+<div id="leaderboard-modal" class="pf-modal-overlay" role="dialog" aria-modal="true" aria-label="Liderlik" hidden>
+  <div class="pf-modal-box">
+    <div class="pf-modal-header">
+      <h2 class="pf-modal-title">🏆 Liderlik Cədvəli</h2>
+      <button class="pf-modal-close" onclick="closeLeaderboardModal()" aria-label="Bağla">✕</button>
+    </div>
+    <div class="pf-modal-body" id="lb-modal-body">
+      <!-- rendered by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ DAILY CHALLENGE MODAL ══════════════════ -->
+<div id="daily-modal" class="pf-modal-overlay" role="dialog" aria-modal="true" aria-label="Günlük Tapşırıq" hidden>
+  <div class="pf-modal-box">
+    <div class="pf-modal-header">
+      <h2 class="pf-modal-title">📅 Günlük Tapşırıq</h2>
+      <button class="pf-modal-close" onclick="closeDailyModal()" aria-label="Bağla">✕</button>
+    </div>
+    <div class="pf-modal-body" id="daily-modal-body">
+      <!-- rendered by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ ACHIEVEMENTS MODAL ══════════════════ -->
+<div id="achievements-modal" class="pf-modal-overlay" role="dialog" aria-modal="true" aria-label="Nişanlar" hidden>
+  <div class="pf-modal-box">
+    <div class="pf-modal-header">
+      <h2 class="pf-modal-title">🏅 Nişanlar</h2>
+      <button class="pf-modal-close" onclick="closeAchievementsModal()" aria-label="Bağla">✕</button>
+    </div>
+    <div class="pf-modal-body" id="achievements-modal-body">
+      <!-- rendered by JS -->
+    </div>
+  </div>
+</div>
+
 <!-- ══════════════════ TOAST ══════════════════ -->
 <div id="toast" class="toast" role="alert" aria-live="polite"></div>
 
 <script src="games.js"></script>
+<script src="platform.js"></script>
 </body>
 </html>
