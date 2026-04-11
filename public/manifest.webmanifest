@@ -5,6 +5,26 @@
   "display": "standalone",
   "theme_color": "#003DA5",
   "background_color": "#020617",
+  "shortcuts": [
+    {
+      "name": "Live Matçlar",
+      "short_name": "Live",
+      "url": "/live.html",
+      "description": "Canlı matçları izləyin"
+    },
+    {
+      "name": "Oyunlar",
+      "short_name": "Oyunlar",
+      "url": "/index.html#games-section",
+      "description": "Futbol oyunlarını açın"
+    },
+    {
+      "name": "Cədvəl",
+      "short_name": "Cədvəl",
+      "url": "/standings.html",
+      "description": "Liqa turnir cədvəlləri"
+    }
+  ],
   "icons": [
     {
       "src": "/icons/icon-192.png",

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="az" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Futbol.az | Matç Təqvimi</title>
+  <meta name="description" content="Tarix seçərək istənilən günün futbol matçlarını görün.">
+  <meta name="keywords" content="matç təqvimi, fixtures, futbol cədvəli, bu gün matçlar">
+  <link rel="canonical" href="https://futbol.az/fixtures.html">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/fixtures.css">
+</head>
+<body>
+<header class="navbar" id="navbar"><div class="navbar-inner"><a class="navbar-logo" href="/" aria-label="Futbol.az ana səhifə"><div class="logo-icon">⚽</div><span class="logo-text">Futbol<span class="logo-accent">.az</span></span></a><div class="navbar-actions"><a class="icon-btn" href="/standings.html" title="Cədvəl">🏆</a><button class="icon-btn" id="theme-btn" onclick="toggleTheme()"><span id="theme-icon">🌙</span></button><button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-expanded="false"><span></span><span></span><span></span></button></div></div><div class="mobile-menu" id="mobile-menu" hidden><a href="/">🏠 Ana Səhifə</a><a href="/standings.html">🏆 Cədvəl</a><a href="/top-scorers.html">📊 Qolçular</a><a href="/teams.html">🔍 Komandalar</a><a href="/fixtures.html">🗓️ Təqvim</a></div></header>
+<main class="page-main"><div class="page-shell"><h1 class="page-title">🗓️ Matç Təqvimi</h1><p class="page-subtitle">Tarixi seçin və bütün matçları görün.</p><div class="toolbar"><button id="btn-yesterday" class="quick-btn">Dünən</button><button id="btn-today" class="quick-btn">Bu gün</button><button id="btn-tomorrow" class="quick-btn">Sabah</button><input type="date" id="fixture-date" aria-label="Tarix seç"></div><p id="fixtures-msg" class="page-msg"></p><section id="fixtures-list" class="fixtures"></section></div></main>
+<footer class="footer"><div class="container"><div class="footer-bottom"><p>© 2025 Futbol.az. Bütün hüquqlar qorunur.</p></div></div></footer>
+<script src="/pages-common.js"></script>
+<script src="/fixtures.js"></script>
+<script src="/consent.js"></script>
+</body>
+</html>

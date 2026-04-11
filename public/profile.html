@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="az" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Futbol.az | Profil</title>
+  <meta name="description" content="Futbol.az istifadəçi profili: ad, avatar, sevimli komanda və oyun statistikası.">
+  <link rel="canonical" href="https://futbol.az/profile.html">
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .profile-page{padding:calc(var(--navbar-h) + 20px) 16px 40px}.profile-shell{max-width:720px;margin:0 auto}
+    .profile-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+    .profile-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0}
+    .profile-stat{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center}
+    .profile-form label{display:block;margin:8px 0 4px}.profile-form input,.profile-form select{width:100%;padding:9px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--text)}
+  </style>
+</head>
+<body>
+<header class="navbar" id="navbar"><div class="navbar-inner"><a class="navbar-logo" href="/" aria-label="Futbol.az ana səhifə"><div class="logo-icon">⚽</div><span class="logo-text">Futbol<span class="logo-accent">.az</span></span></a><div class="navbar-actions"><button class="icon-btn" id="theme-btn" onclick="toggleTheme()"><span id="theme-icon">🌙</span></button><button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-expanded="false"><span></span><span></span><span></span></button></div></div><div class="mobile-menu" id="mobile-menu" hidden><a href="/">🏠 Ana Səhifə</a><a href="/profile.html">👤 Profil</a></div></header>
+<main class="profile-page"><div class="profile-shell"><h1>👤 Profil</h1><div class="profile-card"><div id="profile-name-line">İstifadəçi: Qonaq</div><div class="profile-grid"><div class="profile-stat"><strong id="stat-played">0</strong><div>Ümumi oynanmış</div></div><div class="profile-stat"><strong id="stat-high">0</strong><div>Ən yüksək skor</div></div><div class="profile-stat"><strong id="stat-ratings">0</strong><div>Ümumi reytinq sayı</div></div></div><form class="profile-form" id="profile-form"><label for="profile-display">Ad</label><input id="profile-display" maxlength="30"><label for="profile-avatar">Avatar emoji</label><select id="profile-avatar"><option>⚽</option><option>🏆</option><option>🔥</option><option>🦁</option><option>🌟</option><option>😎</option></select><label for="profile-team">Sevimli komanda</label><input id="profile-team" maxlength="60" placeholder="Komanda adı"><button class="btn-primary" type="submit" style="margin-top:12px;">Yadda saxla</button></form></div></div></main>
+<footer class="footer"><div class="container"><div class="footer-bottom"><p>© 2025 Futbol.az</p></div></div></footer>
+<script src="/pages-common.js"></script>
+<script>
+(function(){
+  const CUR_KEY="faz_current_user";
+  function getCurrent(){try{return JSON.parse(localStorage.getItem(CUR_KEY)||"null");}catch{return null;}}
+  function userData(username){try{return JSON.parse(localStorage.getItem(`faz_u_${username.toLowerCase()}_data`)||"{}");}catch{return {};}}
+  function saveUserData(username,data){localStorage.setItem(`faz_u_${username.toLowerCase()}_data`,JSON.stringify(data));}
+  function countRatings(){try{return Object.keys(JSON.parse(localStorage.getItem("faz_ratings")||"{}")).length;}catch{return 0;}}
+  const user=getCurrent();
+  const line=document.getElementById("profile-name-line");
+  const form=document.getElementById("profile-form");
+  const display=document.getElementById("profile-display");
+  const avatar=document.getElementById("profile-avatar");
+  const team=document.getElementById("profile-team");
+  if(!user){line.textContent="İstifadəçi: Qonaq";form.hidden=true;return;}
+  const d=userData(user.username);
+  line.textContent=`İstifadəçi: ${user.avatar||"👤"} ${user.username}`;
+  document.getElementById("stat-played").textContent=String(d.gamesPlayed||0);
+  document.getElementById("stat-high").textContent=String(d.highScore||0);
+  document.getElementById("stat-ratings").textContent=String(countRatings());
+  display.value=d.displayName||user.username||"";
+  avatar.value=d.avatarEmoji||user.avatar||"⚽";
+  team.value=d.favoriteTeam||localStorage.getItem("favoriteTeam")||"";
+  form.addEventListener("submit",(e)=>{e.preventDefault(); d.displayName=display.value.trim()||user.username; d.avatarEmoji=avatar.value; d.favoriteTeam=team.value.trim(); saveUserData(user.username,d); user.avatar=avatar.value; localStorage.setItem(CUR_KEY,JSON.stringify(user)); localStorage.setItem("favoriteTeam",d.favoriteTeam); if(typeof showToast==="function")showToast("Profil yeniləndi"); alert("Profil yadda saxlanıldı");});
+})();
+</script>
+</body>
+</html>
