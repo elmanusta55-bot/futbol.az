@@ -11,6 +11,8 @@ const LS_FILTERS       = "faz_live_filters";
 const PARTICLE_COUNT   = 6;
 const REFRESH_LABEL    = "Axırıncı yeniləmə: ";
 const POLL_INTERVAL_MS = 10_000;
+const HOME_FALLBACK    = "Ev";
+const AWAY_FALLBACK    = "Qonaq";
 
 // Football-Data.org v4 match statuses
 const STATUS_LIVE     = new Set(["IN_PLAY", "PAUSED"]);
@@ -622,9 +624,9 @@ function renderMatchCard(match) {
   const h = score?.home ?? 0;
   const a = score?.away ?? 0;
   const ariaScore = isFinished || isLive || match.status === "PAUSED" ? `${h}-${a}` : (statusMeta.kickoff || "--:--");
-  const ariaLabel = `${home.name || "Ev"} vs ${away.name || "Qonaq"}, ${statusMeta.label}, ${ariaScore}`;
-  const homePrimary = home.shortName || home.name || "?";
-  const awayPrimary = away.shortName || away.name || "?";
+  const ariaLabel = `${home.name || HOME_FALLBACK} vs ${away.name || AWAY_FALLBACK}, ${statusMeta.label}, ${ariaScore}`;
+  const homePrimary = home.shortName || home.name || HOME_FALLBACK;
+  const awayPrimary = away.shortName || away.name || AWAY_FALLBACK;
   const homeSecondary = home.shortName && home.name && home.shortName !== home.name ? home.name : "";
   const awaySecondary = away.shortName && away.name && away.shortName !== away.name ? away.name : "";
 

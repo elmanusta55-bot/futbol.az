@@ -1,4 +1,6 @@
 "use strict";
+const HOME_FALLBACK = "Ev";
+const AWAY_FALLBACK = "Qonaq";
 
 function escapeHTML(str) {
   return String(str)
@@ -50,8 +52,8 @@ function renderMatch(match) {
   const status = getStatusMeta(match.status, match.minute);
   const h = score.home ?? "-";
   const a = score.away ?? "-";
-  const homePrimary = home.shortName || home.name || "Ev";
-  const awayPrimary = away.shortName || away.name || "Qonaq";
+  const homePrimary = home.shortName || home.name || HOME_FALLBACK;
+  const awayPrimary = away.shortName || away.name || AWAY_FALLBACK;
   const homeSecondary = home.shortName && home.name && home.shortName !== home.name ? home.name : "";
   const awaySecondary = away.shortName && away.name && away.shortName !== away.name ? away.name : "";
 
