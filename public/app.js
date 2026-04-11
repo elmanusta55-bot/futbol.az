@@ -377,7 +377,7 @@ async function fetchLiveScores() {
   const container = document.getElementById("live-scores-container");
   if (!container) return;
 
-  container.innerHTML = `<div class="loading-state"><div class="loading-spinner"></div><p>Canlı matçlar yüklənir…</p></div>`;
+  container.innerHTML = renderHomeMatchSkeletons();
 
   try {
     const res = await fetch("/api/live");
@@ -394,7 +394,7 @@ async function fetchTodayMatches() {
   const container = document.getElementById("today-matches-container");
   if (!container) return;
 
-  container.innerHTML = `<div class="loading-state"><div class="loading-spinner"></div><p>Matçlar yüklənir…</p></div>`;
+  container.innerHTML = renderHomeMatchSkeletons();
 
   try {
     const res = await fetch("/api/matches");
@@ -404,6 +404,14 @@ async function fetchTodayMatches() {
   } catch (_) {
     container.innerHTML = `<div class="no-data"><div class="no-data-icon">📅</div><p>Bugün matç tapılmadı.</p></div>`;
   }
+}
+
+function renderHomeMatchSkeletons() {
+  return `<div class="matches-grid" aria-hidden="true">
+    <div class="match-card fixture-skeleton"></div>
+    <div class="match-card fixture-skeleton"></div>
+    <div class="match-card fixture-skeleton"></div>
+  </div>`;
 }
 
 function renderMatches(container, fixtures, isLive) {
