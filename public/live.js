@@ -8,6 +8,7 @@
 const LS_SETTINGS      = "faz_live_settings";
 const LS_SCORES        = "faz_live_scores";
 const LS_FILTERS       = "faz_live_filters";
+const LS_PINNED_MATCHES = "faz_live_pinned_matches";
 const PARTICLE_COUNT   = 6;
 const REFRESH_LABEL    = "Axırıncı yeniləmə: ";
 const POLL_INTERVAL_MS = 10_000;
@@ -30,13 +31,14 @@ function escapeHTML(str) {
 // ── Settings ───────────────────────────────────────────────────────────────────
 const DEFAULT_SETTINGS = {
   notifOn:          true,
-  soundOn:          true,
+  soundOn:          false,
   browserNotifOn:   false,
   favoriteTeam:     "",
   pollIntervalSecs: 10,
 };
 
 let settings = loadSettings();
+let pinnedMatchIds = loadPinnedMatches();
 
 function loadSettings() {
   try {
@@ -95,6 +97,33 @@ function loadScoreCache() {
 
 function saveScoreCache() {
   try { localStorage.setItem(LS_SCORES, JSON.stringify(scoreCache)); } catch (_) {}
+}
+
+function loadPinnedMatches() {
+  try {
+    const raw = localStorage.getItem(LS_PINNED_MATCHES);
+    const ids = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(ids)) return new Set();
+    return new Set(ids.map((id) => String(id)));
+  } catch (_) {
+    return new Set();
+  }
+}
+
+function savePinnedMatches() {
+  try { localStorage.setItem(LS_PINNED_MATCHES, JSON.stringify([...pinnedMatchIds])); } catch (_) {}
+}
+
+function togglePinnedMatch(event, matchId) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  const id = String(matchId);
+  if (pinnedMatchIds.has(id)) pinnedMatchIds.delete(id);
+  else pinnedMatchIds.add(id);
+  savePinnedMatches();
+  renderMatchGrid(_lastMatches);
 }
 
 // ── Goal Detection ─────────────────────────────────────────────────────────────
@@ -571,14 +600,17 @@ function renderMatchGrid(matches) {
     return new Date(a.utcDate) - new Date(b.utcDate);
   });
 
+  const pinnedMatches = sorted.filter((m) => pinnedMatchIds.has(String(m.id)));
+  const unpinnedMatches = sorted.filter((m) => !pinnedMatchIds.has(String(m.id)));
+
   // Group by favorite team first
   const fav = (settings.favoriteTeam || "").toLowerCase().trim();
 
-  const favMatches   = fav ? sorted.filter(m =>
+  const favMatches   = fav ? unpinnedMatches.filter(m =>
     m.homeTeam?.name?.toLowerCase().includes(fav) ||
     m.awayTeam?.name?.toLowerCase().includes(fav)
   ) : [];
-  const otherMatches = fav ? sorted.filter(m => !favMatches.includes(m)) : sorted;
+  const otherMatches = fav ? unpinnedMatches.filter(m => !favMatches.includes(m)) : unpinnedMatches;
 
   const visibleOther = _showAllMatches
     ? otherMatches
@@ -586,6 +618,10 @@ function renderMatchGrid(matches) {
   const hiddenCount = otherMatches.length - visibleOther.length;
 
   let html = "";
+  if (pinnedMatches.length) {
+    html += `<div style="margin-bottom:8px;font-size:.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">📌 Pinlənmiş Matçlar</div>`;
+    html += `<div class="live-matches-grid" style="margin-bottom:24px;">${pinnedMatches.map(renderMatchCard).join("")}</div>`;
+  }
   if (favMatches.length) {
     html += `<div style="margin-bottom:8px;font-size:.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">⭐ Sevimli Komanda</div>`;
     html += `<div class="live-matches-grid" style="margin-bottom:24px;">${favMatches.map(renderMatchCard).join("")}</div>`;
@@ -614,6 +650,8 @@ function renderMatchCard(match) {
   const comp      = match.competition || {};
   const statusMeta = getStatusMeta(match.status, match.minute, match.utcDate);
   const changed = _changedMatchIds.has(String(match.id));
+  const pinned = pinnedMatchIds.has(String(match.id));
+  const important = isImportantMatch(match);
 
   const homeCrest = home.crest ? `<img class="match-team-crest" src="${escapeHTML(home.crest)}" alt="${escapeHTML(home.name || "")}" loading="lazy" onerror="this.style.display='none'">` : `<div class="match-team-crest-placeholder">🛡️</div>`;
   const awayCrest = away.crest ? `<img class="match-team-crest" src="${escapeHTML(away.crest)}" alt="${escapeHTML(away.name || "")}" loading="lazy" onerror="this.style.display='none'">` : `<div class="match-team-crest-placeholder">🛡️</div>`;
@@ -637,7 +675,8 @@ function renderMatchCard(match) {
     ? `<div class="match-ht">Fasilə: ${htScore.home} – ${htScore.away}</div>`
     : "";
 
-  return `<a class="match-card${isLive ? " live-now" : ""}${changed ? " goal-flash" : ""}" href="/match.html?id=${encodeURIComponent(match.id)}" aria-label="${escapeHTML(ariaLabel)}">
+  return `<a class="match-card${isLive ? " live-now" : ""}${changed ? " goal-flash" : ""}${important ? " important-match" : ""}" href="/match.html?id=${encodeURIComponent(match.id)}" aria-label="${escapeHTML(ariaLabel)}">
+    <button type="button" class="match-pin-btn${pinned ? " pinned" : ""}" onclick="togglePinnedMatch(event, '${escapeHTML(String(match.id))}')" aria-label="${pinned ? "Pin-dən çıxar" : "Matçı pinlə"}" aria-pressed="${pinned ? "true" : "false"}">${pinned ? "📌" : "📍"}</button>
     <div class="match-comp">${compEmbl}${escapeHTML(comp.name || "")}</div>
     <div class="match-teams">
       <div class="match-team">
@@ -657,6 +696,12 @@ function renderMatchCard(match) {
       </div>
     </div>
   </a>`;
+}
+
+function isImportantMatch(match) {
+  if (pinnedMatchIds.has(String(match.id))) return true;
+  const code = match.competition?.code;
+  return code === "PL" || code === "CL" || code === "PD" || code === "BL1" || code === "SA";
 }
 
 function renderError(msg) {

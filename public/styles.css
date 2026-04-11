@@ -22,9 +22,21 @@
   --border-h:     rgba(255,255,255,0.22);
   --shadow:       0 8px 32px rgba(0,0,0,0.5);
   --shadow-sm:    0 2px 12px rgba(0,0,0,0.35);
+  --shadow-lg:    0 20px 44px rgba(0,0,0,0.45);
   --radius:       14px;
   --radius-lg:    20px;
+  --radius-sm:    10px;
   --navbar-h:     64px;
+  --space-1:      4px;
+  --space-2:      8px;
+  --space-3:      12px;
+  --space-4:      16px;
+  --space-5:      24px;
+  --space-6:      32px;
+  --font-sm:      .84rem;
+  --font-md:      1rem;
+  --font-lg:      1.22rem;
+  --bg-gradient:  radial-gradient(ellipse 60% 45% at 50% -10%, rgba(26,86,212,.28), transparent 72%), linear-gradient(180deg, #07091a 0%, #090d20 100%);
 
   /* Glassmorphism */
   --glass-bg:     rgba(255,255,255,0.06);
@@ -44,8 +56,10 @@
   --border-h:   rgba(0,0,20,0.22);
   --shadow:     0 8px 32px rgba(0,0,0,0.15);
   --shadow-sm:  0 2px 12px rgba(0,0,0,0.08);
+  --shadow-lg:  0 18px 40px rgba(0,0,0,0.14);
   --glass-bg:   rgba(255,255,255,0.7);
   --glass-border: rgba(0,0,80,0.12);
+  --bg-gradient: radial-gradient(ellipse 55% 40% at 50% -10%, rgba(26,86,212,.18), transparent 70%), linear-gradient(180deg, #eef3ff 0%, #f9fbff 100%);
 }
 
 /* ── Reset & Base ──────────────────────────────────────────────────────── */
@@ -55,12 +69,21 @@ html { scroll-behavior: smooth; font-size: 16px; }
 
 body {
   font-family: 'Inter', system-ui, sans-serif;
-  background: var(--bg);
+  background: var(--bg-gradient);
   color: var(--text);
   line-height: 1.6;
   transition: background 0.35s, color 0.35s;
   min-height: 100vh;
   overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 a { color: var(--blue-lt); text-decoration: none; }
