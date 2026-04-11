@@ -475,7 +475,15 @@ function toggleShowAllMatches() {
 }
 
 function onDateFilterChange(nextDate) {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(nextDate || "")) return;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(nextDate || "")) {
+    syncFilterControls();
+    return;
+  }
+  const parsed = new Date(`${nextDate}T00:00:00Z`);
+  if (Number.isNaN(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== nextDate) {
+    syncFilterControls();
+    return;
+  }
   filters.date = nextDate;
   persistFilters();
   _showAllMatches = false;
@@ -613,6 +621,8 @@ function renderMatchCard(match) {
 
   const h = score?.home ?? 0;
   const a = score?.away ?? 0;
+  const ariaScore = isFinished || isLive || match.status === "PAUSED" ? `${h}-${a}` : (statusMeta.kickoff || "--:--");
+  const ariaLabel = `${home.name || "Ev"} vs ${away.name || "Qonaq"}, ${statusMeta.label}, ${ariaScore}`;
   const scoreHtml = isFinished || isLive || match.status === "PAUSED"
     ? `<div class="match-score${isLive ? " live-now" : ""}">${h} – ${a}</div>`
     : `<div class="match-score" style="font-size:1.1rem;color:var(--text-muted);">${escapeHTML(statusMeta.kickoff || "--:--")}</div>`;
@@ -622,7 +632,7 @@ function renderMatchCard(match) {
     ? `<div class="match-ht">Fasilə: ${htScore.home} – ${htScore.away}</div>`
     : "";
 
-  return `<a class="match-card${isLive ? " live-now" : ""}${changed ? " goal-flash" : ""}" href="/match.html?id=${encodeURIComponent(match.id)}" aria-label="${escapeHTML(home.name || "")} vs ${escapeHTML(away.name || "")}">
+  return `<a class="match-card${isLive ? " live-now" : ""}${changed ? " goal-flash" : ""}" href="/match.html?id=${encodeURIComponent(match.id)}" aria-label="${escapeHTML(ariaLabel)}">
     <div class="match-comp">${compEmbl}${escapeHTML(comp.name || "")}</div>
     <div class="match-teams">
       <div class="match-team">
