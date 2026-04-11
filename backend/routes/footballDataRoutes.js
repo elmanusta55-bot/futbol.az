@@ -62,4 +62,20 @@ router.get('/match/:id', (req, res) => {
   fdFetch(`/matches/${id}`, res, FD_TTL.match);
 });
 
+/**
+ * GET /api/fd/match/:id/h2h?limit=6
+ * Returns head-to-head history for a match (best effort by data plan).
+ */
+router.get('/match/:id/h2h', (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  const limit = parseInt(String(req.query.limit || '6'), 10);
+  const safeLimit = Number.isFinite(limit) ? Math.max(1, Math.min(limit, 20)) : 6;
+
+  if (!Number.isFinite(id) || id <= 0) {
+    return res.status(400).json({ error: 'Invalid match id.' });
+  }
+
+  fdFetch(`/matches/${id}/head2head?limit=${safeLimit}`, res, FD_TTL.match);
+});
+
 export default router;
