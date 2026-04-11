@@ -623,9 +623,14 @@ function renderMatchCard(match) {
   const a = score?.away ?? 0;
   const ariaScore = isFinished || isLive || match.status === "PAUSED" ? `${h}-${a}` : (statusMeta.kickoff || "--:--");
   const ariaLabel = `${home.name || "Ev"} vs ${away.name || "Qonaq"}, ${statusMeta.label}, ${ariaScore}`;
+  const homePrimary = home.shortName || home.name || "?";
+  const awayPrimary = away.shortName || away.name || "?";
+  const homeSecondary = home.shortName && home.name && home.shortName !== home.name ? home.name : "";
+  const awaySecondary = away.shortName && away.name && away.shortName !== away.name ? away.name : "";
+
   const scoreHtml = isFinished || isLive || match.status === "PAUSED"
     ? `<div class="match-score${isLive ? " live-now" : ""}">${h} – ${a}</div>`
-    : `<div class="match-score" style="font-size:1.1rem;color:var(--text-muted);">${escapeHTML(statusMeta.kickoff || "--:--")}</div>`;
+    : `<div class="match-score match-score-kickoff">${escapeHTML(statusMeta.kickoff || "--:--")}</div>`;
   const statusHtml = `<span class="match-status-badge ${statusMeta.className}">${statusMeta.label}</span>`;
 
   const htHtml = (isLive || isFinished) && htScore?.home != null
@@ -637,7 +642,8 @@ function renderMatchCard(match) {
     <div class="match-teams">
       <div class="match-team">
         ${homeCrest}
-        <div class="match-team-name">${escapeHTML(home.shortName || home.name || "?")}</div>
+        <div class="match-team-name">${escapeHTML(homePrimary)}</div>
+        ${homeSecondary ? `<div class="match-team-subname">${escapeHTML(homeSecondary)}</div>` : ""}
       </div>
       <div class="match-score-area">
         ${scoreHtml}
@@ -646,7 +652,8 @@ function renderMatchCard(match) {
       </div>
       <div class="match-team">
         ${awayCrest}
-        <div class="match-team-name">${escapeHTML(away.shortName || away.name || "?")}</div>
+        <div class="match-team-name">${escapeHTML(awayPrimary)}</div>
+        ${awaySecondary ? `<div class="match-team-subname">${escapeHTML(awaySecondary)}</div>` : ""}
       </div>
     </div>
   </a>`;
