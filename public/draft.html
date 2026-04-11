@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="az" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Futbol.az Draft mini-game – arzularındakı komandanı qur, reytinq və kimyanı ölç, nəticəni paylaş.">
+  <meta property="og:title" content="Futbol.az | Football Draft">
+  <meta property="og:description" content="Dream team qur və draft nəticəni dostlarınla paylaş.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://futbol.az/draft.html">
+  <meta property="og:image" content="https://futbol.az/og-image.svg">
+  <meta name="theme-color" content="#003DA5">
+  <title>Futbol.az | Football Draft</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/draft.css">
+</head>
+<body>
+<header class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a class="navbar-logo" href="/" aria-label="Futbol.az ana səhifə">
+      <div class="logo-icon">⚽</div>
+      <span class="logo-text">Futbol<span class="logo-accent">.az</span></span>
+    </a>
+
+    <div class="navbar-actions">
+      <button class="icon-btn" id="theme-btn" onclick="toggleDraftTheme()" aria-label="Modu dəyiş" title="Gecə/Gündüz modu">
+        <span id="theme-icon">🌙</span>
+      </button>
+      <button class="hamburger" id="hamburger" onclick="toggleDraftMobileMenu()" aria-label="Mobil menyu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <a href="/">🏠 Ana Səhifə</a>
+    <a href="/live.html">🔴 Canlı Matçlar</a>
+    <a href="/who-are-ya.html">🕵️ Who Are Ya?</a>
+    <a href="/draft.html">🧩 Football Draft</a>
+    <a href="/privacy.html">🔒 Məxfilik Siyasəti</a>
+    <a href="/terms.html">📄 İstifadə Şərtləri</a>
+  </div>
+</header>
+
+<main class="draft-page">
+  <div class="container draft-shell">
+    <section class="draft-hero">
+      <h1>🧩 Football Draft mini-game</h1>
+      <p>Arzularındakı komandanı qur: oyunçu kartlarını draft et, büdcə və klub limitini qoruyub ən yüksək squad rating əldə et.</p>
+    </section>
+
+    <section id="draft-loading" class="loading-panel" aria-live="polite">
+      <div class="skeleton-title"></div>
+      <div class="skeleton-line"></div>
+      <div class="skeleton-grid">
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+      </div>
+    </section>
+
+    <section id="draft-main" class="draft-layout" hidden>
+      <div>
+        <article class="draft-panel">
+          <div class="panel-head">
+            <h2>Draft raundu</h2>
+            <div class="draft-controls">
+              <select id="formation-select" aria-label="Formasiya seç">
+                <option value="4-3-3">4-3-3</option>
+                <option value="4-4-2">4-4-2</option>
+              </select>
+              <button id="start-draft-btn" class="btn-pill primary">Start</button>
+              <button id="new-draft-btn" class="btn-pill">New Draft</button>
+              <button id="undo-btn" class="btn-pill">Undo</button>
+            </div>
+          </div>
+
+          <div class="draft-status">
+            <div class="stat-box"><span>Raund</span><strong id="status-round">0/11</strong></div>
+            <div class="stat-box"><span>Büdcə</span><strong id="status-budget">0/100</strong></div>
+            <div class="stat-box"><span>Klub limiti</span><strong id="status-club">0/3</strong></div>
+            <div class="stat-box"><span>Formasiya</span><strong id="status-formation">4-3-3</strong></div>
+          </div>
+
+          <div class="panel-head" style="margin-bottom:0;">
+            <h2 id="candidate-title">Seçim</h2>
+          </div>
+          <p id="candidate-hint"></p>
+          <div id="candidate-cards" class="candidate-grid"></div>
+        </article>
+
+        <article id="result-panel" class="result-panel" hidden>
+          <h2>Final nəticə</h2>
+          <div class="result-grid">
+            <div class="result-item"><span>Squad rating</span><strong id="result-rating">0</strong></div>
+            <div class="result-item"><span>Chemistry</span><strong id="result-chemistry">0</strong></div>
+            <div class="result-item"><span>Best player</span><strong id="result-best">-</strong></div>
+          </div>
+          <button id="share-btn" class="btn-pill primary">Nəticəni paylaş</button>
+        </article>
+      </div>
+
+      <article class="pitch-panel">
+        <div class="panel-head">
+          <h2>Meydança</h2>
+        </div>
+        <div class="pitch">
+          <div id="pitch-rows"></div>
+        </div>
+      </article>
+    </section>
+  </div>
+</main>
+
+<div id="draft-toast" hidden></div>
+
+<script type="module" src="/draft.js"></script>
+</body>
+</html>

@@ -1,19 +1,24 @@
-const CACHE_NAME = 'futbol-az-shell-v1';
+const CACHE_NAME = 'futbol-az-shell-v2';
 const SHELL_URLS = [
   '/',
   '/index.html',
   '/live.html',
+  '/draft.html',
   '/privacy.html',
   '/terms.html',
   '/who-are-ya.html',
   '/styles.css',
   '/live-matches.css',
+  '/draft.css',
   '/platform.css',
   '/app.js',
   '/live.js',
+  '/draft.js',
+  '/draft-core.js',
   '/consent.js',
   '/manifest.webmanifest',
-  '/og-image.svg'
+  '/og-image.svg',
+  '/data/players.json'
 ];
 
 self.addEventListener('install', event => {
