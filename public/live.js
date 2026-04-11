@@ -497,9 +497,9 @@ function setDateToday() {
 }
 
 function shiftDate(dayDiff) {
-  const base = new Date(`${filters.date}T00:00:00`);
+  const base = new Date(`${filters.date}T00:00:00Z`);
   if (Number.isNaN(base.getTime())) return;
-  base.setDate(base.getDate() + dayDiff);
+  base.setUTCDate(base.getUTCDate() + dayDiff);
   const shifted = base.toISOString().slice(0, 10);
   onDateFilterChange(shifted);
   syncFilterControls();
