@@ -1,0 +1,11 @@
+.page-main { padding: calc(var(--navbar-h) + 20px) 16px 40px; }
+.page-shell { max-width: 1000px; margin: 0 auto; }
+.page-title { font-size: clamp(1.4rem, 2.4vw, 2rem); margin-bottom: 10px; }
+.page-subtitle { color: var(--text-muted); margin-bottom: 16px; }
+.search-box input { width: 100%; background: var(--bg-card); color: var(--text); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+.grid { margin-top: 16px; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.team-card { border: 1px solid var(--border); background: var(--bg-card); border-radius: var(--radius); padding: 12px; }
+.team-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.team-head img { width: 34px; height: 34px; object-fit: contain; }
+.team-meta { color: var(--text-muted); font-size: .9rem; }
+.page-msg { margin-top: 12px; color: var(--text-muted); }

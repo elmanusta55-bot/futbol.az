@@ -254,6 +254,8 @@ let state = {
   favorites: [],
   ratings: {},
   comments: {},
+  commentVotes: {},
+  commentsSort: "new",
   newsletter: [],
   scores: {},
 };
@@ -263,6 +265,8 @@ const LS_KEYS = {
   favorites: "faz_favorites",
   ratings:   "faz_ratings",
   comments:  "faz_comments",
+  commentVotes: "faz_comment_votes",
+  commentsSort: "faz_comments_sort",
   newsletter:"faz_newsletter",
   theme:     "faz_theme",
   scores:    "faz_scores",
@@ -283,6 +287,8 @@ function loadState() {
   state.favorites = lsGet("favorites", []);
   state.ratings   = lsGet("ratings",   {});
   state.comments  = lsGet("comments",  {});
+  state.commentVotes = lsGet("commentVotes", {});
+  state.commentsSort = lsGet("commentsSort", "new");
   state.newsletter= lsGet("newsletter",  []);
   state.scores    = lsGet("scores", {});
 }
@@ -595,9 +601,8 @@ function renderGames(filter, category, sort) {
 
 function renderGameCard(g) {
   const isFav = state.favorites.includes(g.id);
-  const userRating = state.ratings[g.id] || 0;
-  const starDisplay = renderStarDisplay(g.rating);
   const playFmt = formatPlayCount(g.playCount);
+  const commentCount = (state.comments[g.id] || []).length;
 
   return `
     <article class="game-card" role="listitem" data-id="${g.id}" data-cat="${escapeHTML(g.category)}"
@@ -627,6 +632,7 @@ function renderGameCard(g) {
               <span class="star-icon">⭐</span> ${g.rating.toFixed(1)}
             </span>
             <span class="game-card-stat">▶ ${playFmt}</span>
+            <span class="game-card-stat">💬 ${commentCount}</span>
           </div>
           <button class="play-btn" onclick="event.stopPropagation(); playGame(${g.id})"
             aria-label="${escapeHTML(g.title)} oynunu aç">
@@ -974,22 +980,48 @@ function addComment(gameId, text, author) {
     id: Date.now(),
     author: author.trim().slice(0, 50),
     text: text.trim().slice(0, 500),
-    date: new Date().toLocaleDateString("az-AZ", { year: "numeric", month: "2-digit", day: "2-digit" }) || new Date().toLocaleDateString()
+    date: new Date().toLocaleDateString("az-AZ", { year: "numeric", month: "2-digit", day: "2-digit" }) || new Date().toLocaleDateString(),
+    createdAt: Date.now(),
   };
   state.comments[gameId].unshift(comment);
   lsSet("comments", state.comments);
   renderComments(gameId);
+  renderGames();
   showToast("💬 Şərhiniz əlavə edildi!");
   return true;
+}
+
+function setCommentSort(sort) {
+  state.commentsSort = sort === "old" ? "old" : "new";
+  lsSet("commentsSort", state.commentsSort);
+  if (currentGameId) renderComments(currentGameId);
+}
+
+function getCommentVote(gameId, commentId) {
+  return state.commentVotes?.[gameId]?.[commentId] || 0;
+}
+
+function voteComment(gameId, commentId, value) {
+  if (!state.commentVotes[gameId]) state.commentVotes[gameId] = {};
+  const current = getCommentVote(gameId, commentId);
+  state.commentVotes[gameId][commentId] = current === value ? 0 : value;
+  lsSet("commentVotes", state.commentVotes);
+  renderComments(gameId);
 }
 
 function renderComments(gameId) {
   const list = document.getElementById("comments-list");
   const countEl = document.getElementById("comments-count");
-  const noComments = document.getElementById("no-comments");
+  const sortEl = document.getElementById("comments-sort");
   if (!list) return;
 
-  const comments = state.comments[gameId] || [];
+  if (sortEl) sortEl.value = state.commentsSort || "new";
+  const comments = [...(state.comments[gameId] || [])];
+  comments.sort((a, b) => {
+    const ad = a.createdAt || Date.parse(a.date) || 0;
+    const bd = b.createdAt || Date.parse(b.date) || 0;
+    return state.commentsSort === "old" ? ad - bd : bd - ad;
+  });
   if (countEl) countEl.textContent = `(${comments.length})`;
 
   if (comments.length === 0) {
@@ -1004,6 +1036,10 @@ function renderComments(gameId) {
         <span class="comment-date">${escapeHTML(c.date)}</span>
       </div>
       <p class="comment-text">${escapeHTML(c.text)}</p>
+      <div class="comment-actions">
+        <button class="comment-vote-btn ${getCommentVote(gameId, c.id) === 1 ? "active" : ""}" onclick="voteComment(${gameId}, ${c.id}, 1)">👍</button>
+        <button class="comment-vote-btn ${getCommentVote(gameId, c.id) === -1 ? "active" : ""}" onclick="voteComment(${gameId}, ${c.id}, -1)">👎</button>
+      </div>
     </div>`).join("");
 }
 
@@ -2295,10 +2331,41 @@ function setupNavObserver() {
   sections.forEach(s => observer.observe(s));
 }
 
+let deferredInstallPrompt = null;
+
+function initA2HSBanner() {
+  const shown = localStorage.getItem("faz_a2hs_seen") === "true";
+  const banner = document.getElementById("a2hs-banner");
+  const installBtn = document.getElementById("a2hs-install-btn");
+  const dismissBtn = document.getElementById("a2hs-dismiss-btn");
+  if (!banner || !installBtn || !dismissBtn || shown) return;
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    banner.hidden = false;
+  });
+
+  installBtn.addEventListener("click", async () => {
+    if (!deferredInstallPrompt) return;
+    deferredInstallPrompt.prompt();
+    try { await deferredInstallPrompt.userChoice; } catch {}
+    deferredInstallPrompt = null;
+    banner.hidden = true;
+    localStorage.setItem("faz_a2hs_seen", "true");
+  });
+
+  dismissBtn.addEventListener("click", () => {
+    banner.hidden = true;
+    localStorage.setItem("faz_a2hs_seen", "true");
+  });
+}
+
 // ─────────────────────────────── Init ────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
   applyTheme();
   loadState();
+  initA2HSBanner();
   initHomepageMatchCenter();
   renderGames();
   renderTopGames();

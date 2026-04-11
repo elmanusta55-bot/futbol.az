@@ -39,8 +39,8 @@ function pfUserKey(username, suffix) {
 function getUserData(username) {
   try {
     const v = localStorage.getItem(pfUserKey(username, "data"));
-    return v !== null ? JSON.parse(v) : { gamesPlayed: 0, totalScore: 0, highScore: 0, coins: 0, inventory: [], achievements: [], badges: [] };
-  } catch { return { gamesPlayed: 0, totalScore: 0, highScore: 0, coins: 0, inventory: [], achievements: [], badges: [] }; }
+    return v !== null ? JSON.parse(v) : { gamesPlayed: 0, totalScore: 0, highScore: 0, coins: 0, inventory: [], achievements: [], badges: [], displayName: "", avatarEmoji: "⚽", favoriteTeam: "", totalRatings: 0 };
+  } catch { return { gamesPlayed: 0, totalScore: 0, highScore: 0, coins: 0, inventory: [], achievements: [], badges: [], displayName: "", avatarEmoji: "⚽", favoriteTeam: "", totalRatings: 0 }; }
 }
 
 function saveUserData(username, data) {
@@ -263,7 +263,7 @@ function pfRegister(username, password) {
   pfCurrentUser = user;
   pfSet("currentUser", user);
   // Init data
-  saveUserData(u, { gamesPlayed: 0, totalScore: 0, highScore: 0, coins: 100, inventory: [], achievements: [], badges: [] });
+  saveUserData(u, { gamesPlayed: 0, totalScore: 0, highScore: 0, coins: 100, inventory: [], achievements: [], badges: [], displayName: u, avatarEmoji: user.avatar, favoriteTeam: "", totalRatings: 0 });
   return { success: true, user };
 }
 
@@ -277,8 +277,11 @@ function pfLogout() {
 function pfUpdateNavProfile() {
   const user = pfGetCurrentUser();
   const btn  = document.getElementById("profile-nav-btn");
+  const d = user ? getUserData(user.username) : null;
+  const name = d?.displayName || user?.username;
+  const avatar = d?.avatarEmoji || user?.avatar;
   if (btn) btn.innerHTML = user
-    ? `${user.avatar} <span class="profile-nav-name">${typeof escapeHTML === "function" ? escapeHTML(user.username) : user.username}</span>`
+    ? `${avatar} <span class="profile-nav-name">${typeof escapeHTML === "function" ? escapeHTML(name) : name}</span>`
     : "👤 Giriş";
   pfUpdateCoinsDisplay();
 }
@@ -320,6 +323,9 @@ function pfTrackGamePlayed(score) {
   d.gamesPlayed = (d.gamesPlayed || 0) + 1;
   d.totalScore  = (d.totalScore  || 0) + score;
   d.highScore   = Math.max(d.highScore || 0, score);
+  try {
+    d.totalRatings = Object.keys(JSON.parse(localStorage.getItem("faz_ratings") || "{}")).length;
+  } catch {}
   saveUserData(u.username, d);
   pfCheckAchievements(u.username);
 }
@@ -411,12 +417,18 @@ function pfRenderProfileView(user) {
   if (!body) return;
   const d   = getUserData(user.username);
   const ach = PF_ACHIEVEMENTS.filter(a => (d.achievements || []).includes(a.id));
+  const displayName = d.displayName || user.username;
+  const avatarEmoji = d.avatarEmoji || user.avatar || "⚽";
+  const favoriteTeam = d.favoriteTeam || localStorage.getItem("favoriteTeam") || "";
+  const totalRatings = Number.isFinite(d.totalRatings) ? d.totalRatings : (() => {
+    try { return Object.keys(JSON.parse(localStorage.getItem("faz_ratings") || "{}")).length; } catch { return 0; }
+  })();
 
   body.innerHTML = `
     <div class="pf-profile-header">
-      <div class="pf-avatar">${user.avatar}</div>
+      <div class="pf-avatar">${avatarEmoji}</div>
       <div class="pf-profile-info">
-        <h3 class="pf-username">${typeof escapeHTML === "function" ? escapeHTML(user.username) : user.username}</h3>
+        <h3 class="pf-username">${typeof escapeHTML === "function" ? escapeHTML(displayName) : displayName}</h3>
         <div class="pf-member-since">📅 ${new Date(user.createdAt).toLocaleDateString("az-AZ")}</div>
       </div>
     </div>
@@ -438,11 +450,29 @@ function pfRenderProfileView(user) {
         <span class="pf-stat-label">Ən Yüksək</span>
       </div>
       <div class="pf-stat-card">
-        <span class="pf-stat-icon">🪙</span>
-        <span class="pf-stat-val">${d.coins || 0}</span>
-        <span class="pf-stat-label">Coin</span>
+        <span class="pf-stat-icon">⭐</span>
+        <span class="pf-stat-val">${totalRatings}</span>
+        <span class="pf-stat-label">Reytinq sayı</span>
       </div>
     </div>
+
+    <div class="pf-section-title">👤 Profil Ayarları</div>
+    <div class="pf-form-group">
+      <label>Ad</label>
+      <input type="text" id="pf-display-name" value="${typeof escapeHTML === "function" ? escapeHTML(displayName) : displayName}" maxlength="30">
+    </div>
+    <div class="pf-form-group">
+      <label>Avatar Emoji</label>
+      <select id="pf-avatar-emoji">
+        ${["⚽","🏆","🔥","🦁","🌟","😎","🐯","⚡"].map(v => `<option value="${v}" ${v === avatarEmoji ? "selected" : ""}>${v}</option>`).join("")}
+      </select>
+    </div>
+    <div class="pf-form-group">
+      <label>Sevimli komanda</label>
+      <input type="text" id="pf-favorite-team" value="${typeof escapeHTML === "function" ? escapeHTML(favoriteTeam) : favoriteTeam}" maxlength="60" placeholder="Komanda adı">
+    </div>
+    <button class="btn-primary pf-submit-btn" onclick="pfSaveProfileSettings()">💾 Profili yadda saxla</button>
+    <a href="/profile.html" class="btn-secondary pf-submit-btn" style="display:inline-flex;margin-top:10px;justify-content:center;">👤 Profil səhifəsini aç</a>
 
     <div class="pf-section-title">🏅 Qazanılan Nişanlar</div>
     <div class="pf-badges-row">
@@ -463,6 +493,27 @@ function pfRenderProfileView(user) {
       <button class="pf-change-pass-btn" onclick="pfShowChangePassword()">🔑 Şifrə dəyiş</button>
       <button class="btn-secondary pf-logout-btn" onclick="pfLogout(); closeProfileModal()">👋 Çıxış</button>
     </div>`;
+}
+
+function pfSaveProfileSettings() {
+  const u = pfGetCurrentUser();
+  if (!u) return;
+  const d = getUserData(u.username);
+  const displayName = (document.getElementById("pf-display-name")?.value || "").trim();
+  const avatarEmoji = document.getElementById("pf-avatar-emoji")?.value || "⚽";
+  const favoriteTeam = (document.getElementById("pf-favorite-team")?.value || "").trim();
+  d.displayName = displayName || u.username;
+  d.avatarEmoji = avatarEmoji;
+  d.favoriteTeam = favoriteTeam;
+  saveUserData(u.username, d);
+  u.avatar = avatarEmoji;
+  pfCurrentUser = u;
+  pfSet("currentUser", u);
+  try { localStorage.setItem("favoriteTeam", favoriteTeam); } catch {}
+  try { localStorage.setItem("notificationsEnabled", localStorage.getItem("notificationsEnabled") || "false"); } catch {}
+  pfUpdateNavProfile();
+  pfRenderProfileView(u);
+  if (typeof showToast === "function") showToast("✅ Profil məlumatları yeniləndi");
 }
 
 function pfShowChangePassword() {

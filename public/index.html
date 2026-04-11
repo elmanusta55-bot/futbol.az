@@ -11,11 +11,15 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://futbol.az/">
   <meta property="og:image" content="https://futbol.az/og-image.svg">
+  <meta property="og:site_name" content="Futbol.az">
+  <meta property="og:locale" content="az_AZ">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Futbol.az | Futbol Oyunları">
   <meta name="twitter:description" content="Azərbaycanın ən yaxşı futbol oyunları platforması">
   <meta name="twitter:image" content="https://futbol.az/og-image.svg">
+  <meta name="twitter:site" content="@futbolaz">
   <meta name="theme-color" content="#003DA5">
+  <link rel="canonical" href="https://futbol.az/">
   <title>Futbol.az | Futbol Oyunları Platforması</title>
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -29,6 +33,38 @@
   <link rel="stylesheet" href="platform.css">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8330893952904159"
        crossorigin="anonymous"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-XXXXXXXXXX");
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "name": "Futbol.az",
+        "url": "https://futbol.az/",
+        "inLanguage": ["az", "en", "ru"],
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://futbol.az/teams.html?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "SportsOrganization",
+        "name": "Futbol.az",
+        "url": "https://futbol.az/",
+        "sport": "Football"
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -41,7 +77,15 @@
     </a>
 
     <div class="navbar-actions">
+      <a class="icon-btn" href="/standings.html" aria-label="Cədvəl" title="Cədvəl">🏆</a>
+      <a class="icon-btn" href="/top-scorers.html" aria-label="Qolçular" title="Qolçular">📊</a>
+      <a class="icon-btn" href="/teams.html" aria-label="Komandalar" title="Komandalar">🔍</a>
+      <a class="icon-btn" href="/fixtures.html" aria-label="Matç təqvimi" title="Matç təqvimi">🗓️</a>
       <a class="icon-btn" href="/draft.html" aria-label="Football Draft" title="Football Draft">🧩</a>
+      <button class="icon-btn" id="notif-btn" aria-label="Bildirişlər" title="Bildirişləri aktiv et">🔕</button>
+      <select id="lang-select" class="icon-btn" aria-label="Dil seçimi" title="Dil" style="padding:6px 8px;font-size:.9rem;">
+        <option value="az">🇦🇿</option><option value="en">🇬🇧</option><option value="ru">🇷🇺</option>
+      </select>
       <button class="icon-btn" id="theme-btn" onclick="toggleTheme()" aria-label="Modu dəyiş" title="Gecə/Gündüz modu">
         <span id="theme-icon">🌙</span>
       </button>
@@ -52,13 +96,22 @@
   </div>
 
   <div class="mobile-menu" id="mobile-menu" hidden>
-    <a href="#hero" onclick="scrollToSection('hero'); closeMobileMenu(); return false;">🏠 Ana Səhifə</a>
-    <a href="#match-center-section" onclick="scrollToSection('match-center-section'); closeMobileMenu(); return false;">⚡ Matç Mərkəzi</a>
-    <a href="#top-games-section" onclick="scrollToSection('top-games-section'); closeMobileMenu(); return false;">🔥 Top 10</a>
-    <a href="#categories-section" onclick="scrollToSection('categories-section'); closeMobileMenu(); return false;">📂 Kateqoriyalar</a>
+    <a href="#hero" data-i18n="navHome" onclick="scrollToSection('hero'); closeMobileMenu(); return false;">🏠 Ana Səhifə</a>
+    <a href="#match-center-section" data-i18n="navMatchCenter" onclick="scrollToSection('match-center-section'); closeMobileMenu(); return false;">⚡ Matç Mərkəzi</a>
+    <a href="#top-games-section" data-i18n="navTop10" onclick="scrollToSection('top-games-section'); closeMobileMenu(); return false;">🔥 Top 10</a>
+    <a href="#categories-section" data-i18n="navCategories" onclick="scrollToSection('categories-section'); closeMobileMenu(); return false;">📂 Kateqoriyalar</a>
     <a href="/live.html" style="color:#e74c3c;font-weight:700;">🔴 Canlı Matçlar</a>
+    <a href="/standings.html">🏆 Cədvəl</a>
+    <a href="/top-scorers.html">📊 Qolçular</a>
+    <a href="/teams.html">🔍 Komandalar</a>
+    <a href="/fixtures.html">🗓️ Matç Təqvimi</a>
+    <a href="/profile.html">👤 Profil Səhifəsi</a>
     <a href="/draft.html">🧩 Football Draft</a>
     <a href="/who-are-ya.html">🕵️ Who Are Ya?</a>
+        <a href="/standings.html">🏆 Cədvəl</a>
+        <a href="/top-scorers.html">📊 Qolçular</a>
+        <a href="/teams.html">🔍 Komandalar</a>
+        <a href="/fixtures.html">🗓️ Matç Təqvimi</a>
     <a href="#" onclick="openDailyModal(); closeMobileMenu(); return false;">📅 Günlük Tapşırıq</a>
     <a href="#" onclick="openLeaderboardModal(); closeMobileMenu(); return false;">🏆 Liderlik</a>
     <a href="#" onclick="openStoreModal(); closeMobileMenu(); return false;">🛍️ Mağaza</a>
@@ -79,17 +132,17 @@
   <section id="hero" class="hero">
     <div class="hero-bg"></div>
     <div class="hero-content">
-      <div class="hero-badge">🏆 #1 Futbol Platforması</div>
+      <div class="hero-badge" data-i18n="heroBadge">🏆 #1 Futbol Platforması</div>
       <h1 class="hero-title">
         <span class="hero-title-main">Futbol</span><span class="hero-title-accent">.az</span>
       </h1>
-      <p class="hero-subtitle">Azərbaycanın ən böyük futbol oyunları platforması. Oynayın, reytinq verin, rəqiblərinizi keçin!</p>
+      <p class="hero-subtitle" data-i18n="heroSubtitle">Azərbaycanın ən böyük futbol oyunları platforması. Oynayın, reytinq verin, rəqiblərinizi keçin!</p>
       <div class="hero-actions">
         <button class="btn-primary" onclick="scrollToSection('games-section')">
-          🎮 İndi Oyna
+          <span data-i18n="heroPlay">🎮 İndi Oyna</span>
         </button>
         <button class="btn-secondary" onclick="scrollToSection('top-games-section')">
-          🔥 Top Oyunlar
+          <span data-i18n="heroTop">🔥 Top Oyunlar</span>
         </button>
       </div>
       <div class="hero-stats" id="hero-stats">
@@ -164,18 +217,18 @@
   <section id="games-section" class="section">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">🎮 Bütün Oyunlar</h2>
+        <h2 class="section-title" data-i18n="secGames">🎮 Bütün Oyunlar</h2>
         <p class="section-subtitle">Seçdiyiniz kateqoriyada oyun tapın</p>
       </div>
 
       <div class="games-toolbar">
         <div class="category-filters" id="category-filters" role="tablist" aria-label="Kateqoriya filtrləri">
-          <button class="cat-btn active" data-cat="all" onclick="filterCategory('all')" role="tab" aria-selected="true">Hamısı</button>
-          <button class="cat-btn" data-cat="Aksiya" onclick="filterCategory('Aksiya')" role="tab" aria-selected="false">🎯 Aksiya</button>
-          <button class="cat-btn" data-cat="Strateji" onclick="filterCategory('Strateji')" role="tab" aria-selected="false">♟️ Strateji</button>
-          <button class="cat-btn" data-cat="Spor" onclick="filterCategory('Spor')" role="tab" aria-selected="false">⚽ Spor</button>
-          <button class="cat-btn" data-cat="Viktorina" onclick="filterCategory('Viktorina')" role="tab" aria-selected="false">🧠 Viktorina</button>
-          <button class="cat-btn fav-btn" data-cat="favorites" onclick="filterCategory('favorites')" role="tab" aria-selected="false">❤️ Favorilər</button>
+          <button class="cat-btn active" data-cat="all" onclick="filterCategory('all')" role="tab" aria-selected="true" data-i18n="catAll">Hamısı</button>
+          <button class="cat-btn" data-cat="Aksiya" onclick="filterCategory('Aksiya')" role="tab" aria-selected="false" data-i18n="catAction">🎯 Aksiya</button>
+          <button class="cat-btn" data-cat="Strateji" onclick="filterCategory('Strateji')" role="tab" aria-selected="false" data-i18n="catStrategy">♟️ Strateji</button>
+          <button class="cat-btn" data-cat="Spor" onclick="filterCategory('Spor')" role="tab" aria-selected="false" data-i18n="catSport">⚽ Spor</button>
+          <button class="cat-btn" data-cat="Viktorina" onclick="filterCategory('Viktorina')" role="tab" aria-selected="false" data-i18n="catQuiz">🧠 Viktorina</button>
+          <button class="cat-btn fav-btn" data-cat="favorites" onclick="filterCategory('favorites')" role="tab" aria-selected="false" data-i18n="catFav">❤️ Favorilər</button>
         </div>
         <div class="games-controls">
           <select id="sort-select" onchange="sortGames(this.value)" aria-label="Sıralama">
@@ -207,7 +260,7 @@
   <section id="top-games-section" class="section section-alt">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">🔥 Top 10 Oyun</h2>
+        <h2 class="section-title" data-i18n="secTop">🔥 Top 10 Oyun</h2>
         <p class="section-subtitle">Ən çox oynanan oyunlar</p>
       </div>
       <div class="top-games-list" id="top-games-list">
@@ -233,7 +286,7 @@
   <section id="categories-section" class="section section-alt">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">📂 Kateqoriyalar</h2>
+        <h2 class="section-title" data-i18n="secCats">📂 Kateqoriyalar</h2>
         <p class="section-subtitle">Oyun növünü seçin</p>
       </div>
       <div class="categories-grid" id="categories-grid">
@@ -383,6 +436,10 @@
         <a href="/live.html">🔴 Canlı Matçlar</a>
         <a href="/draft.html">🧩 Football Draft</a>
         <a href="/who-are-ya.html">🕵️ Who Are Ya?</a>
+        <a href="/standings.html">🏆 Cədvəl</a>
+        <a href="/top-scorers.html">📊 Qolçular</a>
+        <a href="/teams.html">🔍 Komandalar</a>
+        <a href="/fixtures.html">🗓️ Matç Təqvimi</a>
       </div>
       <div class="footer-links">
         <h4>Sosial</h4>
@@ -472,22 +529,25 @@
 
       <!-- Comments -->
       <div class="comments-section">
-        <h3>💬 Şərhlər <span class="comments-count" id="comments-count">(0)</span></h3>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+          <h3>💬 Şərhlər <span class="comments-count" id="comments-count">(0)</span></h3>
+          <select id="comments-sort" onchange="setCommentSort(this.value)" aria-label="Şərh sıralaması" style="padding:6px 10px;border-radius:8px;background:var(--bg-card);color:var(--text);border:1px solid var(--border);">
+            <option value="new">Ən yeni</option><option value="old">Ən köhnə</option>
+          </select>
+        </div>
         <div class="comments-list" id="comments-list">
           <p class="no-comments" id="no-comments">Hələ şərh yoxdur. İlk şərhi siz yazın!</p>
         </div>
         <form class="comment-form" id="comment-form" onsubmit="handleCommentSubmit(event)" novalidate>
           <input type="text" id="comment-author" placeholder="Adınız *" required maxlength="50" aria-label="Adınız">
           <textarea id="comment-text" placeholder="Şərhinizi yazın… *" required maxlength="500" rows="3" aria-label="Şərh mətni"></textarea>
-          <button type="submit" class="btn-primary">💬 Göndər</button>
+          <button type="submit" class="btn-primary" data-i18n="modalSend">💬 Göndər</button>
         </form>
       </div>
 
       <!-- Play Button -->
       <div class="modal-play-section">
-        <button class="btn-play-big" id="modal-play-btn" onclick="playGame(currentGameId)">
-          ▶️ Oyna
-        </button>
+        <button class="btn-play-big" id="modal-play-btn" onclick="playGame(currentGameId)" data-i18n="modalPlay">▶️ Oyna</button>
       </div>
     </div>
   </div>
@@ -661,8 +721,20 @@
 <!-- ══════════════════ TOAST ══════════════════ -->
 <div id="toast" class="toast" role="alert" aria-live="polite"></div>
 
+<div id="a2hs-banner" class="consent-banner" hidden>
+  <div class="consent-banner__inner">
+    <div class="consent-banner__text"><span class="consent-banner__icon">📱</span><p>Futbol.az tətbiqini ana ekrana əlavə edin.</p></div>
+    <div class="consent-banner__actions">
+      <button class="consent-btn consent-btn--accept" id="a2hs-install-btn">Ana ekrana əlavə et</button>
+      <button class="consent-btn consent-btn--decline" id="a2hs-dismiss-btn">Bağla</button>
+    </div>
+  </div>
+</div>
+
+<script src="i18n.js"></script>
 <script src="games.js"></script>
 <script src="platform.js"></script>
+<script src="notifications.js"></script>
 <script src="consent.js"></script>
 </body>
 </html>
