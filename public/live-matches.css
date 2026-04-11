@@ -202,6 +202,15 @@
   animation: goalFlash .55s ease-out;
 }
 
+.matches-group-label {
+  margin-bottom: 8px;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
 .match-card.important-match {
   border-color: rgba(241, 196, 15, .35);
   box-shadow: 0 0 0 1px rgba(241, 196, 15, .15), var(--shadow-sm);
@@ -978,15 +987,6 @@
   border-color: var(--blue);
   color: var(--blue-lt);
   background: rgba(0,61,165,.07);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
 }
 
 /* ══════════════════════════════════════════════════════════════════

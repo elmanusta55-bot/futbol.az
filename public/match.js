@@ -44,8 +44,9 @@ function findMainReferee(referees) {
 
 function toNumber(value) {
   if (typeof value === "number" && Number.isFinite(value)) return value;
-  const cleaned = String(value ?? "").replace(/[^\d.]/g, "");
-  const parsed = Number(cleaned);
+  const match = String(value ?? "").match(/-?\d+(?:\.\d+)?/);
+  if (!match) return null;
+  const parsed = Number(match[0]);
   return Number.isFinite(parsed) ? parsed : null;
 }
 

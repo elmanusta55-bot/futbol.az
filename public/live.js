@@ -17,6 +17,8 @@ const POLL_INTERVAL_MS = 10_000;
 const STATUS_LIVE     = new Set(["IN_PLAY", "PAUSED"]);
 const STATUS_FINISHED = new Set(["FINISHED"]);
 const STATUS_UPCOMING = new Set(["TIMED", "SCHEDULED"]);
+// Commonly high-interest competitions used for subtle card highlighting.
+const IMPORTANT_COMPETITION_CODES = new Set(["PL", "CL", "PD", "BL1", "SA"]);
 
 // ── HTML Escape ────────────────────────────────────────────────────────────────
 function escapeHTML(str) {
@@ -31,6 +33,7 @@ function escapeHTML(str) {
 // ── Settings ───────────────────────────────────────────────────────────────────
 const DEFAULT_SETTINGS = {
   notifOn:          true,
+  // Optional by default: avoid unexpected autoplay-like behavior.
   soundOn:          false,
   browserNotifOn:   false,
   favoriteTeam:     "",
@@ -124,6 +127,16 @@ function togglePinnedMatch(event, matchId) {
   else pinnedMatchIds.add(id);
   savePinnedMatches();
   renderMatchGrid(_lastMatches);
+}
+
+function initPinButtons() {
+  const grid = document.getElementById("matches-grid");
+  if (!grid) return;
+  grid.addEventListener("click", (event) => {
+    const pinBtn = event.target.closest(".match-pin-btn");
+    if (!pinBtn) return;
+    togglePinnedMatch(event, pinBtn.dataset.pinId || "");
+  });
 }
 
 // ── Goal Detection ─────────────────────────────────────────────────────────────
@@ -619,14 +632,14 @@ function renderMatchGrid(matches) {
 
   let html = "";
   if (pinnedMatches.length) {
-    html += `<div style="margin-bottom:8px;font-size:.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">📌 Pinlənmiş Matçlar</div>`;
+    html += `<div class="matches-group-label">📌 Pinlənmiş Matçlar</div>`;
     html += `<div class="live-matches-grid" style="margin-bottom:24px;">${pinnedMatches.map(renderMatchCard).join("")}</div>`;
   }
   if (favMatches.length) {
-    html += `<div style="margin-bottom:8px;font-size:.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">⭐ Sevimli Komanda</div>`;
+    html += `<div class="matches-group-label">⭐ Sevimli Komanda</div>`;
     html += `<div class="live-matches-grid" style="margin-bottom:24px;">${favMatches.map(renderMatchCard).join("")}</div>`;
     if (otherMatches.length) {
-      html += `<div style="margin-bottom:8px;font-size:.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">📋 Bütün Matçlar</div>`;
+      html += `<div class="matches-group-label">📋 Bütün Matçlar</div>`;
     }
   }
   html += `<div class="live-matches-grid">${visibleOther.map(renderMatchCard).join("")}</div>`;
@@ -676,7 +689,7 @@ function renderMatchCard(match) {
     : "";
 
   return `<a class="match-card${isLive ? " live-now" : ""}${changed ? " goal-flash" : ""}${important ? " important-match" : ""}" href="/match.html?id=${encodeURIComponent(match.id)}" aria-label="${escapeHTML(ariaLabel)}">
-    <button type="button" class="match-pin-btn${pinned ? " pinned" : ""}" onclick="togglePinnedMatch(event, '${escapeHTML(String(match.id))}')" aria-label="${pinned ? "Pin-dən çıxar" : "Matçı pinlə"}" aria-pressed="${pinned ? "true" : "false"}">${pinned ? "📌" : "📍"}</button>
+    <button type="button" class="match-pin-btn${pinned ? " pinned" : ""}" data-pin-id="${escapeHTML(String(match.id))}" aria-label="${pinned ? "Pin-dən çıxar" : "Matçı pinlə"}" aria-pressed="${pinned ? "true" : "false"}">${pinned ? "📌" : "📍"}</button>
     <div class="match-comp">${compEmbl}${escapeHTML(comp.name || "")}</div>
     <div class="match-teams">
       <div class="match-team">
@@ -700,8 +713,7 @@ function renderMatchCard(match) {
 
 function isImportantMatch(match) {
   if (pinnedMatchIds.has(String(match.id))) return true;
-  const code = match.competition?.code;
-  return code === "PL" || code === "CL" || code === "PD" || code === "BL1" || code === "SA";
+  return IMPORTANT_COMPETITION_CODES.has(match.competition?.code);
 }
 
 function renderError(msg) {
@@ -965,6 +977,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   initNavbarScroll();
   initModalKeyClose();
+  initPinButtons();
   applySettingsToUI();
   syncFilterControls();
   persistFilters();
