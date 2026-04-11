@@ -257,6 +257,16 @@ let _lastMatches = [];
 let _showAllMatches = false;
 const MATCHES_DEFAULT_LIMIT = 10;
 
+async function fetchWithTimeout(url, timeoutMs = 10000) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+  try {
+    return await fetch(url, { signal: ctrl.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 function startPolling() {
   stopPolling();
   pollNow();
@@ -275,7 +285,7 @@ async function pollNow() {
   updateRefreshInfo("Yenilənir…");
 
   try {
-    const res = await fetch(endpoint);
+    const res = await fetchWithTimeout(endpoint);
 
     if (res.status === 503) {
       const data = await res.json().catch(() => ({}));
@@ -318,6 +328,10 @@ async function pollNow() {
     updateRefreshInfo(formatTimestamp());
     updateLiveIndicator(matches);
   } catch (err) {
+    if (err?.name === "AbortError") {
+      renderError("Sorğu vaxtı bitdi. Bir az sonra yenidən cəhd edin.");
+      return;
+    }
     renderError("Şəbəkə xətası. İnternet bağlantınızı yoxlayın.");
   }
 }
@@ -535,7 +549,7 @@ async function showMatchDetails(matchId) {
   modal.hidden   = false;
 
   try {
-    const res = await fetch(`/api/fd/match/${encodeURIComponent(matchId)}`);
+    const res = await fetchWithTimeout(`/api/fd/match/${encodeURIComponent(matchId)}`);
 
     if (!res.ok) {
       body.innerHTML = `<p style="color:var(--text-muted);">Matç məlumatları yüklənə bilmədi (${res.status}).</p>`;
@@ -549,7 +563,11 @@ async function showMatchDetails(matchId) {
     }
 
     body.innerHTML = renderMatchDetailsHTML(match);
-  } catch (_) {
+  } catch (err) {
+    if (err?.name === "AbortError") {
+      body.innerHTML = `<p style="color:var(--text-muted);">Sorğu vaxtı bitdi. Yenidən cəhd edin.</p>`;
+      return;
+    }
     body.innerHTML = `<p style="color:var(--text-muted);">Şəbəkə xətası baş verdi.</p>`;
   }
 }
