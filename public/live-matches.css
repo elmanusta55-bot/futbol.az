@@ -5,6 +5,7 @@
 /* ── Section wrapper ─────────────────────────────────────────────── */
 #live-section {
   padding: 40px 0 60px;
+  animation: sectionFadeIn .5s ease both;
 }
 
 .live-section-header {
@@ -93,10 +94,11 @@
   gap: 10px;
   margin-bottom: 16px;
   padding: 12px 14px;
-  background: var(--bg-card);
+  background: var(--glass-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  backdrop-filter: blur(8px);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--shadow-sm);
 }
 
 .live-toolbar-left {
@@ -174,7 +176,7 @@
   border-color: var(--border-h);
   background: var(--bg-card-h);
   box-shadow: var(--shadow-sm);
-  transform: translateY(-1px);
+  transform: translateY(-4px);
 }
 
 .match-card.live-now {
@@ -198,6 +200,11 @@
 
 .match-card.goal-flash {
   animation: goalFlash .55s ease-out;
+}
+
+.match-card.important-match {
+  border-color: rgba(241, 196, 15, .35);
+  box-shadow: 0 0 0 1px rgba(241, 196, 15, .15), var(--shadow-sm);
 }
 
 @keyframes goalFlash {
@@ -369,6 +376,29 @@
   opacity: .45;
   transition: opacity .2s, transform .15s;
   line-height: 1;
+}
+
+.match-pin-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .95rem;
+  z-index: 2;
+}
+
+.match-pin-btn.pinned {
+  border-color: rgba(241, 196, 15, .6);
+  background: rgba(241, 196, 15, .2);
 }
 
 .match-fav-btn:hover           { opacity: .8; }
@@ -760,8 +790,9 @@
   padding: 10px;
   border: 1px solid var(--border);
   border-radius: 14px;
-  background: var(--bg-card);
-  backdrop-filter: blur(10px);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--shadow-sm);
 }
 
 .date-filter-group {
@@ -825,6 +856,11 @@
 @keyframes skeletonShimmer {
   0% { background-position: 100% 0; }
   100% { background-position: 0 0; }
+}
+
+@keyframes sectionFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ── Responsive ──────────────────────────────────────────────────── */
@@ -942,6 +978,15 @@
   border-color: var(--blue);
   color: var(--blue-lt);
   background: rgba(0,61,165,.07);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ══════════════════════════════════════════════════════════════════

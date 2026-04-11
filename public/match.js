@@ -305,6 +305,10 @@ function renderMatch(match) {
   const awayPrimary = away.shortName || away.name || "Qonaq";
   const homeSecondary = home.shortName && home.name && home.shortName !== home.name ? home.name : "";
   const awaySecondary = away.shortName && away.name && away.shortName !== away.name ? away.name : "";
+  const statsHtml = renderStatsRows(match);
+  const lineupsHtml = renderLineups(match, home, away);
+  const h2hHtml = renderH2H(match, home, away);
+  const timelineHtml = renderTimeline(match);
 
   const homeCrest = home.crest ? `<img class="match-team-crest" src="${escapeHTML(home.crest)}" alt="${escapeHTML(home.name || "")}" loading="lazy">` : `<div class="match-team-crest-placeholder">🛡️</div>`;
   const awayCrest = away.crest ? `<img class="match-team-crest" src="${escapeHTML(away.crest)}" alt="${escapeHTML(away.name || "")}" loading="lazy">` : `<div class="match-team-crest-placeholder">🛡️</div>`;
@@ -358,7 +362,7 @@ function renderMatch(match) {
           <div class="section-skeleton"><div></div><div></div><div></div></div>
         </div>
         <div class="match-detail-panel" data-panel="predictions" hidden>
-          <div class="match-placeholder-tab"><strong>Predictions</strong><span>Model əsaslı ehtimallar tezliklə əlavə olunacaq.</span></div>
+          <div class="match-placeholder-tab"><strong>Predictions · Coming soon</strong><span>Model əsaslı ehtimallar və qrafiklər backend modeli əlavə ediləndən sonra görünəcək.</span></div>
         </div>
       </section>
     </article>`;
