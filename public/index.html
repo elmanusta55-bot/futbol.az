@@ -52,6 +52,7 @@
 
   <div class="mobile-menu" id="mobile-menu" hidden>
     <a href="#hero" onclick="scrollToSection('hero'); closeMobileMenu(); return false;">🏠 Ana Səhifə</a>
+    <a href="#match-center-section" onclick="scrollToSection('match-center-section'); closeMobileMenu(); return false;">⚡ Matç Mərkəzi</a>
     <a href="#top-games-section" onclick="scrollToSection('top-games-section'); closeMobileMenu(); return false;">🔥 Top 10</a>
     <a href="#categories-section" onclick="scrollToSection('categories-section'); closeMobileMenu(); return false;">📂 Kateqoriyalar</a>
     <a href="/live.html" style="color:#e74c3c;font-weight:700;">🔴 Canlı Matçlar</a>
@@ -111,6 +112,49 @@
     <div class="hero-scroll-hint" onclick="scrollToSection('games-section')">
       <span>Aşağı Diyirla</span>
       <div class="scroll-arrow">↓</div>
+    </div>
+  </section>
+
+  <!-- ── MATCH CENTER (Phase 1) ── -->
+  <section id="match-center-section" class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">⚡ Matç Mərkəzi</h2>
+        <p class="section-subtitle">Canlı və bu günkü matçlar, xəbərlər və proqnozlar</p>
+      </div>
+
+      <div class="match-center-meta">
+        <span class="match-center-badge">football-data.org</span>
+        <span class="match-center-refresh" id="match-center-refresh">Yenilənir…</span>
+      </div>
+
+      <div class="match-center-layout">
+        <article class="match-center-block">
+          <h3>🔴 Canlı Matçlar</h3>
+          <div id="home-live-cards" class="match-center-grid">
+            <div class="fixture-card fixture-skeleton"></div>
+            <div class="fixture-card fixture-skeleton"></div>
+          </div>
+        </article>
+
+        <article class="match-center-block">
+          <h3>📅 Bu Günün Matçları</h3>
+          <div id="home-today-cards" class="match-center-grid">
+            <div class="fixture-card fixture-skeleton"></div>
+            <div class="fixture-card fixture-skeleton"></div>
+          </div>
+        </article>
+
+        <article class="match-center-block">
+          <h3>📰 Top Xəbərlər</h3>
+          <div id="home-news-cards" class="news-cards-grid"></div>
+        </article>
+
+        <article class="match-center-block">
+          <h3>🎯 Proqnozlar</h3>
+          <div id="home-prediction-cards" class="prediction-cards-grid"></div>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -331,6 +375,7 @@
       </div>
       <div class="footer-links">
         <h4>Platforma</h4>
+        <a href="#match-center-section" onclick="scrollToSection('match-center-section'); return false;">Matç Mərkəzi</a>
         <a href="#top-games-section" onclick="scrollToSection('top-games-section'); return false;">Top 10</a>
         <a href="#new-games-section" onclick="scrollToSection('new-games-section'); return false;">Yeni Oyunlar</a>
         <a href="/live.html">🔴 Canlı Matçlar</a>
