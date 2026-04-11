@@ -50,30 +50,37 @@ function renderMatch(match) {
   const status = getStatusMeta(match.status, match.minute);
   const h = score.home ?? "-";
   const a = score.away ?? "-";
+  const homePrimary = home.shortName || home.name || "Ev";
+  const awayPrimary = away.shortName || away.name || "Qonaq";
+  const homeSecondary = home.shortName && home.name && home.shortName !== home.name ? home.name : "";
+  const awaySecondary = away.shortName && away.name && away.shortName !== away.name ? away.name : "";
 
   const homeCrest = home.crest ? `<img class="match-team-crest" src="${escapeHTML(home.crest)}" alt="${escapeHTML(home.name || "")}" loading="lazy">` : `<div class="match-team-crest-placeholder">🛡️</div>`;
   const awayCrest = away.crest ? `<img class="match-team-crest" src="${escapeHTML(away.crest)}" alt="${escapeHTML(away.name || "")}" loading="lazy">` : `<div class="match-team-crest-placeholder">🛡️</div>`;
 
   return `
     <article class="match-detail-card">
-      <header class="match-detail-head">
-        <div class="match-comp">${comp.emblem ? `<img src="${escapeHTML(comp.emblem)}" alt="" loading="lazy">` : ""}${escapeHTML(comp.name || "")}</div>
-        <span class="match-status-badge ${status.className}">${status.label}</span>
+      <header class="match-detail-head match-detail-head--pro">
+        <div class="match-detail-competition">
+          <div class="match-comp">${comp.emblem ? `<img src="${escapeHTML(comp.emblem)}" alt="" loading="lazy">` : ""}${escapeHTML(comp.name || "")}</div>
+          <span class="match-status-badge ${status.className}">${status.label}</span>
+        </div>
+        <div class="match-teams match-detail-teams">
+          <div class="match-team">
+            ${homeCrest}
+            <div class="match-team-name">${escapeHTML(homePrimary)}</div>
+            ${homeSecondary ? `<div class="match-team-subname">${escapeHTML(homeSecondary)}</div>` : ""}
+          </div>
+          <div class="match-score-area match-detail-score-wrap">
+            <div class="match-score">${h} – ${a}</div>
+          </div>
+          <div class="match-team">
+            ${awayCrest}
+            <div class="match-team-name">${escapeHTML(awayPrimary)}</div>
+            ${awaySecondary ? `<div class="match-team-subname">${escapeHTML(awaySecondary)}</div>` : ""}
+          </div>
+        </div>
       </header>
-
-      <div class="match-teams">
-        <div class="match-team">
-          ${homeCrest}
-          <div class="match-team-name">${escapeHTML(home.name || "Ev")}</div>
-        </div>
-        <div class="match-score-area">
-          <div class="match-score">${h} – ${a}</div>
-        </div>
-        <div class="match-team">
-          ${awayCrest}
-          <div class="match-team-name">${escapeHTML(away.name || "Qonaq")}</div>
-        </div>
-      </div>
 
       <div class="match-detail-meta">
         <div class="match-detail-meta-item"><span class="k">Kickoff</span>${escapeHTML(formatKickoff(match.utcDate))}</div>
@@ -82,13 +89,43 @@ function renderMatch(match) {
         <div class="match-detail-meta-item"><span class="k">Matç ID</span>${escapeHTML(String(match.id || "—"))}</div>
       </div>
 
-      <div class="match-placeholder-tabs">
-        <div class="match-placeholder-tab">Stats (tezliklə)</div>
-        <div class="match-placeholder-tab">Lineups (tezliklə)</div>
-        <div class="match-placeholder-tab">H2H (tezliklə)</div>
-        <div class="match-placeholder-tab">Predictions (tezliklə)</div>
-      </div>
+      <nav class="match-detail-tabs" aria-label="Matç detalları bölmələri">
+        <button type="button" class="match-detail-tab is-active" data-tab="stats" onclick="switchDetailTab('stats')">Stats</button>
+        <button type="button" class="match-detail-tab" data-tab="lineups" onclick="switchDetailTab('lineups')">Lineups</button>
+        <button type="button" class="match-detail-tab" data-tab="h2h" onclick="switchDetailTab('h2h')">H2H</button>
+        <button type="button" class="match-detail-tab" data-tab="predictions" onclick="switchDetailTab('predictions')">Predictions</button>
+      </nav>
+
+      <section class="match-detail-placeholder-wrap">
+        <div class="match-detail-panel is-active" data-panel="stats">
+          <div class="match-placeholder-tab"><strong>Stats</strong><span>Detallı statistika tezliklə əlavə ediləcək.</span></div>
+        </div>
+        <div class="match-detail-panel" data-panel="lineups" hidden>
+          <div class="match-placeholder-tab"><strong>Lineups</strong><span>Start heyət və ehtiyat oyunçular tezliklə görünəcək.</span></div>
+        </div>
+        <div class="match-detail-panel" data-panel="h2h" hidden>
+          <div class="match-placeholder-tab"><strong>H2H</strong><span>Son qarşılaşmalar və müqayisə məlumatları tezliklə.</span></div>
+        </div>
+        <div class="match-detail-panel" data-panel="predictions" hidden>
+          <div class="match-placeholder-tab"><strong>Predictions</strong><span>Model əsaslı ehtimallar tezliklə əlavə olunacaq.</span></div>
+        </div>
+      </section>
     </article>`;
+}
+
+function switchDetailTab(tab) {
+  const tabs = document.querySelectorAll(".match-detail-tab");
+  const panels = document.querySelectorAll(".match-detail-panel");
+  tabs.forEach((btn) => {
+    const isActive = btn.dataset.tab === tab;
+    btn.classList.toggle("is-active", isActive);
+    btn.setAttribute("aria-pressed", String(isActive));
+  });
+  panels.forEach((panel) => {
+    const isActive = panel.dataset.panel === tab;
+    panel.classList.toggle("is-active", isActive);
+    panel.hidden = !isActive;
+  });
 }
 
 async function loadMatchDetail() {
