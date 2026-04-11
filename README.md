@@ -17,6 +17,7 @@ Professional football portal for Azerbaijan and world leagues – **2026 Season 
 - 🔍 Team & player search
 - 🌙 Dark / Light mode
 - 🎮 Interactive games (trivia, prediction, penalty shootout)
+- 🧩 Football Draft mini-game (dream team builder + squad rating)
 - 📱 Mobile-first responsive layout
 - 🔒 Secure API proxy (keys never exposed to browser)
 
@@ -52,10 +53,14 @@ futbol.az/
 ├── public/
 │   ├── index.html                 ← Games platform SPA
 │   ├── live.html                  ← Live matches & goal notifications page
+│   ├── draft.html                 ← Football Draft mini-game
 │   ├── app.js                     ← Games-platform frontend logic
 │   ├── live.js                    ← Live matches + goal notification logic
+│   ├── draft.js                   ← Draft flow and UI logic
+│   ├── draft-core.js              ← Draft scoring/chemistry helpers
 │   ├── styles.css                 ← Dark/light theme
 │   ├── live-matches.css           ← Live matches page styles
+│   ├── draft.css                  ← Draft page styles
 │   ├── games.js                   ← Interactive games
 │   └── games.css                  ← Game styles
 ├── test/
@@ -129,6 +134,18 @@ npm test
 ```
 
 Uses the Node.js built-in test runner (`node --test`). No extra packages needed.
+
+### Draft mini-game testing notes
+
+- Open `http://localhost:3000/draft.html`.
+- Pick a formation (`4-3-3` or `4-4-2`) and complete all rounds.
+- Verify limits are enforced:
+  - budget cap: `100`
+  - max `3` players from same club
+- Verify persistence:
+  - refresh the page and confirm last draft is restored from `localStorage`
+  - click **New Draft** to reset.
+- Verify final result panel shows squad rating, chemistry, best player, and share button copies text.
 
 ---
 
