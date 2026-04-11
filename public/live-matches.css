@@ -140,14 +140,17 @@
 
 /* ── Single match card ───────────────────────────────────────────── */
 .match-card {
+  display: block;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 16px;
   transition: border-color .2s, box-shadow .2s, transform .2s;
-  cursor: default;
+  cursor: pointer;
   position: relative;
   overflow: hidden;
+  text-decoration: none;
+  color: inherit;
 }
 
 .match-card:hover {
@@ -157,6 +160,21 @@
 
 .match-card.live-now {
   border-color: rgba(231,76,60,.4);
+}
+
+.match-card.live-now::after {
+  content: "LIVE";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: .6rem;
+  font-weight: 800;
+  color: #fff;
+  background: #e74c3c;
+  border-radius: 20px;
+  padding: 2px 6px;
+  letter-spacing: .08em;
+  animation: pulseDot 1.4s ease-in-out infinite;
 }
 
 .match-card.goal-flash {
@@ -665,6 +683,75 @@
   color: #fff;
 }
 
+/* ── New filters ───────────────────────────────────────────────────── */
+.live-filters {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.date-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-btn,
+.filter-select,
+#date-filter {
+  border: 1.5px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font: inherit;
+}
+
+.filter-btn {
+  cursor: pointer;
+  font-size: .8rem;
+  font-weight: 600;
+}
+
+.filter-select {
+  min-width: 160px;
+}
+
+.live-only-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: .85rem;
+  color: var(--text);
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--bg-card);
+}
+
+/* ── Loading skeleton ─────────────────────────────────────────────── */
+.live-skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.match-skeleton {
+  height: 165px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg2) 37%, var(--bg-card) 63%);
+  background-size: 400% 100%;
+  animation: skeletonShimmer 1.3s ease infinite;
+}
+
+@keyframes skeletonShimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
+}
+
 /* ── Responsive ──────────────────────────────────────────────────── */
 @media (max-width: 600px) {
   .live-matches-grid {
@@ -728,8 +815,15 @@
     gap: 8px;
   }
 
-  .comp-filter-chips {
-    flex-wrap: nowrap;
+  .live-filters,
+  .date-filter-group {
+    width: 100%;
+  }
+
+  .filter-select,
+  #date-filter {
+    flex: 1;
+    min-width: 0;
   }
 }
 

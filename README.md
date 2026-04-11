@@ -154,6 +154,7 @@ Used by the live matches page (`/live.html`).
 | ------ | ------------------- | ------ | ---------------------------------------- |
 | GET    | `/api/fd/live`      | 30 s   | All currently in-play matches            |
 | GET    | `/api/fd/today`     | 60 s   | All matches scheduled for today          |
+| GET    | `/api/fd/matches`   | 60 s   | Matches by date (`?date=YYYY-MM-DD`)     |
 | GET    | `/api/fd/upcoming`  | 5 min  | Matches in the next 3 days               |
 | GET    | `/api/fd/match/:id` | 30 s   | Full match details (events, bookings…)   |
 
@@ -218,4 +219,3 @@ Set the same environment variables and point the start command to `npm start`.
 ## License
 
 MIT © 2026 Futbol.az
-
