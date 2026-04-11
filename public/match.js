@@ -38,8 +38,259 @@ function formatKickoff(utcDate) {
 
 function findMainReferee(referees) {
   if (!Array.isArray(referees)) return "—";
-  const main = referees.find(r => r.type === "REFEREE") || referees[0];
+  const main = referees.find((r) => r.type === "REFEREE") || referees[0];
   return main?.name || "—";
+}
+
+function normalizeNumber(value) {
+  if (value == null) return null;
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  const parsed = Number(String(value).replace(/[^\d.-]/g, ""));
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function formatStatValue(value, isPercent = false) {
+  const n = normalizeNumber(value);
+  if (n == null) return "—";
+  if (isPercent) return `${Math.round(n)}%`;
+  if (Math.abs(n) >= 1000) return Math.round(n).toLocaleString("az-AZ");
+  return String(Math.round(n * 10) / 10);
+}
+
+function getByPaths(obj, paths) {
+  for (const path of paths) {
+    const parts = path.split(".");
+    let cur = obj;
+    for (const p of parts) {
+      if (cur == null) break;
+      cur = cur[p];
+    }
+    if (cur != null) return cur;
+  }
+  return null;
+}
+
+function getStatRows(match) {
+  const statsObj = match.statistics || {};
+  const statSources = [
+    statsObj,
+    statsObj.homeAway,
+    { home: statsObj.homeTeam || match.homeTeam?.statistics, away: statsObj.awayTeam || match.awayTeam?.statistics },
+  ];
+
+  const statDefs = [
+    { key: "possession", label: "Possession", percent: true, paths: ["possession", "ballPossession", "ball_possession"] },
+    { key: "shots", label: "Shots", paths: ["shots", "totalShots", "shotsTotal", "shots.total"] },
+    { key: "shotsOnTarget", label: "Shots on target", paths: ["shotsOnTarget", "shots_on_goal", "shots.onTarget"] },
+    { key: "corners", label: "Corners", paths: ["corners", "cornerKicks", "corner_kicks"] },
+    { key: "fouls", label: "Fouls", paths: ["fouls", "foulsCommitted", "fouls.committed"] },
+    { key: "passes", label: "Passes", paths: ["passes", "totalPasses", "passes.total"] },
+    { key: "xg", label: "xG", paths: ["xg", "expectedGoals", "expected_goals"] },
+  ];
+
+  const rows = statDefs.map((def) => {
+    let homeValue = null;
+    let awayValue = null;
+
+    for (const src of statSources) {
+      if (!src) continue;
+      if (homeValue == null) homeValue = getByPaths(src.home || {}, def.paths);
+      if (awayValue == null) awayValue = getByPaths(src.away || {}, def.paths);
+    }
+
+    if ((homeValue == null || awayValue == null) && Array.isArray(statsObj)) {
+      const found = statsObj.find((s) => {
+        const name = String(s?.type || s?.name || "").toLowerCase();
+        return def.paths.some((p) => name.includes(p.toLowerCase().split(".")[0]));
+      });
+      if (found) {
+        homeValue = homeValue ?? found.home ?? found.homeTeam ?? found.values?.home;
+        awayValue = awayValue ?? found.away ?? found.awayTeam ?? found.values?.away;
+      }
+    }
+
+    return {
+      ...def,
+      home: normalizeNumber(homeValue),
+      away: normalizeNumber(awayValue),
+    };
+  });
+
+  return rows;
+}
+
+function renderStatRow(row) {
+  const hasBoth = row.home != null && row.away != null;
+  const total = hasBoth ? Math.max(row.home + row.away, 1) : 1;
+  const homePct = hasBoth ? Math.max(0, Math.min(100, (row.home / total) * 100)) : 50;
+  const awayPct = hasBoth ? 100 - homePct : 50;
+
+  return `
+    <article class="stat-row">
+      <div class="stat-row-head">
+        <strong>${escapeHTML(row.label)}</strong>
+        <span>${formatStatValue(row.home, row.percent)} - ${formatStatValue(row.away, row.percent)}</span>
+      </div>
+      <div class="stat-bar" role="img" aria-label="${escapeHTML(row.label)} müqayisəsi">
+        <span class="stat-bar-home" style="width:${homePct}%"></span>
+        <span class="stat-bar-away" style="width:${awayPct}%"></span>
+      </div>
+    </article>`;
+}
+
+function renderStatsSection(match) {
+  const rows = getStatRows(match);
+  const availableRows = rows.filter((row) => row.home != null || row.away != null);
+
+  if (!availableRows.length) {
+    return `<div class="match-placeholder-tab"><strong>Stats</strong><span>Mövcud data planında statistik məlumat əlçatan deyil.</span></div>`;
+  }
+
+  const possession = availableRows.find((row) => row.key === "possession");
+  const donut = possession && possession.home != null && possession.away != null
+    ? `<div class="possession-donut-wrap"><div class="possession-donut" style="--home:${Math.max(0, Math.min(100, (possession.home / Math.max(1, possession.home + possession.away)) * 100))}%"></div><div class="possession-donut-label">${formatStatValue(possession.home, true)} / ${formatStatValue(possession.away, true)}</div></div>`
+    : "";
+
+  return `
+    <div class="stats-layout">
+      <div class="stats-rows">${availableRows.map(renderStatRow).join("")}</div>
+      ${donut}
+    </div>`;
+}
+
+function extractPlayerName(player, fallback) {
+  if (!player) return fallback;
+  if (typeof player === "string") return player;
+  return player.name || player.player?.name || player.fullName || fallback;
+}
+
+function getLineupBlock(match, side) {
+  const sideId = side === "home" ? match.homeTeam?.id : match.awayTeam?.id;
+  const lineups = match.lineups;
+
+  if (Array.isArray(lineups)) {
+    const fromTeam = lineups.find((l) => l?.team?.id === sideId) || lineups[side === "home" ? 0 : 1];
+    if (fromTeam) return fromTeam;
+  }
+
+  if (lineups && typeof lineups === "object") {
+    return lineups[side] || lineups[side === "home" ? "homeTeam" : "awayTeam"] || null;
+  }
+
+  return null;
+}
+
+function renderLineupList(players) {
+  if (!players.length) return `<li class="lineup-empty">Məlumat yoxdur</li>`;
+  return players
+    .map((p, idx) => `<li>${escapeHTML(extractPlayerName(p, `Player ${idx + 1}`))}</li>`)
+    .join("");
+}
+
+function renderPitch(lineup) {
+  const xi = Array.isArray(lineup?.startingXI) ? lineup.startingXI : Array.isArray(lineup?.startXI) ? lineup.startXI : [];
+  if (!xi.length) {
+    return `<div class="match-placeholder-tab"><strong>Lineups</strong><span>Start heyət mövcud deyil.</span></div>`;
+  }
+
+  const formation = String(lineup?.formation || "4-4-2");
+  const formationParts = formation.split("-").map((n) => parseInt(n, 10)).filter((n) => Number.isFinite(n) && n > 0);
+  const rows = [1, ...formationParts];
+  const lineupRows = [];
+  let cursor = 0;
+
+  rows.forEach((count) => {
+    const rowPlayers = xi.slice(cursor, cursor + count);
+    lineupRows.push(rowPlayers);
+    cursor += count;
+  });
+
+  if (cursor < xi.length) lineupRows.push(xi.slice(cursor));
+
+  return `
+    <div class="pitch" aria-label="Formation ${escapeHTML(formation)}">
+      ${lineupRows.map((rowPlayers) => `
+        <div class="pitch-row">
+          ${rowPlayers.map((p, idx) => `<span class="pitch-player" title="${escapeHTML(extractPlayerName(p, `Player ${idx + 1}`))}">${escapeHTML(extractPlayerName(p, `P${idx + 1}`).split(" ").slice(-1)[0])}</span>`).join("")}
+        </div>`).join("")}
+    </div>`;
+}
+
+function renderLineupsSection(match) {
+  const homeLineup = getLineupBlock(match, "home");
+  const awayLineup = getLineupBlock(match, "away");
+
+  if (!homeLineup && !awayLineup) {
+    return `<div class="match-placeholder-tab"><strong>Lineups</strong><span>Coming soon / unavailable with current data plan.</span></div>`;
+  }
+
+  const homeName = match.homeTeam?.shortName || match.homeTeam?.name || "Home";
+  const awayName = match.awayTeam?.shortName || match.awayTeam?.name || "Away";
+  const homeBench = Array.isArray(homeLineup?.bench) ? homeLineup.bench : Array.isArray(homeLineup?.substitutes) ? homeLineup.substitutes : [];
+  const awayBench = Array.isArray(awayLineup?.bench) ? awayLineup.bench : Array.isArray(awayLineup?.substitutes) ? awayLineup.substitutes : [];
+
+  return `
+    <div class="lineups-grid">
+      <article class="lineup-card">
+        <h3>${escapeHTML(homeName)} ${homeLineup?.formation ? `<span>${escapeHTML(homeLineup.formation)}</span>` : ""}</h3>
+        ${homeLineup ? renderPitch(homeLineup) : `<div class="match-placeholder-tab"><span>Məlumat yoxdur.</span></div>`}
+        <h4>Starting XI</h4>
+        <ul class="lineup-list">${renderLineupList(Array.isArray(homeLineup?.startingXI) ? homeLineup.startingXI : Array.isArray(homeLineup?.startXI) ? homeLineup.startXI : [])}</ul>
+        <h4>Bench</h4>
+        <ul class="lineup-list">${renderLineupList(homeBench)}</ul>
+      </article>
+      <article class="lineup-card">
+        <h3>${escapeHTML(awayName)} ${awayLineup?.formation ? `<span>${escapeHTML(awayLineup.formation)}</span>` : ""}</h3>
+        ${awayLineup ? renderPitch(awayLineup) : `<div class="match-placeholder-tab"><span>Məlumat yoxdur.</span></div>`}
+        <h4>Starting XI</h4>
+        <ul class="lineup-list">${renderLineupList(Array.isArray(awayLineup?.startingXI) ? awayLineup.startingXI : Array.isArray(awayLineup?.startXI) ? awayLineup.startXI : [])}</ul>
+        <h4>Bench</h4>
+        <ul class="lineup-list">${renderLineupList(awayBench)}</ul>
+      </article>
+    </div>`;
+}
+
+function resolveMatchResult(item) {
+  const homeGoals = item.score?.fullTime?.home ?? item.score?.home;
+  const awayGoals = item.score?.fullTime?.away ?? item.score?.away;
+  if (normalizeNumber(homeGoals) == null || normalizeNumber(awayGoals) == null) return "draw";
+  if (homeGoals > awayGoals) return "home";
+  if (awayGoals > homeGoals) return "away";
+  return "draw";
+}
+
+function renderH2HSection(h2hData, match) {
+  const games = Array.isArray(h2hData?.matches) ? h2hData.matches.slice(0, 8) : [];
+  if (!games.length) {
+    return `<div class="match-placeholder-tab"><strong>H2H</strong><span>Coming soon / unavailable with current data plan.</span></div>`;
+  }
+
+  const homeId = match.homeTeam?.id;
+  const awayId = match.awayTeam?.id;
+  let homeWins = 0;
+  let awayWins = 0;
+  let draws = 0;
+
+  const rows = games.map((item) => {
+    const result = resolveMatchResult(item);
+    if (result === "draw") draws += 1;
+    else if ((result === "home" && item.homeTeam?.id === homeId) || (result === "away" && item.awayTeam?.id === homeId)) homeWins += 1;
+    else if ((result === "home" && item.homeTeam?.id === awayId) || (result === "away" && item.awayTeam?.id === awayId)) awayWins += 1;
+
+    return `<li>
+      <span>${escapeHTML(formatKickoff(item.utcDate || item.date || "").split(",")[0])}</span>
+      <strong>${escapeHTML(item.homeTeam?.shortName || item.homeTeam?.name || "Home")} ${item.score?.fullTime?.home ?? "-"} - ${item.score?.fullTime?.away ?? "-"} ${escapeHTML(item.awayTeam?.shortName || item.awayTeam?.name || "Away")}</strong>
+      <small>${escapeHTML(item.competition?.name || "")}</small>
+    </li>`;
+  }).join("");
+
+  return `
+    <div class="h2h-summary">
+      <div><strong>${homeWins}</strong><span>Home wins</span></div>
+      <div><strong>${draws}</strong><span>Draws</span></div>
+      <div><strong>${awayWins}</strong><span>Away wins</span></div>
+    </div>
+    <ul class="h2h-list">${rows}</ul>`;
 }
 
 function renderMatch(match) {
@@ -98,13 +349,13 @@ function renderMatch(match) {
 
       <section class="match-detail-placeholder-wrap">
         <div class="match-detail-panel is-active" data-panel="stats">
-          <div class="match-placeholder-tab"><strong>Stats</strong><span>Detallı statistika tezliklə əlavə ediləcək.</span></div>
+          <div class="section-skeleton"><div></div><div></div><div></div></div>
         </div>
         <div class="match-detail-panel" data-panel="lineups" hidden>
-          <div class="match-placeholder-tab"><strong>Lineups</strong><span>Start heyət və ehtiyat oyunçular tezliklə görünəcək.</span></div>
+          <div class="section-skeleton"><div></div><div></div><div></div></div>
         </div>
         <div class="match-detail-panel" data-panel="h2h" hidden>
-          <div class="match-placeholder-tab"><strong>H2H</strong><span>Son qarşılaşmalar və müqayisə məlumatları tezliklə.</span></div>
+          <div class="section-skeleton"><div></div><div></div><div></div></div>
         </div>
         <div class="match-detail-panel" data-panel="predictions" hidden>
           <div class="match-placeholder-tab"><strong>Predictions</strong><span>Model əsaslı ehtimallar tezliklə əlavə olunacaq.</span></div>
@@ -126,6 +377,23 @@ function switchDetailTab(tab) {
     panel.classList.toggle("is-active", isActive);
     panel.hidden = !isActive;
   });
+}
+
+function setPanelContent(panelName, html) {
+  const panel = document.querySelector(`.match-detail-panel[data-panel="${panelName}"]`);
+  if (!panel) return;
+  panel.innerHTML = html;
+}
+
+async function hydrateH2H(matchId, match) {
+  try {
+    const res = await fetch(`/api/fd/match/${encodeURIComponent(matchId)}/h2h?limit=6`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    setPanelContent("h2h", renderH2HSection(data, match));
+  } catch (_) {
+    setPanelContent("h2h", `<div class="match-placeholder-tab"><strong>H2H</strong><span>Coming soon / unavailable with current data plan.</span></div>`);
+  }
 }
 
 async function loadMatchDetail() {
@@ -150,6 +418,10 @@ async function loadMatchDetail() {
     if (data.error) throw new Error(data.error);
 
     container.innerHTML = renderMatch(data);
+    setPanelContent("stats", renderStatsSection(data));
+    setPanelContent("lineups", renderLineupsSection(data));
+    hydrateH2H(matchId, data);
+
     document.title = `${data.homeTeam?.shortName || data.homeTeam?.name || "Ev"} vs ${data.awayTeam?.shortName || data.awayTeam?.name || "Qonaq"} | Futbol.az`;
   } catch (_) {
     container.innerHTML = `<div class="live-empty"><div class="live-empty-icon">⚠️</div><div class="live-empty-text">Matç detalları yüklənmədi.</div></div>`;
