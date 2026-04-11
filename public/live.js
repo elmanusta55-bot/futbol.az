@@ -7,8 +7,10 @@
 // ── Constants ──────────────────────────────────────────────────────────────────
 const LS_SETTINGS      = "faz_live_settings";
 const LS_SCORES        = "faz_live_scores";
+const LS_FILTERS       = "faz_live_filters";
 const PARTICLE_COUNT   = 6;
 const REFRESH_LABEL    = "Axırıncı yeniləmə: ";
+const POLL_INTERVAL_MS = 10_000;
 
 // Football-Data.org v4 match statuses
 const STATUS_LIVE     = new Set(["IN_PLAY", "PAUSED"]);
@@ -31,7 +33,7 @@ const DEFAULT_SETTINGS = {
   soundOn:          true,
   browserNotifOn:   false,
   favoriteTeam:     "",
-  pollIntervalSecs: 30,
+  pollIntervalSecs: 10,
 };
 
 let settings = loadSettings();
@@ -252,40 +254,104 @@ function spawnCelebrationParticles() {
 // ── Polling ─────────────────────────────────────────────────────────────────────
 let _pollTimer = null;
 let _activeTab = "today";
-let _activeCompFilter = "all";
 let _lastMatches = [];
 let _showAllMatches = false;
+let _lastScoreSnapshot = {};
+let _changedMatchIds = new Set();
+let _pollAbortController = null;
+let _pollRequestCounter = 0;
+let _hasLoadedOnce = false;
 const MATCHES_DEFAULT_LIMIT = 10;
 
-async function fetchWithTimeout(url, timeoutMs = 10000) {
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+const DEFAULT_FILTERS = {
+  date: new Date().toISOString().slice(0, 10),
+  competition: "all",
+  liveOnly: false,
+};
+
+let filters = loadFilters();
+
+function loadFilters() {
+  let fromStorage = {};
   try {
-    return await fetch(url, { signal: ctrl.signal });
-  } finally {
-    clearTimeout(timer);
-  }
+    const raw = localStorage.getItem(LS_FILTERS);
+    fromStorage = raw ? JSON.parse(raw) : {};
+  } catch (_) {}
+
+  const params = new URLSearchParams(window.location.search);
+  const dateParam = params.get("date");
+  const competitionParam = params.get("competition");
+  const liveParam = params.get("live");
+
+  const loaded = {
+    ...DEFAULT_FILTERS,
+    ...fromStorage,
+  };
+
+  if (dateParam && /^\d{4}-\d{2}-\d{2}$/.test(dateParam)) loaded.date = dateParam;
+  if (competitionParam) loaded.competition = competitionParam;
+  if (liveParam === "1" || liveParam === "true") loaded.liveOnly = true;
+  if (liveParam === "0") loaded.liveOnly = false;
+
+  return loaded;
+}
+
+function persistFilters() {
+  try { localStorage.setItem(LS_FILTERS, JSON.stringify(filters)); } catch (_) {}
+
+  const params = new URLSearchParams(window.location.search);
+  params.set("date", filters.date);
+  if (filters.competition && filters.competition !== "all") params.set("competition", filters.competition);
+  else params.delete("competition");
+  if (filters.liveOnly) params.set("live", "1");
+  else params.delete("live");
+
+  const qs = params.toString();
+  const url = qs ? `${window.location.pathname}?${qs}` : window.location.pathname;
+  window.history.replaceState({}, "", url);
+}
+
+function syncFilterControls() {
+  const dateInput = document.getElementById("date-filter");
+  const liveOnlyInput = document.getElementById("live-only-filter");
+  if (dateInput) dateInput.value = filters.date;
+  if (liveOnlyInput) liveOnlyInput.checked = !!filters.liveOnly;
+}
+
+function getEndpoint() {
+  if (_activeTab === "live") return "/api/fd/live";
+  if (_activeTab === "upcoming") return "/api/fd/upcoming";
+  return `/api/fd/matches?date=${encodeURIComponent(filters.date)}`;
 }
 
 function startPolling() {
   stopPolling();
   pollNow();
-  _pollTimer = setInterval(pollNow, settings.pollIntervalSecs * 1000);
+  _pollTimer = setInterval(pollNow, POLL_INTERVAL_MS);
 }
 
 function stopPolling() {
   if (_pollTimer) { clearInterval(_pollTimer); _pollTimer = null; }
+  if (_pollAbortController) {
+    _pollAbortController.abort();
+    _pollAbortController = null;
+  }
 }
 
 async function pollNow() {
-  const endpoint = _activeTab === "live"     ? "/api/fd/live"
-                 : _activeTab === "upcoming" ? "/api/fd/upcoming"
-                 : "/api/fd/today";
+  const endpoint = getEndpoint();
+  const requestId = ++_pollRequestCounter;
 
+  if (_pollAbortController) _pollAbortController.abort();
+  _pollAbortController = new AbortController();
+
+  if (!_hasLoadedOnce) renderLoadingSkeletons();
   updateRefreshInfo("Yenilənir…");
 
   try {
-    const res = await fetchWithTimeout(endpoint);
+    const res = await fetch(endpoint, { signal: _pollAbortController.signal });
+
+    if (requestId !== _pollRequestCounter) return;
 
     if (res.status === 503) {
       const data = await res.json().catch(() => ({}));
@@ -301,7 +367,9 @@ async function pollNow() {
     }
 
     if (res.status === 429) {
-      renderError("API limiti aşıldı. Bir qədər gözləyin…");
+      const data = await res.json().catch(() => ({}));
+      const retryAfter = data.retryAfterSeconds ? ` (${data.retryAfterSeconds}s)` : "";
+      updateRefreshInfo(`Rate limit: bir az sonra yenidən yoxlanacaq${retryAfter}`);
       return;
     }
 
@@ -316,8 +384,12 @@ async function pollNow() {
       return;
     }
 
-    const matches = data.matches || [];
+    const matches = (data.matches || []).map(m => ({
+      ...m,
+      minute: m.minute ?? m.score?.duration ?? null,
+    }));
     _lastMatches = matches;
+    _changedMatchIds = detectScoreChanges(matches);
 
     // Detect goals only when polling live tab (or today with live matches inside)
     const goalEvents = detectGoals(matches);
@@ -327,12 +399,15 @@ async function pollNow() {
     renderMatchGrid(matches);
     updateRefreshInfo(formatTimestamp());
     updateLiveIndicator(matches);
+    _hasLoadedOnce = true;
   } catch (err) {
-    if (err?.name === "AbortError") {
-      renderError("Sorğu vaxtı bitdi. Bir az sonra yenidən cəhd edin.");
-      return;
+    if (err?.name === "AbortError") return;
+    updateRefreshInfo("Şəbəkə xətası. Avtomatik yenidən cəhd ediləcək…");
+    if (!_lastMatches.length) renderError("Şəbəkə xətası. İnternet bağlantınızı yoxlayın.");
+  } finally {
+    if (requestId === _pollRequestCounter) {
+      _pollAbortController = null;
     }
-    renderError("Şəbəkə xətası. İnternet bağlantınızı yoxlayın.");
   }
 }
 
@@ -364,9 +439,8 @@ function updateLiveIndicator(matches) {
 
 // ── Competition filter ─────────────────────────────────────────────────────────
 function updateCompFilterBar(matches) {
-  const bar   = document.getElementById("comp-filter-bar");
-  const chips = document.getElementById("comp-filter-chips");
-  if (!bar || !chips) return;
+  const select = document.getElementById("competition-filter");
+  if (!select) return;
 
   // Collect unique competitions
   const seen = new Map();
@@ -376,33 +450,23 @@ function updateCompFilterBar(matches) {
     }
   }
 
-  // Only show filter bar when there are multiple competitions
-  if (seen.size <= 1) {
-    bar.hidden = true;
-    _activeCompFilter = "all";
-    return;
+  if (filters.competition !== "all" && !seen.has(filters.competition)) {
+    filters.competition = "all";
+    persistFilters();
   }
 
-  bar.hidden = false;
-
-  // Keep active chip valid
-  if (_activeCompFilter !== "all" && !seen.has(_activeCompFilter)) {
-    _activeCompFilter = "all";
-  }
-
-  // Rebuild chips
-  let html = `<button class="comp-filter-chip${_activeCompFilter === "all" ? " active" : ""}" data-comp="all" onclick="setCompFilter('all')">Hamısı</button>`;
+  let html = `<option value="all">Bütün liqalar</option>`;
   for (const [code, name] of seen) {
-    const active = _activeCompFilter === code ? " active" : "";
-    html += `<button class="comp-filter-chip${active}" data-comp="${escapeHTML(code)}" onclick="setCompFilter('${escapeHTML(code)}')">${escapeHTML(name)}</button>`;
+    html += `<option value="${escapeHTML(code)}">${escapeHTML(name)}</option>`;
   }
-  chips.innerHTML = html;
+  select.innerHTML = html;
+  select.value = filters.competition;
 }
 
 function setCompFilter(code) {
-  _activeCompFilter = code;
+  filters.competition = code || "all";
+  persistFilters();
   renderMatchGrid(_lastMatches);
-  updateCompFilterBar(_lastMatches);
 }
 
 function toggleShowAllMatches() {
@@ -410,15 +474,84 @@ function toggleShowAllMatches() {
   renderMatchGrid(_lastMatches);
 }
 
+function onDateFilterChange(nextDate) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(nextDate || "")) {
+    syncFilterControls();
+    return;
+  }
+  const parsed = new Date(`${nextDate}T00:00:00Z`);
+  if (Number.isNaN(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== nextDate) {
+    syncFilterControls();
+    return;
+  }
+  filters.date = nextDate;
+  persistFilters();
+  _showAllMatches = false;
+  startPolling();
+}
+
+function setDateToday() {
+  const today = new Date().toISOString().slice(0, 10);
+  onDateFilterChange(today);
+  syncFilterControls();
+}
+
+function shiftDate(dayDiff) {
+  const base = new Date(`${filters.date}T00:00:00Z`);
+  if (Number.isNaN(base.getTime())) return;
+  base.setUTCDate(base.getUTCDate() + dayDiff);
+  const shifted = base.toISOString().slice(0, 10);
+  onDateFilterChange(shifted);
+  syncFilterControls();
+}
+
+function setLiveOnlyFilter(nextValue) {
+  filters.liveOnly = !!nextValue;
+  persistFilters();
+  renderMatchGrid(_lastMatches);
+}
+
+function detectScoreChanges(matches) {
+  const nextSnapshot = {};
+  const changedIds = new Set();
+
+  for (const match of matches) {
+    const score = match.score?.fullTime;
+    const key = `${score?.home ?? 0}:${score?.away ?? 0}`;
+    const id = String(match.id);
+    nextSnapshot[id] = key;
+    if (_lastScoreSnapshot[id] && _lastScoreSnapshot[id] !== key) {
+      changedIds.add(id);
+    }
+  }
+
+  _lastScoreSnapshot = nextSnapshot;
+  return changedIds;
+}
+
+function renderLoadingSkeletons() {
+  const grid = document.getElementById("matches-grid");
+  if (!grid) return;
+  grid.innerHTML = `
+    <div class="live-skeleton-grid" aria-hidden="true">
+      <div class="match-skeleton"></div>
+      <div class="match-skeleton"></div>
+      <div class="match-skeleton"></div>
+    </div>`;
+}
+
 // ── Rendering ──────────────────────────────────────────────────────────────────
 function renderMatchGrid(matches) {
   const grid = document.getElementById("matches-grid");
   if (!grid) return;
 
-  // Apply competition filter
-  const filtered = _activeCompFilter === "all"
-    ? matches
-    : matches.filter(m => m.competition?.code === _activeCompFilter);
+  // Apply live + competition filters
+  const liveFiltered = filters.liveOnly
+    ? matches.filter(m => STATUS_LIVE.has(m.status))
+    : matches;
+  const filtered = filters.competition === "all"
+    ? liveFiltered
+    : liveFiltered.filter(m => m.competition?.code === filters.competition);
 
   if (!filtered.length) {
     grid.innerHTML = `
@@ -479,41 +612,27 @@ function renderMatchCard(match) {
   const isLive    = STATUS_LIVE.has(match.status);
   const isFinished= STATUS_FINISHED.has(match.status);
   const comp      = match.competition || {};
+  const statusMeta = getStatusMeta(match.status, match.minute, match.utcDate);
+  const changed = _changedMatchIds.has(String(match.id));
 
   const homeCrest = home.crest ? `<img class="match-team-crest" src="${escapeHTML(home.crest)}" alt="${escapeHTML(home.name || "")}" loading="lazy" onerror="this.style.display='none'">` : `<div class="match-team-crest-placeholder">🛡️</div>`;
   const awayCrest = away.crest ? `<img class="match-team-crest" src="${escapeHTML(away.crest)}" alt="${escapeHTML(away.name || "")}" loading="lazy" onerror="this.style.display='none'">` : `<div class="match-team-crest-placeholder">🛡️</div>`;
   const compEmbl  = comp.emblem ? `<img src="${escapeHTML(comp.emblem)}" alt="" loading="lazy" onerror="this.style.display='none'">` : "";
 
-  let scoreHtml, statusHtml;
-  if (isLive) {
-    const min = match.minute != null ? `${match.minute}'` : "Canlı";
-    const h   = score?.home ?? 0;
-    const a   = score?.away ?? 0;
-    scoreHtml  = `<div class="match-score live-now">${h} – ${a}</div>`;
-    statusHtml = `<span class="match-status-badge status-live">🔴 ${escapeHTML(String(min))}</span>`;
-  } else if (match.status === "PAUSED") {
-    const h = score?.home ?? 0;
-    const a = score?.away ?? 0;
-    scoreHtml  = `<div class="match-score">${h} – ${a}</div>`;
-    statusHtml = `<span class="match-status-badge status-ht">⏸ Fasilə</span>`;
-  } else if (isFinished) {
-    const h = score?.home ?? 0;
-    const a = score?.away ?? 0;
-    scoreHtml  = `<div class="match-score">${h} – ${a}</div>`;
-    statusHtml = `<span class="match-status-badge status-ft">✓ Bitdi</span>`;
-  } else {
-    const kickoff = match.utcDate
-      ? new Date(match.utcDate).toLocaleTimeString("az-AZ", { hour: "2-digit", minute: "2-digit" })
-      : "--:--";
-    scoreHtml  = `<div class="match-score" style="font-size:1.1rem;color:var(--text-muted);">${escapeHTML(kickoff)}</div>`;
-    statusHtml = `<span class="match-status-badge status-upcoming">📅 Başlanacaq</span>`;
-  }
+  const h = score?.home ?? 0;
+  const a = score?.away ?? 0;
+  const ariaScore = isFinished || isLive || match.status === "PAUSED" ? `${h}-${a}` : (statusMeta.kickoff || "--:--");
+  const ariaLabel = `${home.name || "Ev"} vs ${away.name || "Qonaq"}, ${statusMeta.label}, ${ariaScore}`;
+  const scoreHtml = isFinished || isLive || match.status === "PAUSED"
+    ? `<div class="match-score${isLive ? " live-now" : ""}">${h} – ${a}</div>`
+    : `<div class="match-score" style="font-size:1.1rem;color:var(--text-muted);">${escapeHTML(statusMeta.kickoff || "--:--")}</div>`;
+  const statusHtml = `<span class="match-status-badge ${statusMeta.className}">${statusMeta.label}</span>`;
 
   const htHtml = (isLive || isFinished) && htScore?.home != null
     ? `<div class="match-ht">Fasilə: ${htScore.home} – ${htScore.away}</div>`
     : "";
 
-  return `<div class="match-card${isLive ? " live-now" : ""}" onclick="showMatchDetails(${match.id})" style="cursor:pointer;" tabindex="0" role="button" aria-label="${escapeHTML(home.name || "")}" onkeydown="if(event.key==='Enter')showMatchDetails(${match.id})">
+  return `<a class="match-card${isLive ? " live-now" : ""}${changed ? " goal-flash" : ""}" href="/match.html?id=${encodeURIComponent(match.id)}" aria-label="${escapeHTML(ariaLabel)}">
     <div class="match-comp">${compEmbl}${escapeHTML(comp.name || "")}</div>
     <div class="match-teams">
       <div class="match-team">
@@ -530,7 +649,7 @@ function renderMatchCard(match) {
         <div class="match-team-name">${escapeHTML(away.shortName || away.name || "?")}</div>
       </div>
     </div>
-  </div>`;
+  </a>`;
 }
 
 function renderError(msg) {
@@ -666,26 +785,36 @@ function renderMatchDetailsHTML(match) {
 }
 
 function getStatusLabel(status, minute) {
+  const meta = getStatusMeta(status, minute);
+  return `<span class="match-status-badge ${meta.className}">${meta.label}</span>`;
+}
+
+function getStatusMeta(status, minute, utcDate) {
   switch (status) {
-    case "IN_PLAY":  return `<span class="match-status-badge status-live">🔴 ${minute != null ? minute + "'" : "Canlı"}</span>`;
-    case "PAUSED":   return `<span class="match-status-badge status-ht">⏸ Fasilə</span>`;
-    case "FINISHED": return `<span class="match-status-badge status-ft">✓ Bitdi</span>`;
+    case "IN_PLAY":  return { label: `LIVE ${minute != null ? `${minute}'` : ""}`.trim(), className: "status-live" };
+    case "PAUSED":   return { label: "HT", className: "status-ht" };
+    case "FINISHED": return { label: "FT", className: "status-ft" };
     case "TIMED":
-    case "SCHEDULED":return `<span class="match-status-badge status-upcoming">📅 Başlanacaq</span>`;
-    default:         return `<span class="match-status-badge status-other">${escapeHTML(status || "")}</span>`;
+    case "SCHEDULED":return {
+      label: "NS",
+      className: "status-upcoming",
+      kickoff: utcDate ? new Date(utcDate).toLocaleTimeString("az-AZ", { hour: "2-digit", minute: "2-digit" }) : "--:--",
+    };
+    default:         return { label: escapeHTML(status || "—"), className: "status-other" };
   }
 }
 
 // ── Tabs ───────────────────────────────────────────────────────────────────────
 function switchLiveTab(tab) {
   _activeTab = tab;
-  _activeCompFilter = "all";
+  filters.competition = "all";
   _lastMatches = [];
   _showAllMatches = false;
+  _changedMatchIds = new Set();
+  _hasLoadedOnce = false;
 
-  // Hide filter bar while new data loads
-  const bar = document.getElementById("comp-filter-bar");
-  if (bar) bar.hidden = true;
+  const compSelect = document.getElementById("competition-filter");
+  if (compSelect) compSelect.innerHTML = `<option value="all">Bütün liqalar</option>`;
 
   document.querySelectorAll(".live-tab-btn").forEach(btn => {
     const active = btn.dataset.tab === tab;
@@ -693,6 +822,7 @@ function switchLiveTab(tab) {
     btn.setAttribute("aria-selected", String(active));
   });
 
+  persistFilters();
   // Reset and restart polling for new tab
   startPolling();
 }
@@ -784,6 +914,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initNavbarScroll();
   initModalKeyClose();
   applySettingsToUI();
+  syncFilterControls();
+  persistFilters();
 
   // If browser notifications were previously enabled, verify permission state
   if (settings.browserNotifOn && typeof Notification !== "undefined" && Notification.permission !== "granted") {

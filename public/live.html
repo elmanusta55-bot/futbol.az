@@ -87,19 +87,31 @@
       </div>
     </div>
 
-    <!-- Competition Filter -->
-    <div class="comp-filter-bar" id="comp-filter-bar" hidden>
-      <span class="comp-filter-label">🏆 Liga:</span>
-      <div class="comp-filter-chips" id="comp-filter-chips">
-        <button class="comp-filter-chip active" data-comp="all" onclick="setCompFilter('all')">Hamısı</button>
+    <!-- Filters -->
+    <div class="live-filters" id="live-filters">
+      <div class="date-filter-group">
+        <button class="filter-btn" onclick="shiftDate(-1)" aria-label="Əvvəlki gün">◀</button>
+        <input type="date" id="date-filter" onchange="onDateFilterChange(this.value)">
+        <button class="filter-btn" onclick="setDateToday()">Bu gün</button>
+        <button class="filter-btn" onclick="shiftDate(1)" aria-label="Növbəti gün">▶</button>
       </div>
+
+      <select id="competition-filter" class="filter-select" onchange="setCompFilter(this.value)">
+        <option value="all">Bütün liqalar</option>
+      </select>
+
+      <label class="live-only-toggle" for="live-only-filter">
+        <input type="checkbox" id="live-only-filter" onchange="setLiveOnlyFilter(this.checked)">
+        <span>Yalnız canlı</span>
+      </label>
     </div>
 
     <!-- Matches container -->
     <div id="matches-grid">
-      <div class="live-loading">
-        <div class="spinner"></div>
-        <span>Matçlar yüklənir…</span>
+      <div class="live-skeleton-grid" aria-hidden="true">
+        <div class="match-skeleton"></div>
+        <div class="match-skeleton"></div>
+        <div class="match-skeleton"></div>
       </div>
     </div>
 
@@ -191,11 +203,8 @@
         <span class="settings-label-icon">⏱️</span>
         Yeniləmə intervalı
       </label>
-      <select class="settings-select" id="sett-interval" onchange="onSettingChange('pollIntervalSecs', parseInt(this.value, 10))">
-        <option value="15">15 san</option>
-        <option value="30">30 san</option>
-        <option value="60">60 san</option>
-        <option value="120">2 dəq</option>
+      <select class="settings-select" id="sett-interval" disabled>
+        <option value="10">10 san</option>
       </select>
     </div>
 

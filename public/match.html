@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="az" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Futbol.az matç detalı – komandalar, hesab, məkan və oyun məlumatları.">
+  <title>Futbol.az | Matç Detalı</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="live-matches.css">
+  <link rel="stylesheet" href="match.css">
+</head>
+<body>
+<header class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a class="navbar-logo" href="/" aria-label="Futbol.az ana səhifə">
+      <div class="logo-icon">⚽</div>
+      <span class="logo-text">Futbol<span class="logo-accent">.az</span></span>
+    </a>
+
+    <div class="navbar-actions">
+      <button class="icon-btn" id="theme-btn" onclick="toggleTheme()" aria-label="Modu dəyiş" title="Gecə/Gündüz modu">
+        <span id="theme-icon">🌙</span>
+      </button>
+      <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Mobil menyu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <a href="/">🏠 Ana Səhifə</a>
+    <a href="/live.html">🔴 Canlı Matçlar</a>
+    <a href="/who-are-ya.html">🕵️ Who Are Ya?</a>
+  </div>
+</header>
+
+<main class="container match-page">
+  <a href="/live.html" class="match-back-link">← Canlı matçlara qayıt</a>
+  <section id="match-detail" aria-live="polite">
+    <div class="live-skeleton-grid" aria-hidden="true">
+      <div class="match-skeleton"></div>
+    </div>
+  </section>
+</main>
+
+<script src="match.js"></script>
+</body>
+</html>

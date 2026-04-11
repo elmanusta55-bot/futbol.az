@@ -21,6 +21,24 @@ router.get('/today', (req, res) => {
 });
 
 /**
+ * GET /api/fd/matches?date=YYYY-MM-DD
+ * Returns matches for a specific date.
+ */
+router.get('/matches', (req, res) => {
+  const date = String(req.query.date || '').trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    return res.status(400).json({ error: 'Invalid date. Use YYYY-MM-DD.' });
+  }
+  const parsed = new Date(`${date}T00:00:00Z`);
+  const isValidDate = !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === date;
+  if (!isValidDate) {
+    return res.status(400).json({ error: 'Invalid date value.' });
+  }
+
+  fdFetch(`/matches?dateFrom=${date}&dateTo=${date}`, res, FD_TTL.today);
+});
+
+/**
  * GET /api/fd/upcoming
  * Returns matches for the next 3 days.
  */
