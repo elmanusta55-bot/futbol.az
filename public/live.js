@@ -668,7 +668,7 @@ async function showMatchDetails(matchId) {
   modal.hidden   = false;
 
   try {
-    const res = await fetch(`/api/fd/match/${encodeURIComponent(matchId)}`);
+    const res = await fetchWithTimeout(`/api/fd/match/${encodeURIComponent(matchId)}`);
 
     if (!res.ok) {
       body.innerHTML = `<p style="color:var(--text-muted);">Matç məlumatları yüklənə bilmədi (${res.status}).</p>`;
@@ -682,7 +682,11 @@ async function showMatchDetails(matchId) {
     }
 
     body.innerHTML = renderMatchDetailsHTML(match);
-  } catch (_) {
+  } catch (err) {
+    if (err?.name === "AbortError") {
+      body.innerHTML = `<p style="color:var(--text-muted);">Sorğu vaxtı bitdi. Yenidən cəhd edin.</p>`;
+      return;
+    }
     body.innerHTML = `<p style="color:var(--text-muted);">Şəbəkə xətası baş verdi.</p>`;
   }
 }

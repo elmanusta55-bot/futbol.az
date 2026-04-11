@@ -300,11 +300,173 @@ function toggleTheme() {
 
 function applyTheme() {
   const saved = lsGet("theme", null);
-  if (saved) {
-    document.documentElement.setAttribute("data-theme", saved);
-    const icon = document.getElementById("theme-icon");
-    if (icon) icon.textContent = saved === "dark" ? "🌙" : "☀️";
+  const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const theme = saved || (prefersDark ? "dark" : "light");
+  document.documentElement.setAttribute("data-theme", theme);
+  const icon = document.getElementById("theme-icon");
+  if (icon) icon.textContent = theme === "dark" ? "🌙" : "☀️";
+}
+
+// ─────────────────────────────── Homepage Match Center ───────────────────────
+let matchCenterRefreshTimer = null;
+
+async function fetchJsonWithTimeout(url, timeoutMs = 10000) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, { signal: ctrl.signal });
+    let payload = {};
+    try { payload = await res.json(); } catch {}
+    return { ok: res.ok, status: res.status, payload };
+  } catch (err) {
+    if (err?.name === "AbortError") {
+      return { ok: false, status: 408, payload: { error: "Sorğu vaxtı bitdi" } };
+    }
+    return { ok: false, status: 0, payload: { error: "Şəbəkə xətası" } };
+  } finally {
+    clearTimeout(timer);
   }
+}
+
+function getTeamInitials(name) {
+  return String(name || "?")
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map(part => part[0] || "")
+    .join("")
+    .toUpperCase() || "?";
+}
+
+function getMatchStatusInfo(match) {
+  const status = String(match?.status || "");
+  const minute = match?.minute;
+  if (status === "IN_PLAY") return { code: "live", label: minute != null ? `LIVE ${minute}'` : "LIVE" };
+  if (status === "PAUSED")  return { code: "ht",   label: "HT" };
+  if (status === "FINISHED") return { code: "ft", label: "FT" };
+  const kickoff = match?.utcDate
+    ? new Date(match.utcDate).toLocaleTimeString("az-AZ", { hour: "2-digit", minute: "2-digit" })
+    : "--:--";
+  return { code: "sch", label: kickoff };
+}
+
+function renderTeamCrest(team) {
+  const rawTeamName = team?.shortName || team?.name || "?";
+  const teamName = escapeHTML(rawTeamName);
+  const initials = getTeamInitials(rawTeamName);
+  if (team?.crest) {
+    return `<img class="fixture-crest" src="${escapeHTML(team.crest)}" alt="${teamName}" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false;"><div class="fixture-crest-fallback" hidden>${initials}</div>`;
+  }
+  return `<div class="fixture-crest-fallback">${initials}</div>`;
+}
+
+function renderFixtureCard(match) {
+  const home = match?.homeTeam || {};
+  const away = match?.awayTeam || {};
+  const score = match?.score?.fullTime || {};
+  const status = getMatchStatusInfo(match);
+  const homeScore = score.home != null ? score.home : "–";
+  const awayScore = score.away != null ? score.away : "–";
+  const scoreDisplay = status.code === "sch" ? status.label : `${homeScore} – ${awayScore}`;
+
+  return `<article class="fixture-card">
+    <div class="fixture-head">
+      <span class="fixture-league">${escapeHTML(match?.competition?.name || "Matç")}</span>
+      <span class="fixture-status ${status.code}">${escapeHTML(status.label)}</span>
+    </div>
+    <div class="fixture-row">
+      <div class="fixture-team">${renderTeamCrest(home)}<span class="fixture-team-name">${escapeHTML(home.shortName || home.name || "?")}</span></div>
+      <div class="fixture-score">${escapeHTML(scoreDisplay)}</div>
+      <div class="fixture-team away"><span class="fixture-team-name">${escapeHTML(away.shortName || away.name || "?")}</span>${renderTeamCrest(away)}</div>
+    </div>
+  </article>`;
+}
+
+function renderMatchCenterCards(containerId, matches, emptyText) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  if (!matches.length) {
+    container.innerHTML = `<div class="fixture-empty">${escapeHTML(emptyText)}</div>`;
+    return;
+  }
+  container.innerHTML = matches.slice(0, 6).map(renderFixtureCard).join("");
+}
+
+function renderMatchCenterError(containerId, message) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = `<div class="fixture-empty error">${escapeHTML(message)}</div>`;
+}
+
+function updateMatchCenterRefreshLabel(text) {
+  const el = document.getElementById("match-center-refresh");
+  if (el) el.textContent = text;
+}
+
+function renderHomeNewsAndPredictions() {
+  const newsWrap = document.getElementById("home-news-cards");
+  const predWrap = document.getElementById("home-prediction-cards");
+  if (newsWrap) {
+    const items = [
+      { title: "Çempionlar Liqasında həftənin diqqət mərkəzi oyunları", meta: "UEFA • Son yenilənmə: bu gün" },
+      { title: "Premyer Liqada liderlik yarışı qızışır", meta: "İngiltərə • Analiz" },
+      { title: "Azərbaycan Premyer Liqasında turun əsas matçı", meta: "Azərbaycan • Preview" },
+    ];
+    newsWrap.innerHTML = items.map(item => `
+      <article class="news-card">
+        <div class="news-card-title">${escapeHTML(item.title)}</div>
+        <div class="news-card-meta">${escapeHTML(item.meta)}</div>
+      </article>`).join("");
+  }
+  if (predWrap) {
+    const items = [
+      { title: "Favorit qələbə ehtimalı", meta: "Yüksək formadakı komandalar üstün görünür" },
+      { title: "Qol bazarı (2.5 üst)", meta: "Hücum statistikası yüksək olan cütlüklər" },
+      { title: "Risk balanslı seçim", meta: "İkiqat şans + aşağı riskli matçlar" },
+    ];
+    predWrap.innerHTML = items.map(item => `
+      <article class="prediction-card">
+        <div class="prediction-card-title">${escapeHTML(item.title)}</div>
+        <div class="prediction-card-meta">${escapeHTML(item.meta)}</div>
+      </article>`).join("");
+  }
+}
+
+async function refreshHomepageMatchCenter() {
+  if (!document.getElementById("match-center-section")) return;
+  updateMatchCenterRefreshLabel("Yenilənir…");
+
+  const [liveRes, todayRes] = await Promise.all([
+    fetchJsonWithTimeout("/api/fd/live"),
+    fetchJsonWithTimeout("/api/fd/today"),
+  ]);
+
+  if (liveRes.ok) {
+    renderMatchCenterCards("home-live-cards", liveRes.payload?.matches || [], "Hazırda canlı matç yoxdur.");
+  } else if (liveRes.status === 429) {
+    renderMatchCenterError("home-live-cards", "Canlı matç limiti doldu. Bir az sonra yenidən yoxlayın.");
+  } else {
+    renderMatchCenterError("home-live-cards", liveRes.payload?.error || "Canlı matçlar yüklənmədi.");
+  }
+
+  if (todayRes.ok) {
+    renderMatchCenterCards("home-today-cards", todayRes.payload?.matches || [], "Bu gün üçün matç tapılmadı.");
+  } else if (todayRes.status === 429) {
+    renderMatchCenterError("home-today-cards", "Bu günün matç limiti doldu. Bir az sonra yenidən yoxlayın.");
+  } else {
+    renderMatchCenterError("home-today-cards", todayRes.payload?.error || "Bu günün matçları yüklənmədi.");
+  }
+
+  const now = new Date().toLocaleTimeString("az-AZ", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  updateMatchCenterRefreshLabel(`Son yenilənmə: ${now}`);
+}
+
+function initHomepageMatchCenter() {
+  if (!document.getElementById("match-center-section")) return;
+  renderHomeNewsAndPredictions();
+  refreshHomepageMatchCenter();
+  if (matchCenterRefreshTimer) clearInterval(matchCenterRefreshTimer);
+  matchCenterRefreshTimer = setInterval(refreshHomepageMatchCenter, 60_000);
 }
 
 // ─────────────────────────────── Navigation ──────────────────────────────────
@@ -2137,6 +2299,7 @@ function setupNavObserver() {
 document.addEventListener("DOMContentLoaded", () => {
   applyTheme();
   loadState();
+  initHomepageMatchCenter();
   renderGames();
   renderTopGames();
   renderNewGames();
