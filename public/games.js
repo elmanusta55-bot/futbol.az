@@ -1829,7 +1829,7 @@ function startPenaltyGame(game) {
 // ══════════════════════════════════════════════════════════════
 const QUIZ_QUESTIONS = [
   { q: "Dünya çempionatını ən çox qazanan ölkə hansıdır?", opts: ["Almaniya", "İtaliya", "Braziliya", "Argentina"], a: 2 },
-  { q: "Ronaldo neçə Qızıl Top qazanıb? (2023-ə qədər)", opts: ["4", "5", "6", "7"], a: 1 },
+  { q: "Ronaldo neçə Qızıl Top qazanıb? (2023-cü ilə qədər)", opts: ["4", "5", "6", "7"], a: 1 },
   { q: "UEFA Çempionlar Liqasını ən çox qazanan klub hansıdır?", opts: ["Milan", "Bayern", "Barcelona", "Real Madrid"], a: 3 },
   { q: "Messi hansı ölkə üçün oynayır?", opts: ["İspaniya", "Argentina", "Braziliya", "Portuqaliya"], a: 1 },
   { q: "Premier Liqa neçənci ildə yaradılıb?", opts: ["1990", "1991", "1992", "1993"], a: 2 },
@@ -2782,13 +2782,13 @@ const TOP_SCORER_PLAYERS = [
   { full: "Lionel Messi", team: "Inter Miami", pos: "Hücumçu", nation: "Argentina", age: 38, hints: ["8 Ballon d'Or", "Barselona əfsanəsi"] },
   { full: "Cristiano Ronaldo", team: "Al Nassr", pos: "Hücumçu", nation: "Portuqaliya", age: 41, hints: ["5 Ballon d'Or", "UCL tarixində ən çox qol"] },
   { full: "Kylian Mbappé", team: "Real Madrid", pos: "Hücumçu", nation: "Fransa", age: 27, hints: ["2018 dünya çempionu", "Çox sürətli hücumçu"] },
-  { full: "Erling Haaland", team: "Manchester City", pos: "Hücumçu", nation: "Norveç", age: 26, hints: ["Premyer Liqa qol rekordu", "Fiziki güclü forvard"] },
-  { full: "Mohamed Salah", team: "Liverpool", pos: "Hücumçu", nation: "Misir", age: 34, hints: ["Anfield ulduzu", "Sağ cinahda oynayır"] },
-  { full: "Karim Benzema", team: "Al Ittihad", pos: "Hücumçu", nation: "Fransa", age: 38, hints: ["Real Madrid kapitani olub", "2022 Ballon d'Or"] },
-  { full: "Robert Lewandowski", team: "Barcelona", pos: "Hücumçu", nation: "Polşa", age: 38, hints: ["Bundesliqada bombardir", "Bayern-dən keçib"] },
-  { full: "Neymar", team: "Santos", pos: "Hücumçu", nation: "Braziliya", age: 34, hints: ["PSG və Barsada oynayıb", "Braziliyanın super ulduzu"] },
-  { full: "Son Heung-min", team: "Tottenham", pos: "Hücumçu", nation: "Cənubi Koreya", age: 34, hints: ["Asiyanın ən məşhurlarından", "Spurs kapitanı"] },
-  { full: "Vinicius Jr", team: "Real Madrid", pos: "Cinah hücumçusu", nation: "Braziliya", age: 26, hints: ["Çox sürətli driblinq", "UCL finalında qol vurub"] }
+  { full: "Erling Haaland", team: "Manchester City", pos: "Hücumçu", nation: "Norveç", age: 25, hints: ["Premyer Liqa qol rekordu", "Fiziki güclü forvard"] },
+  { full: "Mohamed Salah", team: "Liverpool", pos: "Hücumçu", nation: "Misir", age: 33, hints: ["Anfield ulduzu", "Sağ cinahda oynayır"] },
+  { full: "Karim Benzema", team: "Al Ittihad", pos: "Hücumçu", nation: "Fransa", age: 37, hints: ["Real Madrid kapitani olub", "2022 Ballon d'Or"] },
+  { full: "Robert Lewandowski", team: "Barcelona", pos: "Hücumçu", nation: "Polşa", age: 36, hints: ["Bundesliqada bombardir", "Bayern-dən keçib"] },
+  { full: "Neymar", team: "Al Hilal", pos: "Hücumçu", nation: "Braziliya", age: 33, hints: ["PSG və Barsada oynayıb", "Braziliyanın super ulduzu"] },
+  { full: "Son Heung-min", team: "Tottenham", pos: "Hücumçu", nation: "Cənubi Koreya", age: 32, hints: ["Asiyanın ən məşhurlarından", "Spurs kapitanı"] },
+  { full: "Vinicius Jr", team: "Real Madrid", pos: "Cinah hücumçusu", nation: "Braziliya", age: 25, hints: ["Çox sürətli driblinq", "UCL finalında qol vurub"] }
 ];
 
 function normalizeName(val) {
@@ -2828,11 +2828,18 @@ function startTopScorerGuessGame(game) {
 
   window.showScorerHint = function() {
     const p = rounds[idx];
-    if (hintsUsed >= 5) return;
+    const nParts = p.full.split(" ");
+    const nameHints = [
+      ...p.hints,
+      `Ad hissəsinin hərf sayı: ${nParts[0]?.length || 0}`,
+      `Soyadının ilk hərfi: ${(nParts[nParts.length - 1] || "").charAt(0)}`,
+      `Adının ilk hərfi: ${(nParts[0] || "").charAt(0)}`
+    ].slice(0, 5);
+    if (hintsUsed >= nameHints.length) return;
     hintsUsed++;
     const hintEl = document.getElementById("scorer-extra-hints");
     if (hintEl) {
-      const extra = p.hints[(hintsUsed - 1) % p.hints.length];
+      const extra = nameHints[hintsUsed - 1];
       hintEl.innerHTML += `💡 ${escapeHTML(extra)}<br>`;
     }
   };
@@ -2845,6 +2852,7 @@ function startTopScorerGuessGame(game) {
     let gained = 0;
     if (input === full) gained = Math.max(5, 20 - hintsUsed * 3);
     else if (input === surname) gained = Math.max(5, 10 - hintsUsed * 2);
+    else showToast("❌ Yanlış cavab! Növbəti oyunçuya keçək.");
     score += gained;
     setGpScore(score);
     idx++;
@@ -2875,6 +2883,7 @@ function startTacticsBuilderGame(game) {
   ];
 
   let selectedFormation = "4-3-3";
+  const TOTAL_POSITIONS = 11;
   let selectedPlayer = null;
   let draggedPlayer = null;
   const placed = {};
@@ -2993,12 +3002,12 @@ function startTacticsBuilderGame(game) {
       const p = placed[c.slotKey];
       if (p && roleOk(c.slot, p.r)) ok++;
     });
-    const fillRate = Math.round((Object.keys(placed).length / 11) * 50);
-    const fitRate = Math.round((ok / 11) * 50);
+    const fillRate = Math.round((Object.keys(placed).length / TOTAL_POSITIONS) * 50);
+    const fitRate = Math.round((ok / TOTAL_POSITIONS) * 50);
     const total = Math.max(0, Math.min(100, fillRate + fitRate));
     const best = Number(localStorage.getItem("highscore_tactics-builder") || 0);
     if (total > best) localStorage.setItem("highscore_tactics-builder", String(total));
-    showGameOver(total, `📋 Düzgün yerləşim: ${ok}/11<br>👥 Dolu mövqe: ${Object.keys(placed).length}/11<br>🏅 Ən yaxşı: ${Math.max(best, total)}`);
+    showGameOver(total, `📋 Düzgün yerləşim: ${ok}/${TOTAL_POSITIONS}<br>👥 Dolu mövqe: ${Object.keys(placed).length}/${TOTAL_POSITIONS}<br>🏅 Ən yaxşı: ${Math.max(best, total)}`);
   };
 
   if (formationSelect) {
