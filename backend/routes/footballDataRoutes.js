@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { fdFetch, FD_TTL } from '../middleware/footballDataProxy.js';
 
 const router = Router();
+const ALLOWED_FD_LEAGUES = new Set(['PL', 'PD', 'BL1', 'SA', 'FL1', 'CL']);
 
 /**
  * GET /api/fd/live
@@ -47,6 +48,19 @@ router.get('/upcoming', (req, res) => {
   const toDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
   const to = toDate.toISOString().slice(0, 10);
   fdFetch(`/matches?dateFrom=${from}&dateTo=${to}`, res, FD_TTL.upcoming);
+});
+
+/**
+ * GET /api/fd/standings/:leagueCode
+ * Returns standings from football-data.org
+ * Allowed codes: PL, PD, BL1, SA, FL1, CL
+ */
+router.get('/standings/:leagueCode', (req, res) => {
+  const code = String(req.params.leagueCode || '').toUpperCase().trim();
+  if (!ALLOWED_FD_LEAGUES.has(code)) {
+    return res.status(400).json({ error: `Invalid league code. Allowed: ${[...ALLOWED_FD_LEAGUES].join(', ')}` });
+  }
+  fdFetch(`/competitions/${code}/standings`, res, FD_TTL.upcoming);
 });
 
 /**
