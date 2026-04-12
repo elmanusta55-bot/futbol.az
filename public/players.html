@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="az" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Futbol.az | Oyunçu Statistikası</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/players.css">
+</head>
+<body>
+<header class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a class="navbar-logo" href="/" aria-label="Futbol.az ana səhifə"><div class="logo-icon">⚽</div><span class="logo-text">Futbol<span class="logo-accent">.az</span></span></a>
+    <div class="navbar-actions">
+      <a class="icon-btn" href="/standings.html" title="Cədvəl">🏆</a>
+      <button class="icon-btn" id="theme-btn" onclick="toggleTheme()"><span id="theme-icon">🌙</span></button>
+      <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <a href="/">🏠 Ana Səhifə</a>
+    <a href="/players.html">📊 Oyunçular</a>
+    <a href="/standings.html">🏆 Cədvəl</a>
+  </div>
+</header>
+
+<main class="page-main">
+  <div class="page-shell">
+    <h1 class="page-title">📊 Qolçular Statistikası</h1>
+    <div id="league-tabs" class="league-tabs"></div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Oyunçu</th><th>Komanda</th><th>Matç</th><th>Qol</th><th>Asist</th></tr></thead>
+        <tbody id="players-body"></tbody>
+      </table>
+    </div>
+    <p id="players-msg" class="page-msg"></p>
+  </div>
+</main>
+
+<footer class="footer"><div class="container"><div class="footer-bottom"><p>© 2025 Futbol.az. Bütün hüquqlar qorunur.</p></div></div></footer>
+<script src="/pages-common.js"></script>
+<script src="/players.js"></script>
+<script src="/consent.js"></script>
+</body>
+</html>

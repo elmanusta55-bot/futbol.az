@@ -24,8 +24,8 @@
   <div class="mobile-menu" id="mobile-menu" hidden>
     <a href="/">🏠 Ana Səhifə</a>
     <a href="/standings.html">🏆 Cədvəl</a>
-    <a href="/top-scorers.html">📊 Qolçular</a>
-    <a href="/teams.html">🔍 Komandalar</a>
+    <a href="/players.html">📊 Oyunçular</a>
+    <a href="/team.html">👥 Komandalar</a>
     <a href="/fixtures.html">🗓️ Təqvim</a>
   </div>
 </header>
@@ -34,6 +34,7 @@
     <h1 class="page-title">🏆 Turnir & Liqa Cədvəlləri</h1>
     <p class="page-subtitle">Liqanı seçin və cari mövsüm vəziyyətini izləyin.</p>
     <div class="league-tabs" id="league-tabs"></div>
+    <div id="cl-badge" class="cl-badge" hidden>🏆 UEFA Champions League 2024/25</div>
     <div class="table-wrap">
       <table class="data-table" aria-label="Liqa cədvəli">
         <thead><tr><th>#</th><th>Komanda</th><th>O</th><th>Q</th><th>M</th><th>H</th><th>Qollar</th><th>Xal</th></tr></thead>
@@ -41,6 +42,11 @@
       </table>
     </div>
     <p id="standings-msg" class="page-msg"></p>
+
+    <section id="cl-playoff" class="cl-playoff" hidden>
+      <h2>🎯 Playoff Matçları</h2>
+      <div id="cl-playoff-body" class="cl-playoff-body"></div>
+    </section>
   </div>
 </main>
 <footer class="footer"><div class="container"><div class="footer-bottom"><p>© 2025 Futbol.az. Bütün hüquqlar qorunur.</p></div></div></footer>

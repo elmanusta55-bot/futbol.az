@@ -10,6 +10,8 @@ import matchesRouter        from './routes/matches.js';
 import playersRouter        from './routes/players.js';
 import teamsRouter          from './routes/teams.js';
 import footballDataRouter   from './routes/footballDataRoutes.js';
+import telegramRouter       from './routes/telegram.js';
+import newsRouter           from './routes/news.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -18,6 +20,7 @@ const PORT = process.env.PORT || 3000;
 
 // ── Security / CORS ───────────────────────────────────────────────────────────
 app.use(cors());
+app.use(express.json());
 
 // ── Rate limiting – 100 requests per 15 minutes per IP ───────────────────────
 app.use(
@@ -43,11 +46,13 @@ for (const asset of ROOT_ASSETS) {
 }
 
 // ── API routes ────────────────────────────────────────────────────────────────
-app.use('/api/standings',   standingsRouter);
-app.use('/api',             matchesRouter);         // exposes /api/matches and /api/live
-app.use('/api',             playersRouter);         // exposes /api/top-scorers/:leagueId
-app.use('/api',             teamsRouter);           // exposes /api/search
-app.use('/api/fd',          footballDataRouter);    // exposes /api/fd/live, /api/fd/today, etc.
+app.use('/api/standings', standingsRouter);
+app.use('/api', matchesRouter); // exposes /api/matches and /api/live
+app.use('/api', playersRouter); // exposes /api/top-scorers/:leagueId
+app.use('/api', teamsRouter); // exposes /api/search
+app.use('/api/fd', footballDataRouter); // exposes /api/fd/live, /api/fd/today, etc.
+app.use('/api/notify', telegramRouter);
+app.use('/api/news', newsRouter);
 
 // ── Catch-all: send index.html for unknown routes (SPA fallback) ──────────────
 app.get('*', (req, res) => {

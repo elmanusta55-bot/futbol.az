@@ -1,0 +1,11 @@
+.page-main { padding: calc(var(--navbar-h) + 20px) 16px 40px; }
+.page-shell { max-width: 980px; margin: 0 auto; }
+.page-title { margin-bottom: 10px; }
+.page-msg { color: var(--text-muted); margin-bottom: 10px; }
+.score-box { border: 1px solid var(--border); border-radius: 999px; display: inline-block; padding: 8px 12px; background: var(--bg-card); font-weight: 700; margin-bottom: 12px; }
+.predict-list { display: grid; gap: 12px; }
+.predict-card { border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-card); padding: 12px; }
+.predict-title { font-weight: 700; margin-bottom: 8px; }
+.predict-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.predict-options label { border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px; background: rgba(255,255,255,.03); font-size: .9rem; }
+.predict-result { margin-top: 8px; font-size: .85rem; color: var(--text-muted); }

@@ -1,0 +1,13 @@
+.page-main { padding: calc(var(--navbar-h) + 20px) 16px 40px; }
+.page-shell { max-width: 1100px; margin: 0 auto; }
+.page-title { margin-bottom: 10px; }
+.page-msg { color: var(--text-muted); margin-top: 8px; }
+.league-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.league-tab { border: 1px solid var(--border); background: var(--bg-card); color: var(--text); border-radius: 999px; padding: 8px 12px; }
+.league-tab.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-card); }
+.data-table { width: 100%; border-collapse: collapse; min-width: 720px; }
+.data-table th, .data-table td { border-bottom: 1px solid var(--border); padding: 10px; text-align: center; }
+.data-table th:nth-child(2), .data-table td:nth-child(2), .data-table th:nth-child(3), .data-table td:nth-child(3) { text-align: left; }
+.team-mini { display: flex; gap: 8px; align-items: center; }
+.team-mini img { width: 20px; height: 20px; object-fit: contain; }
