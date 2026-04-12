@@ -243,6 +243,111 @@ const GAMES_DATA = [
     isNew: true,
     tags: ["futbolçu", "tahmin", "viktorina", "who are ya"],
     addedDate: "2024-04-01"
+  },
+  {
+    id: 16,
+    title: "Futbol Viktorinası",
+    category: "Viktorina",
+    emoji: "🧠",
+    gameType: "quiz",
+    gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    description: "20 sual, 4 variant, 15 saniyə timer ilə xal qazanın!",
+    playCount: 0,
+    rating: 4.6,
+    ratingsCount: 0,
+    isNew: true,
+    tags: ["viktorina", "futbol", "sual"],
+    addedDate: "2026-04-12"
+  },
+  {
+    id: 17,
+    title: "Komanda Loqo Quiz",
+    category: "Viktorina",
+    emoji: "🃏",
+    gameType: "logo-quiz",
+    gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+    description: "Loqoya bax, komandanı tap! 20 raund sürətli quiz.",
+    playCount: 0,
+    rating: 4.5,
+    ratingsCount: 0,
+    isNew: true,
+    tags: ["loqo", "komanda", "quiz"],
+    addedDate: "2026-04-12"
+  },
+  {
+    id: 18,
+    title: "Skor Tapmaca",
+    category: "Viktorina",
+    emoji: "🔢",
+    gameType: "score-quiz",
+    gradient: "linear-gradient(135deg, #f7971e 0%, #ffd200 100%)",
+    description: "Tarixi matçların düzgün skorunu tapın.",
+    playCount: 0,
+    rating: 4.4,
+    ratingsCount: 0,
+    isNew: true,
+    tags: ["skor", "tarix", "quiz"],
+    addedDate: "2026-04-12"
+  },
+  {
+    id: 19,
+    title: "Bayraq Quiz",
+    category: "Viktorina",
+    emoji: "🗺️",
+    gameType: "flag-quiz",
+    gradient: "linear-gradient(135deg, #43cea2 0%, #185a9d 100%)",
+    description: "Bayrağı görüb milli komandanı tapın.",
+    playCount: 0,
+    rating: 4.5,
+    ratingsCount: 0,
+    isNew: true,
+    tags: ["bayraq", "ölkə", "quiz"],
+    addedDate: "2026-04-12"
+  },
+  {
+    id: 20,
+    title: "Reflex Oyunu",
+    category: "Aksiya",
+    emoji: "⚡",
+    gameType: "reflex",
+    gradient: "linear-gradient(135deg, #fc466b 0%, #3f5efb 100%)",
+    description: "Hərəkət edən topa klikləyin və xal toplayın.",
+    playCount: 0,
+    rating: 4.5,
+    ratingsCount: 0,
+    isNew: true,
+    tags: ["reflex", "klik", "aksiya"],
+    addedDate: "2026-04-12"
+  },
+  {
+    id: 21,
+    title: "Top Qolçu Tap",
+    category: "Viktorina",
+    emoji: "📋",
+    gameType: "top-scorer-guess",
+    gradient: "linear-gradient(135deg, #30cfd0 0%, #330867 100%)",
+    description: "İpuculara əsasən futbolçunun adını tapın.",
+    playCount: 0,
+    rating: 4.6,
+    ratingsCount: 0,
+    isNew: true,
+    tags: ["qolçu", "oyunçu", "tahmin"],
+    addedDate: "2026-04-12"
+  },
+  {
+    id: 22,
+    title: "Komanda Qur — Taktika",
+    category: "Strateji",
+    emoji: "🏗️",
+    gameType: "tactics-builder",
+    gradient: "linear-gradient(135deg, #11998e 0%, #38ef7d 100%)",
+    description: "Formasiya seçin, oyunçuları yerləşdirin və koç qiyməti alın.",
+    playCount: 0,
+    rating: 4.7,
+    ratingsCount: 0,
+    isNew: true,
+    tags: ["taktika", "formasiya", "komanda"],
+    addedDate: "2026-04-12"
   }
 ];
 
@@ -785,6 +890,8 @@ function renderCategories() {
 function renderHeroStats() {
   const favCount = state.favorites.length;
   const favEl = document.getElementById("stat-favs");
+  const gamesEl = document.getElementById("stat-games");
+  if (gamesEl) gamesEl.textContent = String(GAMES_DATA.length);
   if (favEl) favEl.textContent = String(favCount);
 }
 
@@ -1368,6 +1475,12 @@ function getControlsHint(gameType) {
   const hints = {
     penalty:    "⚽ Qapıda zona seçin → Tıklayın → Qol vurun! 5 penalti atışınız var.",
     quiz:       "🧠 Sualı oxuyun, düzgün cavabı seçin. Hər düzgün cavab = 10 xal + zaman bonusu.",
+    "logo-quiz":"🃏 Loqoya baxın, variantlardan düzgün komandanı seçin.",
+    "score-quiz":"🔢 Tarixi oyunun hesabını ev/qonaq xanalarına yazın.",
+    "flag-quiz":"🗺️ Bayrağa baxın və 10 saniyədə ölkəni seçin.",
+    reflex:     "⚡ 30 saniyə ərzində hərəkət edən topa klikləyin.",
+    "top-scorer-guess":"📋 İpuclarına baxıb futbolçunun adını yazın.",
+    "tactics-builder":"🏗️ Oyunçunu seçin və mövqeyə yerləşdirin, sonra koç qiyməti alın.",
     goalkeeper: "🧤 Siçan/barmaqla hərəkət edin. Qapıya gələn topları tutun!",
     goalrush:   "🎯 Ekranda görünən topları sürətlə tıklayın! 30 saniyəniz var.",
     sprint:     "⚡ Düyməyə basın/tıklayın! Nə qədər çox bassanız, o qədər sürətli qaçırsınız.",
@@ -1464,6 +1577,9 @@ function gpSetTimeout(fn, ms) {
 function showGameOver(score, statsHtml) {
   if (!gpCurrentGame) return;
   saveScore(gpCurrentGame.id, score);
+  const hsKey = `highscore_${gpCurrentGame.gameType || gpCurrentGame.id}`;
+  const prevHs = Number(localStorage.getItem(hsKey) || 0);
+  if (score > prevHs) localStorage.setItem(hsKey, String(score));
   setGpScore(score);
 
   const gorScore = document.getElementById("gor-score");
@@ -1496,6 +1612,12 @@ function launchGameEngine(game) {
   switch (game.gameType) {
     case "penalty":    startPenaltyGame(game); break;
     case "quiz":       startQuizGame(game); break;
+    case "logo-quiz":  startLogoQuizGame(game); break;
+    case "score-quiz": startScoreQuizGame(game); break;
+    case "flag-quiz":  startFlagQuizGame(game); break;
+    case "reflex":     startReflexGame(game); break;
+    case "top-scorer-guess": startTopScorerGuessGame(game); break;
+    case "tactics-builder":  startTacticsBuilderGame(game); break;
     case "goalkeeper": startGoalkeeperGame(game); break;
     case "goalrush":   startGoalRushGame(game); break;
     case "sprint":     startSprintGame(game); break;
@@ -1706,29 +1828,34 @@ function startPenaltyGame(game) {
 //  GAME ENGINE 2: FOOTBALL QUIZ
 // ══════════════════════════════════════════════════════════════
 const QUIZ_QUESTIONS = [
-  { q: "Dünya Çempionatını ən çox qazanan ölkə hansıdır?", opts: ["Argentina", "Braziliya", "Almaniya", "İtaliya"], a: 1 },
-  { q: "Messi hansı kluba məxsusdur (karyerasının çox hissəsini keçirdiyi)?", opts: ["Real Madrid", "PSG", "Manchester City", "FC Barcelona"], a: 3 },
-  { q: "UEFA Çempionlar Liqasını ən çox qazanan klub hansıdır?", opts: ["FC Barcelona", "Bayern München", "Real Madrid", "Liverpool"], a: 2 },
-  { q: "İlk Dünya Çempionatı hansı ildə keçirildi?", opts: ["1930", "1924", "1938", "1950"], a: 0 },
-  { q: "Ronaldonun tam adı nədir?", opts: ["Cristiano Ronaldo dos Santos Aveiro", "Ronaldo Luís Nazário de Lima", "Ronaldo da Costa", "Ronaldo Pereira"], a: 0 },
-  { q: "Azərbaycan milli komandasının ləqəbi nədir?", opts: ["Miliyyətçilər", "Atəş Azərbaycanlılar", "Yaxın Şərqin Arslanları", "Şimşək Millisi"], a: 1 },
-  { q: "\"Qızıl top\" (Ballon d'Or) ödülünü ən çox qazanan oyunçu kimdir?", opts: ["Ronaldo", "Messi", "Xavi", "Neuer"], a: 1 },
-  { q: "Futbol qapısının eni neçə metrdir?", opts: ["6.4 m", "7.32 m", "8.0 m", "6.0 m"], a: 1 },
-  { q: "Penalti nöqtəsindən qapıya məsafə neçə addımdır?", opts: ["11 metr", "12 metr", "10 metr", "9 metr"], a: 0 },
-  { q: "Neftçi PFK hansı şəhərdən olan Azərbaycan komandasıdır?", opts: ["Gəncə", "Sumqayıt", "Bakı", "Lənkəran"], a: 2 },
-  { q: "FIFA Dünya Çempionatında ən çox qol vuran oyunçu kimdir?", opts: ["Ronaldo (Braziliya)", "Miroslav Klose", "Gerd Müller", "Just Fontaine"], a: 1 },
-  { q: "İlk Dünya Çempionatı hansı ölkədə keçirildi?", opts: ["Braziliya", "Uruguay", "Argentina", "İtaliya"], a: 1 },
-  { q: "Premier Liqa il ərzində neçə komandadan ibarətdir?", opts: ["16", "18", "20", "22"], a: 2 },
-  { q: "Zidane hansı ölkə üçün oynayıb?", opts: ["Əlcəzair", "Fransa", "Belçika", "Portuqaliya"], a: 1 },
-  { q: "Maradona 1986-da hansı millisinin üzünə «Tanrının Əli» qolunu vurdu?", opts: ["Almaniya", "İngiltərə", "İtaliya", "Fransa"], a: 1 },
+  { q: "Dünya çempionatını ən çox qazanan ölkə hansıdır?", opts: ["Almaniya", "İtaliya", "Braziliya", "Argentina"], a: 2 },
+  { q: "Ronaldo neçə Qızıl Top qazanıb? (2023-cü ilə qədər)", opts: ["4", "5", "6", "7"], a: 1 },
+  { q: "UEFA Çempionlar Liqasını ən çox qazanan klub hansıdır?", opts: ["Milan", "Bayern", "Barcelona", "Real Madrid"], a: 3 },
+  { q: "Messi hansı ölkə üçün oynayır?", opts: ["İspaniya", "Argentina", "Braziliya", "Portuqaliya"], a: 1 },
+  { q: "Premier Liqa neçənci ildə yaradılıb?", opts: ["1990", "1991", "1992", "1993"], a: 2 },
+  { q: "Azərbaycan milli komandasının ən çox qol vuran oyunçusu kimdir?", opts: ["Qurban Qurbanov", "Rəşad Sadıqov", "Mahir Emreli", "Namiq Ələsgərov"], a: 0 },
+  { q: "FIFA Dünya Kuboku neçə ildən bir keçirilir?", opts: ["2", "3", "4", "5"], a: 2 },
+  { q: "Penaltı xəttindən qapıya məsafə nə qədərdir?", opts: ["10 metr", "11 metr", "12 metr", "9 metr"], a: 1 },
+  { q: "Futbol meydanında minimum oyunçu sayı neçədir?", opts: ["6", "7", "8", "9"], a: 1 },
+  { q: "İlk FIFA Dünya Kuboku harada keçirilib?", opts: ["Braziliya", "Uruqvay", "Argentina", "Fransa"], a: 1 },
+  { q: "2010 Dünya Kubokunu hansı milli komanda qazanıb?", opts: ["İspaniya", "Hollandiya", "Almaniya", "İtaliya"], a: 0 },
+  { q: "2018 Dünya Kubokunun qalibi hansı ölkə oldu?", opts: ["Fransa", "Xorvatiya", "Belçika", "Portuqaliya"], a: 0 },
+  { q: "VAR sistemi ilk dəfə Dünya Kubokunda hansı ildə tətbiq edildi?", opts: ["2010", "2014", "2018", "2022"], a: 2 },
+  { q: "Qırmızı vərəqə alan oyunçu nə etməlidir?", opts: ["Oyunu davam etdirə bilər", "Meydandan çıxmalıdır", "5 dəqiqə kənarda qalır", "Yalnız kapitan qalır"], a: 1 },
+  { q: "Futbolda bir hissə neçə dəqiqədir?", opts: ["40", "45", "50", "60"], a: 1 },
+  { q: "Çempionlar Liqası himninin müəllifi kimdir?", opts: ["Beethoven", "Tony Britten", "Mozart", "John Williams"], a: 1 },
+  { q: "Hansı oyunçu 'Kral' ləqəbi ilə tanınır?", opts: ["Pelé", "Kaká", "Ronaldinho", "Rivaldo"], a: 0 },
+  { q: "Ofsayd qaydasında əsas meyar nədir?", opts: ["Topa ilk toxunmaq", "Qapıçıdan uzaq olmaq", "Son iki rəqibdən öndə olmaq", "Topu başla vurmaq"], a: 2 },
+  { q: "Avropa Çempionatı (EURO) neçə ildən bir keçirilir?", opts: ["2", "3", "4", "5"], a: 2 },
+  { q: "2022 Dünya Kubokunun finalında kimlər oynadı?", opts: ["Fransa - Braziliya", "Argentina - Fransa", "Argentina - Xorvatiya", "Fransa - İngiltərə"], a: 1 },
 ];
 
 function startQuizGame(game) {
   const gameArea = document.getElementById("game-area");
   if (!gameArea) return;
 
-  const questions = [...QUIZ_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 10);
-  let qIdx = 0, score = 0, answered = false, timerVal = 0, timerInterval;
+  const questions = [...QUIZ_QUESTIONS].slice(0, 20);
+  let qIdx = 0, score = 0, correctCount = 0, answered = false, timerVal = 0, timerInterval;
 
   gameArea.innerHTML = `<div class="quiz-container" id="quiz-container"></div>`;
 
@@ -1737,7 +1864,7 @@ function startQuizGame(game) {
     const q = questions[qIdx];
     const qc = document.getElementById("quiz-container");
     if (!qc) return;
-    timerVal = 20;
+    timerVal = 15;
 
     qc.innerHTML = `
       <div class="quiz-progress">
@@ -1778,8 +1905,8 @@ function startQuizGame(game) {
 
     const q = questions[qIdx];
     const correct = chosen === q.a;
-    const timeBonus = correct ? Math.max(0, timerVal) : 0;
-    const pts = correct ? 10 + timeBonus : 0;
+    if (correct) correctCount++;
+    const pts = correct ? Math.max(10, Math.min(100, Math.round((timerVal / 15) * 100))) : 0;
     score += pts;
     setGpScore(score);
 
@@ -1795,7 +1922,7 @@ function startQuizGame(game) {
       if (qIdx < questions.length) {
         renderQuestion();
       } else {
-        const statsHtml = `✅ Düzgün: ${Math.round(score / 10 - score % 10 / 10)}/${questions.length}<br>⭐ Ümumi xal: ${score}`;
+        const statsHtml = `✅ Düzgün: ${correctCount}/${questions.length}<br>⭐ Ümumi xal: ${score}`;
         showGameOver(score, statsHtml);
       }
     }, 1200));
@@ -2318,6 +2445,583 @@ function startTacticsGame(game) {
     showGameOver(score, statsHtml);
     if (gpGameState._styleCleanup) gpGameState._styleCleanup();
   };
+}
+
+const LOGO_QUIZ_TEAMS = [
+  { id: 65, name: "Manchester City", fallback: "🔵" },
+  { id: 57, name: "Arsenal", fallback: "🔴" },
+  { id: 61, name: "Chelsea", fallback: "🔷" },
+  { id: 64, name: "Liverpool", fallback: "🔴" },
+  { id: 86, name: "Real Madrid", fallback: "⚪" },
+  { id: 81, name: "Barcelona", fallback: "🔵" },
+  { id: 5, name: "Bayern Munich", fallback: "🔴" },
+  { id: 4, name: "Dortmund", fallback: "🟡" },
+  { id: 524, name: "PSG", fallback: "🔵" },
+  { id: 109, name: "Juventus", fallback: "⚫" },
+  { id: 98, name: "AC Milan", fallback: "🔴" },
+  { id: 108, name: "Inter", fallback: "🔵" }
+];
+
+function startLogoQuizGame(game) {
+  const gameArea = document.getElementById("game-area");
+  if (!gameArea) return;
+
+  gameArea.innerHTML = `<div class="quiz-container" id="logo-quiz-container"></div>`;
+
+  const rounds = 20;
+  let idx = 0, score = 0, timer = 10, timerId = null, answered = false;
+  const logoCache = {};
+
+  function pickOptions(correctTeam) {
+    const others = LOGO_QUIZ_TEAMS.filter(t => t.id !== correctTeam.id).sort(() => Math.random() - 0.5).slice(0, 3);
+    return [correctTeam, ...others].sort(() => Math.random() - 0.5);
+  }
+
+  function getRoundTeam() {
+    return LOGO_QUIZ_TEAMS[Math.floor(Math.random() * LOGO_QUIZ_TEAMS.length)];
+  }
+
+  async function ensureLogo(teamId) {
+    if (logoCache[teamId] !== undefined) return logoCache[teamId];
+    try {
+      const res = await fetch(`/api/fd/team/${teamId}`);
+      if (!res.ok) throw new Error("logo");
+      const data = await res.json();
+      logoCache[teamId] = data?.crest || data?.team?.crest || "";
+    } catch {
+      logoCache[teamId] = "";
+    }
+    return logoCache[teamId];
+  }
+
+  function renderRound() {
+    answered = false;
+    timer = 10;
+    const team = getRoundTeam();
+    const options = pickOptions(team);
+    const container = document.getElementById("logo-quiz-container");
+    if (!container) return;
+
+    container.innerHTML = `
+      <div class="quiz-progress">
+        <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${(idx / rounds) * 100}%"></div></div>
+        <span class="quiz-progress-text">${idx + 1}/${rounds}</span>
+        <span class="quiz-timer" id="logo-quiz-timer">10</span>
+      </div>
+      <div style="display:flex;justify-content:center;margin:12px 0;">
+        <div id="logo-quiz-logo" style="width:112px;height:112px;border-radius:18px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:2.5rem;">${team.fallback}</div>
+      </div>
+      <div class="quiz-question">İpucu: <strong>${escapeHTML(team.name.charAt(0))}</strong> hərfi ilə başlayır</div>
+      <div class="quiz-options">
+        ${options.map((opt, i) => `<button class="quiz-option" onclick="logoQuizAnswer(${i})">${escapeHTML(opt.name)}</button>`).join("")}
+      </div>`;
+
+    setGpScore(score);
+    ensureLogo(team.id).then((crest) => {
+      const logoEl = document.getElementById("logo-quiz-logo");
+      if (!logoEl) return;
+      if (crest) {
+        logoEl.innerHTML = `<img src="${escapeHTML(crest)}" alt="${escapeHTML(team.name)} loqosu" style="width:88px;height:88px;object-fit:contain;" onerror="this.parentElement.textContent='${team.fallback}'">`;
+      } else {
+        logoEl.textContent = team.fallback;
+      }
+    });
+
+    clearInterval(timerId);
+    timerId = setInterval(() => {
+      if (gpGameState._paused || answered) return;
+      timer--;
+      const timerEl = document.getElementById("logo-quiz-timer");
+      if (timerEl) timerEl.textContent = String(timer);
+      if (timer <= 0) logoQuizAnswer(-1);
+    }, 1000);
+    gpIntervals.push(timerId);
+
+    window.logoQuizAnswer = function(chosen) {
+      if (answered) return;
+      answered = true;
+      clearInterval(timerId);
+      const correctIndex = options.findIndex(o => o.id === team.id);
+      const isCorrect = chosen === correctIndex;
+      if (isCorrect) score += 10 + (timer >= 6 ? 5 : 0);
+      setGpScore(score);
+      const btns = document.querySelectorAll("#logo-quiz-container .quiz-option");
+      btns.forEach((b, i) => {
+        b.disabled = true;
+        if (i === correctIndex) b.classList.add("correct");
+        else if (i === chosen) b.classList.add("wrong");
+      });
+      gpTimeouts.push(setTimeout(() => {
+        idx++;
+        if (idx < rounds) renderRound();
+        else showGameOver(score, `🃏 Raund: ${rounds}<br>⭐ Toplam xal: ${score}`);
+      }, 900));
+    };
+  }
+
+  renderRound();
+}
+
+const SCORE_QUIZ_MATCHES = [
+  { q: "2014 DÇ yarımfinalı: Braziliya - Almaniya?", home: 1, away: 7 },
+  { q: "1966 DÇ finalı: İngiltərə - Almaniya (uzatmada)?", home: 4, away: 2 },
+  { q: "2005 ÇL finalı: Milan - Liverpool (penaltıya qədər)?", home: 3, away: 3 },
+  { q: "2012 ÇL: Barsa - Milan (qrup, Camp Nou)?", home: 4, away: 0 },
+  { q: "1954 DÇ finalı: Almaniya - Macarıstan?", home: 3, away: 2 },
+  { q: "2011 ÇL finalı: Barcelona - Man United?", home: 3, away: 1 },
+  { q: "1999 ÇL finalı: Man United - Bayern?", home: 2, away: 1 },
+  { q: "1998 DÇ finalı: Fransa - Braziliya?", home: 3, away: 0 },
+  { q: "2022 DÇ finalı: Argentina - Fransa (120 dəqiqə)?", home: 3, away: 3 },
+  { q: "2010 DÇ finalı: İspaniya - Hollandiya?", home: 1, away: 0 },
+  { q: "2002 DÇ finalı: Braziliya - Almaniya?", home: 2, away: 0 },
+  { q: "2018 DÇ finalı: Fransa - Xorvatiya?", home: 4, away: 2 },
+  { q: "2014 ÇL finalı: Real Madrid - Atletico Madrid?", home: 4, away: 1 },
+  { q: "2019 ÇL finalı: Liverpool - Tottenham?", home: 2, away: 0 },
+  { q: "2020 ÇL finalı: Bayern - PSG?", home: 1, away: 0 }
+];
+
+function startScoreQuizGame(game) {
+  const gameArea = document.getElementById("game-area");
+  if (!gameArea) return;
+  let idx = 0, score = 0, exact = 0, near = 0;
+
+  gameArea.innerHTML = `<div class="predictor-container" id="score-quiz-ui"></div>`;
+
+  function renderQ() {
+    const match = SCORE_QUIZ_MATCHES[idx];
+    const ui = document.getElementById("score-quiz-ui");
+    if (!ui) return;
+    ui.innerHTML = `
+      <div class="quiz-progress">
+        <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${(idx / SCORE_QUIZ_MATCHES.length) * 100}%"></div></div>
+        <span class="quiz-progress-text">${idx + 1}/${SCORE_QUIZ_MATCHES.length}</span>
+      </div>
+      <div class="quiz-question">${escapeHTML(match.q)}</div>
+      <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin:18px 0;">
+        <input id="sq-home" type="number" min="0" max="15" value="0" style="width:72px;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-size:1.1rem;text-align:center;">
+        <span style="font-size:1.4rem;">-</span>
+        <input id="sq-away" type="number" min="0" max="15" value="0" style="width:72px;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-size:1.1rem;text-align:center;">
+      </div>
+      <button class="predictor-submit-btn" onclick="submitScoreQuiz()">Cavabı yoxla</button>`;
+  }
+
+  window.submitScoreQuiz = function() {
+    const m = SCORE_QUIZ_MATCHES[idx];
+    const h = Number(document.getElementById("sq-home")?.value || 0);
+    const a = Number(document.getElementById("sq-away")?.value || 0);
+    if (h === m.home && a === m.away) {
+      score += 15;
+      exact++;
+    } else if ((Math.abs(h - m.home) + Math.abs(a - m.away)) === 1) {
+      score += 5;
+      near++;
+    }
+    setGpScore(score);
+    idx++;
+    if (idx < SCORE_QUIZ_MATCHES.length) renderQ();
+    else showGameOver(score, `✅ Dəqiq: ${exact}<br>🟡 Yaxın: ${near}<br>⭐ Ümumi xal: ${score}`);
+  };
+
+  renderQ();
+}
+
+const FLAG_QUIZ_COUNTRIES = [
+  { flag: "🇦🇿", name: "Azərbaycan" }, { flag: "🇧🇷", name: "Braziliya" },
+  { flag: "🇩🇪", name: "Almaniya" }, { flag: "🇫🇷", name: "Fransa" },
+  { flag: "🇪🇸", name: "İspaniya" }, { flag: "🇦🇷", name: "Argentina" },
+  { flag: "🇵🇹", name: "Portuqaliya" }, { flag: "🇮🇹", name: "İtaliya" },
+  { flag: "🇳🇱", name: "Hollandiya" }, { flag: "🇧🇪", name: "Belçika" },
+  { flag: "🇺🇾", name: "Uruqvay" }, { flag: "🇭🇷", name: "Xorvatiya" },
+  { flag: "🇸🇳", name: "Seneqal" }, { flag: "🇯🇵", name: "Yaponiya" },
+  { flag: "🇲🇽", name: "Meksika" }, { flag: "🇺🇸", name: "ABŞ" },
+  { flag: "🏴", name: "İngiltərə" }, { flag: "🇨🇭", name: "İsveçrə" },
+  { flag: "🇩🇰", name: "Danimarka" }, { flag: "🇦🇺", name: "Avstraliya" }
+];
+
+function startFlagQuizGame(game) {
+  const gameArea = document.getElementById("game-area");
+  if (!gameArea) return;
+  gameArea.innerHTML = `<div class="quiz-container" id="flag-quiz-ui"></div>`;
+  const rounds = 20;
+  let idx = 0, score = 0, timer = 10, timerId = null, answered = false;
+
+  function makeOptions(correct) {
+    const others = FLAG_QUIZ_COUNTRIES.filter(c => c.name !== correct.name).sort(() => Math.random() - 0.5).slice(0, 3);
+    return [correct, ...others].sort(() => Math.random() - 0.5);
+  }
+
+  function renderRound() {
+    answered = false;
+    timer = 10;
+    const c = FLAG_QUIZ_COUNTRIES[idx % FLAG_QUIZ_COUNTRIES.length];
+    const opts = makeOptions(c);
+    const ui = document.getElementById("flag-quiz-ui");
+    if (!ui) return;
+    ui.innerHTML = `
+      <div class="quiz-progress">
+        <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${(idx / rounds) * 100}%"></div></div>
+        <span class="quiz-progress-text">${idx + 1}/${rounds}</span>
+        <span class="quiz-timer" id="flag-quiz-timer">10</span>
+      </div>
+      <div style="font-size:5rem;text-align:center;margin:8px 0 10px;">${c.flag}</div>
+      <div class="quiz-options">
+        ${opts.map((o, i) => `<button class="quiz-option" onclick="flagQuizAnswer(${i})">${escapeHTML(o.name)}</button>`).join("")}
+      </div>`;
+
+    clearInterval(timerId);
+    timerId = setInterval(() => {
+      if (gpGameState._paused || answered) return;
+      timer--;
+      const t = document.getElementById("flag-quiz-timer");
+      if (t) t.textContent = String(timer);
+      if (timer <= 0) flagQuizAnswer(-1);
+    }, 1000);
+    gpIntervals.push(timerId);
+
+    window.flagQuizAnswer = function(chosen) {
+      if (answered) return;
+      answered = true;
+      clearInterval(timerId);
+      const correct = opts.findIndex(o => o.name === c.name);
+      if (chosen === correct) score += 10;
+      setGpScore(score);
+      const btns = document.querySelectorAll("#flag-quiz-ui .quiz-option");
+      btns.forEach((b, i) => {
+        b.disabled = true;
+        if (i === correct) b.classList.add("correct");
+        else if (i === chosen) b.classList.add("wrong");
+      });
+      gpTimeouts.push(setTimeout(() => {
+        idx++;
+        if (idx < rounds) renderRound();
+        else showGameOver(score, `🗺️ Raund: ${rounds}<br>⭐ Ümumi xal: ${score}`);
+      }, 700));
+    };
+  }
+
+  renderRound();
+}
+
+function startReflexGame(game) {
+  const gameArea = document.getElementById("game-area");
+  if (!gameArea) return;
+  gameArea.innerHTML = `
+    <div style="width:100%;max-width:620px;padding:12px;color:#fff;text-align:center;">
+      <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px;font-size:.92rem;">
+        <span>✅ Hit: <strong id="ref-hit">0</strong></span>
+        <span>❌ Miss: <strong id="ref-miss">0</strong></span>
+        <span>⏱️ <strong id="ref-time">30</strong>s</span>
+      </div>
+      <div id="ref-field" style="position:relative;width:100%;aspect-ratio:16/9;background:rgba(22,163,74,.28);border:2px solid rgba(255,255,255,.18);border-radius:10px;overflow:hidden;"></div>
+    </div>`;
+
+  const field = document.getElementById("ref-field");
+  if (!field) return;
+  let timeLeft = 30, hit = 0, miss = 0, score = 0, spawnMs = 1600, size = 60;
+  let ball = null;
+
+  function updateScore() {
+    setGpScore(score);
+    const h = document.getElementById("ref-hit");
+    const m = document.getElementById("ref-miss");
+    if (h) h.textContent = String(hit);
+    if (m) m.textContent = String(miss);
+  }
+
+  function placeBall() {
+    if (gpGameState._paused || timeLeft <= 0) return;
+    if (ball) {
+      ball.remove();
+      ball = null;
+      miss++;
+      score -= 5;
+      updateScore();
+    }
+    ball = document.createElement("button");
+    ball.type = "button";
+    ball.style.cssText = `position:absolute;width:${size}px;height:${size}px;border:none;background:transparent;cursor:pointer;font-size:${Math.max(24, size * 0.7)}px;line-height:1;`;
+    ball.textContent = "⚽";
+    const maxX = Math.max(0, field.clientWidth - size);
+    const maxY = Math.max(0, field.clientHeight - size);
+    ball.style.left = `${Math.random() * maxX}px`;
+    ball.style.top = `${Math.random() * maxY}px`;
+    ball.onclick = () => {
+      hit++;
+      score += 10;
+      updateScore();
+      ball?.remove();
+      ball = null;
+      spawnMs = Math.max(600, spawnMs - 60);
+      size = Math.max(34, size - 1);
+    };
+    field.appendChild(ball);
+    gpTimeouts.push(setTimeout(placeBall, Math.round(spawnMs + Math.random() * 400)));
+  }
+
+  field.addEventListener("click", (e) => {
+    if (e.target !== field || gpGameState._paused || timeLeft <= 0) return;
+    miss++;
+    score -= 5;
+    updateScore();
+  });
+
+  placeBall();
+  setGpScore(0);
+  gpSetInterval(() => {
+    timeLeft--;
+    const t = document.getElementById("ref-time");
+    if (t) t.textContent = String(timeLeft);
+    if (timeLeft <= 0) {
+      if (ball) ball.remove();
+      showGameOver(score, `✅ Hit: ${hit}<br>❌ Miss: ${miss}<br>⭐ Ümumi xal: ${score}`);
+    }
+  }, 1000);
+}
+
+const TOP_SCORER_PLAYERS = [
+  { full: "Lionel Messi", team: "Inter Miami", pos: "Hücumçu", nation: "Argentina", age: 38, hints: ["8 Ballon d'Or", "Barselona əfsanəsi"] },
+  { full: "Cristiano Ronaldo", team: "Al Nassr", pos: "Hücumçu", nation: "Portuqaliya", age: 41, hints: ["5 Ballon d'Or", "UCL tarixində ən çox qol"] },
+  { full: "Kylian Mbappé", team: "Real Madrid", pos: "Hücumçu", nation: "Fransa", age: 27, hints: ["2018 dünya çempionu", "Çox sürətli hücumçu"] },
+  { full: "Erling Haaland", team: "Manchester City", pos: "Hücumçu", nation: "Norveç", age: 25, hints: ["Premyer Liqa qol rekordu", "Fiziki güclü forvard"] },
+  { full: "Mohamed Salah", team: "Liverpool", pos: "Hücumçu", nation: "Misir", age: 33, hints: ["Anfield ulduzu", "Sağ cinahda oynayır"] },
+  { full: "Karim Benzema", team: "Al Ittihad", pos: "Hücumçu", nation: "Fransa", age: 37, hints: ["Real Madrid kapitani olub", "2022 Ballon d'Or"] },
+  { full: "Robert Lewandowski", team: "Barcelona", pos: "Hücumçu", nation: "Polşa", age: 36, hints: ["Bundesliqada bombardir", "Bayern-dən keçib"] },
+  { full: "Neymar", team: "Al Hilal", pos: "Hücumçu", nation: "Braziliya", age: 33, hints: ["PSG və Barsada oynayıb", "Braziliyanın super ulduzu"] },
+  { full: "Son Heung-min", team: "Tottenham", pos: "Hücumçu", nation: "Cənubi Koreya", age: 32, hints: ["Asiyanın ən məşhurlarından", "Spurs kapitanı"] },
+  { full: "Vinicius Jr", team: "Real Madrid", pos: "Cinah hücumçusu", nation: "Braziliya", age: 25, hints: ["Çox sürətli driblinq", "UCL finalında qol vurub"] }
+];
+
+function normalizeName(val) {
+  return String(val || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, " ").trim();
+}
+
+function startTopScorerGuessGame(game) {
+  const gameArea = document.getElementById("game-area");
+  if (!gameArea) return;
+  const rounds = [...TOP_SCORER_PLAYERS];
+  let idx = 0, score = 0, hintsUsed = 0;
+  gameArea.innerHTML = `<div class="quiz-container" id="scorer-guess-ui"></div>`;
+
+  function renderRound() {
+    hintsUsed = 0;
+    const p = rounds[idx];
+    const ui = document.getElementById("scorer-guess-ui");
+    if (!ui) return;
+    ui.innerHTML = `
+      <div class="quiz-progress">
+        <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${(idx / rounds.length) * 100}%"></div></div>
+        <span class="quiz-progress-text">${idx + 1}/${rounds.length}</span>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:12px;margin:10px 0;">
+        <div>🏟️ Komanda: <strong>${escapeHTML(p.team)}</strong></div>
+        <div>📌 Mövqe: <strong>${escapeHTML(p.pos)}</strong></div>
+        <div>🌍 Milliyyət: <strong>${escapeHTML(p.nation)}</strong></div>
+        <div>🎂 Yaş: <strong>${p.age}</strong></div>
+      </div>
+      <div id="scorer-extra-hints" style="font-size:.9rem;color:#fcd34d;min-height:44px;margin-bottom:10px;"></div>
+      <input id="scorer-input" type="text" placeholder="Oyunçunun adını yazın..." style="width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
+        <button class="predictor-submit-btn" onclick="submitScorerGuess()">Yoxla</button>
+        <button class="btn-secondary" onclick="showScorerHint()">İpucu aç</button>
+      </div>`;
+  }
+
+  window.showScorerHint = function() {
+    const p = rounds[idx];
+    const nParts = p.full.split(" ");
+    const nameHints = [
+      ...p.hints,
+      `Ad hissəsinin hərf sayı: ${nParts[0]?.length || 0}`,
+      `Soyadının ilk hərfi: ${(nParts[nParts.length - 1] || "").charAt(0)}`,
+      `Adının ilk hərfi: ${(nParts[0] || "").charAt(0)}`
+    ].slice(0, 5);
+    if (hintsUsed >= nameHints.length) return;
+    hintsUsed++;
+    const hintEl = document.getElementById("scorer-extra-hints");
+    if (hintEl) {
+      const extra = nameHints[hintsUsed - 1];
+      hintEl.innerHTML += `💡 ${escapeHTML(extra)}<br>`;
+    }
+  };
+
+  window.submitScorerGuess = function() {
+    const p = rounds[idx];
+    const input = normalizeName(document.getElementById("scorer-input")?.value || "");
+    const full = normalizeName(p.full);
+    const surname = full.split(" ").slice(-1)[0];
+    let gained = 0;
+    if (input === full) gained = Math.max(5, 20 - hintsUsed * 3);
+    else if (input === surname) gained = Math.max(5, 10 - hintsUsed * 2);
+    else showToast("❌ Yanlış cavab! Növbəti oyunçuya keçək.");
+    score += gained;
+    setGpScore(score);
+    idx++;
+    if (idx < rounds.length) renderRound();
+    else showGameOver(score, `📋 Raund: ${rounds.length}<br>⭐ Toplam xal: ${score}`);
+  };
+
+  renderRound();
+}
+
+function startTacticsBuilderGame(game) {
+  const gameArea = document.getElementById("game-area");
+  if (!gameArea) return;
+
+  const formations = {
+    "4-3-3": ["GK","LB","CB","CB","RB","CM","CM","CM","LW","ST","RW"],
+    "4-4-2": ["GK","LB","CB","CB","RB","LM","CM","CM","RM","ST","ST"],
+    "3-5-2": ["GK","CB","CB","CB","LM","CM","CM","CM","RM","ST","ST"],
+    "4-2-3-1": ["GK","LB","CB","CB","RB","CDM","CDM","LAM","CAM","RAM","ST"],
+    "5-3-2": ["GK","LWB","CB","CB","CB","RWB","CM","CM","CM","ST","ST"]
+  };
+  const players = [
+    { n:"Messi", r:"FW" }, { n:"Ronaldo", r:"FW" }, { n:"Mbappé", r:"FW" }, { n:"Haaland", r:"FW" },
+    { n:"Salah", r:"FW" }, { n:"Benzema", r:"FW" }, { n:"Lewandowski", r:"FW" }, { n:"Neymar", r:"FW" },
+    { n:"Son", r:"FW" }, { n:"Vinicius Jr", r:"FW" }, { n:"De Bruyne", r:"MF" }, { n:"Modrić", r:"MF" },
+    { n:"Bellingham", r:"MF" }, { n:"Kroos", r:"MF" }, { n:"Rodri", r:"MF" }, { n:"Valverde", r:"MF" },
+    { n:"Rüdiger", r:"DF" }, { n:"Van Dijk", r:"DF" }, { n:"Ruben Dias", r:"DF" }, { n:"Alisson", r:"GK" }
+  ];
+
+  let selectedFormation = "4-3-3";
+  const TOTAL_POSITIONS = 11;
+  let selectedPlayer = null;
+  let draggedPlayer = null;
+  const placed = {};
+
+  gameArea.innerHTML = `
+    <div style="width:100%;max-width:860px;color:#fff;display:grid;grid-template-columns:220px 1fr;gap:12px;">
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:10px;">
+        <div style="font-size:.84rem;color:rgba(255,255,255,.7);margin-bottom:8px;">Formasiya</div>
+        <select id="tb-formation" style="width:100%;padding:8px;border-radius:8px;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2);">
+          ${Object.keys(formations).map(f => `<option value="${f}">${f}</option>`).join("")}
+        </select>
+        <div style="font-size:.84rem;color:rgba(255,255,255,.7);margin:10px 0 8px;">Oyunçular</div>
+        <div id="tb-player-list" style="max-height:340px;overflow:auto;display:flex;flex-wrap:wrap;gap:6px;"></div>
+        <button class="predictor-submit-btn" onclick="evaluateTacticsBuilder()" style="margin-top:10px;">Koç qiyməti</button>
+      </div>
+      <div style="background:linear-gradient(180deg,rgba(34,197,94,.42),rgba(21,128,61,.3));border:2px solid rgba(255,255,255,.2);border-radius:14px;padding:10px;">
+        <svg viewBox="0 0 700 420" style="width:100%;display:block;border-radius:10px;background:rgba(0,0,0,.2);">
+          <rect x="20" y="20" width="660" height="380" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+          <line x1="350" y1="20" x2="350" y2="400" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+          <circle cx="350" cy="210" r="52" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+        </svg>
+        <div id="tb-slots" style="position:relative;margin-top:-380px;height:380px;"></div>
+      </div>
+    </div>`;
+
+  const formationSelect = document.getElementById("tb-formation");
+  if (formationSelect) formationSelect.value = selectedFormation;
+
+  function roleOk(slot, role) {
+    if (slot === "GK") return role === "GK";
+    if (["CB","LB","RB","LWB","RWB"].includes(slot)) return role === "DF";
+    if (["CM","CDM","CAM","LM","RM","LAM","RAM"].includes(slot)) return role === "MF";
+    return role === "FW";
+  }
+
+  function layoutFor(f) {
+    const s = formations[f];
+    const yMap = [340, 292, 250, 210, 170, 130, 90, 60];
+    const rows = {};
+    s.forEach((pos, i) => {
+      const row = pos === "GK" ? 0 : pos.includes("B") ? 1 : (["CM","CDM","CAM","LM","RM","LAM","RAM"].includes(pos) ? 2 : 3);
+      if (!rows[row]) rows[row] = [];
+      rows[row].push({ pos, idx: i });
+    });
+    const coords = [];
+    Object.keys(rows).forEach((rk) => {
+      const arr = rows[rk];
+      arr.forEach((item, i) => {
+        const x = 70 + ((i + 1) * (560 / (arr.length + 1)));
+        coords.push({ slotKey: `${f}-${item.idx}`, slot: item.pos, x, y: yMap[rk] });
+      });
+    });
+    return coords;
+  }
+
+  function renderPlayers() {
+    const list = document.getElementById("tb-player-list");
+    if (!list) return;
+    const usedNames = new Set(Object.values(placed).map(v => v.n));
+    list.innerHTML = players.filter(p => !usedNames.has(p.n)).map((p, i) => `
+      <button type="button" draggable="true" data-player="${escapeHTML(p.n)}" data-role="${p.r}"
+        onclick="selectTbPlayer('${escapeHTML(p.n)}','${p.r}',this)"
+        style="padding:6px 8px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:${selectedPlayer?.n===p.n ? "rgba(250,204,21,.35)" : "rgba(255,255,255,.12)"};color:#fff;font-size:.78rem;">
+        ${escapeHTML(p.n)} · ${p.r}
+      </button>`).join("");
+    list.querySelectorAll("[draggable='true']").forEach(el => {
+      el.addEventListener("dragstart", () => {
+        draggedPlayer = { n: el.dataset.player, r: el.dataset.role };
+      });
+    });
+  }
+
+  function renderSlots() {
+    const wrap = document.getElementById("tb-slots");
+    if (!wrap) return;
+    const coords = layoutFor(selectedFormation);
+    wrap.innerHTML = coords.map((c) => {
+      const p = placed[c.slotKey];
+      const warn = p && !roleOk(c.slot, p.r);
+      return `<button type="button" data-slot="${c.slotKey}" data-role="${c.slot}" style="
+        position:absolute;left:${c.x}px;top:${c.y}px;transform:translate(-50%,-50%);
+        min-width:84px;padding:6px 8px;border-radius:18px;border:1px solid ${warn ? "#facc15" : "rgba(255,255,255,.4)"};
+        background:${warn ? "rgba(250,204,21,.25)" : "rgba(255,255,255,.16)"};color:#fff;font-size:.73rem;line-height:1.2;">
+        ${p ? `${escapeHTML(p.n)}<br><small>${escapeHTML(c.slot)}</small>` : c.slot}
+      </button>`;
+    }).join("");
+    wrap.querySelectorAll("[data-slot]").forEach(slotEl => {
+      slotEl.addEventListener("dragover", e => e.preventDefault());
+      slotEl.addEventListener("drop", e => {
+        e.preventDefault();
+        if (!draggedPlayer) return;
+        placed[slotEl.dataset.slot] = draggedPlayer;
+        draggedPlayer = null;
+        renderPlayers();
+        renderSlots();
+      });
+      slotEl.addEventListener("click", () => {
+        if (!selectedPlayer) return;
+        placed[slotEl.dataset.slot] = selectedPlayer;
+        selectedPlayer = null;
+        renderPlayers();
+        renderSlots();
+      });
+    });
+  }
+
+  window.selectTbPlayer = function(name, role) {
+    selectedPlayer = { n: name, r: role };
+    renderPlayers();
+  };
+
+  window.evaluateTacticsBuilder = function() {
+    const coords = layoutFor(selectedFormation);
+    let ok = 0;
+    coords.forEach(c => {
+      const p = placed[c.slotKey];
+      if (p && roleOk(c.slot, p.r)) ok++;
+    });
+    const fillRate = Math.round((Object.keys(placed).length / TOTAL_POSITIONS) * 50);
+    const fitRate = Math.round((ok / TOTAL_POSITIONS) * 50);
+    const total = Math.max(0, Math.min(100, fillRate + fitRate));
+    const best = Number(localStorage.getItem("highscore_tactics-builder") || 0);
+    if (total > best) localStorage.setItem("highscore_tactics-builder", String(total));
+    showGameOver(total, `📋 Düzgün yerləşim: ${ok}/${TOTAL_POSITIONS}<br>👥 Dolu mövqe: ${Object.keys(placed).length}/${TOTAL_POSITIONS}<br>🏅 Ən yaxşı: ${Math.max(best, total)}`);
+  };
+
+  if (formationSelect) {
+    formationSelect.addEventListener("change", (e) => {
+      selectedFormation = e.target.value;
+      Object.keys(placed).forEach(k => delete placed[k]);
+      selectedPlayer = null;
+      renderPlayers();
+      renderSlots();
+    });
+  }
+
+  renderPlayers();
+  renderSlots();
 }
 
 // ─────────────────────────────── Intersection Observer ───────────────────────
