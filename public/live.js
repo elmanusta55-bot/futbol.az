@@ -6,6 +6,7 @@
 
 // ── Constants ──────────────────────────────────────────────────────────────────
 const LS_SETTINGS      = "faz_live_settings";
+const LS_GOAL_SOUND    = "goalSoundEnabled";
 const LS_SCORES        = "faz_live_scores";
 const LS_FILTERS       = "faz_live_filters";
 const LS_PINNED_MATCHES = "faz_live_pinned_matches";
@@ -31,7 +32,7 @@ function escapeHTML(str) {
 // ── Settings ───────────────────────────────────────────────────────────────────
 const DEFAULT_SETTINGS = {
   notifOn:          true,
-  soundOn:          false,
+  soundOn:          true,
   browserNotifOn:   false,
   favoriteTeam:     "",
   pollIntervalSecs: 10,
@@ -43,14 +44,20 @@ let pinnedMatchIds = loadPinnedMatches();
 function loadSettings() {
   try {
     const raw = localStorage.getItem(LS_SETTINGS);
-    return raw ? Object.assign({}, DEFAULT_SETTINGS, JSON.parse(raw)) : Object.assign({}, DEFAULT_SETTINGS);
+    const parsed = raw ? Object.assign({}, DEFAULT_SETTINGS, JSON.parse(raw)) : Object.assign({}, DEFAULT_SETTINGS);
+    const legacySound = localStorage.getItem(LS_GOAL_SOUND);
+    if (legacySound !== null) parsed.soundOn = legacySound !== "false";
+    return parsed;
   } catch (_) {
     return Object.assign({}, DEFAULT_SETTINGS);
   }
 }
 
 function saveSettings() {
-  try { localStorage.setItem(LS_SETTINGS, JSON.stringify(settings)); } catch (_) {}
+  try {
+    localStorage.setItem(LS_SETTINGS, JSON.stringify(settings));
+    localStorage.setItem(LS_GOAL_SOUND, String(!!settings.soundOn));
+  } catch (_) {}
 }
 
 function onSettingChange(key, value) {
@@ -132,7 +139,7 @@ function togglePinnedMatch(event, matchId) {
  * Returns an array of goal events for any matches where the score increased.
  *
  * @param {Array} matches   – Football-Data.org match objects
- * @returns {Array<{match, homeGoals: number, awayGoals: number}>}
+ * @returns {Array<{match, homeGoals: number, awayGoals: number, scorerTeam: string, scoreText: string}>}
  */
 function detectGoals(matches) {
   const events = [];
@@ -152,7 +159,16 @@ function detectGoals(matches) {
     }
 
     if (home > prev.home || away > prev.away) {
-      events.push({ match, homeGoals: home, awayGoals: away });
+      const homeName = match.homeTeam?.shortName || match.homeTeam?.name || "Ev";
+      const awayName = match.awayTeam?.shortName || match.awayTeam?.name || "Qonaq";
+      const scorerTeam = home > prev.home ? homeName : awayName;
+      events.push({
+        match,
+        homeGoals: home,
+        awayGoals: away,
+        scorerTeam,
+        scoreText: `${home}-${away}`,
+      });
       scoreCache[id] = { home, away };
     }
   }
@@ -213,8 +229,24 @@ function sendBrowserNotif(title, body, icon) {
   } catch (_) {}
 }
 
+async function maybeRequestGoalNotificationPermission() {
+  if (!settings.browserNotifOn) return;
+  if (!("Notification" in window)) return;
+  if (Notification.permission === "default") {
+    try { await Notification.requestPermission(); } catch (_) {}
+  }
+}
+
+function notifyGoalBackend({ homeTeam, awayTeam, score, scorer }) {
+  fetch("/api/notify/goal", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ homeTeam, awayTeam, score, scorer }),
+  }).catch(() => {});
+}
+
 // ── Goal Toast ─────────────────────────────────────────────────────────────────
-function showGoalToast(match, homeGoals, awayGoals) {
+function showGoalToast(match, homeGoals, awayGoals, scorerTeam = "") {
   if (!settings.notifOn) return;
 
   const home   = match.homeTeam?.shortName || match.homeTeam?.name || "Ev";
@@ -222,6 +254,7 @@ function showGoalToast(match, homeGoals, awayGoals) {
   const score  = `${homeGoals} – ${awayGoals}`;
   const comp   = escapeHTML(match.competition?.name || "");
   const scoreDisplay = `${escapeHTML(home)} ${score} ${escapeHTML(away)}`;
+  const goalTeam = scorerTeam || home;
 
   // Try to extract scorer from goals array (not always available in free tier)
   let scorerText = "";
@@ -242,7 +275,7 @@ function showGoalToast(match, homeGoals, awayGoals) {
   toast.innerHTML = `
     <div class="goal-toast-icon">⚽</div>
     <div class="goal-toast-body">
-      <div class="goal-toast-title">⚡ QOL!</div>
+      <div class="goal-toast-title">⚽ ${escapeHTML(goalTeam)} qol vurdu! ${escapeHTML(`${homeGoals}-${awayGoals}`)}</div>
       ${scorerText ? `<div class="goal-toast-scorer">${scorerText}</div>` : ""}
       <div class="goal-toast-match">${scoreDisplay}${comp ? ` · ${comp}` : ""}</div>
     </div>
@@ -252,7 +285,14 @@ function showGoalToast(match, homeGoals, awayGoals) {
   container.appendChild(toast);
   spawnCelebrationParticles();
   playGoalSound();
-  sendBrowserNotif(`⚽ QOL! ${score}`, scorerText || scoreDisplay, match.homeTeam?.crest || "/logo.png");
+  maybeRequestGoalNotificationPermission();
+  sendBrowserNotif(`⚽ ${goalTeam} qol vurdu! ${homeGoals}-${awayGoals}`, scorerText || scoreDisplay, match.homeTeam?.crest || "/logo.png");
+  notifyGoalBackend({
+    homeTeam: home,
+    awayTeam: away,
+    score: `${homeGoals}-${awayGoals}`,
+    scorer: scorerText || goalTeam,
+  });
 
   // Auto-remove after 8s
   setTimeout(() => {
@@ -422,7 +462,7 @@ async function pollNow() {
 
     // Detect goals only when polling live tab (or today with live matches inside)
     const goalEvents = detectGoals(matches);
-    goalEvents.forEach(ev => showGoalToast(ev.match, ev.homeGoals, ev.awayGoals));
+    goalEvents.forEach(ev => showGoalToast(ev.match, ev.homeGoals, ev.awayGoals, ev.scorerTeam));
 
     updateCompFilterBar(matches);
     renderMatchGrid(matches);

@@ -4,6 +4,11 @@ import { fdFetch, FD_TTL } from '../middleware/footballDataProxy.js';
 const router = Router();
 const ALLOWED_FD_LEAGUES = new Set(['PL', 'PD', 'BL1', 'SA', 'FL1', 'CL']);
 
+function parsePositiveInt(value) {
+  const n = parseInt(String(value || ''), 10);
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
 /**
  * GET /api/fd/live
  * Returns all currently live matches across all competitions.
@@ -64,13 +69,60 @@ router.get('/standings/:leagueCode', (req, res) => {
 });
 
 /**
+ * GET /api/fd/scorers/:leagueCode
+ */
+router.get('/scorers/:leagueCode', (req, res) => {
+  const code = String(req.params.leagueCode || '').toUpperCase().trim();
+  if (!ALLOWED_FD_LEAGUES.has(code)) {
+    return res.status(400).json({ error: `Invalid league code. Allowed: ${[...ALLOWED_FD_LEAGUES].join(', ')}` });
+  }
+  fdFetch(`/competitions/${code}/scorers`, res, FD_TTL.upcoming);
+});
+
+/**
+ * GET /api/fd/team/:id
+ */
+router.get('/team/:id', (req, res) => {
+  const id = parsePositiveInt(req.params.id);
+  if (!id) {
+    return res.status(400).json({ error: 'Invalid team id.' });
+  }
+  fdFetch(`/teams/${id}`, res, FD_TTL.upcoming);
+});
+
+/**
+ * GET /api/fd/team/:id/matches
+ */
+router.get('/team/:id/matches', (req, res) => {
+  const id = parsePositiveInt(req.params.id);
+  if (!id) {
+    return res.status(400).json({ error: 'Invalid team id.' });
+  }
+  fdFetch(`/teams/${id}/matches?limit=10`, res, FD_TTL.today);
+});
+
+/**
+ * GET /api/fd/competition/:code/matches?stage=STAGE
+ */
+router.get('/competition/:code/matches', (req, res) => {
+  const code = String(req.params.code || '').toUpperCase().trim();
+  if (!/^[A-Z0-9]{2,10}$/.test(code)) {
+    return res.status(400).json({ error: 'Invalid competition code.' });
+  }
+
+  const stage = String(req.query.stage || '').toUpperCase().trim();
+  const stageQuery = stage ? `?stage=${encodeURIComponent(stage)}` : '';
+  fdFetch(`/competitions/${code}/matches${stageQuery}`, res, FD_TTL.today);
+});
+
+/**
  * GET /api/fd/match/:id
  * Returns full details (including events) for a single match.
  * Only numeric IDs are accepted.
  */
 router.get('/match/:id', (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  if (!Number.isFinite(id) || id <= 0) {
+  const id = parsePositiveInt(req.params.id);
+  if (!id) {
     return res.status(400).json({ error: 'Invalid match id.' });
   }
   fdFetch(`/matches/${id}`, res, FD_TTL.match);
@@ -81,11 +133,11 @@ router.get('/match/:id', (req, res) => {
  * Returns head-to-head history for a match (best effort by data plan).
  */
 router.get('/match/:id/h2h', (req, res) => {
-  const id = parseInt(req.params.id, 10);
+  const id = parsePositiveInt(req.params.id);
   const limit = parseInt(String(req.query.limit || '6'), 10);
   const safeLimit = Number.isFinite(limit) ? Math.max(1, Math.min(limit, 20)) : 6;
 
-  if (!Number.isFinite(id) || id <= 0) {
+  if (!id) {
     return res.status(400).json({ error: 'Invalid match id.' });
   }
 

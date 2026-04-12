@@ -11,7 +11,34 @@
 .data-table th:nth-child(2), .data-table td:nth-child(2) { text-align: left; }
 .team-cell { display: flex; align-items: center; gap: 8px; }
 .team-cell img { width: 22px; height: 22px; object-fit: contain; }
+.team-link { color: var(--text); text-decoration: none; font-weight: 600; }
+.team-link:hover { color: var(--blue-lt); text-decoration: underline; }
 .page-msg { padding: 12px; color: var(--text-muted); }
+.cl-badge {
+  margin: 10px 0 14px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: linear-gradient(120deg, rgba(0,61,165,.28), rgba(206,17,38,.22));
+  border: 1px solid var(--border);
+  font-weight: 700;
+}
+.cl-playoff {
+  margin-top: 22px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+}
+.cl-playoff h2 { margin-bottom: 12px; font-size: 1.05rem; }
+.cl-playoff-body { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+.playoff-item {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px;
+  background: rgba(255,255,255,0.03);
+}
+.playoff-meta { color: var(--text-muted); font-size: .82rem; margin: 4px 0 6px; }
+.playoff-score { font-weight: 800; color: var(--text); }
 @media (max-width: 600px) { .page-main { padding-left: 10px; padding-right: 10px; } }
 
 .league-tab-disabled {
