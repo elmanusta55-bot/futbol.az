@@ -83,10 +83,12 @@
           <div class="status-box"><span>Həftə</span><strong id="status-week">0/0</strong></div>
           <div class="status-box"><span>Menecer</span><strong id="status-team">-</strong></div>
           <div class="status-box"><span>Liqa</span><strong id="status-league">-</strong></div>
+          <div class="status-box"><span>Chemistry</span><strong id="status-chemistry">0</strong></div>
         </div>
         <div class="btn-row">
           <button id="start-btn" class="btn-primary">Mövsümü Başlat</button>
           <button id="simulate-btn" class="btn-secondary" disabled>Simulate Week ▶</button>
+          <button id="play-btn" class="btn-secondary" disabled>Play My Match 🎮</button>
           <button id="restart-btn" class="btn-secondary">Yenidən oyna</button>
         </div>
       </article>
@@ -118,6 +120,17 @@
         </article>
       </div>
 
+      <div class="league-layout secondary-layout">
+        <article class="league-card">
+          <h2>📰 Olaylar / Events</h2>
+          <div id="events-list" class="events-list"></div>
+        </article>
+        <article class="league-card">
+          <h2>👥 Squad</h2>
+          <div id="squad-list" class="squad-list"></div>
+        </article>
+      </div>
+
       <article class="league-card">
         <h2>⚽ Top Qolçular</h2>
         <ol id="scorers-list" class="scorers-list"></ol>
@@ -127,6 +140,20 @@
 </main>
 
 <div id="league-toast" hidden></div>
+<div id="match-modal" class="match-modal" hidden>
+  <div class="match-modal-card">
+    <h2>🎮 Play My Match</h2>
+    <p id="play-match-title" class="match-title">-</p>
+    <p id="play-match-stage" class="match-stage">-</p>
+    <div class="play-actions">
+      <button id="play-attack-btn" class="btn-primary">Attack</button>
+      <button id="play-balanced-btn" class="btn-secondary">Balanced</button>
+      <button id="play-defend-btn" class="btn-secondary">Defend</button>
+    </div>
+    <div id="play-match-log" class="match-log"></div>
+    <button id="play-close-btn" class="btn-secondary">Bağla</button>
+  </div>
+</div>
 
 <script src="/efootball-league.js" defer></script>
 </body>
