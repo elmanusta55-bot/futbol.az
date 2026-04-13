@@ -348,6 +348,38 @@ const GAMES_DATA = [
     isNew: true,
     tags: ["taktika", "formasiya", "komanda"],
     addedDate: "2026-04-12"
+  },
+  {
+    id: 23,
+    title: "Ana Lig Simulyatoru",
+    category: "Strateji",
+    emoji: "🏆",
+    gameType: "league-sim",
+    gradient: "linear-gradient(135deg, #003DA5 0%, #1a6b2e 100%)",
+    description: "Öz liqanı idar et! Komandanı seç, həftəlik oyunları simulyasiya et, cədvəli izlə və çempion ol.",
+    playCount: 0,
+    rating: 0,
+    ratingsCount: 0,
+    isNew: true,
+    tags: ["simulyasiya", "liqa", "strateji", "menecer"],
+    addedDate: "2026-04-13",
+    externalUrl: "/efootball-league.html"
+  },
+  {
+    id: 24,
+    title: "eFootball Master Lig",
+    category: "Strateji",
+    emoji: "⚽",
+    gameType: "master-league",
+    gradient: "linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)",
+    description: "Master Lig rejimiylə arzularındakı komandasını qur, transfer et və çempionluğa uzan! Sezon simulyasiyası.",
+    playCount: 0,
+    rating: 0,
+    ratingsCount: 0,
+    isNew: true,
+    tags: ["efootball", "master lig", "transfer", "sezon"],
+    addedDate: "2026-04-13",
+    externalUrl: "/efootball-league.html"
   }
 ];
 
@@ -1312,6 +1344,12 @@ function closeModal() {
 function playGame(gameId) {
   const game = GAMES_DATA.find(g => g.id === gameId);
   if (!game) return;
+
+  if (game.externalUrl) {
+    game.playCount += 1;
+    window.location.href = game.externalUrl;
+    return;
+  }
 
   // Increment play count (UI only)
   game.playCount += 1;

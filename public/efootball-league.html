@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="az" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Futbol.az Ana Lig Simulyatoru — komandanı seç, həftəlik oyunları simulyasiya et və çempion ol.">
+  <meta property="og:title" content="Futbol.az | Ana Lig Simulyatoru">
+  <meta property="og:description" content="eFootball Master Lig stilində mövsüm simulyasiyası.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://futbol.az/efootball-league.html">
+  <meta property="og:image" content="https://futbol.az/og-image.svg">
+  <meta name="theme-color" content="#003DA5">
+  <title>Futbol.az | Ana Lig Simulyatoru 🏆</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/efootball-league.css">
+</head>
+<body>
+<header class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a class="navbar-logo" href="/" aria-label="Futbol.az ana səhifə">
+      <div class="logo-icon">⚽</div>
+      <span class="logo-text">Futbol<span class="logo-accent">.az</span></span>
+    </a>
+
+    <div class="navbar-actions">
+      <button class="icon-btn" id="theme-btn" onclick="toggleLeagueTheme()" aria-label="Modu dəyiş" title="Gecə/Gündüz modu">
+        <span id="theme-icon">🌙</span>
+      </button>
+      <button class="hamburger" id="hamburger" onclick="toggleLeagueMobileMenu()" aria-label="Mobil menyu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <a href="/">🏠 Ana Səhifə</a>
+    <a href="/live.html">🔴 Canlı Matçlar</a>
+    <a href="/who-are-ya.html">🕵️ Who Are Ya?</a>
+    <a href="/draft.html">🧩 Football Draft</a>
+    <a href="/efootball-league.html">🏆 Ana Lig Simulyatoru</a>
+    <a href="/privacy.html">🔒 Məxfilik Siyasəti</a>
+    <a href="/terms.html">📄 İstifadə Şərtləri</a>
+  </div>
+</header>
+
+<main class="league-page">
+  <div class="container league-shell">
+    <section class="league-hero">
+      <h1>🏆 Ana Lig / Master Lig Simulyatoru</h1>
+      <p>Komandanı seç, həftələri simulyasiya et, cədvəli izlə və mövsüm sonunda çempionluğu qazan.</p>
+    </section>
+
+    <section id="league-loading" class="league-loading" aria-live="polite">
+      <div class="league-skeleton skeleton-title"></div>
+      <div class="league-skeleton skeleton-line"></div>
+      <div class="skeleton-grid">
+        <div class="league-skeleton skeleton-card"></div>
+        <div class="league-skeleton skeleton-card"></div>
+        <div class="league-skeleton skeleton-card"></div>
+      </div>
+    </section>
+
+    <section id="league-main" class="league-main" hidden>
+      <article class="league-card control-card">
+        <h2>⚙️ Mövsüm İdarəsi</h2>
+        <div class="control-row">
+          <label for="league-select">Liqa</label>
+          <select id="league-select"></select>
+        </div>
+        <div class="control-row">
+          <label for="team-select">Komandan</label>
+          <select id="team-select"></select>
+        </div>
+        <div class="status-grid">
+          <div class="status-box"><span>Həftə</span><strong id="status-week">0/0</strong></div>
+          <div class="status-box"><span>Menecer</span><strong id="status-team">-</strong></div>
+          <div class="status-box"><span>Liqa</span><strong id="status-league">-</strong></div>
+        </div>
+        <div class="btn-row">
+          <button id="start-btn" class="btn-primary">Mövsümü Başlat</button>
+          <button id="simulate-btn" class="btn-secondary" disabled>Simulate Week ▶</button>
+          <button id="restart-btn" class="btn-secondary">Yenidən oyna</button>
+        </div>
+      </article>
+
+      <article class="league-card" id="champion-card" hidden>
+        <h2>🏆 Mövsüm Bitdi</h2>
+        <p id="champion-text"></p>
+      </article>
+
+      <div class="league-layout">
+        <article class="league-card">
+          <h2>📅 Həftənin Nəticələri</h2>
+          <div id="week-results" class="week-results"></div>
+          <div id="weeks-history" class="weeks-history"></div>
+        </article>
+
+        <article class="league-card">
+          <h2>📊 Puan Cədvəli</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th><th>Komanda</th><th>O</th><th>Q</th><th>B</th><th>U</th><th>QF:QB</th><th>F</th><th>X</th><th>Forma</th>
+                </tr>
+              </thead>
+              <tbody id="standings-body"></tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+
+      <article class="league-card">
+        <h2>⚽ Top Qolçular</h2>
+        <ol id="scorers-list" class="scorers-list"></ol>
+      </article>
+    </section>
+  </div>
+</main>
+
+<div id="league-toast" hidden></div>
+
+<script src="/efootball-league.js" defer></script>
+</body>
+</html>
