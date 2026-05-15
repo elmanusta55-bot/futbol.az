@@ -1,7 +1,7 @@
 {
   "name": "futbol-az",
-  "version": "2.0.0",
-  "description": "Professional football portal for Azerbaijan and world leagues – 2026 Season",
+  "version": "2.1.0",
+  "description": "Professional football portal for Azerbaijan and world leagues – 2026 Season with Premium + Fantasy",
   "type": "module",
   "main": "backend/server.js",
   "scripts": {
@@ -14,7 +14,12 @@
     "dotenv": "^16.4.5",
     "express": "^4.18.2",
     "express-rate-limit": "^7.5.0",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "stripe": "^14.0.0",
+    "mongoose": "^8.0.0",
+    "jsonwebtoken": "^9.1.0",
+    "bcryptjs": "^2.4.3",
+    "validator": "^13.11.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
