@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import express from 'express';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
+import mongoose from 'mongoose';
 
 import standingsRouter      from './routes/standings.js';
 import matchesRouter        from './routes/matches.js';
@@ -12,13 +13,22 @@ import teamsRouter          from './routes/teams.js';
 import footballDataRouter   from './routes/footballDataRoutes.js';
 import telegramRouter       from './routes/telegram.js';
 import newsRouter           from './routes/news.js';
+import authRouter           from './routes/auth.js';
+import paymentsRouter       from './routes/payments.js';
+import fantasyRouter        from './routes/fantasy.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ── Security / CORS ───────────────────────────────────────────────────────────
+// ── MongoDB Connection ──────────────────────────────────────────────────────
+mongoose
+  .connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/futbolaz')
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch((err) => console.error('❌ MongoDB connection error:', err));
+
+// ── Security / CORS ────────────────────────────────────────────────────────
 app.use(cors());
 app.use(express.json());
 
@@ -33,7 +43,7 @@ app.use(
   })
 );
 
-// ── Static files ──────────────────────────────────────────────────────────────
+// ── Static files ─────────────────────────────────────────────────────────
 // Serve the public/ directory (HTML, JS, CSS, images).
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
@@ -45,7 +55,7 @@ for (const asset of ROOT_ASSETS) {
   );
 }
 
-// ── API routes ────────────────────────────────────────────────────────────────
+// ── API routes ──────────────────────────────────────────────────────────
 app.use('/api/standings', standingsRouter);
 app.use('/api', matchesRouter); // exposes /api/matches and /api/live
 app.use('/api', playersRouter); // exposes /api/top-scorers/:leagueId
@@ -53,6 +63,9 @@ app.use('/api', teamsRouter); // exposes /api/search
 app.use('/api/fd', footballDataRouter); // exposes /api/fd/live, /api/fd/today, etc.
 app.use('/api/notify', telegramRouter);
 app.use('/api/news', newsRouter);
+app.use('/api/auth', authRouter); // ✨ NEW: Authentication
+app.use('/api/payments', paymentsRouter); // ✨ NEW: Payments
+app.use('/api/fantasy', fantasyRouter); // ✨ NEW: Fantasy Football
 
 // ── Catch-all: send index.html for unknown routes (SPA fallback) ──────────────
 app.get('*', (req, res) => {
@@ -68,5 +81,5 @@ app.get('*', (req, res) => {
 app.use(errorHandler);
 
 app.listen(PORT, () =>
-  console.log(`Futbol.az server running on http://localhost:${PORT}`)
+  console.log(`🚀 Futbol.az server running on http://localhost:${PORT}`)
 );
