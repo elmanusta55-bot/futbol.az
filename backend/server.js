@@ -23,10 +23,14 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ── MongoDB Connection ──────────────────────────────────────────────────────
-mongoose
-  .connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/futbolaz')
-  .then(() => console.log('✅ MongoDB connected'))
-  .catch((err) => console.error('❌ MongoDB connection error:', err));
+if (process.env.MONGODB_URI) {
+  mongoose
+    .connect(process.env.MONGODB_URI)
+    .then(() => console.log('✅ MongoDB connected'))
+    .catch((err) => console.error('❌ MongoDB connection error:', err));
+} else {
+  console.warn('⚠️ MONGODB_URI not set – database features disabled');
+}
 
 // ── Security / CORS ────────────────────────────────────────────────────────
 app.use(cors());
