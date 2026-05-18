@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer Xəbərləri - Futbol.az</title>
+    <link rel="stylesheet" href="transfer-news.css">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="favicon.ico">
+    <meta name="description" content="Ən son futbol transfer xəbərləri və şayiələri.">
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <a href="/" class="logo">⚽ Futbol.az</a>
+            <nav class="nav">
+                <a href="/">Oyunlar</a>
+                <a href="live.html">Canlı</a>
+                <a href="quiz.html">Quiz</a>
+                <a href="transfer-news.html" class="active">Transferlər</a>
+            </nav>
+            <button id="theme-toggle" class="theme-btn" aria-label="Tema dəyiş">🌙</button>
+        </div>
+    </header>
+
+    <main class="transfer-container">
+        <h1 class="page-title">🔄 Transfer Xəbərləri</h1>
+        <p class="page-subtitle">Ən son transfer şayiələri və rəsmi keçidlər</p>
+
+        <!-- Filter -->
+        <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">Hamısı</button>
+            <button class="filter-btn" data-filter="confirmed">✅ Rəsmi</button>
+            <button class="filter-btn" data-filter="rumor">🔥 Şayiə</button>
+            <button class="filter-btn" data-filter="loan">🔁 İcarə</button>
+        </div>
+
+        <!-- Transfer List -->
+        <div id="transfer-list" class="transfer-list">
+            <!-- Cards will be injected by JS -->
+        </div>
+
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Yüklənir...</p>
+        </div>
+
+        <div id="no-results" class="no-results hidden">
+            <p>Bu kateqoriyada transfer xəbəri tapılmadı.</p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 Futbol.az – Bütün hüquqlar qorunur.</p>
+    </footer>
+
+    <script src="transfer-news.js"></script>
+</body>
+</html>

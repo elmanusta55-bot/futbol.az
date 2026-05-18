@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futbol Quiz - Futbol.az</title>
+    <link rel="stylesheet" href="quiz.css">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="favicon.ico">
+    <meta name="description" content="Futbol biliyinizi yoxlayın! 20 sual, çoxseçimli cavablar.">
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <a href="/" class="logo">⚽ Futbol.az</a>
+            <nav class="nav">
+                <a href="/">Oyunlar</a>
+                <a href="live.html">Canlı</a>
+                <a href="quiz.html" class="active">Quiz</a>
+            </nav>
+            <button id="theme-toggle" class="theme-btn" aria-label="Tema dəyiş">🌙</button>
+        </div>
+    </header>
+
+    <main class="quiz-container">
+        <!-- Start Screen -->
+        <div id="start-screen" class="screen">
+            <h1>⚽ Futbol Quiz</h1>
+            <p class="subtitle">Futbol biliyinizi 20 sualla yoxlayın!</p>
+            <div class="difficulty-select">
+                <h3>Çətinlik səviyyəsi:</h3>
+                <button class="diff-btn" data-diff="easy">Asan</button>
+                <button class="diff-btn active" data-diff="medium">Orta</button>
+                <button class="diff-btn" data-diff="hard">Çətin</button>
+            </div>
+            <button id="start-btn" class="btn-primary">Başla</button>
+            <div class="high-score">
+                <p>🏆 Ən yaxşı nəticə: <span id="high-score">0</span>/20</p>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="screen hidden">
+            <div class="quiz-header">
+                <span class="question-counter">Sual <span id="current-q">1</span>/20</span>
+                <span class="timer" id="timer">⏱ 30s</span>
+                <span class="score">Xal: <span id="score">0</span></span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="question-card">
+                <h2 id="question-text"></h2>
+                <div id="options" class="options"></div>
+            </div>
+            <button id="next-btn" class="btn-primary hidden">Növbəti →</button>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="screen hidden">
+            <h1 id="result-title"></h1>
+            <div class="result-circle">
+                <span id="result-score"></span>
+            </div>
+            <p id="result-message"></p>
+            <div class="result-stats">
+                <div class="stat">
+                    <span class="stat-num" id="correct-count">0</span>
+                    <span class="stat-label">Düzgün</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-num" id="wrong-count">0</span>
+                    <span class="stat-label">Yanlış</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-num" id="time-stat">0s</span>
+                    <span class="stat-label">Vaxt</span>
+                </div>
+            </div>
+            <div class="result-actions">
+                <button id="retry-btn" class="btn-primary">Yenidən Oyna</button>
+                <button id="share-btn" class="btn-secondary">Paylaş 📤</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 Futbol.az – Bütün hüquqlar qorunur.</p>
+    </footer>
+
+    <script src="quiz.js"></script>
+</body>
+</html>
