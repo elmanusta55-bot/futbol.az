@@ -1,5 +1,5 @@
-const STATIC_CACHE = 'futbol-az-static-v3';
-const API_CACHE = 'futbol-az-api-v3';
+const STATIC_CACHE = 'futbol-az-static-v4';
+const API_CACHE = 'futbol-az-api-v4';
 const OFFLINE_URL = '/offline.html';
 
 const STATIC_ASSETS = [
@@ -16,6 +16,12 @@ const STATIC_ASSETS = [
   '/teams.html',
   '/fixtures.html',
   '/profile.html',
+  '/quiz.html',
+  '/quiz.css',
+  '/quiz.js',
+  '/transfer-news.html',
+  '/transfer-news.css',
+  '/transfer-news.js',
   '/styles.css',
   '/platform.css',
   '/live-matches.css',

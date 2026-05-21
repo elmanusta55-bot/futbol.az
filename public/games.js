@@ -246,18 +246,19 @@ const GAMES_DATA = [
   },
   {
     id: 16,
-    title: "Futbol Viktorinası",
+    title: "Futbol Quiz (60 Sual)",
     category: "Viktorina",
     emoji: "🧠",
-    gameType: "quiz",
+    gameType: "external-quiz",
     gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-    description: "20 sual, 4 variant, 15 saniyə timer ilə xal qazanın!",
-    playCount: 0,
-    rating: 4.6,
-    ratingsCount: 0,
+    description: "60 sual, 3 çətinlik səviyyəsi, timer və xal sistemi ilə futbol biliklərini sına!",
+    playCount: 1200,
+    rating: 4.8,
+    ratingsCount: 56,
     isNew: true,
-    tags: ["viktorina", "futbol", "sual"],
-    addedDate: "2026-04-12"
+    tags: ["viktorina", "futbol", "quiz", "60 sual"],
+    addedDate: "2026-05-18",
+    externalUrl: "/quiz.html"
   },
   {
     id: 17,
@@ -367,19 +368,19 @@ const GAMES_DATA = [
   },
   {
     id: 24,
-    title: "eFootball Master Lig",
-    category: "Strateji",
-    emoji: "⚽",
-    gameType: "master-league",
+    title: "Transfer Xəbərləri",
+    category: "Aksiya",
+    emoji: "🔄",
+    gameType: "external-transfer",
     gradient: "linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)",
-    description: "Master Lig rejimiylə arzularındakı komandasını qur, transfer et və çempionluğa uzan! Sezon simulyasiyası.",
-    playCount: 0,
-    rating: 0,
-    ratingsCount: 0,
+    description: "Ən son transfer şayiələri, rəsmi keçidlər və icarə müqavilələri. Azərbaycan və dünya futbolu.",
+    playCount: 800,
+    rating: 4.5,
+    ratingsCount: 32,
     isNew: true,
-    tags: ["efootball", "master lig", "transfer", "sezon"],
-    addedDate: "2026-04-13",
-    externalUrl: "/efootball-league.html"
+    tags: ["transfer", "xəbər", "keçid", "şayiə"],
+    addedDate: "2026-05-18",
+    externalUrl: "/transfer-news.html"
   }
 ];
 
